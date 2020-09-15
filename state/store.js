@@ -194,9 +194,9 @@ window.D2L = window.D2L || {};
 window.D2L.SirenSdk = window.D2L.SirenSdk || {};
 window.D2L.SirenSdk.StateStore = window.D2L.SirenSdk.StateStore || new StateStore(window.d2lfetch);
 
-export async function refreshState(state) {
+export async function refreshState(state, refetch = true) {
 	await state.refreshToken();
-	return window.D2L.SirenSdk.StateStore.fetch(state, true);
+	return window.D2L.SirenSdk.StateStore.fetch(state, refetch);
 }
 
 export async function stateFactory(entityId, token) {
@@ -211,14 +211,11 @@ export async function fetch(state) {
 	if (!state || state.hasServerResponseCached()) {
 		return true;
 	}
+
 	await state.refreshToken();
 	return window.D2L.SirenSdk.StateStore.fetch(state);
 }
 
-export async function dispose(state) {
-	if (!state) return;
-	await state.refreshToken();
-	await state.dispose();
-	window.D2L.SirenSdk.StateStore.remove(state);
-	state = null;
+export async function dispose(state, component) {
+	state && state.dispose(component);
 }

@@ -26,12 +26,11 @@ export const HypermediaLitMixin = superclass => class extends superclass {
 	}
 
 	updated(changedProperties) {
-		if ((changedProperties.has('href') || changedProperties.has('token')) &&
-			this.href && this.token) {
-			dispose(this._state);
+		if ((changedProperties.has('href') || changedProperties.has('token')) && this.href && this.token) {
+			dispose(this._state, this);
 			this._makeState();
 		}
-		super.updated();
+		super.updated(changedProperties);
 	}
 
 	connectedCallback() {
@@ -42,7 +41,7 @@ export const HypermediaLitMixin = superclass => class extends superclass {
 	}
 
 	disconnectedCallback() {
-		dispose(this._state);
+		dispose(this._state, this);
 		super.disconnectedCallback();
 	}
 

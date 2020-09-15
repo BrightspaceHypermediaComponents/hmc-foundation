@@ -30,12 +30,12 @@ export class SirenLink {
 		return this._rel;
 	}
 
-	addComponent(component, property, route) {
+	addComponent(component, property, {route, method}) {
 		if (route) {
 			this._routes.set(component, route);
 			return;
 		}
-		this._components.add(component, property);
+		this._components.add(component, property, method);
 		this._components.setComponentProperty(component, this.link && this.link.href);
 	}
 

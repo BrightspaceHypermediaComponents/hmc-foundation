@@ -1,5 +1,5 @@
+import { Component, getEntityIdFromSirenEntity } from './Common.js';
 import { fetch, stateFactory } from '../../state/store.js';
-import { Component } from './Common.js';
 import { shouldAttachToken } from '../token.js';
 
 export class SirenSubEntity {
@@ -29,12 +29,12 @@ export class SirenSubEntity {
 		return this._childState;
 	}
 
-	addComponent(component, property, route) {
+	addComponent(component, property, {route, method}) {
 		if (route) {
 			this._routes.set(component, route);
 			return;
 		}
-		this._components.add(component, property);
+		this._components.add(component, property, method);
 		this._components.setComponentProperty(component, this.entityId);
 	}
 
@@ -49,10 +49,10 @@ export class SirenSubEntity {
 
 	setSirenEntity(sirenEntity, SubEntityCollectionMap) {
 		const subEntity = sirenEntity && sirenEntity.hasSubEntityByRel(this._rel) && sirenEntity.getSubEntityByRel(this._rel);
-		if (!this.link) return;
+		if (!subEntity) return;
 
 		if (SubEntityCollectionMap && SubEntityCollectionMap instanceof Map) {
-			this.link.rel.forEach(rel => {
+			subEntity.rel.forEach(rel => {
 				if (SubEntityCollectionMap.has(rel)) {
 					this._merge(SubEntityCollectionMap.get(rel));
 				}
@@ -64,7 +64,7 @@ export class SirenSubEntity {
 	}
 
 	async _setSubEntity(subEntity) {
-		this.entityId = this._getEntityIdFromSirenEntity(subEntity);
+		this.entityId = getEntityIdFromSirenEntity(subEntity);
 
 		if (this._token) {
 			this._childState = await stateFactory(this.entityId, shouldAttachToken(this._token, subEntity));
@@ -73,10 +73,5 @@ export class SirenSubEntity {
 			});
 			fetch(this._childState);
 		}
-	}
-
-	_getEntityIdFromSirenEntity(entity) {
-		const self = entity.hasLinkByRel && entity.hasLinkByRel('self') && entity.getLinkByRel && entity.getLinkByRel('self');
-		return  entity.href || (self && self.href);
 	}
 }
