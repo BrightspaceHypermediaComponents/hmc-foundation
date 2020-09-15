@@ -44,7 +44,7 @@ export function sirenComponentBasicInfo(componentProperties) {
 	componentProperties = handleRouting(componentProperties);
 	const sirenComponentType = componentProperties.observable && observableClasses[componentProperties.observable];
 	if (!sirenComponentType) {
-		throw new Error('Bad siren component');
+		return;
 	}
 
 	const specailBasicInfo = sirenComponentType.basicInfo ? sirenComponentType.basicInfo(componentProperties) : {};

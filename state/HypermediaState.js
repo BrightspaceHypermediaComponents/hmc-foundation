@@ -33,6 +33,8 @@ export class HypermediaState {
 			};
 
 			const basicInfo = sirenComponentBasicInfo(propertyInfo);
+			if (!basicInfo) return;
+
 			const sirenComponent = this._getSirenComponent(basicInfo);
 			sirenComponent.addComponent(component, name, { route: basicInfo.route ? {[name]: basicInfo.route} : undefined, method: observables[name].method });
 		});
