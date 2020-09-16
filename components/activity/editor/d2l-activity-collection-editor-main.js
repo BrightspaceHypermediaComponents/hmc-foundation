@@ -1,5 +1,5 @@
 // START custom component imports
-import '../collections/d2l-activity-collection-editor-learning-path.js'
+import '../collections/d2l-activity-collection-editor-learning-path.js';
 // END custom component imports
 
 import { customHypermediaElement, html } from '../../../framework/hypermedia-components.js';
