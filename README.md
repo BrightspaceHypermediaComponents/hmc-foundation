@@ -8,8 +8,18 @@ A collection of shareable, stateful components that interact with hypermedia API
 
 ## Example
 
-```html
-<d2l-activity-name href="url-to-a-learning-path-entity" token="some-token"></d2l-activity-name>
+```js
+import 'hmc-foundation/components/activity/name/d2l-activity-name.js';
+import { html } from 'hmc-foundation/framework/hypermedia-components.js';
+import { LitElement } from 'lit-element/lit-element.js';
+
+class MyComponent extends LitElement {
+  render() {
+    return html`
+      <d2l-activity-name href="url-to-a-learning-path-entity" token="some-token"></d2l-activity-name>
+    `;
+  }
+}
 ```
 
 The above will render the name of a learning path. The tag `d2l-activity-name` will **automatically resolve** to `d2l-activity-name-learning-path` based on the **classes** in the hypermedia entity.
