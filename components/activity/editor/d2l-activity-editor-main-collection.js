@@ -1,11 +1,10 @@
 // START custom component imports
 // END custom component imports
-import '../../activity-collection/editor/d2l-activity-collection-editor-lp.js';
 import '@brightspace-ui/core/components/list/list.js';
 import '@brightspace-ui/core/components/list/list-item.js';
+import { css, LitElement } from 'lit-element/lit-element.js';
 import { customHypermediaElement, html } from '../../../framework/hypermedia-components.js';
 import { HypermediaLitMixin, observableTypes } from '../../../framework/hypermedia-lit-mixin.js';
-import { css, LitElement } from 'lit-element/lit-element.js';
 
 const rels = Object.freeze({
 	collection: 'https://activities.api.brightspace.com/rels/activity-collection',
