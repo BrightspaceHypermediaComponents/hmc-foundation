@@ -70,4 +70,4 @@ class ActivityEditorMainCollection extends HypermediaLitMixin(LitElement) {
 	}
 }
 
-customHypermediaElement('d2l-activity-editor-main-collection', ActivityEditorMainCollection, 'd2l-activity-editor-main-collection');
+customHypermediaElement('d2l-activity-editor-main-collection', ActivityEditorMainCollection, 'd2l-activity-editor-main', [['activity-collection'], ['learning-path']]);
