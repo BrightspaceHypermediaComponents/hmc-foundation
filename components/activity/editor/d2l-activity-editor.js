@@ -3,7 +3,7 @@ import '@brightspace-ui/core/templates/primary-secondary/primary-secondary.js';
 import './d2l-activity-editor-footer.js';
 import './d2l-activity-editor-header.js';
 import './d2l-activity-editor-sidebar.js';
-import './d2l-activity-collection-editor-main.js';
+import './d2l-activity-editor-main-collection.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { html } from '../../../framework/hypermedia-components.js';
 
@@ -59,7 +59,7 @@ class ActivityEditor extends LitElement {
 		return html`
 			<div class="d2l-activity-editor-template-default">
 				<d2l-activity-editor-header href="${this.href}" .token="${this.token}"></d2l-activity-editor-header>
-				<d2l-activity-collection-editor-main href="${this.href}" .token="${this.token}"></d2l-activity-collection-editor-main>
+				<d2l-activity-editor-main-collection href="${this.href}" .token="${this.token}"></d2l-activity-editor-main-collection>
 				<d2l-floating-buttons always-float>
 					<d2l-activity-editor-footer href="${this.href}" .token="${this.token}"></d2l-activity-editor-footer>
 				</d2l-floating-buttons>
@@ -72,7 +72,7 @@ class ActivityEditor extends LitElement {
 			<d2l-template-primary-secondary>
 				<slot name="editor-nav" slot="header"></slot>
 				<d2l-activity-editor-header slot="primary" href="${this.href}" .token="${this.token}"></d2l-activity-editor-header>
-				<d2l-activity-collection-editor-main slot="primary" href="${this.href}" .token="${this.token}"></d2l-activity-collection-editor-main>
+				<d2l-activity-editor-main-collection slot="primary" href="${this.href}" .token="${this.token}"></d2l-activity-editor-main-collection>
 				<d2l-activity-editor-sidebar slot="secondary" href="${this.href}" .token="${this.token}"></d2l-activity-editor-sidebar>
 				<div slot="footer">
 					<d2l-activity-editor-footer href="${this.href}" .token="${this.token}"></d2l-activity-editor-footer>

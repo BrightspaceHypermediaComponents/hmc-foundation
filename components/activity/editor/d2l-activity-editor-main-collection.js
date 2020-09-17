@@ -1,3 +1,5 @@
+// START custom component imports
+// END custom component imports
 import '../../activity-collection/editor/d2l-activity-collection-editor-lp.js';
 import '@brightspace-ui/core/components/list/list.js';
 import '@brightspace-ui/core/components/list/list-item.js';
@@ -10,7 +12,7 @@ const rels = Object.freeze({
 	item: 'item'
 });
 
-class ActivityCollectionEditorMainLP extends HypermediaLitMixin(LitElement) {
+class ActivityEditorMainCollection extends HypermediaLitMixin(LitElement) {
 
 	static get properties() {
 		return {
@@ -67,7 +69,6 @@ class ActivityCollectionEditorMainLP extends HypermediaLitMixin(LitElement) {
 			</div>
 		`;
 	}
-
 }
 
-customHypermediaElement('d2l-activity-collection-editor-learning-path', ActivityCollectionEditorMainLP, 'd2l-activity-collection-editor-main', [['learning-path']]);
+customHypermediaElement('d2l-activity-editor-main-collection', ActivityEditorMainCollection, 'd2l-activity-editor-main-collection');
