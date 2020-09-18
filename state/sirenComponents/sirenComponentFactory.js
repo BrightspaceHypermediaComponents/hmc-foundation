@@ -1,3 +1,4 @@
+import { SirenAction } from './SirenAction.js';
 import { SirenClasses } from './SirenClasses.js';
 import { SirenEntity } from './SirenEntity.js';
 import { SirenLink } from './SirenLink.js';
@@ -11,7 +12,8 @@ export const observableTypes = Object.freeze({
 	classes: 3,
 	subEntities: 4,
 	entity: 5,
-	subEntity: 6
+	subEntity: 6,
+	action: 7
 });
 
 const observableClasses = Object.freeze({
@@ -20,7 +22,8 @@ const observableClasses = Object.freeze({
 	[observableTypes.link]: SirenLink,
 	[observableTypes.property]: SirenProperty,
 	[observableTypes.subEntity]: SirenSubEntity,
-	[observableTypes.subEntities]: SirenSubEntities
+	[observableTypes.subEntities]: SirenSubEntities,
+	[observableTypes.action]: SirenAction
 });
 
 function defaultBasicInfo({observable: type, prime, rel: id, route, token}) {
