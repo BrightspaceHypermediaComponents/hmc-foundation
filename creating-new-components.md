@@ -31,10 +31,10 @@ customHypermediaElement(
 
 ### Determining When a Tag Will Load
 
-Base tags like `d2l-activity-editor-main` resolve to other components based on the hypermedia classes on the entity. We can customize this logic using basic syntax.
+Base tags like `d2l-activity-editor-main` resolve to other components based on the hypermedia classes on the entity. We can customize this logic using the following syntax:
 
-Add classes to an array to `AND` them.
-Add more arrays of classes to `OR` them.
+- Add classes to an array to `AND` them.
+- Add more arrays of classes to `OR` them.
 
 |Argument|Resolve when classes include|
 |-|-|

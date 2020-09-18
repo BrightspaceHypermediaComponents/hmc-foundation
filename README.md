@@ -24,7 +24,7 @@ class MyComponent extends LitElement {
 
 The above will render the name of a learning path. The tag `d2l-activity-name` will **automatically resolve** to `d2l-activity-name-learning-path` based on the **classes** in the hypermedia entity.
 
-The components are **stateful** because they react to changes to the entity. Components are bi-directional with their entity states &mdash; they can perform actions on their entities in addition to reading their state.
+The components are **stateful** because they react to changes to the entity. Components are bi-directional with their entity states &mdash; they can read the state of and perform actions on their entities.
 
 ## Components
 
