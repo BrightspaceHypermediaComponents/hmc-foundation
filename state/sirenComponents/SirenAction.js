@@ -3,30 +3,33 @@ import { performAction } from '../../state/store.js';
 import { refreshToken } from '../token.js';
 
 export class SirenAction {
-	static basicInfo({name: id, token}) {
-		return { id, token };
+	static basicInfo({name: id, token, state}) {
+		return { id, token, state };
 	}
 
-	constructor({id: name, token}) {
+	constructor({id: name, token, state}) {
 		this._components = new Component();
-		this._action = { has: false, perform: () => undefined };
+		this._action = { has: false, perform: () => undefined, update: () => undefined };
 		this._name = name;
 		this._token = token;
+		this._state = state;
+		console.log(state);
 	}
 
 	get action() {
 		return this._action;
 	}
 
-	set action({has, perform}) {
+	set action({has, perform, update}) {
 		if (!has || typeof perform !== 'function') {
 			perform = () => undefined;
+			update = () => undefined;
 		}
 		if (this._action.has !== has || this._action.perform !== perform) {
-			this._components.setProperty({has, perform});
+			this._components.setProperty({has, perform, update});
 		}
 
-		this._action = {has, perform};
+		this._action = {has, perform, update};
 
 	}
 
@@ -95,6 +98,9 @@ export class SirenAction {
 			has: true,
 			perform: (params) => {
 				return performAction(this, params);
+			},
+			update: (observables) => {
+				return this._state.updateProperties(observables);
 			}
 		};
 	}

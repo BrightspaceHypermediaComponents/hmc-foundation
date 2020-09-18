@@ -43,7 +43,7 @@ function handleRouting(componentProperties) {
 
 }
 
-export function sirenComponentBasicInfo(componentProperties) {
+export function sirenComponentBasicInfo(componentProperties, state) {
 	componentProperties = handleRouting(componentProperties);
 	const sirenComponentType = componentProperties.observable && observableClasses[componentProperties.observable];
 	if (!sirenComponentType) {
@@ -52,7 +52,7 @@ export function sirenComponentBasicInfo(componentProperties) {
 
 	const specailBasicInfo = sirenComponentType.basicInfo ? sirenComponentType.basicInfo(componentProperties) : {};
 
-	return {...defaultBasicInfo(componentProperties), ...specailBasicInfo};
+	return {...defaultBasicInfo(componentProperties), ...specailBasicInfo, state};
 }
 
 export function sirenComponentFactory(componentProperties) {
