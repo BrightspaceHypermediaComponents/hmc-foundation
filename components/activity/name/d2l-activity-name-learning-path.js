@@ -31,7 +31,6 @@ class ActivityNameLearningPath extends HypermediaLitMixin(LitElement) {
 
 	_onChangeName(e) {
 		if (this.updateName.has) {
-			console.log(e);
 			this.updateName.perform({name: e.target.value});
 		}
 	}
