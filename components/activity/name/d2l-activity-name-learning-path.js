@@ -24,7 +24,7 @@ class ActivityNameLearningPath extends HypermediaLitMixin(LitElement) {
 
 	render() {
 		return html`
-			${this._hasAction('updateName') ? html`<d2l-input-text @change="${this._onChangeName}" label="Name" placeholder="Enter a name" value="${name}"></d2l-input-text>` : null}
+			${this._hasAction('updateName') ? html`<d2l-input-text @change="${this._onChangeName}" label="Name" placeholder="Enter a name" value="${this.name}"></d2l-input-text>` : null}
 			<d2l-hm-name href="${ifDefined(this._specalizationHref)}" .token="${this.token}"></d2l-hm-name>
 		`;
 	}

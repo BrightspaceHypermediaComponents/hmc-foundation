@@ -32,7 +32,8 @@ export class SirenLink {
 
 	addComponent(component, property, {route, method}) {
 		if (route) {
-			this._routes.set(component, route);
+			const currentRoute = this._routes.has(component) ? this._routes.get(component) : {};
+			this._routes.set(component, {...currentRoute, ...route});
 			return;
 		}
 		this._components.add(component, property, method);
@@ -64,6 +65,7 @@ export class SirenLink {
 		if (this._token) {
 			this._childState = await stateFactory(this.link.href, shouldAttachToken(this._token, this.link));
 			this._routes.forEach((route, component) => {
+				console.log('test');
 				this._childState.addObservables(component, route);
 			});
 			fetch(this._childState);
