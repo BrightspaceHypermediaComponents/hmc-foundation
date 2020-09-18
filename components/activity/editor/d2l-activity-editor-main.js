@@ -1,5 +1,6 @@
 // START custom component imports
 import './d2l-acitivity-editor-main-lp.js';
+import './d2l-acitivity-editor-main-assignment.js';
 // END custom component imports
 
 import { customHypermediaElement, html } from '../../../framework/hypermedia-components.js';
