@@ -70,7 +70,7 @@ class ActivityEditor extends LitElement {
 
 	_renderPrimarySecondary() {
 		return html`
-			<d2l-template-primary-secondary>
+			<d2l-template-primary-secondary background-shading="secondary">
 				<slot name="editor-nav" slot="header"></slot>
 				<d2l-activity-editor-header slot="primary" href="${ifDefined(this.href)}" .token="${this.token}"></d2l-activity-editor-header>
 				<d2l-activity-editor-main slot="primary" href="${ifDefined(this.href)}" .token="${this.token}"></d2l-activity-editor-main>

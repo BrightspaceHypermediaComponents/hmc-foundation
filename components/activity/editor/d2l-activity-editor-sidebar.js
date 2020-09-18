@@ -4,16 +4,6 @@ import { HypermediaLitMixin } from '../../../framework/hypermedia-lit-mixin.js';
 
 class ActivityEditorSidebar extends HypermediaLitMixin(LitElement) {
 
-	static get styles() {
-		return css`
-			:host {
-				background: var(--d2l-color-gypsum);
-				display: block;
-				height: 100%;
-			}
-		`;
-	}
-
 	render() {
 		return html`
 			Sidebar
