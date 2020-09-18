@@ -118,7 +118,7 @@ class StateStore {
 
 			state.onServerResponse(entity);
 		} catch (err) {
-			console.log(err);
+			console.error(err);
 		}
 	}
 
