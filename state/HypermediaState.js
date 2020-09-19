@@ -1,13 +1,7 @@
-import { sirenComponentBasicInfo, sirenComponentFactory } from './sirenComponents/sirenComponentFactory.js';
+import { observableTypes as ot, sirenComponentBasicInfo, sirenComponentFactory } from './sirenComponents/sirenComponentFactory.js';
 import { refreshToken } from './token.js';
 
-export const observableTypes = Object.freeze({
-	property: 1,
-	link: 2,
-	classes: 3,
-	subEntities: 4,
-	entity: 5
-});
+export const observableTypes = ot;
 
 /**
  *
@@ -39,8 +33,10 @@ export class HypermediaState {
 			};
 
 			const basicInfo = sirenComponentBasicInfo(propertyInfo);
+			if (!basicInfo) return;
+
 			const sirenComponent = this._getSirenComponent(basicInfo);
-			sirenComponent.addComponent(component, name, basicInfo.route ? {[name]: basicInfo.route} : undefined);
+			sirenComponent.addComponent(component, name, { route: basicInfo.route ? {[name]: basicInfo.route} : undefined, method: observables[name].method });
 		});
 	}
 

@@ -1,18 +1,17 @@
 import '@brightspace-ui/core/components/list/list.js';
-import '../../activity/item/d2l-activity-item.js';
-import '../../common/d2l-hm-description.js';
+import '@brightspace-ui/core/components/list/list-item.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaLitMixin, observableTypes} from '../../../framework/hypermedia-lit-mixin.js';
 
 const rels = Object.freeze({
-	specialization: 'https://api.brightspace.com/rels/specialization',
+	collection: 'https://activities.api.brightspace.com/rels/activity-collection',
 	item: 'item'
 });
 
 class CollectionEditor extends HypermediaLitMixin(LitElement) {
 	static get properties() {
 		return {
-			items: { type: Array, observable: observableTypes.subEntities, rel: rels.item }
+			items: { type: Array, observable: observableTypes.subEntities, rel: rels.item, route: [{observable: observableTypes.link, rel: rels.collection}] }
 		};
 	}
 
@@ -28,10 +27,10 @@ class CollectionEditor extends HypermediaLitMixin(LitElement) {
 	render() {
 		return html`
 			<d2l-list>
-				${this.items.map(href => html`<d2l-activity-item href="${href}" .token="${this.token}"></d2l-activity-item>`)}
+				${this.items.map(href => html`<d2l-list-item>${href}</d2l-list-item>`)}
 			</d2l-list>
 		`;
 	}
 
 }
-customElements.define('d2l-activity-collection-editor', CollectionEditor);
+customElements.define('d2l-activity-collection-editor-lp', CollectionEditor);

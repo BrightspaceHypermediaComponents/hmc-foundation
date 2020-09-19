@@ -2,6 +2,7 @@ import { SirenClasses } from './SirenClasses.js';
 import { SirenEntity } from './SirenEntity.js';
 import { SirenLink } from './SirenLink.js';
 import { SirenProperty } from './SirenProperty.js';
+import { SirenSubEntities } from './SirenSubEntities.js';
 import { SirenSubEntity } from './SirenSubEntity.js';
 
 export const observableTypes = Object.freeze({
@@ -18,7 +19,8 @@ const observableClasses = Object.freeze({
 	[observableTypes.entity]: SirenEntity,
 	[observableTypes.link]: SirenLink,
 	[observableTypes.property]: SirenProperty,
-	[observableTypes.subEntity]: SirenSubEntity
+	[observableTypes.subEntity]: SirenSubEntity,
+	[observableTypes.subEntities]: SirenSubEntities
 });
 
 function defaultBasicInfo({observable: type, prime, rel: id, route, token}) {
@@ -42,7 +44,7 @@ export function sirenComponentBasicInfo(componentProperties) {
 	componentProperties = handleRouting(componentProperties);
 	const sirenComponentType = componentProperties.observable && observableClasses[componentProperties.observable];
 	if (!sirenComponentType) {
-		throw new Error('Bad siren component');
+		return;
 	}
 
 	const specailBasicInfo = sirenComponentType.basicInfo ? sirenComponentType.basicInfo(componentProperties) : {};

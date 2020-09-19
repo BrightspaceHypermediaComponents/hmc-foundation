@@ -27,8 +27,8 @@ export class SirenProperty {
 		return this._property;
 	}
 
-	addComponent(component, property) {
-		this._components.add(component, property);
+	addComponent(component, property, {method}) {
+		this._components.add(component, property, method);
 		this._components.setComponentProperty(component, this.value);
 	}
 

@@ -3,7 +3,6 @@ import '../name/d2l-activity-name.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { html } from '../../../framework/hypermedia-components.js';
 import { HypermediaLitMixin } from '../../../framework/hypermedia-lit-mixin.js';
-import { ifDefined } from 'lit-html/directives/if-defined.js';
 
 class ActivityEditorHeader extends HypermediaLitMixin(LitElement) {
 
@@ -34,9 +33,9 @@ class ActivityEditorHeader extends HypermediaLitMixin(LitElement) {
 		return html`
 			<div class="d2l-heading-4 d2l-activity-sub-header">${this.subTitle}</div>
 			<h1 class="d2l-heading-1">
-				<d2l-activity-name href="${ifDefined(this.href)}" .token="${this.token}"></d2l-activity-name>
+				<d2l-activity-name href="${this.href}" .token="${this.token}"></d2l-activity-name>
 			</h1>
-			<d2l-activity-description href="${ifDefined(this.href)}" .token="${this.token}"></d2l-activity-description>
+			<d2l-activity-description href="${this.href}" .token="${this.token}"></d2l-activity-description>
 		`;
 	}
 }
