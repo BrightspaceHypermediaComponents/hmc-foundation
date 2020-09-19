@@ -1,1 +1,1 @@
-import './d2l-acitivity-editor-sidebar-assignment.js';
+import './d2l-activity-editor-sidebar-assignment.js';
