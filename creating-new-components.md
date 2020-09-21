@@ -33,17 +33,28 @@ customHypermediaElement(
 
 Base tags like `d2l-activity-editor-main` resolve to other components based on the hypermedia classes on the entity. We can customize this logic using the following syntax:
 
-- Add classes to an array to `AND` them.
+- Add classes to an inner array to `AND` them.
 - Add more arrays of classes to `OR` them.
+
+A single class does not need to be wrapped in an array.
 
 |Argument|Resolve when classes include|
 |-|-|
 |`[['learning-path']]`| `learning-path`|
+|`'learning-path'`| `learning-path`|
 |`[['activity-collection'], ['learning-path']]`| `activity-collection` OR `learning-path`|
 |`[['activity-usage', 'course-offering']]`| `activity-usage` AND `course-offering`|
 |`[['activity-usage', 'course-offering'], ['quiz']]`| (`activity-usage` AND `course-offering`) OR `quiz`|
+|`[['activity-usage', 'course-offering'], 'quiz']`| (`activity-usage` AND `course-offering`) OR `quiz`|
 
 Tag resolution will always use the most specific logic available; a component defined with a longer `AND` statement will be preferred over a component defined with a shorter statement.
+
+**Example:** Two components are defined as follows:
+
+- `component1` defined with class argument `[['foo', 'bar'], ['cherry', 'coke']]`
+- `component2` defined with class argument `[['foo', 'bar', 'baz']], ['cherry']`
+
+The entity associated with the `href` has classes `foo, bar, baz, cherry, coke, vanilla`. `component2` resolves based on the entity classes because `component2` has a longer matching `AND` statement.
 
 ### Registering
 
