@@ -43,7 +43,7 @@ Base tags like `d2l-activity-editor-main` resolve to other components based on t
 |`[['activity-usage', 'course-offering']]`| `activity-usage` AND `course-offering`|
 |`[['activity-usage', 'course-offering'], ['quiz']]`| (`activity-usage` AND `course-offering`) OR `quiz`|
 
-Tag resolution will always use the most specific logic available.
+Tag resolution will always use the most specific logic available; a component defined with a longer `AND` statement will be preferred over a component defined with a shorter statement.
 
 ### Registering
 
@@ -89,11 +89,11 @@ render() {
 
 Types are based on Siren's hypermedia format.
 
-* `classes`: classes on the entity
-* `entity`: an entity that's relevant to this entity, such as a course image
-* `link`: a string representing a link
-* `property`: a simple property that's part of the entity
-* `subEntities`: sub entities that are attached to the entity, such as an array of activities
+- `classes`: classes on the entity
+- `entity`: an entity that's relevant to this entity, such as a course image
+- `link`: a string representing a link
+- `property`: a simple property that's part of the entity
+- `subEntities`: sub entities that are attached to the entity, such as an array of activities
 
 ## Performing Actions
 
