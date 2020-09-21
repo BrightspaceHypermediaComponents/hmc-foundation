@@ -53,9 +53,7 @@ export class HypermediaState {
 			if (!basicInfo) return;
 
 			const sirenComponent = this._getSirenComponent(basicInfo);
-			console.log(sirenComponent);
 			sirenComponent && (sirenComponent.value = propertyInfo.value);
-			console.log(sirenComponent);
 		});
 	}
 

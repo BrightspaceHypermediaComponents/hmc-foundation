@@ -65,7 +65,6 @@ export class SirenLink {
 		if (this._token) {
 			this._childState = await stateFactory(this.link.href, shouldAttachToken(this._token, this.link));
 			this._routes.forEach((route, component) => {
-				console.log('test');
 				this._childState.addObservables(component, route);
 			});
 			fetch(this._childState);

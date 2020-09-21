@@ -13,7 +13,6 @@ export class SirenAction {
 		this._name = name;
 		this._token = token;
 		this._state = state;
-		console.log(state);
 	}
 
 	get action() {
