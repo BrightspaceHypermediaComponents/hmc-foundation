@@ -6,11 +6,13 @@ import './d2l-activity-editor-sidebar.js';
 import './d2l-activity-editor-main.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { html } from '../../../framework/hypermedia-components.js';
+import { nothing } from 'lit-html';
 
 class ActivityEditor extends LitElement {
 	static get properties() {
 		return {
 			href: { type: String, reflect: true },
+			noHeader: { type: Boolean, attribute: 'no-header' },
 			subTitle: { type: String, attribute: 'sub-title', reflect: true },
 			template: { type: String },
 			token: { type: String }
@@ -32,6 +34,14 @@ class ActivityEditor extends LitElement {
 				grid-template-columns: auto;
 				grid-template-rows: auto 1fr auto;
 				height: calc(100vh - 62px);
+			}
+
+			[class^="d2l-activity-editor-main"] {
+				display: block;
+				padding: 20px;
+			}
+			[class^="d2l-activity-editor-sidebar"] {
+				padding: 10px;
 			}
 		`];
 	}
@@ -58,7 +68,9 @@ class ActivityEditor extends LitElement {
 	_renderDefault() {
 		return html`
 			<div class="d2l-activity-editor-template-default">
-				<d2l-activity-editor-header href="${this.href}" .token="${this.token}"></d2l-activity-editor-header>
+				${this.noHeader ? nothing : html`
+					<d2l-activity-editor-header href="${this.href}" .token="${this.token}"></d2l-activity-editor-header>
+				`}
 				<d2l-activity-editor-main href="${this.href}" .token="${this.token}"></d2l-activity-editor-main>
 				<d2l-floating-buttons always-float>
 					<d2l-activity-editor-footer href="${this.href}" .token="${this.token}"></d2l-activity-editor-footer>
@@ -71,9 +83,11 @@ class ActivityEditor extends LitElement {
 		return html`
 			<d2l-template-primary-secondary>
 				<slot name="editor-nav" slot="header"></slot>
-				<d2l-activity-editor-header slot="primary" href="${this.href}" .token="${this.token}"></d2l-activity-editor-header>
-				<d2l-activity-editor-main slot="primary" href="${this.href}" .token="${this.token}"></d2l-activity-editor-main>
-				<d2l-activity-editor-sidebar slot="secondary" href="${this.href}" .token="${this.token}"></d2l-activity-editor-sidebar>
+				${this.noHeader ? nothing : html`
+					<d2l-activity-editor-header slot="primary" href="${this.href}" .token="${this.token}"></d2l-activity-editor-header>
+				`}
+				<d2l-activity-editor-main slot="primary" href="${this.href}" .token="${this.token}" class="d2l-activity-editor-main"></d2l-activity-editor-main>
+				<d2l-activity-editor-sidebar slot="secondary" href="${this.href}" .token="${this.token}" class="d2l-activity-editor-sidebar"></d2l-activity-editor-sidebar>
 				<div slot="footer">
 					<d2l-activity-editor-footer href="${this.href}" .token="${this.token}"></d2l-activity-editor-footer>
 				</div>

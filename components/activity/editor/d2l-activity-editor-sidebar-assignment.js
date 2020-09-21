@@ -21,4 +21,4 @@ class ActivityEditorSidebarAssignment extends HypermediaLitMixin(LitElement) {
 	}
 }
 
-customHypermediaElement('d2l-activity-editor-sidebar-assignment', ActivityEditorSidebarAssignment, 'd2l-activity-editor-sidebar', [['assignment']]);
+customHypermediaElement('d2l-activity-editor-sidebar-assignment', ActivityEditorSidebarAssignment, 'd2l-activity-editor-sidebar', [['assignment-activity']]);

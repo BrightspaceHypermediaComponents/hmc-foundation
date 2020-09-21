@@ -37,6 +37,7 @@
   "dependencies": {
     "@brightspace-ui/core": "^1",
     "@webcomponents/webcomponentsjs": "^2",
+    "d2l-activities": "BrightspaceHypermediaComponents/activities.git#semver:^3",
     "d2l-course-image": "git://github.com/Brightspace/course-image.git",
     "d2l-fetch": "github:Brightspace/d2l-fetch",
     "lit-element": "^2",

@@ -1,4 +1,5 @@
 import '@brightspace-ui/core/components/button/button.js';
+import 'd2l-activities/components/d2l-activity-editor/d2l-activity-visibility-editor-toggle.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { html } from '../../../framework/hypermedia-components.js';
 import { HypermediaLitMixin } from '../../../framework/hypermedia-lit-mixin.js';
@@ -14,14 +15,18 @@ class ActivityEditorFooter extends HypermediaLitMixin(LitElement) {
 			d2l-button {
 				margin-bottom: 0.5rem;
 			}
+			d2l-activity-visibility-editor-toggle {
+				display: inline-block;
+			}
 		`];
 	}
 
 	render() {
 		return html`
-			<div>Visibility editor
-				<d2l-button primary>Save</d2l-button>
+			<div>
+				<d2l-button primary>Save and Close</d2l-button>
 				<d2l-button>Cancel</d2l-button>
+				<d2l-activity-visibility-editor-toggle can-edit-draft></d2l-activity-visibility-editor-toggle>
 			</div>
 			<div><slot name="save-status">Save status</slot></div>
 		`;
