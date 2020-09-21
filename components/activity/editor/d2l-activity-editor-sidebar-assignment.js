@@ -1,3 +1,5 @@
+import './d2l-activity-editor-availability.js';
+
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { customHypermediaElement, html } from '../../../framework/hypermedia-components.js';
 import { HypermediaLitMixin } from '../../../framework/hypermedia-lit-mixin.js';
@@ -16,7 +18,7 @@ class ActivityEditorSidebarAssignment extends HypermediaLitMixin(LitElement) {
 
 	render() {
 		return html`
-			Assignment sidebar
+			<d2l-activity-editor-availability href="${this.href}" .token="${this.token}"></d2l-activity-editor-availability>
 		`;
 	}
 }
