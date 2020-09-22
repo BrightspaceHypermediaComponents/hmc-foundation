@@ -17,6 +17,7 @@ export class Component {
 	}
 
 	setProperty(value) {
+
 		this._components.forEach((property, component) => {
 			const method = this._methods.has(component) && this._methods.get(component);
 			component[property] = method ? method(value) : value;

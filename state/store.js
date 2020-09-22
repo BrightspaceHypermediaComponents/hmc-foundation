@@ -95,6 +95,33 @@ class StateStore {
 		}
 	}
 
+	async performAction(action, input) {
+		const href = action.href(input);
+		const body = action.body(input);
+
+		const headers = action.header();
+		!action.token.cookie && headers.set('Authorization', `Bearer ${action.token.value}`);
+
+		const fetch = !action.token.cookie
+			? this._d2lfetch
+			: this._d2lfetch.removeTemp('auth');
+
+		try {
+			const response = await fetch.fetch(href, { headers, body, method: action.method });
+			if (!response.ok) {
+				throw response.status;
+			}
+			await this._handleCachePriming(action.token, response);
+			const json = await response.json();
+			const entity = await SirenParse(json);
+			const state = this.get(entity.getLink('self').href, action.token);
+
+			state.onServerResponse(entity);
+		} catch (err) {
+			console.error(err);
+		}
+	}
+
 	_initContainer(map, entityId, token, init) {
 		const lowerCaseEntityId = entityId.toLowerCase();
 		const tokenCache = token.toString();
@@ -214,6 +241,11 @@ export async function fetch(state) {
 
 	await state.refreshToken();
 	return window.D2L.SirenSdk.StateStore.fetch(state);
+}
+
+export async function performAction(action, input) {
+	await action.refreshToken();
+	return window.D2L.SirenSdk.StateStore.performAction(action, input);
 }
 
 export async function dispose(state, component) {

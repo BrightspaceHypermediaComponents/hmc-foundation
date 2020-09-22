@@ -31,7 +31,8 @@ export class SirenSubEntity {
 
 	addComponent(component, property, {route, method}) {
 		if (route) {
-			this._routes.set(component, route);
+			const currentRoute = this._routes.has(component) ? this._routes.get(component) : {};
+			this._routes.set(component, {...currentRoute, ...route});
 			return;
 		}
 		this._components.add(component, property, method);

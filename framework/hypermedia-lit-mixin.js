@@ -54,4 +54,8 @@ export const HypermediaLitMixin = superclass => class extends superclass {
 			console.error(error);
 		}
 	}
+
+	_hasAction(action) {
+		return this[action] && this[action].has;
+	}
 };

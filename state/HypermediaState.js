@@ -32,11 +32,28 @@ export class HypermediaState {
 				...observables[name]
 			};
 
-			const basicInfo = sirenComponentBasicInfo(propertyInfo);
+			const basicInfo = sirenComponentBasicInfo(propertyInfo, this);
 			if (!basicInfo) return;
 
 			const sirenComponent = this._getSirenComponent(basicInfo);
 			sirenComponent.addComponent(component, name, { route: basicInfo.route ? {[name]: basicInfo.route} : undefined, method: observables[name].method });
+		});
+	}
+
+	updateProperties(observables) {
+		Object.keys(observables).forEach((name) => {
+			const propertyInfo = {
+				name,
+				token: this.token,
+				state: this,
+				...observables[name]
+			};
+
+			const basicInfo = sirenComponentBasicInfo(propertyInfo);
+			if (!basicInfo) return;
+
+			const sirenComponent = this._getSirenComponent(basicInfo);
+			sirenComponent && (sirenComponent.value = propertyInfo.value);
 		});
 	}
 
@@ -61,11 +78,11 @@ export class HypermediaState {
 		return !!this._entity;
 	}
 
-	setSirenEntity(entity) {
-		this._entity = entity;
+	setSirenEntity(entity = null) {
+		this._entity = entity !== null ? entity : this._entity;
 		this._decodedEntity.forEach(typeMap => {
 			typeMap.forEach(sirenComponent => {
-				sirenComponent.setSirenEntity(entity, typeMap);
+				sirenComponent.setSirenEntity(this._entity, typeMap);
 			});
 		});
 	}
