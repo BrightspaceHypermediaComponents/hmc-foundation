@@ -68,7 +68,7 @@ export class SirenSubEntity {
 	async _setSubEntity(subEntity) {
 		this.entityId = getEntityIdFromSirenEntity(subEntity);
 
-		if (this._token) {
+		if (this.entityId && this._token) {
 			this._childState = await stateFactory(this.entityId, shouldAttachToken(this._token, subEntity));
 			this._routes.forEach((route, component) => {
 				this._childState.addObservables(component, route);
