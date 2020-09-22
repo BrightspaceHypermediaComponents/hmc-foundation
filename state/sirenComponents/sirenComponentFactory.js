@@ -50,9 +50,9 @@ export function sirenComponentBasicInfo(componentProperties, state) {
 		return;
 	}
 
-	const specailBasicInfo = sirenComponentType.basicInfo ? sirenComponentType.basicInfo(componentProperties) : {};
+	const specialBasicInfo = sirenComponentType.basicInfo ? sirenComponentType.basicInfo(componentProperties) : {};
 
-	return {...defaultBasicInfo(componentProperties), ...specailBasicInfo, state};
+	return {...defaultBasicInfo(componentProperties), ...specialBasicInfo, state};
 }
 
 export function sirenComponentFactory(componentProperties) {

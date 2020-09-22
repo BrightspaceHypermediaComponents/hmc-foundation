@@ -21,7 +21,7 @@ class ActivityNameCourse extends HypermediaLitMixin(LitElement) {
 
 	render() {
 		return html`
-			<d2l-hm-name href="${ifDefined(this._organizationHref)}" .token="${this.token}"></d2l-hm-name>
+			<d2l-hm-name href="${this._organizationHref}" .token="${this.token}"></d2l-hm-name>
 		`;
 	}
 

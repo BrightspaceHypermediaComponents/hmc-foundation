@@ -40,9 +40,10 @@ export class SirenSubEntity {
 	}
 
 	deleteComponent(component) {
-		if (this._route.has(component)) {
-			this._childState.dispose(component);
-			this._route.delete(component);
+		if (this._routes.has(component)) {
+			//todo: This is weird it should always be there in this case? Well, unless we delete the component before the fetch?
+			this._childState && this._childState.dispose(component);
+			this._routes.delete(component);
 			return;
 		}
 		this._components.delete(component);
@@ -74,5 +75,17 @@ export class SirenSubEntity {
 			});
 			fetch(this._childState);
 		}
+	}
+
+	_merge(sirenLink) {
+		if (!sirenLink || !(sirenLink instanceof SirenSubEntity)) {
+			return;
+		}
+
+		sirenLink._components.components.forEach((component, property) => {
+			this.addComponent(component, property);
+		});
+
+		this._token = this._token || sirenLink._token;
 	}
 }

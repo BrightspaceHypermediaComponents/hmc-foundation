@@ -2,6 +2,8 @@
 // END custom component imports
 import '@brightspace-ui/core/components/list/list.js';
 import '@brightspace-ui/core/components/list/list-item.js';
+import '../item/d2l-activity-item.js';
+
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { customHypermediaElement, html } from '../../../framework/hypermedia-components.js';
 import { HypermediaLitMixin, observableTypes } from '../../../framework/hypermedia-lit-mixin.js';
@@ -62,7 +64,7 @@ class ActivityEditorMainCollection extends HypermediaLitMixin(LitElement) {
 				</div>
 				<div class="d2l-activity-collection-activities">
 					<d2l-list>
-						${this.items.map(href => html`<d2l-list-item>${href}</d2l-list-item>`)}
+						${this.items.map(href => html`<d2l-activity-item href="${href}" .token="${this.token}"></d2l-activity-item>`)}
 					</d2l-list>
 				</div>
 			</div>

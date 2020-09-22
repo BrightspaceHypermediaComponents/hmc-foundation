@@ -11,7 +11,7 @@ class HmCourseImage extends HypermediaLitMixin(LitElement) {
 		return {
 			tileSizes: { type: Object },
 			type: { type: String },
-			courseImage: { type: Array, observable: observableTypes.entity, route: [{observable: observableTypes.subEntities, rel: rels.courseImage}] }
+			courseImage: { type: Array, observable: observableTypes.entity, route: [{observable: observableTypes.subEntity, rel: rels.courseImage}] }
 		};
 	}
 

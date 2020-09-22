@@ -48,7 +48,11 @@ class ComponentStore {
 		if (!map) {
 			return null;
 		}
-		const componentTags = [];
+		const componentTag = {
+			componentTag: map.get(defaultType),
+			depth: depth
+		};
+		const componentTags = [componentTag];
 		for (const typeIndex in otherTypes) {
 			const type = otherTypes[typeIndex];
 			componentTags.push(this._getComponentTag(type, otherTypes.filter(otherType => otherType !== type), map, depth + 1));
