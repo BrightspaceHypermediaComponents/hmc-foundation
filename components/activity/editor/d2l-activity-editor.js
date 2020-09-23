@@ -41,6 +41,7 @@ class ActivityEditor extends LitElement {
 				padding: 20px;
 			}
 			[class^="d2l-activity-editor-sidebar"] {
+				display: block;
 				padding: 10px;
 			}
 		`];

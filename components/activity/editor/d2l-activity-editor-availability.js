@@ -6,6 +6,7 @@ import { nothing } from 'lit-html';
 const rels = Object.freeze({
 	releaseConditionsDialogOpener: 'https://activities.api.brightspace.com/rels/release-conditions-dialog-opener'
 });
+// todo: REQUIRES SELFLESS ENTITIES TO FUNCTION
 class ActivityEditorAvailability extends HypermediaLitMixin(LitElement) {
 
 	static get properties() {

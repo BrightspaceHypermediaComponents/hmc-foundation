@@ -35,6 +35,7 @@
     "puppeteer": "^1"
   },
   "dependencies": {
+    "@brightspace-ui-labs/accordion": "^2.4.0",
     "@brightspace-ui-labs/list-item-accumulator": "^1.0.2",
     "@brightspace-ui/core": "^1",
     "@webcomponents/webcomponentsjs": "^2",
