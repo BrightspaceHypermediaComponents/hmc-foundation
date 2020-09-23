@@ -1,6 +1,7 @@
+import './d2l-activity-editor-type.js';
+
 import '@brightspace-ui-labs/accordion/accordion-collapse.js';
 import { bodyCompactStyles, bodySmallStyles, heading3Styles, labelStyles } from '@brightspace-ui/core/components/typography/styles.js';
-
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { customHypermediaElement, html } from '../../../framework/hypermedia-components.js';
 import { HypermediaLitMixin, observableTypes } from '../../../framework/hypermedia-lit-mixin.js';
@@ -10,7 +11,6 @@ import {
 } from 'd2l-activities/components/d2l-activity-editor/d2l-activity-assignment-editor/activity-summarizer-styles.js';
 import { radioStyles } from '@brightspace-ui/core/components/inputs/input-radio-styles.js';
 import { selectStyles } from '@brightspace-ui/core/components/inputs/input-select-styles.js';
-import { nothing } from 'lit-html';
 
 class ActivityEditorSubmission extends HypermediaLitMixin(LitElement) {
 
@@ -45,6 +45,7 @@ class ActivityEditorSubmission extends HypermediaLitMixin(LitElement) {
 					<li>${this._renderTypeSummary()}</li>
 				</ul>
 
+				${this._renderType()}
 			</d2l-labs-accordion-collapse>
 		`;
 	}
@@ -57,12 +58,12 @@ class ActivityEditorSubmission extends HypermediaLitMixin(LitElement) {
 		return html`
 			<div id="assignment-type-container">
 				<label class="d2l-label-text">
-					${this.localize('txtAssignmentType')}
+					Assignment Type
 				</label>
-				<d2l-activity-type-editor
+				<d2l-activity-editor-type
 					href="${this.href}"
 					.token="${this.token}">
-				</d2l-activity-type-editor>
+				</d2l-activity-editor-type>
 			</div>
 		`;
 	}
