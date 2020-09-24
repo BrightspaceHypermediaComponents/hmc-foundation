@@ -1,27 +1,40 @@
 import './d2l-activity-editor-name.js';
+import './d2l-activity-editor-score.js';
 import { customHypermediaElement, html } from '../../../framework/hypermedia-components.js';
 import { HypermediaLitMixin } from '../../../framework/hypermedia-lit-mixin.js';
+import { labelStyles } from '@brightspace-ui/core/components/typography/styles.js';
 import { LitElement } from 'lit-element/lit-element.js';
 import { observableTypes } from '../../../state/sirenComponents/sirenComponentFactory.js';
 
 const rels = Object.freeze({
-	assignment: 'https://api.brightspace.com/rels/assignment'
+	assignment: 'https://api.brightspace.com/rels/assignment',
+	instructions: 'https://assignments.api.brightspace.com/rels/instructions'
 });
 
 class ActivityEditorMainAssignment extends HypermediaLitMixin(LitElement) {
 
 	static get properties() {
 		return {
+			instructions: { type: String, observable: observableTypes.property, route: [{
+				observable: observableTypes.link,
+				rel: rels.assignment }]
+			},
 			_assignmentHref: { type: String, observable: observableTypes.link, rel: rels.assignment }
 		};
+	}
+
+	static get styles() {
+		return [
+			labelStyles
+		];
 	}
 
 	render() {
 		return html`
 			<d2l-activity-editor-name href="${this._assignmentHref}" .token="${this.token}"></d2l-activity-editor-name>
-			<div>Score</div> <div>Due Date</div>
-			<div>Instructions</div>
-			<div>Upload attachmenmts</div>
+			<d2l-activity-editor-score href="${this.href}" .token="${this.token}"></d2l-activity-editor-score>
+			<label class="d2l-label-text">Instructions</label>
+			<div>${this.instructions}</div>
 		`;
 	}
 }

@@ -1,4 +1,4 @@
-import { bodyCompactStyles, bodySmallStyles, labelStyles } from '@brightspace-ui/core/components/typography/styles.js';
+import { bodyCompactStyles, bodySmallStyles } from '@brightspace-ui/core/components/typography/styles.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { customHypermediaElement, html } from '../../../framework/hypermedia-components.js';
 import { HypermediaLitMixin, observableTypes } from '../../../framework/hypermedia-lit-mixin.js';
@@ -28,7 +28,6 @@ class ActivityEditorTypeAssignment extends RtlMixin(HypermediaLitMixin(LitElemen
 		return [
 			bodyCompactStyles,
 			bodySmallStyles,
-			labelStyles,
 			radioStyles,
 			selectStyles,
 			css`
@@ -77,7 +76,7 @@ class ActivityEditorTypeAssignment extends RtlMixin(HypermediaLitMixin(LitElemen
 	get groupCategoryName() {
 		if (this.entity) {
 			const folderType = this.entity.getSubEntityByRel(rels.folderType);
-			return folderType && folderType.groupName;
+			return folderType && folderType.properties && folderType.groupName;
 		}
 		return null;
 	}
@@ -87,9 +86,8 @@ class ActivityEditorTypeAssignment extends RtlMixin(HypermediaLitMixin(LitElemen
 		const groupTypeText = !this.isIndividual && this.groupCategoryName
 			? `Group Category "${this.groupCategoryName}"`
 			: '';
-		const canEditAssignmentType = false;
 		return html`
-		<div ?hidden=${canEditAssignmentType} id="read-only-assignment-type-container">
+		<div id="read-only-assignment-type-container">
 			<div class="d2l-body-compact">${folderTypeText}</div>
 			<div class="d2l-body-compact">${groupTypeText}</div>
 		</div>
