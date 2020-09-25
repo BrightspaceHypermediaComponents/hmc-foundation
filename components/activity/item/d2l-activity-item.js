@@ -1,38 +1,35 @@
-import '@brightspace-ui/core/components/list/list-item.js';
 import '@brightspace-ui/core/components/list/list-item-content.js';
 import '../name/d2l-activity-name.js';
 import '../type/d2l-activity-type.js';
 import '../image/d2l-activity-image.js';
-import { css, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaLitMixin, observableTypes } from '../../../framework/hypermedia-lit-mixin.js';
-import { ifDefined } from 'lit-html/directives/if-defined';
+import { guard } from 'lit-html/directives/guard';
 import { html } from '../../../framework/hypermedia-components.js';
+import { ListItemMixin } from '@brightspace-ui/core/components/list/list-item-mixin.js';
+import { LitElement } from 'lit-element/lit-element.js';
 
 const rels = Object.freeze({
 	activityUsage: 'https://activities.api.brightspace.com/rels/activity-usage'
 });
 
-class ActivityItem extends HypermediaLitMixin(LitElement) {
+class ActivityItem extends HypermediaLitMixin(ListItemMixin(LitElement)) {
 	static get properties() {
 		return {
+			key: { type: String, observable: observableTypes.link, rel: 'self', reflect: true },
 			_activityHref: { type: String, observable: observableTypes.link, rel: rels.activityUsage }
 		};
 	}
 
-	static get styles() {
-		return [ css`` ];
-	}
-
 	render() {
-		return html`
-			<d2l-list-item>
-				<d2l-activity-image href="${this._activityHref}" .token="${this.token}" slot="illustration"></d2l-activity-image>
+		return this._renderListItem({
+			illustration: html`${guard([this._activityHref, this.token], () => html`<d2l-activity-image href="${this._activityHref}" .token="${this.token}"></d2l-activity-image>`)}`,
+			content: html`${guard([this._activityHref, this.token], () => html`
 				<d2l-list-item-content> <!-- This would actually be unique to the type -->
 					<d2l-activity-name href="${this._activityHref}" .token="${this.token}"></d2l-activity-name>
-					<d2l-activity-type href="${ifDefined(this._activityHref)}" .token="${this.token}" slot="supporting-info"></d2l-activity-type>
+					<d2l-activity-type href="${this._activityHref}" .token="${this.token}" slot="supporting-info"></d2l-activity-type>
 				</d2l-list-item-content>
-			</d2l-list-item>
-		`;
+			`)}`
+		});
 	}
 }
 customElements.define('d2l-activity-item', ActivityItem);

@@ -4,24 +4,42 @@
 [![Dependabot badge](https://flat.badgen.net/dependabot/BrightspaceUI/polaris?icon=dependabot)](https://app.dependabot.com/)
 [![Build status](https://travis-ci.com/@brightspace-ui/polaris.svg?branch=master)](https://travis-ci.com/@brightspace-ui/polaris)
 
-prototype
+A collection of shareable, stateful components that interact with hypermedia APIs. These components can be used to build pages for anything that uses the D2L Hypermedia API.
 
-## Installation
+## Example
 
-To install from NPM:
+```js
+import 'hmc-foundation/components/activity/name/d2l-activity-name.js';
+import { html } from 'hmc-foundation/framework/hypermedia-components.js';
+import { LitElement } from 'lit-element/lit-element.js';
 
-```shell
-npm install @brightspace-ui/polaris
+class MyComponent extends LitElement {
+  render() {
+    return html`
+      <d2l-activity-name href="url-to-a-learning-path-entity" token="some-token"></d2l-activity-name>
+    `;
+  }
+}
 ```
 
-## Usage
+The above will render the name of a learning path. The tag `d2l-activity-name` will **automatically resolve** to `d2l-activity-name-learning-path` based on the **classes** in the hypermedia entity.
 
-```html
-<script type="module">
-    import '@brightspace-ui/polaris/polaris.js';
-</script>
-<d2l-polaris>My element</d2l-polaris>
-```
+The components are **stateful** because they react to changes to the entity. Components are bi-directional with their entity states &mdash; they can read the state of and perform actions on their entities.
+
+## Components
+
+* Activity
+  * [Description](components/activity/description): Description of an activity
+  * [Editor](components/activity/editor): Administrative management of an activity
+  * [Icon](components/activity/icon): `d2l-icon` associated with the activity
+  * [Image](components/activity/image): Image for a specific activity (e.g., a course image)
+  * [Item](components/activity/item): A list-item to be displayed in a `d2l-list`
+  * [Name](components/activity/name): The title of an activity
+  * [Type](components/activity/type): The activity's type
+
+### Creating New Components
+
+See [Creating new components](creating-new-components.md).
 
 ## Developing, Testing and Contributing
 

@@ -7,6 +7,7 @@ import '../item/d2l-activity-item.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { customHypermediaElement, html } from '../../../framework/hypermedia-components.js';
 import { HypermediaLitMixin, observableTypes } from '../../../framework/hypermedia-lit-mixin.js';
+import { repeat } from 'lit-html/directives/repeat';
 
 const rels = Object.freeze({
 	collection: 'https://activities.api.brightspace.com/rels/activity-collection',
@@ -58,17 +59,23 @@ class ActivityEditorMainCollection extends HypermediaLitMixin(LitElement) {
 			<div class="d2l-activity-collection-body">
 				<div class="d2l-activity-collection-body-content">
 					<div class="d2l-activity-collection-list-actions">
-						<d2l-button primary>add Activity</d2l-button>
-						<div class="d2l-body-compact">Count: ${this.items.length}</div>
+						<d2l-button primary>Add Activity</d2l-button>
+						<div class="d2l-body-compact">Activities: ${this.items.length}</div>
 					</div>
 				</div>
 				<div class="d2l-activity-collection-activities">
-					<d2l-list>
-						${this.items.map(href => html`<d2l-activity-item href="${href}" .token="${this.token}"></d2l-activity-item>`)}
+					<d2l-list @d2l-list-item-position-change="${this._moveItems}">
+						${repeat(this.items, href => href, href => html`<d2l-activity-item href="${href}" .token="${this.token}" draggable key="${href}"></d2l-activity-item>`)}
 					</d2l-list>
 				</div>
 			</div>
 		`;
+	}
+
+	_moveItems(e) {
+		console.log('test');
+		e.detail.reorder(this.items, { keyFn: (item) => item });
+		this.requestUpdate('items', []);
 	}
 }
 
