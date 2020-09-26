@@ -1,5 +1,6 @@
 import 'd2l-fetch/d2l-fetch.js';
-import { getToken } from './token.js';
+import { getToken, shouldAttachToken } from './token.js';
+import { getEntityIdFromSirenEntity } from './sirenComponents/Common.js';
 import { HypermediaState } from './HypermediaState.js';
 import SirenParse from 'siren-parser';
 
@@ -224,6 +225,17 @@ window.D2L.SirenSdk.StateStore = window.D2L.SirenSdk.StateStore || new StateStor
 export async function refreshState(state, refetch = true) {
 	await state.refreshToken();
 	return window.D2L.SirenSdk.StateStore.fetch(state, refetch);
+}
+
+export function stateFactoryByRawSirenEntity(rawEntity, token) {
+	const entityId = getEntityIdFromSirenEntity(rawEntity);
+	if (!entityId) {
+		const state = new HypermediaState(entityId, token);
+		state.onServerResponse(rawEntity);
+		return state;
+	}
+
+	return stateFactory(entityId, shouldAttachToken(token, rawEntity));
 }
 
 export async function stateFactory(entityId, token) {

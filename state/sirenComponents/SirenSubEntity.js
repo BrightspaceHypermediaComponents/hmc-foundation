@@ -1,6 +1,5 @@
 import { Component, getEntityIdFromSirenEntity } from './Common.js';
-import { fetch, stateFactory } from '../../state/store.js';
-import { shouldAttachToken } from '../token.js';
+import { fetch, stateFactory, stateFactoryByRawSirenEntity } from '../../state/store.js';
 
 export class SirenSubEntity {
 	constructor({id, token}) {
@@ -68,8 +67,8 @@ export class SirenSubEntity {
 	async _setSubEntity(subEntity) {
 		this.entityId = getEntityIdFromSirenEntity(subEntity);
 
-		if (this.entityId && this._token) {
-			this._childState = await stateFactory(this.entityId, shouldAttachToken(this._token, subEntity));
+		if (this._token) {
+			this._childState = await stateFactoryByRawSirenEntity(subEntity, this._token);
 			this._routes.forEach((route, component) => {
 				this._childState.addObservables(component, route);
 			});

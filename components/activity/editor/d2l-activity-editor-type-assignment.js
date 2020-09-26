@@ -20,7 +20,9 @@ class ActivityEditorTypeAssignment extends RtlMixin(HypermediaLitMixin(LitElemen
 	static get properties() {
 		return {
 			// todo: we don't have selfless entities, so we're just grabbing the raw thing for now
-			entity: { type: Object, observable: observableTypes.entity }
+			entity: { type: Object, observable: observableTypes.entity },
+			groupCategoryName: { type: String, observable: observableTypes.property, id: "groupName",  route:[{observable: observableTypes.subEntity, rel: rels.folderType}]},
+			_folderTypeClasses: { type: Object, observable: observableTypes.classes, route:[{observable: observableTypes.subEntity, rel: rels.folderType}]}
 		};
 	}
 
@@ -63,22 +65,7 @@ class ActivityEditorTypeAssignment extends RtlMixin(HypermediaLitMixin(LitElemen
 	}
 
 	get isIndividual() {
-		// todo: We're doing this because we have no selfless entities yet
-		// This is just an example of displaying data from an attached selfless entity
-		if (this.entity) {
-			const folderType = this.entity.getSubEntityByRel(rels.folderType);
-			return folderType && folderType.hasClass(assignmentTypes.individual);
-		}
-		return false;
-	}
-
-	// this should also be made moot by selfless entities
-	get groupCategoryName() {
-		if (this.entity) {
-			const folderType = this.entity.getSubEntityByRel(rels.folderType);
-			return folderType && folderType.properties && folderType.groupName;
-		}
-		return null;
+		return this._folderTypeClasses?.some((item) => item === assignmentTypes.individual);
 	}
 
 	render() {
