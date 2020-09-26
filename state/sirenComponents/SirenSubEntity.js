@@ -1,5 +1,5 @@
 import { Component, getEntityIdFromSirenEntity } from './Common.js';
-import { fetch, stateFactory, stateFactoryByRawSirenEntity } from '../../state/store.js';
+import { fetch, stateFactoryByRawSirenEntity } from '../../state/store.js';
 
 export class SirenSubEntity {
 	constructor({id, token}) {

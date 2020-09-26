@@ -21,7 +21,7 @@ class ActivityEditorTypeAssignment extends RtlMixin(HypermediaLitMixin(LitElemen
 		return {
 			// todo: we don't have selfless entities, so we're just grabbing the raw thing for now
 			entity: { type: Object, observable: observableTypes.entity },
-			groupCategoryName: { type: String, observable: observableTypes.property, id: "groupName",  route:[{observable: observableTypes.subEntity, rel: rels.folderType}]},
+			groupCategoryName: { type: String, observable: observableTypes.property, id: 'groupName',  route:[{observable: observableTypes.subEntity, rel: rels.folderType}]},
 			_folderTypeClasses: { type: Object, observable: observableTypes.classes, route:[{observable: observableTypes.subEntity, rel: rels.folderType}]}
 		};
 	}
