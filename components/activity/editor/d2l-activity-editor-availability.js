@@ -15,8 +15,6 @@ class ActivityEditorAvailability extends HypermediaLitMixin(LitElement) {
 	}
 
 	render() {
-		console.log('dialog opener', this.dialogOpener);
-
 		return html`
 			<d2l-labs-accordion-collapse
 				flex

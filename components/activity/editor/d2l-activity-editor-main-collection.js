@@ -73,7 +73,6 @@ class ActivityEditorMainCollection extends HypermediaLitMixin(LitElement) {
 	}
 
 	_moveItems(e) {
-		console.log('test');
 		e.detail.reorder(this.items, { keyFn: (item) => item });
 		this.requestUpdate('items', []);
 	}

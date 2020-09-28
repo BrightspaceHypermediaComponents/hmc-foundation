@@ -41,7 +41,6 @@ export class SirenLink {
 	}
 
 	deleteComponent(component) {
-		console.log('test');
 		if (this._routes.has(component)) {
 			this._childState.dispose(component);
 			this._routes.delete(component);
