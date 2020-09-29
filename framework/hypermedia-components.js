@@ -1,10 +1,8 @@
-import { defaultTemplateProcessor, html as litHtml, TemplateResult } from 'lit-html';
-import { until } from 'lit-html/directives/until.js';
-
 import { componentStoreFactory, isPseudoTag } from '../render/componentFactory.js';
-import { observableTypes } from '../state/HypermediaState.js';
+import { defaultTemplateProcessor, html as litHtml, TemplateResult } from 'lit-html';
 import { fetch, stateFactory } from '../state/store.js';
-
+import { observableTypes } from '../state/HypermediaState.js';
+import { until } from 'lit-html/directives/until.js';
 
 export function customHypermediaElement(tag, elementClass, pseudoTag, hypermediaClasses, options) {
 	pseudoTag = pseudoTag || tag;
