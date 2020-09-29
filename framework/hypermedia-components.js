@@ -1,8 +1,9 @@
-import { componentStoreFactory, isPseudoTag } from '../render/componentFactory.js';
 import { defaultTemplateProcessor, html as litHtml, TemplateResult } from 'lit-html';
-import { fetch, stateFactory } from '../state/store.js';
-import { observableTypes } from '../state/HypermediaState.js';
 import { until } from 'lit-html/directives/until.js';
+
+import { componentStoreFactory, isPseudoTag } from '../render/componentFactory.js';
+import { observableTypes } from '../state/HypermediaState.js';
+import { fetch, stateFactory } from '../state/store.js';
 
 export function customHypermediaElement(tag, elementClass, pseudoTag, hypermediaClasses, options) {
 	pseudoTag = pseudoTag || tag;
@@ -47,12 +48,9 @@ export function html(strings, ...values) {
 		});
 
 		currentCollection.strings.push(currentString);
-		currentCollection.values.push(currentValue);
-	}
-
-	//todo: this solves the token ifDefined issue. But really? Shouldn't there be a real way to fix it? I think so.
-	while (stringCollections[0].strings.length <= stringCollections[0].values.length && stringCollections[0].values.length !== 0) {
-		stringCollections[0].values.pop();
+		if (i < values.length){
+			currentCollection.values.push(currentValue);
+		}
 	}
 
 	return new TemplateResult(stringCollections[0].strings, stringCollections[0].values, 'html', defaultTemplateProcessor);
