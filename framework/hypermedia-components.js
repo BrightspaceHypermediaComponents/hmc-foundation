@@ -5,6 +5,7 @@ import { componentStoreFactory, isPseudoTag } from '../render/componentFactory.j
 import { observableTypes } from '../state/HypermediaState.js';
 import { fetch, stateFactory } from '../state/store.js';
 
+
 export function customHypermediaElement(tag, elementClass, pseudoTag, hypermediaClasses, options) {
 	pseudoTag = pseudoTag || tag;
 	const components = componentStoreFactory(pseudoTag);
@@ -48,7 +49,7 @@ export function html(strings, ...values) {
 		});
 
 		currentCollection.strings.push(currentString);
-		if (i < values.length){
+		if (i < values.length) {
 			currentCollection.values.push(currentValue);
 		}
 	}
