@@ -94,7 +94,8 @@ function render(state, components, resources, pseudoTag, strings, values) {
 	while (strings.length > 0) {
 		let string = strings.shift();
 		if (!string) break;
-		string = string.replace(pseudoTag, tag);
+		string = string.replace('<'+pseudoTag+' ', '<'+tag+' ');
+		string = string.replace('</'+pseudoTag+' ', '</'+tag+' ');
 		const indexOfEndTag = string.indexOf('>');
 		if (indexOfEndTag === -1) {
 			mainStrings.push(string);
