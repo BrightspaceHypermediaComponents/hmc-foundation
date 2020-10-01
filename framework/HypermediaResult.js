@@ -139,7 +139,6 @@ export class HypermediaResult extends TemplateResult {
 			mainStrings[mainStrings.length - 1] += `</${tag}>`;
 		}
 
-		//dispose(state);
 		return new HypermediaResult(mainStrings, mainValues, 'html', defaultTemplateProcessor);
 	}
 }
