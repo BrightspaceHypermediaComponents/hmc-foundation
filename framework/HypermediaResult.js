@@ -25,7 +25,7 @@ export class HypermediaResult extends TemplateResult {
 
 	/*
 	* Function called on HypermediaResult object to get the associated html
-	* Should process the psuedocode if this is the first call to getHTML
+	* Should process the base tag if this is the first call to getHTML
 	* otherwise, retrieves previous processing
 	*/
 	getHTML() {
