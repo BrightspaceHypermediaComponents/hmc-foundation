@@ -32,6 +32,7 @@ export class HypermediaResult extends TemplateResult {
 		return super.getHTML();
 	}
 
+
 	/*
 	* Function called on a HypermediaResult to process the strings
 	* most importantly, this finds any base tags that exist and starts
@@ -41,12 +42,14 @@ export class HypermediaResult extends TemplateResult {
 	* strings[0] + values[0] + strings[1] + values[1] + ... + strings[n-1] + values[n-1] + strings[n]
 	*   forms an html string
 	*/
+
 	processing() {
 		const stringCollections = [{ strings: [], values: [] }];
 		const tagStack = [];
 		const strings = [...this.strings];
 		const values = [...this.values];
 		let currentCollection = stringCollections[0];
+
 		// check each string and replace pseudotags
 		for (let i = 0; i < strings.length; i++) {
 			let currentString = strings[i];
@@ -78,6 +81,7 @@ export class HypermediaResult extends TemplateResult {
 						currentStringPosition = output.index;
 					}
 				}
+
 				// the tag is closing tag and a pseudotag
 				if (output[2] && output[2] === tagStack[tagStack.length - 1]) {
 					tagStack.pop();
@@ -88,6 +92,7 @@ export class HypermediaResult extends TemplateResult {
 					if (tagStack.length === 0) {
 						currentCollection.strings.push(currentString.substring(0, output.index + output[0].length - currentStringPosition));
 						// this call is recursive and handles interior pseudotags
+
 						stringCollections[0].values.push(this.renderHypermediaComponent(output[2], currentCollection.strings, currentCollection.values));
 						currentCollection = stringCollections[0];
 						currentString = currentString.substring(output.index + output[0].length - currentStringPosition);
@@ -96,17 +101,21 @@ export class HypermediaResult extends TemplateResult {
 				}
 			});
 
+
 			// store the data for the strings and values to be used when processing further strings
+
 			currentCollection.strings.push(currentString);
 			if (i < values.length) {
 				currentCollection.values.push(currentValue);
 			}
 		}
 
+
 		// updates the data in the object to be the processed data
 		super.strings = stringCollections[0].strings;
 		super.values = stringCollections[0].values;
 	}
+
 
 	/*
 	*  Retrieves href data based on the strings and value of the element
@@ -129,9 +138,11 @@ export class HypermediaResult extends TemplateResult {
 		return html`${until(fetchedResults, html`loading`)}`;
 	}
 
+
 	/*
 	*  Determines the href and token associated with the current element
 	*/
+
 	getHrefToken(strings, values) {
 		let href, token;
 		strings = [...strings];
@@ -146,6 +157,7 @@ export class HypermediaResult extends TemplateResult {
 		return [href, token];
 	}
 
+
 	/*
 	*  Completes the rendering for the object
 	*  Replaces all pseudotags with their appropriate tag
@@ -154,21 +166,26 @@ export class HypermediaResult extends TemplateResult {
 		const tag = components.componentTag(resources.classes);
 		// if there is no registered tag, bail out
 		if (!tag) return null;
+
 		const mainStrings = [], mainValues = [];
 		while (strings.length > 0) {
 			let string = strings.shift();
 			if (!string) break;
+
 			// replace the pseudotag with the real tag for the element
 			string = string.replace(`<${pseudoTag} `, `<${tag} `);
 			string = string.replace(`</${pseudoTag} `, `</${tag} `);
 			const indexOfEndTag = string.indexOf('>');
 			// if the current string doesn't end with '>', store the updated string and associated value
+
 			if (indexOfEndTag === -1) {
 				mainStrings.push(string);
 				mainValues.push(values.shift());
 				continue;
 			}
+
 			// when we do find a '>', store the data until the end of the element
+
 			const subStringValue = string.substring(indexOfEndTag);
 			string = string.substring(0, indexOfEndTag + 1);
 			mainStrings.push(string);
@@ -176,6 +193,7 @@ export class HypermediaResult extends TemplateResult {
 			break;
 		}
 		strings.pop();
+
 		/*
 		*  if we are not at the end of the strings, we must further process the rest of the data
 		*  otherwise, we are done with this element
@@ -186,11 +204,14 @@ export class HypermediaResult extends TemplateResult {
 			*  This call to html results in the internal components of this tag being resolved
 			*  processed into a HypermediaResult
 			*/
+
 			mainValues.push(html(strings, values));
 		} else {
 			mainStrings[mainStrings.length - 1] += `</${tag}>`;
 		}
+
 		// return all of this information as a HypermediaResult to be stored as a value for a different Result
+
 		return new HypermediaResult(mainStrings, mainValues, 'html', defaultTemplateProcessor);
 	}
 }
