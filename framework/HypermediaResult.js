@@ -1,9 +1,9 @@
 import { componentStoreFactory, isPseudoTag } from '../render/componentFactory.js';
-import { defaultTemplateProcessor, html as litHtml, TemplateResult } from 'lit-html';
+import { defaultTemplateProcessor, TemplateResult } from 'lit-html';
 import { fetch, stateFactory } from '../state/store.js';
+import { html } from '../framework/hypermedia-components.js';
 import { observableTypes } from '../state/HypermediaState.js';
 import { until } from 'lit-html/directives/until.js';
-import { html } from '../framework/hypermedia-components.js'
 
 export function custom(tag, elementClass, pseudoTag, hypermediaClasses, options) {
 	pseudoTag = pseudoTag || tag;
@@ -20,6 +20,7 @@ export class HypermediaResult extends TemplateResult {
 
 	constructor(strings, values, type, processor) {
 		super(strings, values, type, processor);
+		this.processing();
 	}
 
 	/*
@@ -34,8 +35,8 @@ export class HypermediaResult extends TemplateResult {
 	processing() {
 		const stringCollections = [{ strings: [], values: [] }];
 		const tagStack = [];
-		let strings = [...this.strings];
-		let values = [...this.values];
+		const strings = [...this.strings];
+		const values = [...this.values];
 		let currentCollection = stringCollections[0];
 		for (let i = 0; i < strings.length; i++) {
 			let currentString = strings[i];
@@ -141,7 +142,4 @@ export class HypermediaResult extends TemplateResult {
 		//dispose(state);
 		return new HypermediaResult(mainStrings, mainValues, 'html', defaultTemplateProcessor);
 	}
-};
-
-
-
+}
