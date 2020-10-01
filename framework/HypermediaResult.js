@@ -32,7 +32,6 @@ export class HypermediaResult extends TemplateResult {
 		return super.getHTML();
 	}
 
-
 	/*
 	* Function called on a HypermediaResult to process the strings
 	* most importantly, this finds any base tags that exist and starts
@@ -101,7 +100,6 @@ export class HypermediaResult extends TemplateResult {
 				}
 			});
 
-
 			// store the data for the strings and values to be used when processing further strings
 
 			currentCollection.strings.push(currentString);
@@ -110,12 +108,10 @@ export class HypermediaResult extends TemplateResult {
 			}
 		}
 
-
 		// updates the data in the object to be the processed data
 		super.strings = stringCollections[0].strings;
 		super.values = stringCollections[0].values;
 	}
-
 
 	/*
 	*  Retrieves href data based on the strings and value of the element
@@ -138,7 +134,6 @@ export class HypermediaResult extends TemplateResult {
 		return html`${until(fetchedResults, html`loading`)}`;
 	}
 
-
 	/*
 	*  Determines the href and token associated with the current element
 	*/
@@ -156,7 +151,6 @@ export class HypermediaResult extends TemplateResult {
 		});
 		return [href, token];
 	}
-
 
 	/*
 	*  Completes the rendering for the object
