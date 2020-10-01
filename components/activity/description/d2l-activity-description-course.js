@@ -1,7 +1,7 @@
 import '../../common/d2l-hm-description.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaLitMixin, observableTypes } from '../../../framework/hypermedia-lit-mixin.js';
-import { html, customHypermediaElement } from '../../../framework/hypermedia-components.js';
+import { customHypermediaElement, html } from '../../../framework/hypermedia-components.js';
 import { ifDefined } from 'lit-html/directives/if-defined';
 
 const rels = Object.freeze({
