@@ -61,7 +61,6 @@ export class HypermediaResult extends TemplateResult {
 			*/
 			// eslint-disable-next-line no-useless-escape
 			const outputs = [...strings[i].matchAll(/\<([A-Za-z][A-Za-z0-9\-]*)|\<\/([A-Za-z][A-Za-z0-9\-]*)\>/g)];
-			console.log(outputs);
 			outputs.forEach(output => {
 				// the tag is an opening tag and a pseudotag
 				if (output[1] && isPseudoTag(output[1])) {
