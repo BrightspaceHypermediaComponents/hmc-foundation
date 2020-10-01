@@ -1,6 +1,6 @@
-import { LitElement } from 'lit-element/lit-element.js';
 import { HypermediaLitMixin, observableTypes } from '../../../framework/hypermedia-lit-mixin.js';
 import { html } from '../../../framework/hypermedia-components.js';
+import { LitElement } from 'lit-element/lit-element.js';
 
 class ActivityType extends HypermediaLitMixin(LitElement) {
 	static get properties() {
