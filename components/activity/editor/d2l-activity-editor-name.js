@@ -1,7 +1,7 @@
 import '../../common/d2l-hm-name.js';
 import '@brightspace-ui/core/components/inputs/input-text.js';
 import { css,  LitElement } from 'lit-element/lit-element.js';
-import { html, customHypermediaElement } from '../../../framework/hypermedia-components.js';
+import { customHypermediaElement, html } from '../../../framework/hypermedia-components.js';
 import { HypermediaLitMixin, observableTypes } from '../../../framework/hypermedia-lit-mixin.js';
 
 class ActivityEditorName extends HypermediaLitMixin(LitElement) {
