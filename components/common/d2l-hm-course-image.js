@@ -1,6 +1,7 @@
 import 'd2l-course-image/d2l-course-image.js';
-import { css, html, LitElement } from 'lit-element/lit-element.js';
+import { css, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaLitMixin, observableTypes } from '../../framework/hypermedia-lit-mixin.js';
+import { html } from '../../framework/hypermedia-components.js';
 
 const rels = Object.freeze({
 	courseImage: 'https://api.brightspace.com/rels/organization-image'

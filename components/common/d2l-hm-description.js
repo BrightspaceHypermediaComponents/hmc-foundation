@@ -1,5 +1,6 @@
-import { css, html, LitElement } from 'lit-element/lit-element.js';
+import { css, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaLitMixin, observableTypes} from '../../framework/hypermedia-lit-mixin.js';
+import { html } from '../../framework/hypermedia-components.js';
 
 class HmDescription extends HypermediaLitMixin(LitElement) {
 	static get properties() {
