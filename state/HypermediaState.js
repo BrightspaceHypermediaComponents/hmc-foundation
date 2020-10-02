@@ -25,7 +25,6 @@ export class HypermediaState {
 	}
 
 	addObservables(component, observables) {
-		const basicInfoArray = [component, this];
 		Object.keys(observables).forEach((name) => {
 			const propertyInfo = {
 				name,
@@ -35,7 +34,6 @@ export class HypermediaState {
 
 			const basicInfo = sirenComponentBasicInfo(propertyInfo, this);
 			if (!basicInfo) return;
-			basicInfoArray.push(basicInfo);
 
 			const sirenComponent = this._getSirenComponent(basicInfo);
 			sirenComponent.addComponent(component, name, { route: basicInfo.route ? {[name]: basicInfo.route} : undefined, method: observables[name].method });

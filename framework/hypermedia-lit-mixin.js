@@ -1,4 +1,5 @@
 import { dispose, fetch, stateFactory } from '../state/store.js';
+import { deepCopy } from '../helper/deepCopy.js';
 export { observableTypes } from '../state/HypermediaState.js';
 
 /**
@@ -50,12 +51,16 @@ export const HypermediaLitMixin = superclass => class extends superclass {
 	}
 
 	async _makeState() {
+		if (this.__gettingState) return;
 		try {
+			this.__gettingState = true;
 			this._state = await stateFactory(this.href, this.token);
 			this._state.addObservables(this, this._observables);
 			await fetch(this._state);
 		} catch (error) {
 			console.error(error);
+		} finally {
+			this.__gettingState = false;
 		}
 	}
 
@@ -63,23 +68,3 @@ export const HypermediaLitMixin = superclass => class extends superclass {
 		return this[action] && this[action].has;
 	}
 };
-
-function deepCopy(inObject) {
-
-	if (typeof inObject !== 'object' || inObject === null) {
-		return inObject; // Return the value if inObject is not an object
-	}
-
-	// Create an array or object to hold the values
-	const outObject = Array.isArray(inObject) ? [] : {};
-
-	let value;
-	for (const key in inObject) {
-		value = inObject[key];
-
-		// Recursively (deep) copy for nested objects, including arrays
-		outObject[key] = deepCopy(value);
-	}
-
-	return outObject;
-}
