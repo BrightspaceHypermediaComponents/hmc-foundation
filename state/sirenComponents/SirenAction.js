@@ -1,7 +1,6 @@
 import { Component } from './Common.js';
 import { performAction } from '../../state/store.js';
 import { refreshToken } from '../token.js';
-import { observableTypes } from './sirenComponentFactory.js';
 
 export class SirenAction {
 	static basicInfo({name: id, token, state}) {
