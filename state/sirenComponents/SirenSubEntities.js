@@ -33,6 +33,12 @@ export class SirenSubEntities {
 		return this._childSubEntities;
 	}
 
+	get childStates() {
+		const childStateArray = [];
+		this.childSubEntities.forEach(state => state.childState && childStateArray.push(state.childState));
+		return childStateArray;
+	}
+
 	addComponent(component, property, {method}) {
 		this._components.add(component, property, method);
 		this._components.setComponentProperty(component, this.entityIds);

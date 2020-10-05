@@ -1,14 +1,19 @@
 import '../description/d2l-activity-description.js';
-import '../name/d2l-activity-name.js';
+import './d2l-activity-editor-name.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
+import { HypermediaLitMixin, observableTypes } from '../../../framework/hypermedia-lit-mixin.js';
 import { html } from '../../../framework/hypermedia-components.js';
-import { HypermediaLitMixin } from '../../../framework/hypermedia-lit-mixin.js';
+
+const rels = Object.freeze({
+	specialization: 'https://api.brightspace.com/rels/specialization'
+});
 
 class ActivityEditorHeader extends HypermediaLitMixin(LitElement) {
 
 	static get properties() {
 		return {
-			subTitle: { type: String, attribute: 'sub-title' }
+			subTitle: { type: String, attribute: 'sub-title' },
+			_specializationHref: { type: String, observable: observableTypes.link, rel: rels.specialization, prime: true},
 		};
 	}
 
@@ -33,9 +38,8 @@ class ActivityEditorHeader extends HypermediaLitMixin(LitElement) {
 		return html`
 			<div class="d2l-heading-4 d2l-activity-sub-header">${this.subTitle}</div>
 			<h1 class="d2l-heading-1">
-				<d2l-activity-name href="${this.href}" .token="${this.token}"></d2l-activity-name>
+				<d2l-activity-editor-name href="${this._specializationHref}" .token="${this.token}"></d2l-activity-editor-name>
 			</h1>
-			<d2l-activity-description href="${this.href}" .token="${this.token}"></d2l-activity-description>
 		`;
 	}
 }

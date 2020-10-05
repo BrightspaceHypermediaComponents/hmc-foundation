@@ -87,6 +87,30 @@ export class HypermediaState {
 		});
 	}
 
+	push() {
+		this._childStates().forEach(childState => childState.push());
+		const actions = this._getMap(this._decodedEntity, observableTypes.action);
+		actions.forEach(action => action.push());
+	}
+
+	reset() {
+		this._childStates().forEach(childState => childState?.reset());
+		this.setSirenEntity();
+		const actions = this._getMap(this._decodedEntity, observableTypes.action);
+		actions.forEach(action => action.reset());
+	}
+
+	_childStates() {
+		let childStates = [];
+		this._decodedEntity.forEach(typeMap => {
+			typeMap.forEach(sirenComponent => {
+				childStates = [...childStates, ...(sirenComponent.childStates || [])];
+				sirenComponent.childState && childStates.push(sirenComponent.childState);
+			});
+		});
+		return childStates;
+	}
+
 	_getMap(map, identifier) {
 		if (map.has(identifier)) {
 			return map.get(identifier);

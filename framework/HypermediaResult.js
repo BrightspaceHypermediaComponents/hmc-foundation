@@ -1,7 +1,6 @@
 import { componentStoreFactory, isPseudoTag } from '../render/componentFactory.js';
-import { defaultTemplateProcessor, TemplateResult } from 'lit-html';
+import { defaultTemplateProcessor, html, TemplateResult } from 'lit-html';
 import { fetch, stateFactory } from '../state/store.js';
-import { html } from '../framework/hypermedia-components.js';
 import { observableTypes } from '../state/HypermediaState.js';
 import { until } from 'lit-html/directives/until.js';
 
@@ -109,8 +108,8 @@ export class HypermediaResult extends TemplateResult {
 		}
 
 		// updates the data in the object to be the processed data
-		super.strings = stringCollections[0].strings;
-		super.values = stringCollections[0].values;
+		this.strings = stringCollections[0].strings;
+		this.values = stringCollections[0].values;
 	}
 
 	/*
@@ -206,6 +205,6 @@ export class HypermediaResult extends TemplateResult {
 
 		// return all of this information as a HypermediaResult to be stored as a value for a different Result
 
-		return new HypermediaResult(mainStrings, mainValues, 'html', defaultTemplateProcessor);
+		return new TemplateResult(mainStrings, mainValues, 'html', defaultTemplateProcessor);
 	}
 }

@@ -20,7 +20,6 @@ class ActivityEditorName extends HypermediaLitMixin(LitElement) {
 		return this._hasAction('updateName') ? html`
 			<d2l-input-text
 				@input="${this._onInputName}"
-				@change="${this._onChangeName}"
 				label="Name"
 				placeholder="Enter a name"
 				value="${this.name}"
@@ -28,15 +27,9 @@ class ActivityEditorName extends HypermediaLitMixin(LitElement) {
 		` : null;
 	}
 
-	_onChangeName(e) {
-		if (this.updateName.has) {
-			this.updateName.perform({name: e.target.value});
-		}
-	}
-
 	_onInputName(e) {
 		if (this.updateName.has) {
-			this.updateName.update({name: { observable: observableTypes.property, value: e.target.value} });
+			this.updateName.commit({name: { observable: observableTypes.property, value: e.target.value} });
 		}
 	}
 
