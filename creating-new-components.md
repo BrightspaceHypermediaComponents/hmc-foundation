@@ -108,4 +108,55 @@ Types are based on Siren's hypermedia format.
 
 ## Performing Actions
 
-Many components will need to alter the state of their entity. Let's see how performing a `delete` action might work. **[Currently in development]**
+Many components will need to alter the state of their entity. Let's see how performing an `update` action might work.
+
+```js
+import { observableTypes } from 'hmc-foundation/framework/hypermedia-lit-mixin.js';
+...
+
+static get properties() {
+  return {
+    // Gets the actual 'name' property from the linked specialization entity
+    name: {
+      type: String,
+      observable: observableTypes.property,
+      route: [{ observable: observableTypes.link, rel: 'https://api.brightspace.com/rels/specialization' }]
+    },
+    // Defines the action for updating the name
+    updateName: {
+      type: Object,
+      observable: observableTypes.action,
+      name: 'update-name',
+      route: [{ observable: observableTypes.link, rel: 'https://api.brightspace.com/rels/specialization' }]
+    }
+  };
+}
+```
+
+The `type` of an action property will **always** be `Object`. The `observable` should always be set to `action`. This snippet will dig into the linked `specialization` and get the action called 'update-name'. You can then interact with the action like so:
+
+```js
+onChangeName(e) {
+  this.updateName.has? this.updateName.commit({
+    name: { observable: observableTypes.property, value: e.target.value }
+  });
+}
+```
+
+This will **commit** the name change to the state with the provided value. Any other components listening to this part of the state will also update. However, the change has **not been sent to the server** just yet.
+
+### Pushing the committed changes
+
+To send all committed changes to the server, we will call `push` from elsewhere. This is done for you in the `d2l-activity-editor-footer`.
+
+```js
+render() {
+  return html`
+    <d2l-button primary @click="${this._push}">Save and Close</d2l-button>
+  `;
+}
+
+_push() {
+  this._state.push();
+}
+```
