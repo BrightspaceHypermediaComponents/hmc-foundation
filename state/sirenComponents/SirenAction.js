@@ -84,6 +84,7 @@ export class SirenAction {
 		const params = {};
 		Object.keys(this._params).forEach(field => params[field] = this._params[field]?.value ? this._params[field].value : this._params[field]);
 		performAction(this, params);
+		this._params = undefined;
 	}
 
 	refreshToken() {
