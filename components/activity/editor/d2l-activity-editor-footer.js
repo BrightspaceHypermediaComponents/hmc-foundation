@@ -25,19 +25,19 @@ class ActivityEditorFooter extends HypermediaLitMixin(LitElement) {
 	render() {
 		return html`
 			<div>
-				<d2l-button primary @click=${this._push}>Save and Close</d2l-button>
-				<d2l-button @click=${this._reset}>Cancel</d2l-button>
+				<d2l-button primary @click="${this._onSaveClick}">Save and Close</d2l-button>
+				<d2l-button @click="${this._onCancelClick}">Cancel</d2l-button>
 				<d2l-activity-visibility-editor-toggle can-edit-draft></d2l-activity-visibility-editor-toggle>
 			</div>
 			<div><slot name="save-status">Save status</slot></div>
 		`;
 	}
 
-	_push() {
+	_onSaveClick() {
 		this._state.push();
 	}
 
-	_reset() {
+	_onCancelClick() {
 		this._state.reset();
 	}
 }
