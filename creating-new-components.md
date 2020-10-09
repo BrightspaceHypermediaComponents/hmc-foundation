@@ -5,8 +5,8 @@ If your tool needs to interact with hypermedia entities in a way that isn't avai
 ## Basic Setup
 
 ```js
-import { customHypermediaElement, html } from 'hmc-foundation/framework/hypermedia-components.js';
-import { HypermediaLitMixin } from 'hmc-foundation/framework/hypermedia-lit-mixin.js';
+import { customHypermediaElement, html } from 'foundation-engine/framework/hypermedia-components.js';
+import { HypermediaLitMixin } from 'foundation-engine/framework/hypermedia-lit-mixin.js';
 import { LitElement } from 'lit-element/lit-element.js';
 
 class CustomComponent extends HypermediaLitMixin(LitElement) {
@@ -14,7 +14,7 @@ class CustomComponent extends HypermediaLitMixin(LitElement) {
   render() {
     return html`
       <div>Some custom stuff</div>
-      <div>You could also include other hmc-foundation components in here!</div>
+      <div>You could also include other foundation components in here!</div>
     `;
   }
 }
@@ -74,7 +74,7 @@ import './d2l-activity-editor-main-custom.js';
 Often, your component will want to observe specific information about an entity. We can do this by adding observable properties to the component.
 
 ```js
-import { observableTypes } from 'hmc-foundation/framework/hypermedia-lit-mixin.js';
+import { observableTypes } from 'foundation-engine/framework/hypermedia-lit-mixin.js';
 ...
 
 static get properties() {
@@ -106,12 +106,59 @@ Types are based on Siren's hypermedia format.
 - `property`: a simple property that's part of the entity
 - `subEntities`: sub entities that are attached to the entity, such as an array of activities
 
+### Routing
+
+Often, you may need information from linked entities. You can define observables that dig into nested entities using the `route` property.
+
+The following will dig into the linked `specialization` to get the `name` property.
+
+```js
+static get properties() {
+  return {
+    specializationName: {
+      type: String,
+      observable: observableTypes.property, // the type of observable we are digging in to grab
+      id: 'name', // defines the name of the property
+      route: [{
+        observable: observableTypes.link, // where the attached entity can be found
+        rel: 'https://api.brightspace.com/rels/specialization'
+      }]
+    };
+  };
+}
+```
+
+The `id` is optional &mdash; if it doesn't exist, it will default to the name of the defined property with or without an underscore (i.e., 'specializationName' in this case).
+
+**Nested** routing is supported. You can accomplish an infinite number of levels by simply adding more observable objects to the `route` array. This is particularly useful for getting information from sub-entities that don't have an `href` associated with them.
+
+```js
+static get properties() {
+  return {
+    orgUnit: {
+      type: String,
+      observable: observableTypes.property,
+      route: [{
+        observable: observableTypes.link,
+        rel: 'https://api.brightspace.com/rels/assignment'
+      }, {
+        observable: observableTypes.subEntity,
+        rel: 'https://assignments.api.brightspace.com/rels/instructions'
+      }, {
+        observable: observableTypes.subEntity,
+        rel: 'https://api.brightspace.com/rels/richtext-editor-config'
+      }]
+    }
+  };
+}
+```
+
 ## Performing Actions
 
 Many components will need to alter the state of their entity. Let's see how performing an `update` action might work.
 
 ```js
-import { observableTypes } from 'hmc-foundation/framework/hypermedia-lit-mixin.js';
+import { observableTypes } from 'foundation-engine/framework/hypermedia-lit-mixin.js';
 ...
 
 static get properties() {

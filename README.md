@@ -9,8 +9,8 @@ A collection of shareable, stateful components that interact with hypermedia API
 ## Example
 
 ```js
-import 'hmc-foundation/components/activity/name/d2l-activity-name.js';
-import { html } from 'hmc-foundation/framework/hypermedia-components.js';
+import 'foundation/components/activity/name/d2l-activity-name.js';
+import { html } from 'foundation/framework/hypermedia-components.js';
 import { LitElement } from 'lit-element/lit-element.js';
 
 class MyComponent extends LitElement {
