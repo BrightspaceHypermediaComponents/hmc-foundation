@@ -81,6 +81,8 @@ Include either `[increment major]`, `[increment minor]` or `[increment patch]` i
 
 ## Future Enhancements
 
+* Error reporting
 * Screenshots for component Readmes
+* Support for Working Copy
 
 Looking for an enhancement not listed here? Create a GitHub issue!

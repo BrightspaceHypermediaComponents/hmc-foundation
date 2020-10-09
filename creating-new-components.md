@@ -145,6 +145,8 @@ onChangeName(e) {
 
 This will **commit** the name change to the state with the provided value. Any other components listening to this part of the state will also update. However, the change has **not been sent to the server** just yet.
 
+Committed actions are put in the **action queue**.
+
 ### Pushing the committed changes
 
 To send all committed changes to the server, we will call `push` from elsewhere. This is done for you in the `d2l-activity-editor-footer`.
@@ -152,11 +154,11 @@ To send all committed changes to the server, we will call `push` from elsewhere.
 ```js
 render() {
   return html`
-    <d2l-button primary @click="${this._push}">Save and Close</d2l-button>
+    <d2l-button primary @click="${this._onSaveClick}">Save and Close</d2l-button>
   `;
 }
 
-_push() {
+_onSaveClick() {
   this._state.push();
 }
 ```
