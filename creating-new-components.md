@@ -6,10 +6,10 @@ If your tool needs to interact with hypermedia entities in a way that isn't avai
 
 ```js
 import { customHypermediaElement, html } from 'foundation-engine/framework/hypermedia-components.js';
-import { HypermediaLitMixin } from 'foundation-engine/framework/hypermedia-lit-mixin.js';
+import { HypermediaStateMixin } from 'foundation-engine/framework/hypermedia-lit-mixin.js';
 import { LitElement } from 'lit-element/lit-element.js';
 
-class CustomComponent extends HypermediaLitMixin(LitElement) {
+class CustomComponent extends HypermediaStateMixin(LitElement) {
 
   render() {
     return html`
