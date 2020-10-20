@@ -1,7 +1,7 @@
 import { bodyCompactStyles, bodySmallStyles } from '@brightspace-ui/core/components/typography/styles.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
-import { customHypermediaElement, html } from '../../../framework/hypermedia-components.js';
-import { HypermediaLitMixin, observableTypes } from '../../../framework/hypermedia-lit-mixin.js';
+import { customHypermediaElement, html } from 'foundation-engine/framework/lit/hypermedia-components.js';
+import { HypermediaStateMixin, observableTypes } from 'foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { radioStyles } from '@brightspace-ui/core/components/inputs/input-radio-styles.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { selectStyles } from '@brightspace-ui/core/components/inputs/input-select-styles.js';
@@ -15,7 +15,7 @@ const assignmentTypes = Object.freeze({
 	hasSubmissions: 'has-submissions'
 });
 
-class ActivityEditorTypeAssignment extends RtlMixin(HypermediaLitMixin(LitElement)) {
+class ActivityEditorTypeAssignment extends RtlMixin(HypermediaStateMixin(LitElement)) {
 
 	static get properties() {
 		return {

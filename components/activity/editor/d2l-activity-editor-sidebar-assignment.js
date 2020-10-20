@@ -1,14 +1,14 @@
 import './d2l-activity-editor-availability.js';
 import './d2l-activity-editor-submission.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
-import { customHypermediaElement, html } from '../../../framework/hypermedia-components.js';
-import { HypermediaLitMixin, observableTypes } from '../../../framework/hypermedia-lit-mixin.js';
+import { customHypermediaElement, html } from 'foundation-engine/framework/lit/hypermedia-components.js';
+import { HypermediaStateMixin, observableTypes } from 'foundation-engine/framework/lit/HypermediaStateMixin.js';
 
 const rels = Object.freeze({
 	specialization: 'https://api.brightspace.com/rels/specialization'
 });
 
-class ActivityEditorSidebarAssignment extends HypermediaLitMixin(LitElement) {
+class ActivityEditorSidebarAssignment extends HypermediaStateMixin(LitElement) {
 
 	static get properties() {
 		return {

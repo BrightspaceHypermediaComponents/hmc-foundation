@@ -1,13 +1,13 @@
 import '../../common/d2l-hm-name.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
-import { customHypermediaElement, html } from '../../../framework/hypermedia-components.js';
-import { HypermediaLitMixin, observableTypes } from '../../../framework/hypermedia-lit-mixin.js';
+import { customHypermediaElement, html } from 'foundation-engine/framework/lit/hypermedia-components.js';
+import { HypermediaStateMixin, observableTypes } from 'foundation-engine/framework/lit/HypermediaStateMixin.js';
 
 const rels = Object.freeze({
 	organization: 'https://api.brightspace.com/rels/organization'
 });
 
-class ActivityNameCourse extends HypermediaLitMixin(LitElement) {
+class ActivityNameCourse extends HypermediaStateMixin(LitElement) {
 	static get properties() {
 		return {
 			_organizationHref: { type: String, observable: observableTypes.link, rel: rels.organization }

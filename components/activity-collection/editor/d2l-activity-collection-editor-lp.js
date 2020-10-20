@@ -1,15 +1,15 @@
 import '@brightspace-ui/core/components/list/list.js';
 import '@brightspace-ui/core/components/list/list-item.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
-import { HypermediaLitMixin, observableTypes } from '../../../framework/hypermedia-lit-mixin.js';
-import { html } from '../../framework/hypermedia-components.js';
+import { HypermediaStateMixin, observableTypes } from 'foundation-engine/framework/lit/HypermediaStateMixin.js';
+import { html } from 'foundation-engine/framework/lit/hypermedia-components.js';
 
 const rels = Object.freeze({
 	collection: 'https://activities.api.brightspace.com/rels/activity-collection',
 	item: 'item'
 });
 
-class CollectionEditor extends HypermediaLitMixin(LitElement) {
+class CollectionEditor extends HypermediaStateMixin(LitElement) {
 	static get properties() {
 		return {
 			items: { type: Array, observable: observableTypes.subEntities, rel: rels.item, route: [{observable: observableTypes.link, rel: rels.collection}] }

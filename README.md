@@ -1,4 +1,4 @@
-# d2l-polaris
+# foundation-components
 
 [![NPM version](https://img.shields.io/npm/v/@brightspace-ui/polaris.svg)](https://www.npmjs.org/package/@brightspace-ui/polaris)
 [![Dependabot badge](https://flat.badgen.net/dependabot/BrightspaceUI/polaris?icon=dependabot)](https://app.dependabot.com/)

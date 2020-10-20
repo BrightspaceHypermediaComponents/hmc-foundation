@@ -1,14 +1,14 @@
 import '../../common/d2l-hm-description.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
-import { customHypermediaElement, html } from '../../../framework/hypermedia-components.js';
-import { HypermediaLitMixin, observableTypes } from '../../../framework/hypermedia-lit-mixin.js';
+import { customHypermediaElement, html } from 'foundation-engine/framework/lit/hypermedia-components.js';
+import { HypermediaStateMixin, observableTypes } from 'foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { ifDefined } from 'lit-html/directives/if-defined';
 
 const rels = Object.freeze({
 	organization: 'https://api.brightspace.com/rels/organization'
 });
 
-class ActivityDescriptionCourse extends HypermediaLitMixin(LitElement) {
+class ActivityDescriptionCourse extends HypermediaStateMixin(LitElement) {
 	static get properties() {
 		return {
 			_organizationHref: { type: String, observable: observableTypes.link, rel: rels.organization }

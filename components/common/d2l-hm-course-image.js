@@ -1,13 +1,13 @@
 import 'd2l-course-image/d2l-course-image.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
-import { HypermediaLitMixin, observableTypes } from '../../framework/hypermedia-lit-mixin.js';
-import { html } from '../../framework/hypermedia-components.js';
+import { HypermediaStateMixin, observableTypes } from 'foundation-engine/framework/lit/HypermediaStateMixin.js';
+import { html } from 'foundation-engine/framework/lit/hypermedia-components.js';
 
 const rels = Object.freeze({
 	courseImage: 'https://api.brightspace.com/rels/organization-image'
 });
 
-class HmCourseImage extends HypermediaLitMixin(LitElement) {
+class HmCourseImage extends HypermediaStateMixin(LitElement) {
 	static get properties() {
 		return {
 			tileSizes: { type: Object },

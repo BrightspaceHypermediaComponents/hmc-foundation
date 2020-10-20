@@ -1,10 +1,10 @@
 import '../../common/d2l-hm-name.js';
 import '@brightspace-ui/core/components/inputs/input-text.js';
 import { css,  LitElement } from 'lit-element/lit-element.js';
-import { customHypermediaElement, html } from '../../../framework/hypermedia-components.js';
-import { HypermediaLitMixin, observableTypes } from '../../../framework/hypermedia-lit-mixin.js';
+import { customHypermediaElement, html } from 'foundation-engine/framework/lit/hypermedia-components.js';
+import { HypermediaStateMixin, observableTypes } from 'foundation-engine/framework/lit/HypermediaStateMixin.js';
 
-class ActivityEditorName extends HypermediaLitMixin(LitElement) {
+class ActivityEditorName extends HypermediaStateMixin(LitElement) {
 	static get properties() {
 		return {
 			name: { type: String, observable: observableTypes.property },

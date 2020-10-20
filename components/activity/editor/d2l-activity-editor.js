@@ -5,7 +5,7 @@ import './d2l-activity-editor-header.js';
 import './d2l-activity-editor-sidebar.js';
 import './d2l-activity-editor-main.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
-import { html } from '../../../framework/hypermedia-components.js';
+import { html } from 'foundation-engine/framework/lit/hypermedia-components.js';
 import { nothing } from 'lit-html';
 
 class ActivityEditor extends LitElement {
@@ -53,6 +53,7 @@ class ActivityEditor extends LitElement {
 	}
 
 	render() {
+		console.log('Cheick');
 		const templates = {
 			'default': () => this._renderDefault(),
 			'primary-secondary': () => this._renderPrimarySecondary()
