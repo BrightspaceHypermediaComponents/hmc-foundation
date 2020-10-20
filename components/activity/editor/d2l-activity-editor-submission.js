@@ -2,10 +2,6 @@ import './d2l-activity-editor-type.js';
 import '@brightspace-ui-labs/accordion/accordion-collapse.js';
 import { bodyCompactStyles, bodySmallStyles, heading3Styles, labelStyles } from '@brightspace-ui/core/components/typography/styles.js';
 import { customHypermediaElement, html } from 'foundation-engine/framework/lit/hypermedia-components.js';
-import {
-	summarizerHeaderStyles,
-	summarizerSummaryStyles
-} from 'd2l-activities/components/d2l-activity-editor/d2l-activity-assignment-editor/activity-summarizer-styles.js';
 import { HypermediaStateMixin } from 'foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { LitElement } from 'lit-element/lit-element.js';
 import { radioStyles } from '@brightspace-ui/core/components/inputs/input-radio-styles.js';
@@ -20,9 +16,7 @@ class ActivityEditorSubmission extends HypermediaStateMixin(LitElement) {
 			heading3Styles,
 			labelStyles,
 			radioStyles,
-			selectStyles,
-			summarizerHeaderStyles,
-			summarizerSummaryStyles];
+			selectStyles];
 
 		super.styles && styles.unshift(super.styles);
 
@@ -37,10 +31,10 @@ class ActivityEditorSubmission extends HypermediaStateMixin(LitElement) {
 				header-border
 				?disabled="${this.skeleton}"
 				?no-icons="${this.skeleton}">
-				<h3 class="d2l-heading-3 d2l-activity-summarizer-header d2l-skeletize" slot="header">
+				<h3 class="d2l-heading-3 d2l-skeletize" slot="header">
 					Submission Completion and Categorization
 				</h3>
-				<ul class="d2l-body-small d2l-activity-summarizer-summary d2l-skeletize" slot="summary">
+				<ul class="d2l-body-small d2l-skeletize" slot="summary">
 					<li>${this._renderTypeSummary()}</li>
 				</ul>
 
