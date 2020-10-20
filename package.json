@@ -1,6 +1,6 @@
 {
-  "name": "@brightspace-ui/polaris",
-  "description": "prototype",
+  "name": "foundation-components",
+  "description": "Stateful and dynamically resolved hypermedia components for Brightspace",
   "repository": {
     "type": "git",
     "url": "https://github.com/BrightspaceHypermediaComponent/polaris.git"
