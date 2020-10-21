@@ -5,8 +5,8 @@ import '@brightspace-ui/core/components/list/list-item.js';
 import '../item/d2l-activity-item.js';
 
 import { css, LitElement } from 'lit-element/lit-element.js';
-import { customHypermediaElement, html } from 'foundation-engine/framework/lit/hypermedia-components.js';
-import { HypermediaStateMixin, observableTypes } from 'foundation-engine/framework/lit/HypermediaStateMixin.js';
+import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
+import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { repeat } from 'lit-html/directives/repeat';
 
 const rels = Object.freeze({

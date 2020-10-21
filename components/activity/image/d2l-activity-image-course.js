@@ -1,6 +1,6 @@
 import '../../common/d2l-hm-course-image.js';
-import { customHypermediaElement, html } from 'foundation-engine/framework/lit/hypermedia-components.js';
-import { HypermediaStateMixin, observableTypes } from 'foundation-engine/framework/lit/HypermediaStateMixin.js';
+import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
+import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { LitElement } from 'lit-element/lit-element.js';
 
 const rels = Object.freeze({

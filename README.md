@@ -10,7 +10,7 @@ A collection of shareable, stateful components that interact with hypermedia API
 
 ```js
 import 'foundation-components/components/activity/name/d2l-activity-name.js';
-import { html } from 'foundation-engine/framework/hypermedia-components.js';
+import { html } from '@brightspace-hmc/foundation-engine/framework/hypermedia-components.js';
 import { LitElement } from 'lit-element/lit-element.js';
 
 class MyComponent extends LitElement {

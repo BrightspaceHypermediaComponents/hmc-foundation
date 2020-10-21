@@ -5,8 +5,8 @@ If your tool needs to interact with hypermedia entities in a way that isn't avai
 ## Basic Setup
 
 ```js
-import { customHypermediaElement, html } from 'foundation-engine/framework/hypermedia-components.js';
-import { HypermediaStateMixin } from 'foundation-engine/framework/hypermedia-lit-mixin.js';
+import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/hypermedia-components.js';
+import { HypermediaStateMixin } from '@brightspace-hmc/foundation-engine/framework/hypermedia-lit-mixin.js';
 import { LitElement } from 'lit-element/lit-element.js';
 
 class CustomComponent extends HypermediaStateMixin(LitElement) {
@@ -74,7 +74,7 @@ import './d2l-activity-editor-main-custom.js';
 Often, your component will want to observe specific information about an entity. We can do this by adding observable properties to the component.
 
 ```js
-import { observableTypes } from 'foundation-engine/framework/hypermedia-lit-mixin.js';
+import { observableTypes } from '@brightspace-hmc/foundation-engine/framework/hypermedia-lit-mixin.js';
 ...
 
 static get properties() {
@@ -158,7 +158,7 @@ static get properties() {
 Many components will need to alter the state of their entity. Let's see how performing an `update` action might work.
 
 ```js
-import { observableTypes } from 'foundation-engine/framework/hypermedia-lit-mixin.js';
+import { observableTypes } from '@brightspace-hmc/foundation-engine/framework/hypermedia-lit-mixin.js';
 ...
 
 static get properties() {
