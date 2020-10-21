@@ -38,7 +38,7 @@
     "puppeteer": "^1"
   },
   "dependencies": {
-    "@brightspace-ui-labs/list-item-accumulator": "^1.0.2",
+    "@brightspace-ui-labs/list-item-accumulator": "^1",
     "@brightspace-ui/core": "^1",
     "@webcomponents/webcomponentsjs": "^2",
     "d2l-activities": "BrightspaceHypermediaComponents/activities.git#semver:^3",
