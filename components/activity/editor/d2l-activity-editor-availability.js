@@ -23,10 +23,10 @@ class ActivityEditorAvailability extends HypermediaStateMixin(LitElement) {
 				?disabled="${this.skeleton}"
 				?no-icons="${this.skeleton}"
 				@d2l-labs-accordion-collapse-state-changed=${this._onAccordionStateChange}>
-				<h3 class="d2l-heading-3 d2l-activity-summarizer-header d2l-skeletize" slot="header">
+				<h3 class="d2l-heading-3 d2l-skeletize" slot="header">
 					Availability
 				</h3>
-				<ul class="d2l-body-small d2l-activity-summarizer-summary d2l-skeletize" slot="summary">
+				<ul class="d2l-body-small d2l-skeletize" slot="summary">
 					<li>${this._renderAvailabilityDatesSummary()}</li>
 					<li>${this._renderReleaseConditionSummary()}</li>
 					<li>${this._renderSpecialAccessSummary()}</li>

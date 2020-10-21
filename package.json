@@ -1,8 +1,11 @@
 {
-  "name": "@brightspace-ui/polaris",
-  "description": "prototype",
-  "repository": "https://github.com/BrightspaceUI/polaris.git",
-  "private": true,
+  "name": "foundation-components",
+  "description": "Stateful and dynamically resolved hypermedia components for Brightspace",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BrightspaceHypermediaComponent/foundation-components.git"
+  },
+  "version": "0.0.1",
   "scripts": {
     "lint": "npm run lint:eslint && npm run lint:lit",
     "lint:eslint": "eslint . --ext .js,.html",
