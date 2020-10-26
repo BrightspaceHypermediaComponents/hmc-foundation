@@ -53,7 +53,6 @@ class ActivityEditor extends LitElement {
 	}
 
 	render() {
-		console.log('Cheick');
 		const templates = {
 			'default': () => this._renderDefault(),
 			'primary-secondary': () => this._renderPrimarySecondary()
