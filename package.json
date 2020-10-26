@@ -5,7 +5,7 @@
     "type": "git",
     "url": "https://github.com/BrightspaceHypermediaComponent/foundation-components.git"
   },
-  "version": "0.0.1",
+  "version": "0.0.2",
   "scripts": {
     "lint": "npm run lint:eslint && npm run lint:lit",
     "lint:eslint": "eslint . --ext .js,.html",
@@ -38,13 +38,12 @@
     "puppeteer": "^1"
   },
   "dependencies": {
-    "@brightspace-hmc/foundation-engine": "github:BrightspaceHypermediaComponents/foundation-engine",
+    "@brightspace-hmc/foundation-engine": "github:BrightspaceHypermediaComponents/foundation-engine#semver:^0",
     "@brightspace-ui-labs/list-item-accumulator": "^1",
     "@brightspace-ui/core": "^1",
     "@webcomponents/webcomponentsjs": "^2",
     "d2l-activities": "BrightspaceHypermediaComponents/activities.git#semver:^3",
-    "d2l-course-image": "git://github.com/Brightspace/course-image.git",
-    "d2l-fetch": "github:Brightspace/d2l-fetch",
+    "d2l-course-image": "github:Brightspace/course-image#semver:^3",
     "lit-element": "^2",
     "lit-html": "^1.3.0",
     "siren-parser": "^8.2.0"
