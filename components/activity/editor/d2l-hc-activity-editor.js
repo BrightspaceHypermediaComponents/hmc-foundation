@@ -96,4 +96,4 @@ class ActivityEditor extends LitElement {
 		`;
 	}
 }
-customElements.define('d2l-activity-editor', ActivityEditor);
+customElements.define('d2l-hc-activity-editor', ActivityEditor);
