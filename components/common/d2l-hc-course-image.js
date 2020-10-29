@@ -37,4 +37,4 @@ class HmCourseImage extends HypermediaStateMixin(LitElement) {
 	}
 
 }
-customElements.define('d2l-hm-course-image', HmCourseImage);
+customElements.define('d2l-hc-course-image', HmCourseImage);

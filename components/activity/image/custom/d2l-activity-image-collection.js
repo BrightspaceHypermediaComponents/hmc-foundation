@@ -1,4 +1,4 @@
-import '../../common/d2l-hm-course-image.js';
+import '../../common/d2l-hc-course-image.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
@@ -21,7 +21,7 @@ class ActivityImageCollection extends HypermediaStateMixin(LitElement) {
 
 	render() {
 		return html`
-			<d2l-hm-course-image class="d2l-activitiy-collection-list-item-illustration" href="${ifDefined(this._organizationHref)}" .token="${this.token}"></d2l-hm-course-image>
+			<d2l-hc-course-image class="d2l-activitiy-collection-list-item-illustration" href="${ifDefined(this._organizationHref)}" .token="${this.token}"></d2l-hc-course-image>
 		`;
 	}
 

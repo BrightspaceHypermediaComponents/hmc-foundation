@@ -1,4 +1,4 @@
-import './d2l-activity-editor-type.js';
+import '../type/d2l-activity-type-editor.js';
 import '@brightspace-ui-labs/accordion/accordion-collapse.js';
 import { bodyCompactStyles, bodySmallStyles, heading3Styles, labelStyles } from '@brightspace-ui/core/components/typography/styles.js';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
@@ -53,10 +53,10 @@ class ActivityEditorSubmission extends HypermediaStateMixin(LitElement) {
 				<label class="d2l-label-text">
 					Assignment Type
 				</label>
-				<d2l-activity-editor-type
+				<d2l-activity-type-editor
 					href="${this.href}"
 					.token="${this.token}">
-				</d2l-activity-editor-type>
+				</d2l-activity-type-editor>
 			</div>
 		`;
 	}

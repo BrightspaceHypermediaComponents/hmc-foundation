@@ -1,2 +1,2 @@
-import './d2l-activity-image-collection.js';
-import './d2l-activity-image-course.js';
+import './custom/d2l-activity-image-collection.js';
+import './custom/d2l-activity-image-course.js';

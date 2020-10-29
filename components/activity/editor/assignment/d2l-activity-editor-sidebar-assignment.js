@@ -1,5 +1,5 @@
-import './d2l-activity-editor-availability.js';
-import './d2l-activity-editor-submission.js';
+import '../../../../features/assignments/d2l-activity-editor-availability.js';
+import '../../../../features/assignments/d2l-activity-editor-submission.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';

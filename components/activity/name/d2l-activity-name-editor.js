@@ -1,10 +1,10 @@
-import '../../common/d2l-hm-name.js';
+import '../../common/d2l-hc-name.js';
 import '@brightspace-ui/core/components/inputs/input-text.js';
 import { css,  LitElement } from 'lit-element/lit-element.js';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 
-class ActivityEditorName extends HypermediaStateMixin(LitElement) {
+class ActivityNameEditor extends HypermediaStateMixin(LitElement) {
 	static get properties() {
 		return {
 			name: { type: String, observable: observableTypes.property },
@@ -42,4 +42,4 @@ class ActivityEditorName extends HypermediaStateMixin(LitElement) {
 
 }
 
-customHypermediaElement('d2l-activity-editor-name', ActivityEditorName);
+customHypermediaElement('d2l-activity-name-editor', ActivityNameEditor);

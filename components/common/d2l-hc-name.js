@@ -20,4 +20,4 @@ class HmName extends HypermediaStateMixin(LitElement) {
 	}
 
 }
-customElements.define('d2l-hm-name', HmName);
+customElements.define('d2l-hc-name', HmName);

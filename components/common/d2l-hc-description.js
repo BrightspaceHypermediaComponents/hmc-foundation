@@ -20,4 +20,4 @@ class HmDescription extends HypermediaStateMixin(LitElement) {
 	}
 
 }
-customElements.define('d2l-hm-description', HmDescription);
+customElements.define('d2l-hc-description', HmDescription);

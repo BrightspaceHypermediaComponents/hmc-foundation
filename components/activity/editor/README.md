@@ -25,6 +25,12 @@ The header includes the name and description of the activity if available.
 
 The main content editor of the activity. **Currently does not have a default.**
 
+### d2l-activity-editor-main-assignment
+
+Shows primary editor for an assignment.
+
+**Classes Matched:** `assignment-activity`
+
 ### d2l-activity-editor-main-collection
 
 Shows an add activity button and a list of activities that are part of the collection.
@@ -34,6 +40,12 @@ Shows an add activity button and a list of activities that are part of the colle
 ## d2l-activity-editor-sidebar
 
 A grey sidebar that appears on the right side of the editor.
+
+### d2l-activity-editor-sidebar-assignment
+
+Shows secondary editor for an assignment.
+
+**Classes Matched:** `assignment-activity`
 
 ## d2l-activity-editor-footer
 

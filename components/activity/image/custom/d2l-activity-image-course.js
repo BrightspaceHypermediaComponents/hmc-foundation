@@ -1,4 +1,4 @@
-import '../../common/d2l-hm-course-image.js';
+import '../../common/d2l-hc-course-image.js';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { LitElement } from 'lit-element/lit-element.js';
@@ -15,7 +15,7 @@ class ActivityImageCourse extends HypermediaStateMixin(LitElement) {
 	}
 
 	render() {
-		return html`<d2l-hm-course-image href="${this._organizationHref}" .token="${this.token}"></d2l-hm-course-image>`;
+		return html`<d2l-hc-course-image href="${this._organizationHref}" .token="${this.token}"></d2l-hc-course-image>`;
 	}
 
 }

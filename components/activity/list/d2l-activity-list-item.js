@@ -12,7 +12,7 @@ const rels = Object.freeze({
 	activityUsage: 'https://activities.api.brightspace.com/rels/activity-usage'
 });
 
-class ActivityItem extends HypermediaStateMixin(ListItemAccumulatorMixin(LitElement)) {
+class ActivityListItem extends HypermediaStateMixin(ListItemAccumulatorMixin(LitElement)) {
 	static get properties() {
 		return {
 			key: { type: String, observable: observableTypes.link, rel: 'self', reflect: true },
@@ -28,4 +28,4 @@ class ActivityItem extends HypermediaStateMixin(ListItemAccumulatorMixin(LitElem
 		});
 	}
 }
-customElements.define('d2l-activity-item', ActivityItem);
+customElements.define('d2l-activity-list-item', ActivityListItem);

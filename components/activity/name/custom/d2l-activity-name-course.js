@@ -1,4 +1,4 @@
-import '../../common/d2l-hm-name.js';
+import '../../common/d2l-hc-name.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
@@ -20,7 +20,7 @@ class ActivityNameCourse extends HypermediaStateMixin(LitElement) {
 
 	render() {
 		return html`
-			<d2l-hm-name href="${this._organizationHref}" .token="${this.token}"></d2l-hm-name>
+			<d2l-hc-name href="${this._organizationHref}" .token="${this.token}"></d2l-hc-name>
 		`;
 	}
 

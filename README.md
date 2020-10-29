@@ -28,14 +28,28 @@ The components are **stateful** because they react to changes to the entity. Com
 
 ## Components
 
+* [Common](components/common/)
+  * Course Image
+  * Description
+  * Name
+
 * Activity
   * [Description](components/activity/description): Description of an activity
-  * [Editor](components/activity/editor): Administrative management of an activity
+  * [Editor](components/activity/editor): Editor layout components
   * [Icon](components/activity/icon): `d2l-icon` associated with the activity
   * [Image](components/activity/image): Image for a specific activity (e.g., a course image)
-  * [Item](components/activity/item): A list-item to be displayed in a `d2l-list`
+  * [List](components/activity/list): Components for lists of activities
   * [Name](components/activity/name): The title of an activity
   * [Type](components/activity/type): The activity's type
+
+### Feature-specific Components
+
+Components that have not been made fully shareable can be found in the [features](features) folder:
+
+* Assignments
+  * Availability editor
+  * Score editor
+  * Submission editor
 
 ### Creating New Components
 

@@ -15,7 +15,7 @@ const assignmentTypes = Object.freeze({
 	hasSubmissions: 'has-submissions'
 });
 
-class ActivityEditorTypeAssignment extends RtlMixin(HypermediaStateMixin(LitElement)) {
+class ActivityTypeEditorAssignment extends RtlMixin(HypermediaStateMixin(LitElement)) {
 
 	static get properties() {
 		return {
@@ -84,8 +84,8 @@ class ActivityEditorTypeAssignment extends RtlMixin(HypermediaStateMixin(LitElem
 }
 
 customHypermediaElement(
-	'd2l-activity-editor-type-assignment',
-	ActivityEditorTypeAssignment,
-	'd2l-activity-editor-type',
+	'd2l-activity-type-editor-assignment',
+	ActivityTypeEditorAssignment,
+	'd2l-activity-type-editor',
 	'assignment'
 );

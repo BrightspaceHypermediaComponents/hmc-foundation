@@ -2,7 +2,7 @@
 // END custom component imports
 import '@brightspace-ui/core/components/list/list.js';
 import '@brightspace-ui/core/components/list/list-item.js';
-import '../item/d2l-activity-item.js';
+import '../../list/d2l-activity-list-item.js';
 
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';

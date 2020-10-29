@@ -2,6 +2,8 @@
 
 If your tool needs to interact with hypermedia entities in a way that isn't available in existing shared components, you can create a new component.
 
+Most components will start off living in the [features](features) folder for rapid development.
+
 ## Basic Setup
 
 ```js
@@ -58,13 +60,13 @@ The entity associated with the `href` has classes `foo, bar, baz, cherry, coke, 
 
 ### Registering
 
-Most use cases will be shareable and the new components should be added to this repository. If your tool has custom logic that is not reusable, the component can live in a different repository.
+Most use cases will be shareable and the new components should be added to this repository in the `features` folder. Eventually, the components will be polished and moved to the `components` folder.
 
 The new component **needs to be imported** in the base component. In this case, in `d2l-activity-editor-main.js`:
 
 ```js
 // START custom component imports
-import './d2l-activity-editor-main-custom.js';
+import './features/my-feature/d2l-activity-editor-main-custom.js';
 ...
 // END custom component imports
 ```
@@ -91,7 +93,7 @@ We can reference this observable to render more information.
 ```js
 render() {
   return html`
-    <d2l-hm-name href="${this._organizationHref}" .token="${this.token}"></d2l-hm-name>
+    <d2l-hc-name href="${this._organizationHref}" .token="${this.token}"></d2l-hc-name>
   `;
 }
 ```

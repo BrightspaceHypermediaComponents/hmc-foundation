@@ -1,4 +1,4 @@
-import './d2l-activity-editor-name.js';
+import '../name/d2l-activity-name-editor.js';
 import './d2l-activity-editor-score.js';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { HypermediaStateMixin } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
@@ -31,7 +31,7 @@ class ActivityEditorMainAssignment extends HypermediaStateMixin(LitElement) {
 
 	render() {
 		return html`
-			<d2l-activity-editor-name href="${this._assignmentHref}" .token="${this.token}"></d2l-activity-editor-name>
+			<d2l-activity-name-editor href="${this._assignmentHref}" .token="${this.token}"></d2l-activity-name-editor>
 			<d2l-activity-editor-score href="${this.href}" .token="${this.token}"></d2l-activity-editor-score>
 			<label class="d2l-label-text">Instructions</label>
 			<div>${this.instructions}</div>

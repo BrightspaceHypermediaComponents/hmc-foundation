@@ -1,4 +1,4 @@
-import '../../common/d2l-hm-name.js';
+import '../../common/d2l-hc-name.js';
 import '@brightspace-ui/core/components/inputs/input-text.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
@@ -25,7 +25,7 @@ class ActivityNameLearningPath extends HypermediaStateMixin(LitElement) {
 	render() {
 		return html`
 			${this._hasAction('updateName') ? html`<d2l-input-text @input="${this._onInputName}" @change="${this._onChangeName}" label="Name" placeholder="Enter a name" value="${this.name}"></d2l-input-text>` : null}
-			<d2l-hm-name href="${ifDefined(this._specalizationHref)}" .token="${this.token}"></d2l-hm-name>
+			<d2l-hc-name href="${ifDefined(this._specalizationHref)}" .token="${this.token}"></d2l-hc-name>
 		`;
 	}
 
