@@ -1,5 +1,5 @@
-import '../name/d2l-activity-name-editor.js';
-import './d2l-activity-editor-score.js';
+import '../../name/d2l-activity-name-editor.js';
+import '../../../../features/assignments/d2l-activity-editor-score.js';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { HypermediaStateMixin } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { labelStyles } from '@brightspace-ui/core/components/typography/styles.js';
