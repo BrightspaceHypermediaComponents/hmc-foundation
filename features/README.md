@@ -6,4 +6,6 @@ This space is designated for `foundation` components built for specific features
 
 - Be general enough to cover more than one use case or tool
 - Align to the style in the `components` folder
+- Have documentation
+- Be localized (if applicable)
 - Be reviewed by `foundation` codeowners
