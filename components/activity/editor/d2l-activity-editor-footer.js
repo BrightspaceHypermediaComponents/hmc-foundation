@@ -11,6 +11,7 @@ class ActivityEditorFooter extends HypermediaStateMixin(LitElement) {
 			:host {
 				display: flex;
 				justify-content: space-between;
+				padding: 0 20px;
 			}
 			d2l-button {
 				margin-bottom: 0.5rem;
@@ -24,12 +25,20 @@ class ActivityEditorFooter extends HypermediaStateMixin(LitElement) {
 	render() {
 		return html`
 			<div>
-				<d2l-button primary>Save and Close</d2l-button>
-				<d2l-button>Cancel</d2l-button>
+				<d2l-button primary @click="${this._onSaveClick}">Save and Close</d2l-button>
+				<d2l-button @click="${this._onCancelClick}">Cancel</d2l-button>
 				<d2l-activity-visibility-editor-toggle can-edit-draft></d2l-activity-visibility-editor-toggle>
 			</div>
 			<div><slot name="save-status">Save status</slot></div>
 		`;
+	}
+
+	_onSaveClick() {
+		this._state.push();
+	}
+
+	_onCancelClick() {
+		this._state.reset();
 	}
 }
 
