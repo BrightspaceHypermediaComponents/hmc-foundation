@@ -24,6 +24,7 @@
     "@brightspace-ui/visual-diff": "^1",
     "@open-wc/testing": "^2",
     "@open-wc/testing-karma": "^3",
+    "@webcomponents/webcomponentsjs": "^2",
     "babel-eslint": "^10",
     "deepmerge": "^3",
     "es-dev-server": "^1",
@@ -32,7 +33,6 @@
     "eslint-plugin-html": "^6",
     "eslint-plugin-lit": "^1",
     "eslint-plugin-sort-class-members": "^1",
-    "frau-ci": "^1",
     "karma-sauce-launcher": "^2",
     "lit-analyzer": "^1",
     "puppeteer": "^1"
@@ -41,7 +41,6 @@
     "@brightspace-hmc/foundation-engine": "github:BrightspaceHypermediaComponents/foundation-engine#semver:^0",
     "@brightspace-ui-labs/list-item-accumulator": "^1",
     "@brightspace-ui/core": "^1",
-    "@webcomponents/webcomponentsjs": "^2",
     "d2l-activities": "BrightspaceHypermediaComponents/activities.git#semver:^3",
     "d2l-course-image": "github:Brightspace/course-image#semver:^3",
     "lit-element": "^2",
