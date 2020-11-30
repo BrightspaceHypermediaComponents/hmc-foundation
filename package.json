@@ -3,7 +3,7 @@
   "description": "Stateful and dynamically resolved hypermedia components for Brightspace",
   "repository": {
     "type": "git",
-    "url": "https://github.com/BrightspaceHypermediaComponent/foundation-components.git"
+    "url": "https://github.com/BrightspaceHypermediaComponents/foundation-components.git"
   },
   "version": "0.0.3",
   "scripts": {
