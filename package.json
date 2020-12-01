@@ -15,7 +15,7 @@
     "test:diff": "mocha ./**/*.visual-diff.js -t 40000",
     "test:diff:golden": "mocha ./**/*.visual-diff.js -t 40000 --golden",
     "test:diff:golden:commit": "commit-goldens",
-    "test:headless": "karma start",
+    "test:headless": "karma start --coverage",
     "test:sauce": "karma start karma.sauce.conf.js"
   },
   "author": "D2L Corporation",

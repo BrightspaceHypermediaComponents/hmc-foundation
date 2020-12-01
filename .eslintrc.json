@@ -1,3 +1,4 @@
 {
-  "extends": "brightspace/lit-config"
+  "extends": "brightspace/lit-config",
+  "ignorePatterns": ["coverage/**/*"]
 }
