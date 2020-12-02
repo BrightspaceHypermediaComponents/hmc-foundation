@@ -103,10 +103,11 @@ render() {
 Types are based on Siren's hypermedia format.
 
 - `classes`: classes on the entity
-- `entity`: an entity that's relevant to this entity, such as a course image
+- `entity`: a dump of the entire entity object associated with this href
 - `link`: a string representing a link
 - `property`: a simple property that's part of the entity
-- `subEntities`: sub entities that are attached to the entity, such as an array of activities
+- `subEntity`: a parsed siren sub entity object
+- `subEntities`: an array of parsed siren sub entities with the same `rel`
 
 ### Routing
 
