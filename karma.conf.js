@@ -29,7 +29,12 @@ module.exports = config => {
 					},
 				},
 			},
-		}),
+			client: {
+				mocha: {
+					timeout : 6000 // 6 seconds - upped from 2 seconds
+				}
+			}
+		})
 	);
 	return config;
 };
