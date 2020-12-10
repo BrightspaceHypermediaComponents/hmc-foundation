@@ -11,14 +11,14 @@ const updatedDescriptionText = learningPathUpdated.properties.description;
 async function _createComponentAndWait(path)
 {
 	const element = await fixture(html`<d2l-activity-description-editor href="${path}" token="test-token"></d2l-activity-description-editor>`);
-	await _elementUpdated(element);
+	await _elementUpdated(element, 100);
 	return element;
 }
 
 // using a delay to wait for fetchMock to be called
 // would prefer a better way
-async function _elementUpdated(element) {
-	return aTimeout(100).then(async() => {
+async function _elementUpdated(element, delayMs) {
+	return aTimeout(delayMs).then(async() => {
 		await elementUpdated(element);
 	});
 }
@@ -104,8 +104,7 @@ describe('d2l-activity-description-editor', () => {
 
 			const spy = sinon.spy(element);
 			element._state.push();
-			await aTimeout(100);
-			await _elementUpdated(element);
+			await _elementUpdated(element, 200);
 
 			assert.isTrue(mockLink.called('path:/description/update'));
 
@@ -130,8 +129,7 @@ describe('d2l-activity-description-editor', () => {
 
 			const spy = sinon.spy(element);
 			element._state.reset();
-			await aTimeout(100);
-			await _elementUpdated(element);
+			await _elementUpdated(element, 200);
 			assert.equal(element.description, learningPathExisting.properties.description, 'description should be reset');
 
 			assert.isTrue(spy.render.called);
