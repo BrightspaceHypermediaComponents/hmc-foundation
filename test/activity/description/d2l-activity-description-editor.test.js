@@ -11,13 +11,13 @@ const updatedDescriptionText = learningPathUpdated.properties.description;
 async function _createComponentAndWait(path)
 {
 	const element = await fixture(html`<d2l-activity-description-editor href="${path}" token="test-token"></d2l-activity-description-editor>`);
-	await _delayAndWaitForElement(element, 100);
+	await _delayAndAwaitForElement(element, 100);
 	return element;
 }
 
 // using a delay to wait for fetchMock to be called
 // would prefer a better way
-async function _delayAndWaitForElement(element, delayMs) {
+async function _delayAndAwaitForElement(element, delayMs) {
 	return aTimeout(delayMs).then(async() => {
 		await elementUpdated(element);
 	});
@@ -92,7 +92,7 @@ describe('d2l-activity-description-editor', () => {
 				assert.equal(element.description, learningPathExisting.properties.description, 'description property should match');
 			});
 
-			it('updating should commit state, but not save it', async() => {
+			it('updating should commit state', async() => {
 				const spy = sinon.spy(element.updateDescription);
 				await fireTextareaInputEvent(element);
 
@@ -107,7 +107,7 @@ describe('d2l-activity-description-editor', () => {
 				await fireTextareaInputEvent(element);
 
 				element._state.push();
-				await _delayAndWaitForElement(element, 100);
+				await _delayAndAwaitForElement(element, 100);
 
 				assert.isTrue(mockLink.called('path:/description/update'), 'Updated path was not called');
 				assert.equal(element.description, updatedDescriptionText, 'description should be updated after a push');
