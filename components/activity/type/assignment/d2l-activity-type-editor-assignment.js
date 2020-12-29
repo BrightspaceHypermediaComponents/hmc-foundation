@@ -2,6 +2,7 @@ import { bodyCompactStyles, bodySmallStyles } from '@brightspace-ui/core/compone
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
+import { LocalizeFoundationType } from '../lang/localization.js';
 import { radioStyles } from '@brightspace-ui/core/components/inputs/input-radio-styles.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { selectStyles } from '@brightspace-ui/core/components/inputs/input-select-styles.js';
@@ -15,7 +16,7 @@ const assignmentTypes = Object.freeze({
 	hasSubmissions: 'has-submissions'
 });
 
-class ActivityTypeEditorAssignment extends RtlMixin(HypermediaStateMixin(LitElement)) {
+class ActivityTypeEditorAssignment extends LocalizeFoundationType(RtlMixin(HypermediaStateMixin(LitElement))) {
 
 	static get properties() {
 		return {
@@ -69,9 +70,9 @@ class ActivityTypeEditorAssignment extends RtlMixin(HypermediaStateMixin(LitElem
 	}
 
 	render() {
-		const folderTypeText =	this.isIndividual ? 'Individual Assignment' : 'Group Assignment';
+		const folderTypeText =	this.isIndividual ? this.localize('label.individual') : this.localize('label.group');
 		const groupTypeText = !this.isIndividual && this.groupCategoryName
-			? `Group Category "${this.groupCategoryName}"`
+			? `${this.localize('label.groupCategory')} "${this.groupCategoryName}"`
 			: '';
 		return html`
 		<div id="read-only-assignment-type-container">
