@@ -11,17 +11,13 @@
     "lint:eslint": "eslint . --ext .js,.html",
     "lint:lit": "lit-analyzer  \"{components,test,demo}/**/*.js\" --strict --rules.no-unknown-tag-name off --rules.no-incompatible-type-binding off --rules.no-unknown-attribute off --rules.no-unknown-property off",
     "start": "es-dev-server --node-resolve --dedupe --open --watch",
-    "test": "npm run lint && npm run test:headless && npm run test:diff",
-    "test:diff": "mocha ./**/*.visual-diff.js -t 40000",
-    "test:diff:golden": "mocha ./**/*.visual-diff.js -t 40000 --golden",
-    "test:diff:golden:commit": "commit-goldens",
+    "test": "npm run lint && npm run test:headless",
     "test:headless": "karma start --coverage",
     "test:sauce": "karma start karma.sauce.conf.js"
   },
   "author": "D2L Corporation",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@brightspace-ui/visual-diff": "^1",
     "@open-wc/testing": "^2",
     "@open-wc/testing-karma": "^3",
     "@webcomponents/webcomponentsjs": "^2",
@@ -36,7 +32,6 @@
     "fetch-mock": "^9.11.0",
     "karma-sauce-launcher": "^2",
     "lit-analyzer": "^1",
-    "puppeteer": "^1",
     "sinon": "^9.2.1"
   },
   "dependencies": {

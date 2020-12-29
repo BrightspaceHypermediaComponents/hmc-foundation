@@ -10,12 +10,10 @@ class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin
 	static get styles() {
 		return [css`
 			:host {
+				align-items: baseline;
 				display: flex;
 				justify-content: space-between;
-				padding: 0 20px;
-			}
-			d2l-button {
-				margin-bottom: 0.5rem;
+				padding: 0 0.35rem;
 			}
 			d2l-activity-visibility-editor-toggle {
 				display: inline-block;
