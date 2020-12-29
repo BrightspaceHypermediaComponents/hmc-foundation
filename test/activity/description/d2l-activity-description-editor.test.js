@@ -11,7 +11,7 @@ const updatedDescriptionText = learningPathUpdated.properties.description;
 async function _createComponentAndWait(path)
 {
 	const element = await fixture(html`<d2l-activity-description-editor href="${path}" token="test-token"></d2l-activity-description-editor>`);
-	await _delayAndAwaitForElement(element, 100);
+	await _delayAndAwaitForElement(element, 200);
 	return element;
 }
 
