@@ -5,12 +5,13 @@ import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engin
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { inputLabelStyles } from '@brightspace-ui/core/components/inputs/input-label-styles.js';
 import { inputStyles } from '@brightspace-ui/core/components/inputs/input-styles.js';
+import { LocalizeFoundationDescription } from './lang/localization.js';
 
 const rels = Object.freeze({
 	specialization: 'https://api.brightspace.com/rels/specialization'
 });
 
-class ActivityDescriptionEditor extends HypermediaStateMixin(LitElement) {
+class ActivityDescriptionEditor extends LocalizeFoundationDescription(HypermediaStateMixin(LitElement)) {
 
 	static get properties() {
 		return {
@@ -40,10 +41,10 @@ class ActivityDescriptionEditor extends HypermediaStateMixin(LitElement) {
 	render() {
 		return this._hasAction('updateDescription') ? html`
 		<label class="d2l-activity-description-editor">
-			<span class="d2l-input-label">Description</span>
+			<span class="d2l-input-label">${this.localize('label.description')}</span>
 			<textarea class="d2l-input"
 				@input="${this._onInputDescription}"
-				placeholder="Write a description"
+				placeholder="${this.localize('input.description')}"
 				.value="${this.description}"
 			>${this.description ? this.description : ''}</textarea>
 		</label>
