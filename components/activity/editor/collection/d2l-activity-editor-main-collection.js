@@ -81,8 +81,8 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(HypermediaSt
 			<div class="d2l-activity-collection-body">
 				<div class="d2l-activity-collection-body-content">
 					<div class="d2l-activity-collection-list-actions">
-						<d2l-button primary>${this.localization('action.addActivity')}</d2l-button>
-						<div class="d2l-body-compact">${this.localization('text.activities')} ${this.items.length}</div>
+						<d2l-button primary>${this.localize('action.addActivity')}</d2l-button>
+						<div class="d2l-body-compact">${this.localize('text.activities')} ${this.items.length}</div>
 					</div>
 				</div>
 				<div class="d2l-activity-collection-activities">
