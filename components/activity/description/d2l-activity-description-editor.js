@@ -10,7 +10,7 @@ import { LocalizeFoundationDescription } from './lang/localization.js';
 const rels = Object.freeze({
 	specialization: 'https://api.brightspace.com/rels/specialization'
 });
-//LocalizeFoundationDescription(
+
 class ActivityDescriptionEditor extends HypermediaStateMixin(LocalizeFoundationDescription(LitElement)) {
 
 	static get properties() {
@@ -36,13 +36,6 @@ class ActivityDescriptionEditor extends HypermediaStateMixin(LocalizeFoundationD
 			}
 			`
 		];
-	}
-
-	constructor() {
-		super();
-		console.log('description constructor');
-		console.log(this);
-		console.log(this.description);
 	}
 
 	render() {
