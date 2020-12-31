@@ -1,6 +1,5 @@
-import { getLocalizeResources } from '../../../../localization.js';
+import { getLocalizeResources } from '../../../../lang/localization.js';
 import { LocalizeMixin } from '@brightspace-ui/core/mixins/localize-mixin.js';
-
 
 export const LocalizeFoundationDescription = superclass => class extends LocalizeMixin(superclass) {
 
