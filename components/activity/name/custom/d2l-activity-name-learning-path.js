@@ -4,13 +4,13 @@ import { css, LitElement } from 'lit-element/lit-element.js';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { ifDefined } from 'lit-html/directives/if-defined';
-import { LocalizeFoundationName } from  '../lang/localization.js';
+import { LocalizeActivityName } from  '../lang/localization.js';
 
 const rels = Object.freeze({
 	specialization: 'https://api.brightspace.com/rels/specialization'
 });
 
-class ActivityNameLearningPath extends LocalizeFoundationName(HypermediaStateMixin(LitElement)) {
+class ActivityNameLearningPath extends LocalizeActivityName(HypermediaStateMixin(LitElement)) {
 	static get properties() {
 		return {
 			name: { type: String, observable: observableTypes.property, route: [{observable: observableTypes.link, rel: rels.specialization}]},

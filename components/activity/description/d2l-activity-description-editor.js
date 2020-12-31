@@ -11,7 +11,7 @@ const rels = Object.freeze({
 	specialization: 'https://api.brightspace.com/rels/specialization'
 });
 
-class ActivityDescriptionEditor extends HypermediaStateMixin(LocalizeFoundationDescription(LitElement)) {
+class ActivityDescriptionEditor extends LocalizeFoundationDescription(HypermediaStateMixin(LitElement)) {
 
 	static get properties() {
 		return {
