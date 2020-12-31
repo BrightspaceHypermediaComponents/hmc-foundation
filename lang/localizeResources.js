@@ -1,7 +1,6 @@
-
 export async function getLocalizeResources(langs, directory) {
 	let translations;
-	dir = `./${directory}/lang/`;
+	const dir = `../${directory}/lang/`;
 	for await (const lang of langs) {
 		switch (lang) {
 			case 'ar':
