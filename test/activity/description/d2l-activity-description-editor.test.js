@@ -78,10 +78,6 @@ describe('d2l-activity-description-editor', () => {
 			let element;
 			beforeEach(async() => {
 				element = await _createComponentAndWait('/learning-path/existing');
-				console.log('test data');
-				console.log(element);
-				console.log(element.render());
-				console.log(element.description);
 				assert.equal(element.description, learningPathExisting.properties.description, 'description should match response');
 			});
 

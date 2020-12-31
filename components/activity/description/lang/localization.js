@@ -71,9 +71,4 @@ export const LocalizeFoundationDescription = superclass => class extends Localiz
 			resources: translations.default
 		};
 	}
-
-	constructor() {
-		super();
-		console.log('localize constructed');
-	}
 };

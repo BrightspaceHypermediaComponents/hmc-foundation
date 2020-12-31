@@ -1,6 +1,6 @@
 import { LocalizeMixin } from '@brightspace-ui/core/mixins/localize-mixin.js';
 
-export const LocalizeFoundationName = superclass => class extends LocalizeMixin(superclass) {
+export const LocalizeActivityName = superclass => class extends LocalizeMixin(superclass) {
 
 	static async getLocalizeResources(langs) {
 		let translations;

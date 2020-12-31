@@ -71,9 +71,4 @@ export const LocalizeX = superclass => class extends LocalizeMixin(superclass) {
 			resources: translations.default
 		};
 	}
-
-	constructor() {
-		super();
-		console.log('localize constructed');
-	}
 };
