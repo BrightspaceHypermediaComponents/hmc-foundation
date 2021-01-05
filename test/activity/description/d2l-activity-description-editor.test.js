@@ -77,7 +77,7 @@ describe('d2l-activity-description-editor', () => {
 			assert.equal(element.description, learningPathNew.properties.description, 'description property should match');
 		});
 
-		describe('path:/learning-path/existing', () => {
+		describe.skip('path:/learning-path/existing', () => {
 			let element;
 			beforeEach(async() => {
 				clearStore();
