@@ -14,7 +14,7 @@ class ActivityEditorFooter extends HypermediaStateMixin(LitElement) {
 				justify-content: space-between;
 				padding: 0 0.35rem;
 			}
-			d2l-activity-visibility-editor-toggle {
+			d2l-hc-visibility {
 				display: inline-block;
 			}
 		`];
