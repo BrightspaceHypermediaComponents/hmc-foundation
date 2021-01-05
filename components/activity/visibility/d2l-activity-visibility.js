@@ -3,9 +3,10 @@ import { css, LitElement } from 'lit-element/lit-element';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { classMap } from 'lit-html/directives/class-map.js';
+import { LocalizeFoundationVisibility } from './lang/localization.js';
 import { offscreenStyles } from '@brightspace-ui/core/components/offscreen/offscreen.js';
 
-class ActivityVisibilityEditorToggle extends HypermediaStateMixin(LitElement) {
+class ActivityVisibilityEditorToggle extends LocalizeFoundationVisibility(HypermediaStateMixin(LitElement)) {
 
 	static get properties() {
 		return {
@@ -29,7 +30,6 @@ class ActivityVisibilityEditorToggle extends HypermediaStateMixin(LitElement) {
 	}
 
 	render() {
-		console.log(this._isDraft);
 		if (this.switchEnabled) {
 			return html`
 				<d2l-switch-visibility
@@ -43,14 +43,12 @@ class ActivityVisibilityEditorToggle extends HypermediaStateMixin(LitElement) {
 				<div class="d2l-label-text">
 					<d2l-icon icon="${this._isDraft ? 'tier1:visibility-hide' : 'tier1:visibility-show'}"></d2l-icon>
 					<span class="${classMap({ 'd2l-offscreen': this._textHidden })}">
-						${this._isDraft ? 'Hidden' : 'Visible'}
-
+						${this.isDraft ? this.localize('label.hidden') : this.localize('label.visible')}
 					</span>
 				</div>
 			`;
 		}
 	}
-	// TODO: localize 	<!--${this.isDraft ? this.localize('editor.hidden') : this.localize('editor.visible')}-->
 
 	get switchEnabled() {
 		return this.canEditDraft && !this.disabled;
@@ -58,8 +56,6 @@ class ActivityVisibilityEditorToggle extends HypermediaStateMixin(LitElement) {
 
 	_onChange() {
 		if (this.updateDraft.has) {
-			console.log('update');
-			console.log(this._isDraft);
 			this.updateDraft.commit({draft: !this._isDraft});
 		}
 	}
