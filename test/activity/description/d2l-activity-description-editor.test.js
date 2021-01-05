@@ -12,7 +12,7 @@ const updatedDescriptionText = learningPathUpdated.properties.description;
 async function _createComponentAndWait(path)
 {
 	const element = await fixture(html`<d2l-activity-description-editor href="${path}" token="test-token"></d2l-activity-description-editor>`);
-  await element.updateComplete;
+	await element.updateComplete;
 	await element._state.allFetchesComplete();
 	await element.updateComplete;
 	return element;
@@ -77,7 +77,7 @@ describe('d2l-activity-description-editor', () => {
 			assert.equal(element.description, learningPathNew.properties.description, 'description property should match');
 		});
 
-		describe.skip('path:/learning-path/existing', () => {
+		describe('path:/learning-path/existing', () => {
 			let element;
 			beforeEach(async() => {
 				clearStore();
