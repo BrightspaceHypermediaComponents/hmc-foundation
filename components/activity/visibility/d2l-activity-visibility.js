@@ -5,20 +5,15 @@ import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundati
 import { classMap } from 'lit-html/directives/class-map.js';
 import { offscreenStyles } from '@brightspace-ui/core/components/offscreen/offscreen.js';
 
-const rels = Object.freeze({
-	activityUsage: 'https://activities.api.brightspace.com/rels/activity-usage',
-	specialization: 'https://api.brightspace.com/rels/specialization'
-});
-
 class ActivityVisibilityEditorToggle extends HypermediaStateMixin(LitElement) {
 
 	static get properties() {
 		return {
 			disabled: { type: Boolean },
-			isDraft: { type: Boolean, attribute: 'is-draft' },
+			_isDraft: { type: Boolean, observable: observableTypes.classes, method: (classes) => classes.includes('draft') },
 			canEditDraft: { type: Boolean, attribute: 'can-edit-draft' },
 			_textHidden: { type: Boolean },
-			updateDraft: { type: Object, observable: observableTypes.action, name: 'update-draft', route: [{observable: observableTypes.link, rel: rels.activityUsage}] }
+			updateDraft: { type: Object, observable: observableTypes.action, name: 'update-draft' }
 		};
 	}
 
@@ -34,39 +29,38 @@ class ActivityVisibilityEditorToggle extends HypermediaStateMixin(LitElement) {
 	}
 
 	render() {
-		console.log(this);
+		console.log(this._isDraft);
 		if (this.switchEnabled) {
 			return html`
 				<d2l-switch-visibility
 					@change="${this._onChange}"
-					?on="${!this.isDraft}"
+					?on="${!this._isDraft}"
 					text-position="${this._textHidden ? 'hidden' : 'end'}">
 				</d2l-switch-visibility>
 			`;
 		} else {
 			return html`
 				<div class="d2l-label-text">
-					<d2l-icon icon="${this.isDraft ? 'tier1:visibility-hide' : 'tier1:visibility-show'}"></d2l-icon>
+					<d2l-icon icon="${this._isDraft ? 'tier1:visibility-hide' : 'tier1:visibility-show'}"></d2l-icon>
 					<span class="${classMap({ 'd2l-offscreen': this._textHidden })}">
-						${this.isDraft ? 'Hidden' : 'Visible'}
+						${this._isDraft ? 'Hidden' : 'Visible'}
 
 					</span>
 				</div>
 			`;
 		}
-
 	}
-	// 						<!--${this.isDraft ? this.localize('editor.hidden') : this.localize('editor.visible')}-->
+	// TODO: localize 	<!--${this.isDraft ? this.localize('editor.hidden') : this.localize('editor.visible')}-->
 
 	get switchEnabled() {
 		return this.canEditDraft && !this.disabled;
 	}
 
 	_onChange() {
-		this.isDraft = !this.isDraft;
 		if (this.updateDraft.has) {
 			console.log('update');
-			this.updateDraft.commit({value: { observable: observableTypes.property, value: this.isDraft} });
+			console.log(this._isDraft);
+			this.updateDraft.commit({draft: !this._isDraft});
 		}
 	}
 
