@@ -80,7 +80,7 @@ describe('d2l-activity-description-editor', () => {
 		describe('path:/learning-path/existing', () => {
 			let element;
 			beforeEach(async() => {
-				clearStore()
+				clearStore();
 				element = await _createComponentAndWait('/learning-path/existing');
 				assert.equal(element.description, learningPathExisting.properties.description, 'description should match response');
 			});
