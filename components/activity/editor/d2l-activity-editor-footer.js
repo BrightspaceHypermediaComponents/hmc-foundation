@@ -3,8 +3,9 @@ import '../visibility/d2l-activity-visibility.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { HypermediaStateMixin } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
+import { LocalizeFoundationEditor } from './lang/localization.js';
 
-class ActivityEditorFooter extends HypermediaStateMixin(LitElement) {
+class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin(LitElement)) {
 
 	static get styles() {
 		return [css`
@@ -23,11 +24,11 @@ class ActivityEditorFooter extends HypermediaStateMixin(LitElement) {
 	render() {
 		return html`
 			<div>
-				<d2l-button primary @click="${this._onSaveClick}">Save and Close</d2l-button>
-				<d2l-button @click="${this._onCancelClick}">Cancel</d2l-button>
-				<d2l-hc-visibility  href="${this.href}" .token="${this.token}" can-edit-draft></d2l-hc-visibility>
+				<d2l-button primary @click="${this._onSaveClick}">${this.localize('action.saveClose')}</d2l-button>
+				<d2l-button @click="${this._onCancelClick}">${this.localize('action.cancel')}</d2l-button>
+				<d2l-activity-visibility-editor-toggle can-edit-draft></d2l-activity-visibility-editor-toggle>
 			</div>
-			<div><slot name="save-status">Save status</slot></div>
+			<div><slot name="save-status">${this.localize('text.saveStatus')}</slot></div>
 		`;
 	}
 

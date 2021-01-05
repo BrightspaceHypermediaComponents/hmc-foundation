@@ -1,0 +1,97 @@
+[
+  {
+    "name": "ActivityDescription",
+    "source_dir": "components/activity/description/lang",
+    "source_match": "en\\.js$",
+    "output_file_path": "components/activity/description/lang/%LANG%.json",
+    "parser_plugin": {
+      "plugin": "parse_js"
+    },
+    "output_lang_rewrite": [
+      "ar-sa ar",
+      "de-de de",
+      "es-mx es",
+      "fi-FI fi",
+      "fr-ca fr",
+      "ja-jp ja",
+      "ko-kr ko",
+      "nl-nl nl",
+      "pt-br pt",
+      "sv-se sv",
+      "tr-tr tr",
+      "zh-cn zh",
+      "zh-tw zh-tw"
+    ]
+  },
+  {
+    "name": "ActivityEditor",
+    "source_dir": "components/activity/editor/lang",
+    "source_match": "en\\.js$",
+    "output_file_path": "components/activity/editor/lang/%LANG%.json",
+    "parser_plugin": {
+      "plugin": "parse_js"
+    },
+    "output_lang_rewrite": [
+      "ar-sa ar",
+      "de-de de",
+      "es-mx es",
+      "fi-FI fi",
+      "fr-ca fr",
+      "ja-jp ja",
+      "ko-kr ko",
+      "nl-nl nl",
+      "pt-br pt",
+      "sv-se sv",
+      "tr-tr tr",
+      "zh-cn zh",
+      "zh-tw zh-tw"
+    ]
+  },{
+    "name": "ActivityName",
+    "source_dir": "components/activity/name/lang",
+    "source_match": "en\\.js$",
+    "output_file_path": "components/activity/name/lang/%LANG%.json",
+    "parser_plugin": {
+      "plugin": "parse_js"
+    },
+    "output_lang_rewrite": [
+      "ar-sa ar",
+      "de-de de",
+      "es-mx es",
+      "fi-FI fi",
+      "fr-ca fr",
+      "ja-jp ja",
+      "ko-kr ko",
+      "nl-nl nl",
+      "pt-br pt",
+      "sv-se sv",
+      "tr-tr tr",
+      "zh-cn zh",
+      "zh-tw zh-tw"
+    ]
+  },
+  {
+    "name": "ActivityType",
+    "source_dir": "components/activity/type/lang",
+    "source_match": "en\\.js$",
+    "output_file_path": "components/activity/type/lang/%LANG%.json",
+    "parser_plugin": {
+      "plugin": "parse_js"
+    },
+    "output_lang_rewrite": [
+      "ar-sa ar",
+      "de-de de",
+      "es-mx es",
+      "fi-FI fi",
+      "fr-ca fr",
+      "ja-jp ja",
+      "ko-kr ko",
+      "nl-nl nl",
+      "pt-br pt",
+      "sv-se sv",
+      "tr-tr tr",
+      "zh-cn zh",
+      "zh-tw zh-tw"
+    ]
+  }
+]

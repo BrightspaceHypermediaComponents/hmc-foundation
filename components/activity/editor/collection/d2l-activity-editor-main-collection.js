@@ -9,6 +9,7 @@ import { bodyCompactStyles, heading3Styles} from '@brightspace-ui/core/component
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
+import { LocalizeFoundationEditor } from '../lang/localization.js';
 import { repeat } from 'lit-html/directives/repeat';
 
 const rels = Object.freeze({
@@ -16,7 +17,7 @@ const rels = Object.freeze({
 	item: 'item'
 });
 
-class ActivityEditorMainCollection extends HypermediaStateMixin(LitElement) {
+class ActivityEditorMainCollection extends LocalizeFoundationEditor(HypermediaStateMixin(LitElement)) {
 
 	static get properties() {
 		return {
@@ -80,8 +81,8 @@ class ActivityEditorMainCollection extends HypermediaStateMixin(LitElement) {
 			<div class="d2l-activity-collection-body">
 				<div class="d2l-activity-collection-body-content">
 					<div class="d2l-activity-collection-list-actions">
-						<d2l-button primary>Add Activity</d2l-button>
-						<div class="d2l-body-compact">Activities: ${this.items.length}</div>
+						<d2l-button primary>${this.localize('action.addActivity')}</d2l-button>
+						<div class="d2l-body-compact">${this.localize('text.activities')} ${this.items.length}</div>
 					</div>
 				</div>
 				<div class="d2l-activity-collection-activities">

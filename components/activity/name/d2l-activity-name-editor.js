@@ -2,12 +2,13 @@ import '@brightspace-ui/core/components/inputs/input-text.js';
 import { css,  LitElement } from 'lit-element/lit-element.js';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
+import { LocalizeActivityName } from './lang/localization.js';
 
 const rels = Object.freeze({
 	specialization: 'https://api.brightspace.com/rels/specialization'
 });
 
-class ActivityNameEditor extends HypermediaStateMixin(LitElement) {
+class ActivityNameEditor extends LocalizeActivityName(HypermediaStateMixin(LitElement)) {
 	static get properties() {
 		return {
 			name: { type: String, observable: observableTypes.property, route: [{observable: observableTypes.link, rel: rels.specialization}] },
@@ -23,8 +24,8 @@ class ActivityNameEditor extends HypermediaStateMixin(LitElement) {
 		return this._hasAction('updateName') ? html`
 			<d2l-input-text
 				@input="${this._onInputName}"
-				label="Name"
-				placeholder="Enter a name"
+				label="${this.localize('label.name')}"
+				placeholder="${this.localize('action.name')}"
 				value="${this.name}"
 			></d2l-input-text>
 		` : null;
