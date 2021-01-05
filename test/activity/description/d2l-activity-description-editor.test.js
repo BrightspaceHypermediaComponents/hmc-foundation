@@ -1,6 +1,7 @@
 import '../../../components/activity/description/d2l-activity-description-editor.js';
 import { assert, aTimeout, elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import { learningPathExisting, learningPathNew, learningPathUpdated } from '../../data.js';
+import { clearStore } from '@brightspace-hmc/foundation-engine/state/HypermediaState.js';
 import { mockLink } from '../../fetchMocks.js';
 import { runConstructor } from '@brightspace-ui/core/tools/constructor-test-helper.js';
 import sinon from 'sinon/pkg/sinon-esm.js';
@@ -11,7 +12,9 @@ const updatedDescriptionText = learningPathUpdated.properties.description;
 async function _createComponentAndWait(path)
 {
 	const element = await fixture(html`<d2l-activity-description-editor href="${path}" token="test-token"></d2l-activity-description-editor>`);
-	await _delayAndAwaitForElement(element, 100);
+	await element.updateComplete;
+	await element._state.allFetchesComplete();
+	await element.updateComplete;
 	return element;
 }
 
@@ -74,9 +77,10 @@ describe('d2l-activity-description-editor', () => {
 			assert.equal(element.description, learningPathNew.properties.description, 'description property should match');
 		});
 
-		describe.skip('path:/learning-path/existing', () => {
+		describe('path:/learning-path/existing', () => {
 			let element;
 			beforeEach(async() => {
+				clearStore();
 				element = await _createComponentAndWait('/learning-path/existing');
 				assert.equal(element.description, learningPathExisting.properties.description, 'description should match response');
 			});
