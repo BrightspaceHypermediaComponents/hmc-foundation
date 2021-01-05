@@ -21,7 +21,7 @@ class ActivityVisibilityEditorToggle extends LocalizeFoundationVisibility(Hyperm
 	static get styles() {
 		return [offscreenStyles, css`
 			:host {
-				display: block;
+				display: inline-block;
 			}
 			:host([hidden]) {
 				display: none;

@@ -26,7 +26,7 @@ class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin
 			<div>
 				<d2l-button primary @click="${this._onSaveClick}">${this.localize('action.saveClose')}</d2l-button>
 				<d2l-button @click="${this._onCancelClick}">${this.localize('action.cancel')}</d2l-button>
-				<d2l-activity-visibility-editor-toggle can-edit-draft></d2l-activity-visibility-editor-toggle>
+				<d2l-hc-visibility  href="${this.href}" .token="${this.token}" can-edit-draft></d2l-hc-visibility>
 			</div>
 			<div><slot name="save-status">${this.localize('text.saveStatus')}</slot></div>
 		`;
