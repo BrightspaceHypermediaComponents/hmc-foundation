@@ -15,7 +15,6 @@ class ActivityVisibilityEditorToggle extends LocalizeFoundationVisibility(Hyperm
 			canEditDraft: { type: Boolean, attribute: 'can-edit-draft' },
 			_textHidden: { type: Boolean },
 			updateDraft: { type: Object, observable: observableTypes.action, name: 'update-draft' },
-			_DraftValue: { type: Boolean, method: (classes) => classes.includes('draft') }
 		};
 	}
 
@@ -55,11 +54,13 @@ class ActivityVisibilityEditorToggle extends LocalizeFoundationVisibility(Hyperm
 		return this.canEditDraft && !this.disabled;
 	}
 
-	_onChange(e) {
-		console.log(e);
-		this._DraftValue = !this._DraftValue;
+	_onChange() {
+		if (this._draftValue === undefined) {
+			this._draftValue = this._isDraft;
+		}
+		this._draftValue = !this._draftValue;
 		if (this.updateDraft.has) {
-			this.updateDraft.commit({draft: !this._DraftValue});
+			this.updateDraft.commit({draft: this._draftValue});
 		}
 	}
 
