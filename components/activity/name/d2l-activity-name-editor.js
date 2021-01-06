@@ -21,14 +21,15 @@ class ActivityNameEditor extends LocalizeActivityName(HypermediaStateMixin(LitEl
 	}
 
 	render() {
-		return this._hasAction('updateName') ? html`
+		return html`
 			<d2l-input-text
 				@input="${this._onInputName}"
 				label="${this.localize('label.name')}"
 				placeholder="${this.localize('action.name')}"
 				value="${this.name}"
+				?skeleton="${!this._loaded}"
 			></d2l-input-text>
-		` : null;
+		`;
 	}
 
 	_onInputName(e) {

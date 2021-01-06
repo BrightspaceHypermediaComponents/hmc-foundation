@@ -11,22 +11,23 @@ import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engin
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { LocalizeFoundationEditor } from '../lang/localization.js';
 import { repeat } from 'lit-html/directives/repeat';
+import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton-mixin.js';
 
 const rels = Object.freeze({
 	collection: 'https://activities.api.brightspace.com/rels/activity-collection',
 	item: 'item'
 });
 
-class ActivityEditorMainCollection extends LocalizeFoundationEditor(HypermediaStateMixin(LitElement)) {
+class ActivityEditorMainCollection extends LocalizeFoundationEditor(SkeletonMixin(HypermediaStateMixin(LitElement))) {
 
 	static get properties() {
 		return {
-			items: { type: Array, observable: observableTypes.subEntities, rel: rels.item, route: [{observable: observableTypes.link, rel: rels.collection}] }
+			items: { type: Array, observable: observableTypes.subEntities, rel: rels.item, route: [{observable: observableTypes.link, rel: rels.collection}], prime: true }
 		};
 	}
 
 	static get styles() {
-		return [ heading3Styles, bodyCompactStyles, css`
+		return [ super.styles, heading3Styles, bodyCompactStyles, css`
 			:host {
 				background: white;
 				height: 100%;
@@ -71,6 +72,15 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(HypermediaSt
 	constructor() {
 		super();
 		this.items = [];
+		this.skeleton = true;
+	}
+
+	get _loaded() {
+		return !this.skeleton;
+	}
+
+	set _loaded(loaded) {
+		this.skeleton = !loaded;
 	}
 
 	render() {
@@ -81,14 +91,14 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(HypermediaSt
 			<div class="d2l-activity-collection-body">
 				<div class="d2l-activity-collection-body-content">
 					<div class="d2l-activity-collection-list-actions">
-						<d2l-button primary>${this.localize('action.addActivity')}</d2l-button>
-						<div class="d2l-body-compact">${this.localize('text.activities')} ${this.items.length}</div>
+						<d2l-button primary ?disabled="${!this._loaded}">${this.localize('action.addActivity')}</d2l-button>
+						<div class="d2l-body-compact d2l-skeletize">${this.localize('text.activities')} ${this.items.length}</div>
 					</div>
 				</div>
 				<div class="d2l-activity-collection-activities">
 					<d2l-list @d2l-list-item-position-change="${this._moveItems}">
 						${repeat(this.items, item => item.href, item => html`
-							<d2l-activity-list-item href="${item.href}" .token="${this.token}" draggable key="${item.properties.id}"></d2l-activity-list-item>
+							<d2l-activity-list-item href="${item.href}" .token="${this.token}" draggable key="${item.properties.id}" ?disabled="${!this._loaded}"></d2l-activity-list-item>
 						`)}
 					</d2l-list>
 				</div>
