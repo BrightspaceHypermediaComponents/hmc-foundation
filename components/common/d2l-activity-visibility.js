@@ -2,14 +2,12 @@ import '@brightspace-ui/core/components/switch/switch-visibility.js';
 import { css, LitElement } from 'lit-element/lit-element';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
-import { nothing } from 'lit-html';
 import { offscreenStyles } from '@brightspace-ui/core/components/offscreen/offscreen.js';
 
 class ActivityVisibilityEditorToggle extends HypermediaStateMixin(LitElement) {
 
 	static get properties() {
 		return {
-			canEditDraft: { type: Boolean, attribute: 'can-edit-draft' },
 			disabled: { type: Boolean },
 			_isDraft: { type: Boolean, observable: observableTypes.classes, method: (classes) => classes.includes('draft') },
 			_textHidden: { type: Boolean },
@@ -27,7 +25,7 @@ class ActivityVisibilityEditorToggle extends HypermediaStateMixin(LitElement) {
 			}
 		`];
 	}
-	// "${this.switchEnabled ? html`disabled` : nothing}"
+
 	render() {
 		return html`
 			<d2l-switch-visibility
@@ -39,16 +37,8 @@ class ActivityVisibilityEditorToggle extends HypermediaStateMixin(LitElement) {
 			`;
 	}
 
-	get isDisabled() {
-		if (!this.switchEnabled) {
-			return html`disabled`;
-		} else {
-			return nothing;
-		}
-	}
-
 	get switchEnabled() {
-		return this.canEditDraft && !this.disabled;
+		return this._hasAction('_updateDraft') && !this.disabled;
 	}
 
 	_onChange() {
@@ -56,8 +46,8 @@ class ActivityVisibilityEditorToggle extends HypermediaStateMixin(LitElement) {
 			this._draftValue = this._isDraft;
 		}
 		this._draftValue = !this._draftValue;
-		if (this.updateDraft.has) {
-			this.updateDraft.commit({draft: this._draftValue});
+		if (this._updateDraft.has) {
+			this._updateDraft.commit({draft: this._draftValue});
 		}
 	}
 
