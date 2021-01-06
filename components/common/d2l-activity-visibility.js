@@ -2,19 +2,18 @@ import '@brightspace-ui/core/components/switch/switch-visibility.js';
 import { css, LitElement } from 'lit-element/lit-element';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
-import { classMap } from 'lit-html/directives/class-map.js';
-import { LocalizeFoundationVisibility } from './lang/localization.js';
+import { nothing } from 'lit-html';
 import { offscreenStyles } from '@brightspace-ui/core/components/offscreen/offscreen.js';
 
-class ActivityVisibilityEditorToggle extends LocalizeFoundationVisibility(HypermediaStateMixin(LitElement)) {
+class ActivityVisibilityEditorToggle extends HypermediaStateMixin(LitElement) {
 
 	static get properties() {
 		return {
+			canEditDraft: { type: Boolean, attribute: 'can-edit-draft' },
 			disabled: { type: Boolean },
 			_isDraft: { type: Boolean, observable: observableTypes.classes, method: (classes) => classes.includes('draft') },
-			canEditDraft: { type: Boolean, attribute: 'can-edit-draft' },
 			_textHidden: { type: Boolean },
-			updateDraft: { type: Object, observable: observableTypes.action, name: 'update-draft' },
+			_updateDraft: { type: Object, observable: observableTypes.action, name: 'update-draft' }
 		};
 	}
 
@@ -28,25 +27,23 @@ class ActivityVisibilityEditorToggle extends LocalizeFoundationVisibility(Hyperm
 			}
 		`];
 	}
-
+	// "${this.switchEnabled ? html`disabled` : nothing}"
 	render() {
-		if (this.switchEnabled) {
-			return html`
-				<d2l-switch-visibility
-					@change="${this._onChange}"
-					?on="${!this._isDraft}"
-					text-position="${this._textHidden ? 'hidden' : 'end'}">
-				</d2l-switch-visibility>
+		return html`
+			<d2l-switch-visibility
+				?disabled="${!this.switchEnabled}"
+				@change="${this._onChange}"
+				?on="${!this._isDraft}"
+				text-position="${this._textHidden ? 'hidden' : 'end'}">
+			</d2l-switch-visibility>
 			`;
+	}
+
+	get isDisabled() {
+		if (!this.switchEnabled) {
+			return html`disabled`;
 		} else {
-			return html`
-				<div class="d2l-label-text">
-					<d2l-icon icon="${this._isDraft ? 'tier1:visibility-hide' : 'tier1:visibility-show'}"></d2l-icon>
-					<span class="${classMap({ 'd2l-offscreen': this._textHidden })}">
-						${this.isDraft ? this.localize('label.hidden') : this.localize('label.visible')}
-					</span>
-				</div>
-			`;
+			return nothing;
 		}
 	}
 
@@ -66,4 +63,4 @@ class ActivityVisibilityEditorToggle extends LocalizeFoundationVisibility(Hyperm
 
 }
 
-customHypermediaElement('d2l-hc-activity-visibility-editor-toggle', ActivityVisibilityEditorToggle, 'd2l-hc-visibility', [['learning-path']]);
+customHypermediaElement('d2l-hc-visibility-toggle', ActivityVisibilityEditorToggle);
