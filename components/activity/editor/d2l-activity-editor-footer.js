@@ -1,4 +1,5 @@
 import '@brightspace-ui/core/components/button/button.js';
+import '@brightspace-ui/core/components/alert/alert-toast.js';
 import '../../common/d2l-activity-visibility.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
@@ -28,16 +29,20 @@ class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin
 				<d2l-button @click="${this._onCancelClick}">${this.localize('action.cancel')}</d2l-button>
 				<d2l-hc-visibility-toggle  href="${this.href}" .token="${this.token}" can-edit-draft></d2l-hc-visibility-toggle>
 			</div>
+			<d2l-alert-toast id="save-succeeded-toast" type="success" announce-text="${this.localize('text.saveComplete')}">
+				${this.localize('text.saveComplete')}
+			</d2l-alert-toast>
 			<div><slot name="save-status">${this.localize('text.saveStatus')}</slot></div>
 		`;
 	}
 
-	_onSaveClick() {
-		this._state.push();
+	async _onSaveClick() {
+		await this._state.push();
+		this.shadowRoot.querySelector('#save-succeeded-toast').open = true;
 	}
 
-	_onCancelClick() {
-		this._state.reset();
+	async _onCancelClick() {
+		await this._state.reset();
 	}
 }
 

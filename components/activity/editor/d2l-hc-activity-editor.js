@@ -43,6 +43,9 @@ class ActivityEditor extends LitElement {
 				display: block;
 				padding: 10px;
 			}
+			iron-overlay-backdrop {
+				--iron-overlay-backdrop-opacity: 0.0;
+			}
 		`];
 	}
 
