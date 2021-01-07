@@ -1,11 +1,17 @@
 import '@brightspace-ui/core/components/button/button.js';
 import 'd2l-activities/components/d2l-activity-editor/d2l-activity-visibility-editor-toggle.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
+import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
-import { HypermediaStateMixin } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { LocalizeFoundationEditor } from './lang/localization.js';
 
 class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin(LitElement)) {
+
+	static get properties() {
+		return {
+			up: { type: Object, observable: observableTypes.link, rel: 'up'}
+		};
+	}
 
 	static get styles() {
 		return [css`
@@ -38,6 +44,10 @@ class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin
 
 	_onCancelClick() {
 		this._state.reset();
+
+		if (this.up) {
+			window.location.href = this.up;
+		}
 	}
 }
 
