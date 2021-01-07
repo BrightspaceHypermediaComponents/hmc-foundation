@@ -41,7 +41,7 @@ class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin
 				${this.localize('text.saveComplete')}
 			</d2l-alert-toast>
 			<div><slot name="save-status">${this.localize('text.saveStatus')}</slot></div>
-			<d2l-backdrop id="save-backdrop" for-target="save-buttons" no-animate-hide></d2l-backdrop>
+			<d2l-backdrop id="save-backdrop" for-target="#save-buttons" no-animate-hide></d2l-backdrop>
 
 			`;
 	}
@@ -49,6 +49,7 @@ class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin
 	async _onSaveClick() {
 		const backdrop = this.shadowRoot.querySelector('#save-backdrop');
 		backdrop.shown = !backdrop.shown;
+		await this.updateComplete;
 		await this._state.push();
 		this.shadowRoot.querySelector('#save-succeeded-toast').open = true;
 		backdrop.shown = !backdrop.shown;
