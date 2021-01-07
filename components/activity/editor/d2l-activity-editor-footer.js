@@ -57,13 +57,19 @@ class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin
 		backdrop.shown = !backdrop.shown;
 		await this.updateComplete;
 		await this._state.push();
+
 		this.shadowRoot.querySelector('#save-succeeded-toast').open = true;
 		backdrop.shown = !backdrop.shown;
+
+		this._pageRedirect();
 	}
 
 	_onCancelClick() {
 		this._state.reset();
+		this._pageRedirect();
+	}
 
+	_pageRedirect() {
 		if (this.up) {
 			window.location.href = this.up;
 		}
