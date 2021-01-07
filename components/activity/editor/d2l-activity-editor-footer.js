@@ -3,11 +3,17 @@ import '@brightspace-ui/core/components/button/button.js';
 import '@brightspace-ui/core/components/alert/alert-toast.js';
 import '../../common/d2l-activity-visibility.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
+import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
-import { HypermediaStateMixin } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { LocalizeFoundationEditor } from './lang/localization.js';
 
 class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin(LitElement)) {
+
+	static get properties() {
+		return {
+			up: { type: Object, observable: observableTypes.link, rel: 'up'}
+		};
+	}
 
 	static get styles() {
 		return [css`
@@ -51,12 +57,22 @@ class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin
 		backdrop.shown = !backdrop.shown;
 		await this.updateComplete;
 		await this._state.push();
+
 		this.shadowRoot.querySelector('#save-succeeded-toast').open = true;
 		backdrop.shown = !backdrop.shown;
+
+		this._pageRedirect();
 	}
 
-	async _onCancelClick() {
-		await this._state.reset();
+	_onCancelClick() {
+		this._state.reset();
+		this._pageRedirect();
+	}
+
+	_pageRedirect() {
+		if (this.up) {
+			window.location.href = this.up;
+		}
 	}
 }
 
