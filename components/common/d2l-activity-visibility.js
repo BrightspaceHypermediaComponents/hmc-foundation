@@ -9,6 +9,7 @@ class ActivityVisibilityEditorToggle extends HypermediaStateMixin(LitElement) {
 	static get properties() {
 		return {
 			disabled: { type: Boolean },
+			canEditDraft: { type: Boolean },
 			_isDraft: { type: Boolean, observable: observableTypes.classes, method: (classes) => classes.includes('draft') },
 			_textHidden: { type: Boolean },
 			_updateDraft: { type: Object, observable: observableTypes.action, name: 'update-draft' }
@@ -27,14 +28,20 @@ class ActivityVisibilityEditorToggle extends HypermediaStateMixin(LitElement) {
 	}
 
 	render() {
-		return html`
+		if (this._hasAction('_updateDraft')) {
+			if (this._draftValue === undefined) {
+				this._draftValue = this._isDraft;
+			}
+
+			return html`
 			<d2l-switch-visibility
 				?disabled="${!this.switchEnabled}"
 				@change="${this._onChange}"
 				?on="${!this._isDraft}"
 				text-position="${this._textHidden ? 'hidden' : 'end'}">
-			</d2l-switch-visibility>
-			`;
+			</d2l-switch-visibility>`;
+		}
+		return null;
 	}
 
 	get switchEnabled() {
@@ -42,9 +49,6 @@ class ActivityVisibilityEditorToggle extends HypermediaStateMixin(LitElement) {
 	}
 
 	_onChange() {
-		if (this._draftValue === undefined) {
-			this._draftValue = this._isDraft;
-		}
 		this._draftValue = !this._draftValue;
 		if (this._updateDraft.has) {
 			this._updateDraft.commit({draft: this._draftValue});
