@@ -1,8 +1,9 @@
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
+import { LocalizeCommon } from './lang/localization.js';
 import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton-mixin.js';
 
-class HmName extends SkeletonMixin(HypermediaStateMixin(LitElement)) {
+class HmName extends SkeletonMixin(HypermediaStateMixin(LocalizeCommon(LitElement))) {
 	static get properties() {
 		return {
 			name: { type: String, observable: observableTypes.property }
@@ -32,7 +33,7 @@ class HmName extends SkeletonMixin(HypermediaStateMixin(LitElement)) {
 	}
 
 	render() {
-		return html`<span class="d2l-skeletize">${this.name ? this.name : html`Name <div class="d2l-activity-name-skeleton-extend-skeleton-width"></div>`}</span>`;
+		return html`<span class="d2l-skeletize">${this.name ? this.name : html`${this.localize('name')} <div class="d2l-activity-name-skeleton-extend-skeleton-width"></div>`}</span>`;
 	}
 
 }
