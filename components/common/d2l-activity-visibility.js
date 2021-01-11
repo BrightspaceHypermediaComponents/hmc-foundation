@@ -9,7 +9,6 @@ class ActivityVisibilityEditorToggle extends HypermediaStateMixin(LitElement) {
 	static get properties() {
 		return {
 			disabled: { type: Boolean },
-			canEditDraft: { type: Boolean },
 			_isDraft: { type: Boolean, observable: observableTypes.classes, method: (classes) => classes.includes('draft') },
 			_textHidden: { type: Boolean },
 			_updateDraft: { type: Object, observable: observableTypes.action, name: 'update-draft' }
