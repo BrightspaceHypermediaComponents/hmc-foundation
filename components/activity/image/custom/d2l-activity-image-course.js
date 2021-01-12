@@ -10,7 +10,7 @@ const rels = Object.freeze({
 class ActivityImageCourse extends HypermediaStateMixin(LitElement) {
 	static get properties() {
 		return {
-			_organizationHref: { type: String, observable: observableTypes.link, rel: rels.organization }
+			_organizationHref: { type: String, observable: observableTypes.link, rel: rels.organization, prime: true }
 		};
 	}
 

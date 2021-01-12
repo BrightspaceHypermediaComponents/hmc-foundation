@@ -93,5 +93,29 @@
       "zh-cn zh",
       "zh-tw zh-tw"
     ]
+  },
+  {
+    "name": "Common",
+    "source_dir": "components/common/lang",
+    "source_match": "en\\.js$",
+    "output_file_path": "FileLocation/%LANG%.json",
+    "parser_plugin": {
+      "plugin": "parse_js"
+    },
+    "output_lang_rewrite": [
+      "ar-sa ar",
+      "de-de de",
+      "es-mx es",
+      "fi-FI fi",
+      "fr-ca fr",
+      "ja-jp ja",
+      "ko-kr ko",
+      "nl-nl nl",
+      "pt-br pt",
+      "sv-se sv",
+      "tr-tr tr",
+      "zh-cn zh",
+      "zh-tw zh-tw"
+    ]
   }
 ]
