@@ -22,7 +22,9 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(SkeletonMixi
 
 	static get properties() {
 		return {
-			_items: { type: Array, observable: observableTypes.subEntities, rel: rels.item, prime: true, route:
+			_bulkUpdateCollection: { observable: observableTypes.action, name: 'bulk-update-collection', route:
+				[{ observable: observableTypes.link, rel: rels.collection }] },
+			_items: { observable: observableTypes.subEntities, rel: rels.item, prime: true, route:
 				[{ observable: observableTypes.link, rel: rels.collection }] },
 			_collectionHref: { observable: observableTypes.link, rel: rels.collection }
 		};
@@ -113,6 +115,14 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(SkeletonMixi
 		`;
 	}
 
+	updated(changedProperties) {
+		if (changedProperties.has('_items') && this._items && this._hasAction('_bulkUpdateCollection')) {
+			this._bulkUpdateCollection.commit({
+				itemIds: this._items.map(item => item.properties.id || item.properties.actionState)
+			});
+		}
+	}
+
 	_onRemoveActivity(e) {
 		const key = e.detail.key;
 		const removeIndex = this._items.findIndex(x => x.properties.id === key || x.properties.actionState === key);
@@ -130,7 +140,7 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(SkeletonMixi
 
 	_moveItems(e) {
 		e.detail.reorder(this._items, { keyFn: (item) => item.properties.id || item.properties.actionState });
-		this.requestUpdate('items', []);
+		this.requestUpdate('_items', []);
 	}
 }
 
