@@ -30,12 +30,12 @@ const KEYCODES = Object.freeze({
 class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectionAdd(LitElement)) {
 	static get properties() {
 		return {
-			items: { observable: observableTypes.subEntities, rel: rels.item },
-			startAddExisting: { observable: observableTypes.summonAction, name: 'start-add-existing-activity' },
-			startAddExistingNext: { observable: observableTypes.summonAction, name: 'next', route: [
+			_items: { observable: observableTypes.subEntities, rel: rels.item },
+			_startAddExisting: { observable: observableTypes.summonAction, name: 'start-add-existing-activity' },
+			_startAddExistingNext: { observable: observableTypes.summonAction, name: 'next', route: [
 				{ observable: observableTypes.summonAction, name: 'start-add-existing-activity' }
 			] },
-			startAddExistingSearch: { observable: observableTypes.summonAction, name: 'search', route: [
+			_startAddExistingSearch: { observable: observableTypes.summonAction, name: 'search', route: [
 				{ observable: observableTypes.summonAction, name: 'start-add-existing-activity' }
 			] },
 			_candidates: { type: Array },
@@ -63,7 +63,7 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 				grid-template-areas: "." "list" ".";
 				grid-template-columns: 100%;
 				grid-template-rows: auto auto auto;
-				min-height: 500px;
+				min-height: 25rem;
 			}
 			.d2l-add-activity-dialog-list-disabled,
 			.d2l-add-activity-dialog d2l-loading-spinner,
@@ -78,15 +78,15 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 				align-items: baseline;
 				display: flex;
 				justify-content: space-between;
-				padding-bottom: 10px;
+				padding-bottom: 0.5rem;
 			}
 			.d2l-add-activity-dialog-load-more {
-				margin: 10px 0;
+				margin: 0.5rem 0;
 			}
 			.d2l-add-activity-dialog-selection-count {
 				align-self: center;
 				color: var(--d2l-color-ferrite);
-				font-size: 16px;
+				font-size: 0.8rem;
 				margin-left: 0.5rem;
 			}
 
@@ -99,7 +99,7 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 
 			.d2l-list-item-supporting-info {
 				color: var(--d2l-color-olivine-minus-1);
-				font-size: 14px;
+				font-size: 0.7rem;
 			}
 			.d2l-activity-item-illustration {
 				grid-column: 1;
@@ -113,7 +113,7 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 		this._currentSelection = {};
 		this._dialogOpened = false;
 		this._isLoadingCandidates = true;
-		this.items = [];
+		this._items = [];
 	}
 
 	clearSelected() {
@@ -155,7 +155,7 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 			`;
 		};
 		const renderLoadMoreButton = () => {
-			if (this._hasAction('startAddExistingNext') && !this._isLoadingMore) {
+			if (this._hasAction('_startAddExistingNext') && !this._isLoadingMore) {
 				return html`<d2l-button @click="${this._onLoadMoreClick}">${this.localize('button.loadMore')}</d2l-button>`;
 			} else if (this._isLoadingMore) {
 				return html`<d2l-loading-spinner size="85"></d2l-loading-spinner>`;
@@ -170,7 +170,7 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 				<d2l-dialog id="dialog" ?opened="${this._dialogOpened}" title-text="${this.localize('dialog.browseActivityLibrary')}" @d2l-dialog-close="${this._onCloseDialog}">
 					<div class="d2l-add-activity-dialog" aria-live="polite" aria-busy="${!this._candidates}">
 						<div class="d2l-add-activity-dialog-header">
-							<div>${this._hasAction('startAddExistingSearch') ? html`
+							<div>${this._hasAction('_startAddExistingSearch') ? html`
 								<d2l-input-search label="${this.localize('label.search')}" placeholder="${this.localize('input.searchPlaceholder')}" @d2l-input-search-searched="${this._onSearch}"></d2l-input-search>
 							` : null}
 							</div>
@@ -200,7 +200,7 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 	//todo: workaround until prime for summonAction is ready
 	updated(changedProperties) {
 		super.updated(changedProperties);
-		if (!this._candidates && this._hasAction('startAddExisting')) {
+		if (!this._candidates && this._hasAction('_startAddExisting')) {
 			this._loadCandidates();
 		}
 	}
@@ -210,13 +210,13 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 		for (const candidate of candidates) {
 			candidate.activityUsageHref = activityUsageLink(candidate);
 			// it's already been added if the items have an activity usage href that matches
-			candidate.alreadyAdded = this.items && this.items.findIndex(x => activityUsageLink(x) === candidate.activityUsageHref) >= 0;
+			candidate.alreadyAdded = this._items && this._items.findIndex(x => activityUsageLink(x) === candidate.activityUsageHref) >= 0;
 		}
 		return candidates;
 	}
 
 	async _loadCandidates() {
-		const summoned = await this.startAddExisting.summon();
+		const summoned = await this._startAddExisting.summon();
 		this._candidates = this._addExtrasToCandidates(summoned.entities);
 		this._isLoadingCandidates = false;
 	}
@@ -227,14 +227,14 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 
 	_onAddActivityCommit() {
 		this._selectedCandidates.forEach(x => x.alreadyAdded = true);
-		this.items.push(...this._selectedCandidates);
+		this._items.push(...this._selectedCandidates);
 		this.clearSelected();
 		// change the state's list of activities
 		this._state.updateProperties({
 			items: {
 				observable: observableTypes.subEntities,
 				rel: rels.item,
-				value: this.items
+				value: this._items
 			}
 		});
 	}
@@ -254,7 +254,7 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 
 	async _onLoadMoreClick() {
 		this._isLoadingMore = true;
-		const summoned = await this.startAddExistingNext.summon();
+		const summoned = await this._startAddExistingNext.summon();
 		const newCandidates = this._addExtrasToCandidates(summoned.entities);
 		this._candidates.push(...newCandidates);
 		this._isLoadingMore = false;
@@ -262,7 +262,7 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 
 	async _onSearch(e) {
 		this._isLoadingCandidates = true;
-		const summoned = await this.startAddExistingSearch.summon({
+		const summoned = await this._startAddExistingSearch.summon({
 			collectionSearch: e.detail.value
 		});
 		this._candidates = this._addExtrasToCandidates(summoned.entities);
