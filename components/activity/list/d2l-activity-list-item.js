@@ -1,11 +1,11 @@
 import '../image/d2l-activity-image.js';
 import '../name/d2l-activity-name.js';
 import '../type/d2l-activity-type.js';
+import { css, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { guard } from 'lit-html/directives/guard';
 import { html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { ListItemMixin } from '@brightspace-ui/core/components/list/list-item-mixin.js';
-import { LitElement } from 'lit-element/lit-element.js';
 
 const rels = Object.freeze({
 	activityUsage: 'https://activities.api.brightspace.com/rels/activity-usage'
@@ -14,8 +14,17 @@ const rels = Object.freeze({
 class ActivityListItem extends HypermediaStateMixin(ListItemMixin(LitElement)) {
 	static get properties() {
 		return {
-			_activityHref: { type: String, observable: observableTypes.link, rel: rels.activityUsage }
+			key: { type: String, observable: observableTypes.link, rel: 'self', reflect: true },
+			_activityHref: { type: String, observable: observableTypes.link, rel: rels.activityUsage, prime: true }
 		};
+	}
+
+	static get styles() {
+		return [ super.styles, css`
+			.d2l-activity-list-item-image {
+				width: 172px
+			}
+		`];
 	}
 
 	render() {

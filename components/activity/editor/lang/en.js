@@ -6,5 +6,6 @@ export default {
 	"action.saveClose": "Save and Close",
 	"label.instructions": "Instructions",
 	"text.activities": "Activities",
+	"text.saveComplete": "Save Complete",
 	"text.saveStatus": "Save status"
 };

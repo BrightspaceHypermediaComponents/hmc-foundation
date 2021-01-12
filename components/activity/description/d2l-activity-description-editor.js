@@ -39,7 +39,7 @@ class ActivityDescriptionEditor extends LocalizeFoundationDescription(Hypermedia
 	}
 
 	render() {
-		return this._hasAction('updateDescription') ? html`
+		return this._loaded ? html`
 		<label class="d2l-activity-description-editor">
 			<span class="d2l-input-label">${this.localize('label.description')}</span>
 			<textarea class="d2l-input"
@@ -48,7 +48,7 @@ class ActivityDescriptionEditor extends LocalizeFoundationDescription(Hypermedia
 				.value="${this.description}"
 			>${this.description ? this.description : ''}</textarea>
 		</label>
-		` : null;
+		` : html`<d2l-input-text label="${this.localize('label.description')}" skeleton></d2l-input-text>`;
 	}
 
 	_onInputDescription(e) {

@@ -1,12 +1,17 @@
+import { html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
-import { html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
-import { LitElement } from 'lit-element/lit-element.js';
+import { customHypermediaElement } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
+import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton-mixin.js';
 
-class ActivityType extends HypermediaStateMixin(LitElement) {
+class ActivityType extends SkeletonMixin(HypermediaStateMixin(LitElement)) {
 	static get properties() {
 		return {
 			classes: { type: Array, observable: observableTypes.classes }
 		};
+	}
+
+	static get styles() {
+		return [ super.styles ];
 	}
 
 	static get components() {
@@ -20,6 +25,15 @@ class ActivityType extends HypermediaStateMixin(LitElement) {
 	constructor() {
 		super();
 		this.classes = [];
+		this.skeleton = true;
+	}
+
+	get _loaded() {
+		return !this.skeleton;
+	}
+
+	set _loaded(loaded) {
+		this.skeleton = !loaded;
 	}
 
 	render() {
@@ -30,8 +44,9 @@ class ActivityType extends HypermediaStateMixin(LitElement) {
 			return true;
 		});
 		return html`
-			${type}
+			<span class="d2l-skeletize">${type}</span>
 		`;
 	}
 }
-customElements.define('d2l-activity-type', ActivityType);
+
+customHypermediaElement('d2l-activity-type', ActivityType);
