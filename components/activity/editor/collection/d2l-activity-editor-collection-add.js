@@ -126,7 +126,7 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 			if (this._candidates && this._candidates.length <= 0) {
 				return html`
 					<div class="d2l-activity-collection-no-activity d2l-body-standard">
-						${this.localize('list.noActivitiesFound')}
+						${this.localize('list-noActivitiesFound')}
 					</div>`;
 			}
 
@@ -146,7 +146,7 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 						<d2l-activity-image slot="illustration" class="d2l-activity-item-illustration" href="${candidate.activityUsageHref}" .token="${this.token}"></d2l-activity-image>`)}
 						<d2l-list-item-content>
 							${guard([candidate.activityUsageHref, candidate.token], () => html`<d2l-activity-name href="${candidate.activityUsageHref}" .token="${this.token}"></d2l-activity-name>`)}
-							${guard([candidate.alreadyAdded], () => html`<div slot="supporting-info" class="d2l-list-item-supporting-info">${candidate.alreadyAdded ? this.localize('listitem.alreadyAdded') : null}</div>`)}
+							${guard([candidate.alreadyAdded], () => html`<div slot="supporting-info" class="d2l-list-item-supporting-info">${candidate.alreadyAdded ? this.localize('listitem-alreadyAdded') : null}</div>`)}
 						</d2l-list-item-content>
 					</d2l-list-item>
 					`) : null }
@@ -156,7 +156,7 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 		};
 		const renderLoadMoreButton = () => {
 			if (this._hasAction('_startAddExistingNext') && !this._isLoadingMore) {
-				return html`<d2l-button @click="${this._onLoadMoreClick}">${this.localize('button.loadMore')}</d2l-button>`;
+				return html`<d2l-button @click="${this._onLoadMoreClick}">${this.localize('button-loadMore')}</d2l-button>`;
 			} else if (this._isLoadingMore) {
 				return html`<d2l-loading-spinner size="85"></d2l-loading-spinner>`;
 			}
@@ -164,24 +164,24 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 		};
 
 		return html`
-			<d2l-button primary @click="${this._onAddActivityClick}">${this.localize('button.addActivity')}</d2l-button>
+			<d2l-button primary @click="${this._onAddActivityClick}">${this.localize('button-addActivity')}</d2l-button>
 
 			<div class="dialog-div">
-				<d2l-dialog id="dialog" ?opened="${this._dialogOpened}" title-text="${this.localize('dialog.browseActivityLibrary')}" @d2l-dialog-close="${this._onCloseDialog}">
+				<d2l-dialog id="dialog" ?opened="${this._dialogOpened}" title-text="${this.localize('dialog-browseActivityLibrary')}" @d2l-dialog-close="${this._onCloseDialog}">
 					<div class="d2l-add-activity-dialog" aria-live="polite" aria-busy="${!this._candidates}">
 						<div class="d2l-add-activity-dialog-header">
 							<div>${this._hasAction('_startAddExistingSearch') ? html`
-								<d2l-input-search label="${this.localize('label.search')}" placeholder="${this.localize('input.searchPlaceholder')}" @d2l-input-search-searched="${this._onSearch}"></d2l-input-search>
+								<d2l-input-search label="${this.localize('label-search')}" placeholder="${this.localize('input-searchPlaceholder')}" @d2l-input-search-searched="${this._onSearch}"></d2l-input-search>
 							` : null}
 							</div>
 							<div class="d2l-add-activity-dialog-selection-count">${this._selectionCount > 0 ? html`
-									${this.localize('dialog.selected', 'count', this._selectionCount)}
+									${this.localize('dialog-selected', 'count', this._selectionCount)}
 									<d2l-link
 										tabindex="0"
 										role="button"
 										@click=${this.clearSelected}
 										@keydown="${this._onClearKeydown}">
-											${this.localize('button.clearSelected')}
+											${this.localize('button-clearSelected')}
 									</d2l-link>
 								` : null }</div>
 						</div>
@@ -190,8 +190,8 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 							${renderLoadMoreButton()}
 						</div>
 					</div>
-					<d2l-button slot="footer" primary dialog-action="add" @click="${this._onAddActivityCommit}" ?disabled="${!this._selectionCount}">${this.localize('button.add')}</d2l-button>
-					<d2l-button slot="footer" dialog-action>${this.localize('button.cancel')}</d2l-button>
+					<d2l-button slot="footer" primary dialog-action="add" @click="${this._onAddActivityCommit}" ?disabled="${!this._selectionCount}">${this.localize('button-add')}</d2l-button>
+					<d2l-button slot="footer" dialog-action>${this.localize('button-cancel')}</d2l-button>
 				</d2l-dialog>
 			</div>
 		`;
