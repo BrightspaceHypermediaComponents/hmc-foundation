@@ -70,9 +70,9 @@ class ActivityTypeEditorAssignment extends LocalizeFoundationType(RtlMixin(Hyper
 	}
 
 	render() {
-		const folderTypeText =	this.isIndividual ? this.localize('label-individual') : this.localize('label-group');
+		const folderTypeText =	this.isIndividual ? this.localize('label.individual') : this.localize('label.group');
 		const groupTypeText = !this.isIndividual && this.groupCategoryName
-			? `${this.localize('label-groupCategory')} "${this.groupCategoryName}"`
+			? `${this.localize('label.groupCategory')} "${this.groupCategoryName}"`
 			: '';
 		return html`
 		<div id="read-only-assignment-type-container">

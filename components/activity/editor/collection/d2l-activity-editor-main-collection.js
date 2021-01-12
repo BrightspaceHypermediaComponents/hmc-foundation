@@ -96,7 +96,7 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(SkeletonMixi
 						<d2l-activity-editor-collection-add href="${this.collectionHref}" .token="${this.token}">
 						</d2l-activity-editor-collection-add>
 
-						<div class="d2l-body-compact d2l-skeletize">${this.localize('text-activities')} ${this.items.length}</div>
+						<div class="d2l-body-compact d2l-skeletize">${this.localize('text.activities')} ${this.items.length}</div>
 					</div>
 				</div>
 				<div class="d2l-activity-collection-activities">
