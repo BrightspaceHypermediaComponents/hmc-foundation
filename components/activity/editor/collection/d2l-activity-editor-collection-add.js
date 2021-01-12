@@ -203,10 +203,6 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 		if (!this._candidates && this._hasAction('_startAddExisting')) {
 			this._loadCandidates();
 		}
-
-		if (changedProperties.has('_items') && this._candidates) {
-			this._addExtrasToCandidates(this._candidates);
-		}
 	}
 
 	_addExtrasToCandidates(candidates) {
@@ -230,11 +226,12 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 	}
 
 	_onAddActivityCommit() {
+		this._selectedCandidates.forEach(x => x.alreadyAdded = true);
 		this._items.push(...this._selectedCandidates);
 		this.clearSelected();
 		// change the state's list of activities
 		this._state.updateProperties({
-			_items: {
+			items: {
 				observable: observableTypes.subEntities,
 				rel: rels.item,
 				value: this._items

@@ -22,9 +22,9 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(SkeletonMixi
 
 	static get properties() {
 		return {
-			_items: { type: Array, observable: observableTypes.subEntities, rel: rels.item, prime: true, route:
+			items: { type: Array, observable: observableTypes.subEntities, rel: rels.item, prime: true, route:
 				[{ observable: observableTypes.link, rel: rels.collection }] },
-			_collectionHref: { observable: observableTypes.link, rel: rels.collection }
+			collectionHref: { observable: observableTypes.link, rel: rels.collection }
 		};
 	}
 
@@ -73,7 +73,7 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(SkeletonMixi
 
 	constructor() {
 		super();
-		this._items = [];
+		this.items = [];
 		this.skeleton = true;
 	}
 
@@ -93,14 +93,14 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(SkeletonMixi
 			<div class="d2l-activity-collection-body">
 				<div class="d2l-activity-collection-body-content">
 					<div class="d2l-activity-collection-list-actions">
-						<d2l-activity-editor-collection-add href="${this._collectionHref}" .token="${this.token}">
+						<d2l-activity-editor-collection-add href="${this.collectionHref}" .token="${this.token}">
 						</d2l-activity-editor-collection-add>
 
 						<div class="d2l-body-compact d2l-skeletize">${this.localize('text-activities')} ${this.items.length}</div>
 					</div>
 				</div>
 				<div class="d2l-activity-collection-activities">
-					<d2l-list @d2l-list-item-position-change="${this._moveItems}" @d2l-remove-collection-activity-item="${this._onRemoveActivity}">${repeat(this._items, item => item.href || item.properties.actionState, item => html`
+					<d2l-list @d2l-list-item-position-change="${this._moveItems}">${repeat(this.items, item => item.href || item.properties.actionState, item => html`
 						<d2l-activity-list-item-accumulator
 							href="${item.href || item.activityUsageHref}"
 							.token="${this.token}"
@@ -113,23 +113,8 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(SkeletonMixi
 		`;
 	}
 
-	_onRemoveActivity(e) {
-		const key = e.detail.key;
-		const removeIndex = this._items.findIndex(x => x.properties.id === key || x.properties.actionState === key);
-		if (removeIndex < 0) return;
-		this._items.splice(removeIndex, 1);
-		this._state.updateProperties({
-			_items: {
-				observable: observableTypes.subEntities,
-				rel: rels.item,
-				value: this._items,
-				route: [{ observable: observableTypes.link, rel: rels.collection }]
-			}
-		});
-	}
-
 	_moveItems(e) {
-		e.detail.reorder(this._items, { keyFn: (item) => item.properties.id || item.properties.actionState });
+		e.detail.reorder(this.items, { keyFn: (item) => item.properties.id || item.properties.actionState });
 		this.requestUpdate('items', []);
 	}
 }

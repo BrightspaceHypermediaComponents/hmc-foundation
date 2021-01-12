@@ -14,7 +14,7 @@ const rels = Object.freeze({
 class ActivityListItemAccumulator extends HypermediaStateMixin(ListItemAccumulatorMixin(LitElement)) {
 	static get properties() {
 		return {
-			_activityHref: { observable: observableTypes.link, rel: rels.activityUsage }
+			_activityHref: { type: String, observable: observableTypes.link, rel: rels.activityUsage }
 		};
 	}
 
@@ -23,16 +23,7 @@ class ActivityListItemAccumulator extends HypermediaStateMixin(ListItemAccumulat
 			illustration: html`${guard([this._activityHref, this.token], () => html`<d2l-activity-image href="${this._activityHref}" .token="${this.token}"></d2l-activity-image>`)}`,
 			title: html`${guard([this._activityHref, this.token], () => html`<d2l-activity-name href="${this._activityHref}" .token="${this.token}"></d2l-activity-name>`)}`,
 			secondary: html`${guard([this._activityHref, this.token], () => html`<d2l-activity-type href="${this._activityHref}" .token="${this.token}" slot="supporting-info"></d2l-activity-type>`)}`,
-			secondaryAction: html`${guard([this._activityHref, this.token], () => html`<d2l-menu-item text="Remove" @click="${this._onRemoveClick}"></d2l-menu-item>`)}`
 		});
-	}
-
-	_onRemoveClick() {
-		const event = new CustomEvent('d2l-remove-collection-activity-item', {
-			detail: { key: this.key },
-			bubbles: true
-		});
-		this.dispatchEvent(event);
 	}
 }
 customElements.define('d2l-activity-list-item-accumulator', ActivityListItemAccumulator);
