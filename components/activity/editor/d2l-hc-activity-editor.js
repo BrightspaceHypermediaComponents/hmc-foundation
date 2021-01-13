@@ -64,7 +64,7 @@ class ActivityEditor extends LitElement {
 			.d2l-activity-editor-template-default-footer * {
 				margin: auto;
 				max-width: 1230px;
-				padding: 0.75rem;
+				padding: 0.55rem 1.7rem 0.6rem 1.7rem;
 			}
 		`];
 	}

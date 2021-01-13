@@ -52,7 +52,7 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(SkeletonMixi
 				align-items: baseline;
 				display: flex;
 				justify-content: space-between;
-				margin: 1.2rem 0.4rem 0.9rem 0;
+				margin: 1.2rem 0.5rem 0.9rem 0;
 			}
 			.d2l-activity-collection-activity {
 				align-items: center;
@@ -66,7 +66,7 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(SkeletonMixi
 				margin-right: -0.3rem;
 				padding: 0 2rem;
 				position: relative;
-				width: 1242px;
+				max-width: 1242px;
 			}
 			.d2l-activity-collection-activity-header-3 {
 				color: var(--d2l-color-ferrite);
@@ -91,7 +91,7 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(SkeletonMixi
 	render() {
 		return html`
 			<div class="d2l-activity-collection-activity">
-				<h3 class="d2l-heading-3 d2l-activity-collection-activity-header-3">Activities</h3>
+				<h3 class="d2l-heading-3 d2l-activity-collection-activity-header-3">${this.localize('text-activities')}</h3>
 			</div>
 			<div class="d2l-activity-collection-body">
 				<div class="d2l-activity-collection-body-content">
@@ -99,7 +99,7 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(SkeletonMixi
 						<d2l-activity-editor-collection-add href="${this._collectionHref}" .token="${this.token}">
 						</d2l-activity-editor-collection-add>
 
-						<div class="d2l-body-compact d2l-skeletize">${this.localize('text-activities')} ${this._items.length}</div>
+						<div class="d2l-body-compact d2l-skeletize">${this.localize('numberOfActivities', 'count', this._items.length)}</div>
 					</div>
 				</div>
 				<div class="d2l-activity-collection-activities">

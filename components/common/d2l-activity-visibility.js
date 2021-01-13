@@ -3,6 +3,16 @@ import { css, LitElement } from 'lit-element/lit-element';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { offscreenStyles } from '@brightspace-ui/core/components/offscreen/offscreen.js';
+import ResizeObserver from 'resize-observer-polyfill';
+
+const ro = new ResizeObserver(entries => {
+	entries.forEach(entry => {
+		if (!entry || !entry.target || !entry.target.resizedCallback) {
+			return;
+		}
+		entry.target.resizedCallback(entry.contentRect && entry.contentRect.width);
+	});
+});
 
 class ActivityVisibilityEditorToggle extends HypermediaStateMixin(LitElement) {
 
@@ -26,6 +36,16 @@ class ActivityVisibilityEditorToggle extends HypermediaStateMixin(LitElement) {
 		`];
 	}
 
+	connectedCallback() {
+		super.connectedCallback();
+		ro.observe(this);
+	}
+
+	disconnectedCallback() {
+		super.disconnectedCallback();
+		ro.unobserve(this);
+	}
+
 	render() {
 		if (this._hasAction('_updateDraft')) {
 			if (this._draftValue === undefined) {
@@ -41,6 +61,10 @@ class ActivityVisibilityEditorToggle extends HypermediaStateMixin(LitElement) {
 			</d2l-switch-visibility>`;
 		}
 		return null;
+	}
+
+	resizedCallback(width) {
+		this._textHidden = width < 140;
 	}
 
 	get switchEnabled() {
