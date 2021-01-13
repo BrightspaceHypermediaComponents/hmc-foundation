@@ -21,7 +21,7 @@ class ActivityEditorHeader extends HypermediaStateMixin(LitElement) {
 			}
 			.d2l-activity-header-content {
 				max-width: 790px;
-				padding: 0 0.35rem;
+				padding: 0 0.2rem;
 			}
 
 			@media only screen and (max-width: 929px) {
