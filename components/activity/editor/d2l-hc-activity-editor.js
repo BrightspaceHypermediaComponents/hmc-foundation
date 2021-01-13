@@ -65,6 +65,9 @@ class ActivityEditor extends LitElement {
 				max-width: 1230px;
 				padding: 0.55rem 1.7rem 0.6rem 1.7rem;
 			}
+			.d2l-activity-editor-template-default-footer {
+				height: 70px;
+			}
 		`];
 	}
 
@@ -94,7 +97,7 @@ class ActivityEditor extends LitElement {
 					<d2l-activity-editor-header href="${this.href}" .token="${this.token}"></d2l-activity-editor-header>
 				`}
 				<d2l-activity-editor-main href="${this.href}" .token="${this.token}"></d2l-activity-editor-main>
-				<div style="height: 70px"></div>
+				<div class="d2l-actiity-editor-template-footer-space"></div>
 				<div class="d2l-activity-editor-template-default-footer">
 					<d2l-activity-editor-footer href="${this.href}" .token="${this.token}"></d2l-activity-editor-footer>
 				</div>
