@@ -19,8 +19,10 @@ class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin
 		return [css`
 			:host {
 				align-items: baseline;
+				box-sizing: border-box;
 				display: flex;
 				justify-content: space-between;
+				max-width: 1230px;
 			}
 			d2l-hc-visibility-toggle {
 				display: inline-block;

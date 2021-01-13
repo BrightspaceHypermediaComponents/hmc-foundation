@@ -16,10 +16,8 @@ class ActivityEditorHeader extends HypermediaStateMixin(LitElement) {
 		return css`
 			:host {
 				background: white;
-				box-shadow: inset 0 -1px 0 0 #e3e9f1;
 				display: block;
-				margin-top: 1.25rem;
-				padding: 2.3rem 1.5rem;
+				padding: 0 1.5rem 2.3rem 1.5rem;
 			}
 			.d2l-activity-header-content {
 				max-width: 790px;

@@ -1,4 +1,3 @@
-import '@brightspace-ui/core/components/button/floating-buttons.js';
 import '@brightspace-ui/core/templates/primary-secondary/primary-secondary.js';
 import './d2l-activity-editor-footer.js';
 import './d2l-activity-editor-header.js';
@@ -28,12 +27,14 @@ class ActivityEditor extends LitElement {
 			.d2l-activity-editor-template-default {
 				display: grid;
 				grid-template-areas:
-					"header"
-					"content"
-					"footer";
+				"header"
+				"content"
+				"footer";
 				grid-template-columns: auto;
 				grid-template-rows: auto 1fr auto;
 				height: calc(100vh - 62px);
+				margin: auto;
+				max-width: 1230px;
 			}
 
 			[class^="d2l-activity-editor-main"] {
@@ -46,12 +47,31 @@ class ActivityEditor extends LitElement {
 			iron-overlay-backdrop {
 				--iron-overlay-backdrop-opacity: 0.0;
 			}
+			.d2l-activity-editor-template-default-footer {
+				background-color: #ffffff;
+				background-color: rgba(255, 255, 255, 0.88);
+				border-top-color: var(--d2l-color-mica);
+				border-top: 1px solid transparent;
+				bottom: 0px;
+				box-shadow: 0 -2px 4px rgba(73, 76, 78, 0.2); /* ferrite */
+				display: block;
+				left: 0;
+				position: -webkit-sticky;
+				position: sticky;
+				right: 0;
+				z-index: 999;
+			}
+			.d2l-activity-editor-template-default-footer * {
+				margin: auto;
+				max-width: 1230px;
+				padding: 0.75rem;
+			}
 		`];
 	}
 
 	constructor() {
 		super();
-		this.template = 'primary-secondary';
+		this.template = 'default';
 	}
 
 	render() {
@@ -75,9 +95,9 @@ class ActivityEditor extends LitElement {
 					<d2l-activity-editor-header href="${this.href}" .token="${this.token}"></d2l-activity-editor-header>
 				`}
 				<d2l-activity-editor-main href="${this.href}" .token="${this.token}"></d2l-activity-editor-main>
-				<d2l-floating-buttons always-float>
-					<d2l-activity-editor-footer href="${this.href}" .token="${this.token}"></d2l-activity-editor-footer>
-				</d2l-floating-buttons>
+			</div>
+			<div class="d2l-activity-editor-template-default-footer">
+				<d2l-activity-editor-footer href="${this.href}" .token="${this.token}"></d2l-activity-editor-footer>
 			</div>
 		`;
 	}
