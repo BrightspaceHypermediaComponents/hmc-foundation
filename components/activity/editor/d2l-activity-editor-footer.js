@@ -55,7 +55,7 @@ class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin
 			<d2l-backdrop id="save-backdrop" for-target="#save-buttons" no-animate-hide ?shown="${this._backdropOpen}"></d2l-backdrop>
 			<d2l-dialog id="save-failed-dialog" ?opened="${this._dialogOpen}" @d2l-dialog-close="${this._closeDialog}" title-text="${this.localize('text-dialogSaveTitle')}">
 				<div>${this.localize('text-dialogSaveContent')}</div>
-				<d2l-button slot="footer" primary data-dialog-action="okay">${this.localize('label.ok')}</d2l-button>
+				<d2l-button slot="footer" primary data-dialog-action="okay">${this.localize('label-ok')}</d2l-button>
 			</d2l-dialog>
 			`;
 	}
@@ -67,8 +67,8 @@ class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin
 
 	async _onSaveClick() {
 		this._backdropOpen = true;
-		await this.updateComplete;
 		try {
+			await this.updateComplete;
 			await this._state.push();
 		} catch (err) {
 			this._dialogOpen = true;
