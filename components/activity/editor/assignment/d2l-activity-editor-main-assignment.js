@@ -33,7 +33,7 @@ class ActivityEditorMainAssignment extends LocalizeFoundationEditor(HypermediaSt
 		return html`
 			<d2l-activity-name-editor href="${this._assignmentHref}" .token="${this.token}"></d2l-activity-name-editor>
 			<d2l-activity-editor-score href="${this.href}" .token="${this.token}"></d2l-activity-editor-score>
-			<label class="d2l-label-text">${this.localize('label.instructions')}</label>
+			<label class="d2l-label-text">${this.localize('label-instructions')}</label>
 			<div>${this.instructions}</div>
 		`;
 	}

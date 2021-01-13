@@ -42,19 +42,19 @@ class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin
 	render() {
 		return html`
 			<div id="save-buttons">
-				<d2l-button primary @click="${this._onSaveClick}" ?disabled="${!this._loaded}">${this.localize('action.saveClose')}</d2l-button>
-				<d2l-button @click="${this._onCancelClick}" ?disabled="${!this._loaded}">${this.localize('action.cancel')}</d2l-button>
+				<d2l-button primary @click="${this._onSaveClick}" ?disabled="${!this._loaded}">${this.localize('action-saveClose')}</d2l-button>
+				<d2l-button @click="${this._onCancelClick}" ?disabled="${!this._loaded}">${this.localize('action-cancel')}</d2l-button>
 				<d2l-hc-visibility-toggle  href="${this.href}" .token="${this.token}" ?disabled="${!this._loaded}"></d2l-hc-visibility-toggle>
 			</div>
 
 			<d2l-alert-toast id="save-succeeded-toast" ?open="${this._toastOpen}" type="success"
-				announce-text="${this.localize('text.saveComplete')}">
-					${this.localize('text.saveComplete')}
+				announce-text="${this.localize('text-saveComplete')}">
+					${this.localize('text-saveComplete')}
 			</d2l-alert-toast>
 
 			<d2l-backdrop id="save-backdrop" for-target="#save-buttons" no-animate-hide ?shown="${this._backdropOpen}"></d2l-backdrop>
-			<d2l-dialog id="save-failed-dialog" ?opened="${this._dialogOpen}" @d2l-dialog-close="${this._closeDialog}" title-text="${this.localize('text.dialogSaveTitle')}">
-				<div>${this.localize('text.dialogSaveContent')}</div>
+			<d2l-dialog id="save-failed-dialog" ?opened="${this._dialogOpen}" @d2l-dialog-close="${this._closeDialog}" title-text="${this.localize('text-dialogSaveTitle')}">
+				<div>${this.localize('text-dialogSaveContent')}</div>
 				<d2l-button slot="footer" primary data-dialog-action="okay">${this.localize('label.ok')}</d2l-button>
 			</d2l-dialog>
 			`;

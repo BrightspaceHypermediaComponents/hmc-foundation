@@ -2,8 +2,8 @@
 // END custom component imports
 import '@brightspace-ui/core/components/colors/colors.js';
 import '@brightspace-ui/core/components/list/list.js';
-import '@brightspace-ui/core/components/list/list-item.js';
-import '../../list/d2l-activity-list-item.js';
+import '../../list/d2l-activity-list-item-accumulator.js';
+import './d2l-activity-editor-collection-add.js';
 
 import { bodyCompactStyles, heading3Styles} from '@brightspace-ui/core/components/typography/styles.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
@@ -22,7 +22,11 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(SkeletonMixi
 
 	static get properties() {
 		return {
-			items: { type: Array, observable: observableTypes.subEntities, rel: rels.item, route: [{observable: observableTypes.link, rel: rels.collection}], prime: true }
+			_bulkUpdateCollection: { observable: observableTypes.action, name: 'bulk-update-collection', route:
+				[{ observable: observableTypes.link, rel: rels.collection }] },
+			_items: { observable: observableTypes.subEntities, rel: rels.item, prime: true, route:
+				[{ observable: observableTypes.link, rel: rels.collection }] },
+			_collectionHref: { observable: observableTypes.link, rel: rels.collection }
 		};
 	}
 
@@ -71,7 +75,7 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(SkeletonMixi
 
 	constructor() {
 		super();
-		this.items = [];
+		this._items = [];
 		this.skeleton = true;
 	}
 
@@ -91,14 +95,19 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(SkeletonMixi
 			<div class="d2l-activity-collection-body">
 				<div class="d2l-activity-collection-body-content">
 					<div class="d2l-activity-collection-list-actions">
-						<d2l-button primary ?disabled="${!this._loaded}">${this.localize('action.addActivity')}</d2l-button>
-						<div class="d2l-body-compact d2l-skeletize">${this.localize('text.activities')} ${this.items.length}</div>
+						<d2l-activity-editor-collection-add href="${this._collectionHref}" .token="${this.token}">
+						</d2l-activity-editor-collection-add>
+
+						<div class="d2l-body-compact d2l-skeletize">${this.localize('text-activities')} ${this._items.length}</div>
 					</div>
 				</div>
 				<div class="d2l-activity-collection-activities">
-					<d2l-list @d2l-list-item-position-change="${this._moveItems}">
-						${repeat(this.items, item => item.href, item => html`
-							<d2l-activity-list-item href="${item.href}" .token="${this.token}" draggable key="${item.properties.id}" ?disabled="${!this._loaded}"></d2l-activity-list-item>
+					<d2l-list @d2l-list-item-position-change="${this._moveItems}" @d2l-remove-collection-activity-item="${this._onRemoveActivity}">${repeat(this._items, item => item.href || item.properties.actionState, item => html`
+						<d2l-activity-list-item-accumulator
+							href="${item.href || item.activityUsageHref}"
+							.token="${this.token}"
+							draggable
+							key="${item.properties.id || item.properties.actionState}"></d2l-activity-list-item-accumulator>
 						`)}
 					</d2l-list>
 				</div>
@@ -106,9 +115,32 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(SkeletonMixi
 		`;
 	}
 
+	updated(changedProperties) {
+		if (changedProperties.has('_items') && this._items && this._hasAction('_bulkUpdateCollection')) {
+			this._bulkUpdateCollection.commit({
+				itemIds: this._items.map(item => item.properties.id || item.properties.actionState)
+			});
+		}
+	}
+
+	_onRemoveActivity(e) {
+		const key = e.detail.key;
+		const removeIndex = this._items.findIndex(x => x.properties.id === key || x.properties.actionState === key);
+		if (removeIndex < 0) return;
+		this._items.splice(removeIndex, 1);
+		this._state.updateProperties({
+			_items: {
+				observable: observableTypes.subEntities,
+				rel: rels.item,
+				value: this._items,
+				route: [{ observable: observableTypes.link, rel: rels.collection }]
+			}
+		});
+	}
+
 	_moveItems(e) {
-		e.detail.reorder(this.items, { keyFn: (item) => item.properties.id });
-		this.requestUpdate('items', []);
+		e.detail.reorder(this._items, { keyFn: (item) => item.properties.id || item.properties.actionState });
+		this.requestUpdate('_items', []);
 	}
 }
 

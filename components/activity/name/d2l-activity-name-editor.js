@@ -24,8 +24,8 @@ class ActivityNameEditor extends LocalizeActivityName(HypermediaStateMixin(LitEl
 		return html`
 			<d2l-input-text
 				@input="${this._onInputName}"
-				label="${this.localize('label.name')}"
-				placeholder="${this.localize('action.name')}"
+				label="${this.localize('label-name')}"
+				placeholder="${this.localize('action-name')}"
 				value="${this.name}"
 				?skeleton="${!this._loaded}"
 			></d2l-input-text>
