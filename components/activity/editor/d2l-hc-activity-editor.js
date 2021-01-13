@@ -56,8 +56,7 @@ class ActivityEditor extends LitElement {
 				box-shadow: 0 -2px 4px rgba(73, 76, 78, 0.2); /* ferrite */
 				display: block;
 				left: 0;
-				position: -webkit-sticky;
-				position: sticky;
+				position: fixed;
 				right: 0;
 				z-index: 999;
 			}
@@ -95,9 +94,10 @@ class ActivityEditor extends LitElement {
 					<d2l-activity-editor-header href="${this.href}" .token="${this.token}"></d2l-activity-editor-header>
 				`}
 				<d2l-activity-editor-main href="${this.href}" .token="${this.token}"></d2l-activity-editor-main>
-			</div>
-			<div class="d2l-activity-editor-template-default-footer">
-				<d2l-activity-editor-footer href="${this.href}" .token="${this.token}"></d2l-activity-editor-footer>
+				<div style="height: 70px"></div>
+				<div class="d2l-activity-editor-template-default-footer">
+					<d2l-activity-editor-footer href="${this.href}" .token="${this.token}"></d2l-activity-editor-footer>
+				</div>
 			</div>
 		`;
 	}
