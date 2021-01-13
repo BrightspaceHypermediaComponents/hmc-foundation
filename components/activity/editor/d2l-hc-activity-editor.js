@@ -27,9 +27,9 @@ class ActivityEditor extends LitElement {
 			.d2l-activity-editor-template-default {
 				display: grid;
 				grid-template-areas:
-				"header"
-				"content"
-				"footer";
+					"header"
+					"content"
+					"footer";
 				grid-template-columns: auto;
 				grid-template-rows: auto 1fr auto;
 				height: calc(100vh - 62px);

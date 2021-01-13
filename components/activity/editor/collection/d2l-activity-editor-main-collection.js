@@ -33,7 +33,6 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(SkeletonMixi
 	static get styles() {
 		return [ super.styles, heading3Styles, bodyCompactStyles, css`
 			:host {
-				background: white;
 				height: 100%;
 			}
 

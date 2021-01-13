@@ -15,13 +15,15 @@ class ActivityEditorHeader extends HypermediaStateMixin(LitElement) {
 	static get styles() {
 		return css`
 			:host {
-				background: white;
-				display: block;
-				padding: 0 1.5rem 2.3rem 1.5rem;
+				padding: 1.25rem 1.5rem 2.25rem 1.5rem;
 			}
 			.d2l-activity-header-content {
 				max-width: 790px;
 				padding: 0 0.2rem;
+				display: grid;
+				grid-template-columns: auto;
+				grid-template-rows: auto;
+				grid-gap: 1.05rem;
 			}
 
 			@media only screen and (max-width: 929px) {
@@ -35,10 +37,8 @@ class ActivityEditorHeader extends HypermediaStateMixin(LitElement) {
 	render() {
 		return html`
 			<div class="d2l-activity-header-content">
-				<div class="d2l-heading-4 d2l-activity-sub-header">${this.subTitle}</div>
-				<h1 class="d2l-heading-1">
-					<d2l-activity-name-editor href="${this.href}" .token="${this.token}"></d2l-activity-name-editor>
-				</h1>
+				${ this.subTitle ? html`<div class="d2l-heading-4 d2l-activity-sub-header">${this.subTitle}</div>` : null }
+				<d2l-activity-name-editor href="${this.href}" .token="${this.token}"></d2l-activity-name-editor>
 				<d2l-activity-description-editor href="${this.href}" .token="${this.token}"></d2l-activity-description-editor>
 			</div>
 		`;
