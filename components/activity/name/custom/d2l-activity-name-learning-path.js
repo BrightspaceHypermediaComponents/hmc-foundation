@@ -25,7 +25,7 @@ class ActivityNameLearningPath extends LocalizeActivityName(HypermediaStateMixin
 
 	render() {
 		return html`
-			${this._hasAction('updateName') ? html`<d2l-input-text @input="${this._onInputName}" label=${this.localize('label.name')} placeholder=${this.localize('action.name')} value="${this.name}"></d2l-input-text>` : null}
+			${this._hasAction('updateName') ? html`<d2l-input-text @input="${this._onInputName}" label=${this.localize('label-name')} placeholder=${this.localize('action-name')} value="${this.name}"></d2l-input-text>` : null}
 			<d2l-hc-name href="${ifDefined(this._specalizationHref)}" .token="${this.token}"></d2l-hc-name>
 		`;
 	}

@@ -1,9 +1,10 @@
 import { html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { customHypermediaElement } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
+import { LocalizeFoundationType } from './lang/localization.js';
 import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton-mixin.js';
 
-class ActivityType extends SkeletonMixin(HypermediaStateMixin(LitElement)) {
+class ActivityType extends SkeletonMixin(LocalizeFoundationType(HypermediaStateMixin(LitElement))) {
 	static get properties() {
 		return {
 			classes: { type: Array, observable: observableTypes.classes }
