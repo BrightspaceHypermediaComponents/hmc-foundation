@@ -17,9 +17,9 @@ class ActivityType extends SkeletonMixin(LocalizeFoundationType(HypermediaStateM
 
 	static get components() {
 		return {
-			'learning-path': html`Learning Path`,
-			'course-offering': html`Course`,
-			default: html`Activity`
+			'learning-path': 'label-learningPath',
+			'course-offering': 'label-course',
+			default: 'label-activity'
 		};
 	}
 
@@ -45,7 +45,7 @@ class ActivityType extends SkeletonMixin(LocalizeFoundationType(HypermediaStateM
 			return true;
 		});
 		return html`
-			<span class="d2l-skeletize">${type}</span>
+			<span class="d2l-skeletize">${this.localize(type)}</span>
 		`;
 	}
 }
