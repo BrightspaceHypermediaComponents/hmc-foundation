@@ -75,8 +75,9 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(SkeletonMixi
 				background-color: var(--d2l-color-regolith);
 				border: solid 1px var(--d2l-color-gypsum);
 				border-radius: 8px;
-				margin: 0 1.85rem;
+				margin: 1.85rem 0.75rem 1.85rem 1.7rem;
 				padding: 2.1rem 2rem;
+				display: block;
 			}
 		`];
 	}
@@ -105,7 +106,6 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(SkeletonMixi
 					<div class="d2l-activity-collection-list-actions">
 						<d2l-activity-editor-collection-add href="${this._collectionHref}" .token="${this.token}">
 						</d2l-activity-editor-collection-add>
-
 						<div class="d2l-body-compact d2l-skeletize">${this.localize('numberOfActivities', 'count', this._items.length)}</div>
 					</div>
 				</div>
