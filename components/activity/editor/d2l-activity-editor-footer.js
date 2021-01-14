@@ -108,7 +108,7 @@ class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin
 	}
 
 	_onCancelClick() {
-		this._state.reset();
+		//this._state.reset();
 		this._pageRedirect();
 	}
 
