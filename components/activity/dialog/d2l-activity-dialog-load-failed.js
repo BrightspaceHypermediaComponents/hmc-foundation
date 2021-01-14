@@ -13,7 +13,7 @@ class ActivityDialogLoadFailed extends HypermediaStateMixin(LocalizeDialog(LitEl
 
 	static get properties() {
 		return {
-			_type: { observable: observableTypes.classes, method: getType },
+			_type: { type: String, observable: observableTypes.classes, method: getType },
 			_loadFailureDialogOpen: { type: Boolean }
 		};
 	}
