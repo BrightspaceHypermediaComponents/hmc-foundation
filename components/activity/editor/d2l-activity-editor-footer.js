@@ -8,6 +8,10 @@ import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundati
 import { html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { LocalizeFoundationEditor } from './lang/localization.js';
 
+const rels = Object.freeze({
+	specialization: 'https://api.brightspace.com/rels/specialization'
+});
+
 class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin(LitElement)) {
 
 	static get properties() {
@@ -15,7 +19,13 @@ class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin
 			up: { type: Object, observable: observableTypes.link, rel: 'up'},
 			_backdropOpen: { type: Boolean },
 			_dialogOpen: { type: Boolean },
-			_toastOpen: { type: Boolean }
+			_toastOpen: { type: Boolean },
+			_isNew: {
+				type: Boolean,
+				observable: observableTypes.classes,
+				method: classes => classes.includes('creating'),
+				route: [{observable: observableTypes.link, rel: rels.specialization}]
+			}
 		};
 	}
 
@@ -53,8 +63,8 @@ class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin
 			</d2l-alert-toast>
 
 			<d2l-backdrop id="save-backdrop" for-target="#save-buttons" no-animate-hide ?shown="${this._backdropOpen}"></d2l-backdrop>
-			<d2l-dialog id="save-failed-dialog" ?opened="${this._dialogOpen}" @d2l-dialog-close="${this._closeDialog}" title-text="${this.localize('text-dialogSaveTitle')}">
-				<div>${this.localize('text-dialogSaveContent')}</div>
+			<d2l-dialog id="save-failed-dialog" ?opened="${this._dialogOpen}" @d2l-dialog-close="${this._closeDialog}" title-text="${this._isNew ? this.localize('text-newDialogSaveTitle') : this.localize('text-editDialogSaveTitle')}">
+				<div>${this._isNew ? this.localize('text-newDialogSaveContent') : this.localize('text-editDialogSaveContent')}</div>
 				<d2l-button slot="footer" primary data-dialog-action="okay">${this.localize('label-ok')}</d2l-button>
 			</d2l-dialog>
 			`;
