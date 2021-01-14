@@ -25,29 +25,47 @@ class ActivityDescriptionEditor extends LocalizeFoundationDescription(Hypermedia
 	static get styles() {
 		return [ inputLabelStyles, inputStyles,
 			css`
-			@media (max-width: 615px) {
-				.d2l-activity-description-editor textarea {
-					height: 5rem;
+				@media (max-width: 615px) {
+					.d2l-activity-description-textfield {
+						height: 5rem;
+					}
 				}
-			}
 
-			.d2l-activity-description-editor textarea {
-				resize: none;
-			}
+				.d2l-activity-description-editor textarea {
+					height: 100%;
+					left: 0;
+					position: absolute;
+					resize: none;
+					top: 0;
+					z-index:2;
+				}
+				.d2l-activity-description-editor {
+					min-height: 1rem;
+					position: relative;
+				}
+				.d2l-activity-description-textfield {
+					line-height: normal;
+					max-height: 6rem;
+					visibility: hidden;
+				}
 			`
 		];
 	}
 
 	render() {
 		return this._loaded ? html`
-		<label class="d2l-activity-description-editor">
-			<span class="d2l-input-label">${this.localize('label-description')}</span>
+		<label class="d2l-input-label" for="textarea">
+			<span class="">${this.localize('label-description')}</span>
+		</label>
+		<div class="d2l-activity-description-editor">
+			<div class="d2l-activity-description-textfield d2l-input">${this.description}</div>
 			<textarea class="d2l-input"
 				@input="${this._onInputDescription}"
 				placeholder="${this.localize('input-description')}"
 				.value="${this.description}"
+				id="textarea"
 			>${this.description ? this.description : ''}</textarea>
-		</label>
+		</div>
 		` : html`<d2l-input-text label="${this.localize('label-description')}" skeleton></d2l-input-text>`;
 	}
 
