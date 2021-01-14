@@ -2,7 +2,7 @@ import '@brightspace-ui/core/components/dialog/dialog.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { LitElement } from 'lit-element/lit-element.js';
-import { LocalizeDialog } from './lang/localize-dialog.js';
+import { LocalizeDialog } from './lang/localization.js';
 
 const getType = (classes) => {
 	if (classes.includes('learning-path')) return 'learning-path';
