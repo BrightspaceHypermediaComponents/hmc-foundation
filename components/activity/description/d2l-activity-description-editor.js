@@ -3,6 +3,7 @@ import '@brightspace-ui/core/components/inputs/input-text.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
+import { getUniqueId } from '@brightspace-ui/core/helpers/uniqueId.js';
 import { inputLabelStyles } from '@brightspace-ui/core/components/inputs/input-label-styles.js';
 import { inputStyles } from '@brightspace-ui/core/components/inputs/input-styles.js';
 import { LocalizeFoundationDescription } from './lang/localization.js';
@@ -52,18 +53,23 @@ class ActivityDescriptionEditor extends LocalizeFoundationDescription(Hypermedia
 		];
 	}
 
+	constructor() {
+		super();
+		this._descriptionId = getUniqueId();
+	}
+
 	render() {
 		return this._loaded ? html`
-		<label class="d2l-input-label" for="textarea">
+		<label class="d2l-input-label" for="${this._descriptionId}">
 			<span class="">${this.localize('label-description')}</span>
 		</label>
 		<div class="d2l-activity-description-editor">
 			<div class="d2l-activity-description-textfield d2l-input">${this.description}</div>
 			<textarea class="d2l-input"
-				@input="${this._onInputDescription}"
-				placeholder="${this.localize('input-description')}"
 				.value="${this.description}"
-				id="textarea"
+				@input="${this._onInputDescription}"
+				id="${this._descriptionId}"
+				placeholder="${this.localize('input-description')}"
 			>${this.description ? this.description : ''}</textarea>
 		</div>
 		` : html`<d2l-input-text label="${this.localize('label-description')}" skeleton></d2l-input-text>`;
