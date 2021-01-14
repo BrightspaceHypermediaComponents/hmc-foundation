@@ -37,7 +37,7 @@ class ActivityDescriptionEditor extends LocalizeFoundationDescription(Hypermedia
 					position: absolute;
 					resize: none;
 					top: 0;
-					z-index:2;
+					z-index: 2;
 				}
 				.d2l-activity-description-editor {
 					min-height: 1rem;
