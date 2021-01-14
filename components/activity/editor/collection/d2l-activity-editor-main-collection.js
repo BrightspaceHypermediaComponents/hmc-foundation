@@ -5,7 +5,7 @@ import '@brightspace-ui/core/components/list/list.js';
 import '../../list/d2l-activity-list-item-accumulator.js';
 import './d2l-activity-editor-collection-add.js';
 
-import { bodyCompactStyles, heading3Styles} from '@brightspace-ui/core/components/typography/styles.js';
+import { bodyCompactStyles, bodyStandardStyles, heading3Styles} from '@brightspace-ui/core/components/typography/styles.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
@@ -31,7 +31,7 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(SkeletonMixi
 	}
 
 	static get styles() {
-		return [ super.styles, heading3Styles, bodyCompactStyles, css`
+		return [ super.styles, heading3Styles, bodyCompactStyles, bodyStandardStyles, css`
 			:host {
 				background: white;
 				height: 100%;
@@ -70,6 +70,13 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(SkeletonMixi
 			.d2l-activity-collection-activity-header-3 {
 				color: var(--d2l-color-ferrite);
 			}
+			.d2l-activity-collection-no-activity {
+				background-color: var(--d2l-color-regolith);
+				border: solid 1px var(--d2l-color-gypsum);
+				border-radius: 8px;
+				margin: 0 1.85rem;
+				padding: 2.1rem 2rem;
+			}
 		`];
 	}
 
@@ -102,14 +109,7 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(SkeletonMixi
 					</div>
 				</div>
 				<div class="d2l-activity-collection-activities">
-					<d2l-list @d2l-list-item-position-change="${this._moveItems}" @d2l-remove-collection-activity-item="${this._onRemoveActivity}">${repeat(this._items, item => item.href || item.properties.actionState, item => html`
-						<d2l-activity-list-item-accumulator
-							href="${item.href || item.activityUsageHref}"
-							.token="${this.token}"
-							draggable
-							key="${item.properties.id || item.properties.actionState}"></d2l-activity-list-item-accumulator>
-						`)}
-					</d2l-list>
+					${this._renderList()}
 				</div>
 			</div>
 		`;
@@ -136,6 +136,35 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(SkeletonMixi
 				route: [{ observable: observableTypes.link, rel: rels.collection }]
 			}
 		});
+	}
+
+	_renderList() {
+		if (!this._loaded) {
+			return html`
+			<d2l-list @d2l-list-item-position-change="${this._moveItems}" @d2l-remove-collection-activity-item="${this._onRemoveActivity}">
+				<d2l-activity-list-item-accumulator draggable key="loading"></d2l-activity-list-item-accumulator>
+				<d2l-activity-list-item-accumulator draggable key="loading"></d2l-activity-list-item-accumulator>
+				<d2l-activity-list-item-accumulator draggable key="loading"></d2l-activity-list-item-accumulator>
+			</d2l-list>
+			`;
+		}
+
+		if (!this._items || this._items.length === 0) {
+			return html`
+				<div class="d2l-activity-collection-no-activity d2l-body-standard">${this.localize('noActivitiesInLearningPath')}</div>
+			`;
+		}
+		return html`
+			<d2l-list @d2l-list-item-position-change="${this._moveItems}" @d2l-remove-collection-activity-item="${this._onRemoveActivity}">
+				${repeat(this._items, item => item.href || item.properties.actionState, item => html`
+					<d2l-activity-list-item-accumulator
+						href="${item.href || item.activityUsageHref}"
+						.token="${this.token}"
+						draggable
+						key="${item.properties.id || item.properties.actionState}"></d2l-activity-list-item-accumulator>
+			`)}
+			</d2l-list>
+		`;
 	}
 
 	_moveItems(e) {
