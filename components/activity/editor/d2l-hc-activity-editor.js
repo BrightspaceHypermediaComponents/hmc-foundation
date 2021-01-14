@@ -4,6 +4,7 @@ import './d2l-activity-editor-footer.js';
 import './d2l-activity-editor-header.js';
 import './d2l-activity-editor-sidebar.js';
 import './d2l-activity-editor-main.js';
+import '../dialog/d2l-activity-dialog-load-failed.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { nothing } from 'lit-html';
@@ -79,6 +80,13 @@ class ActivityEditor extends LitElement {
 					<d2l-activity-editor-footer href="${this.href}" .token="${this.token}"></d2l-activity-editor-footer>
 				</d2l-floating-buttons>
 			</div>
+			${this._renderLoadFailureDialog()}
+		`;
+	}
+
+	_renderLoadFailureDialog() {
+		return html`
+			<d2l-activity-dialog-load-failed href="${this.href}" .token="${this.token}"></d2l-activity-dialog-load-failed>
 		`;
 	}
 
@@ -95,6 +103,7 @@ class ActivityEditor extends LitElement {
 					<d2l-activity-editor-footer href="${this.href}" .token="${this.token}"></d2l-activity-editor-footer>
 				</div>
 			</d2l-template-primary-secondary>
+			${this._renderLoadFailureDialog()}
 		`;
 	}
 }
