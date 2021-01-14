@@ -151,7 +151,7 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(SkeletonMixi
 
 		if (!this._items || this._items.length === 0) {
 			return html`
-				<div class="d2l-activity-collection-no-activity d2l-body-standard">${this.localize('noActivitiesInLearningPath')}</div>
+				<div class="d2l-activity-collection-no-activity d2l-body-standard">${this.localize('noActivitiesInCollection')}</div>
 			`;
 		}
 		return html`
