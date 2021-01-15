@@ -49,6 +49,7 @@ class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin
 			}
 			.d2l-activity-editor-save-buttons {
 				display: flex;
+				z-index: 1000;
 			}
 			@media only screen and (min-width: 650px) {
 				.d2l-activity-editor-save-buttons-visibility {
@@ -60,8 +61,6 @@ class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin
 
 	constructor() {
 		super();
-		this.saveSucceededToast = getUniqueId();
-		this.saveBackdrop = getUniqueId();
 		this.saveButtons = getUniqueId();
 	}
 
@@ -73,13 +72,13 @@ class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin
 				<d2l-hc-visibility-toggle class="d2l-activity-editor-save-buttons-visibility" href="${this.href}" .token="${this.token}" ?disabled="${!this._loaded}"></d2l-hc-visibility-toggle>
 			</div>
 
-			<d2l-alert-toast id="save-succeeded-toast" ?open="${this._toastOpen}" type="success"
+			<d2l-alert-toast ?open="${this._toastOpen}" type="success"
 				announce-text="${this.localize('text-saveComplete')}">
 					${this.localize('text-saveComplete')}
 			</d2l-alert-toast>
 
-			<d2l-backdrop id="save-backdrop" for-target="save-buttons" no-animate-hide ?shown="${this._backdropOpen}"></d2l-backdrop>
-			<d2l-dialog id="save-failed-dialog" ?opened="${this._dialogOpen}" @d2l-dialog-close="${this._closeDialog}" title-text="${this._isNew ? this.localize('text-newDialogSaveTitle') : this.localize('text-editDialogSaveTitle')}">
+			<d2l-backdrop for-target="${this.saveButtons}" no-animate-hide ?shown="${this._backdropOpen}"></d2l-backdrop>
+			<d2l-dialog ?opened="${this._dialogOpen}" @d2l-dialog-close="${this._closeDialog}" title-text="${this._isNew ? this.localize('text-newDialogSaveTitle') : this.localize('text-editDialogSaveTitle')}">
 				<div>${this._isNew ? this.localize('text-newDialogSaveContent') : this.localize('text-editDialogSaveContent')}</div>
 				<d2l-button slot="footer" primary data-dialog-action="okay">${this.localize('label-ok')}</d2l-button>
 			</d2l-dialog>
