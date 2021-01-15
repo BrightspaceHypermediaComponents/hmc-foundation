@@ -170,7 +170,14 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(SkeletonMixi
 
 	_moveItems(e) {
 		e.detail.reorder(this._items, { keyFn: (item) => item.properties.id || item.properties.actionState });
-		this.requestUpdate('_items', []);
+		this._state.updateProperties({
+			_items: {
+				observable: observableTypes.subEntities,
+				rel: rels.item,
+				value: this._items,
+				route: [{ observable: observableTypes.link, rel: rels.collection }]
+			}
+		});
 	}
 }
 
