@@ -50,9 +50,23 @@ class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin
 			.d2l-activity-editor-save-buttons {
 				display: flex;
 			}
-			@media only screen and (min-width: 650px) {
+			@media only screen and (max-width: 615px) {
+				.d2l-desktop {
+					display: none;
+				}
+				.d2l-mobile {
+					display: inline-block;
+				}
+			}
+			@media only screen and (min-width: 615px) {
 				.d2l-activity-editor-save-buttons-visibility {
 					width: 300px;
+				}
+				.d2l-desktop {
+					display: inline-block;
+				}
+				.d2l-mobile {
+					display: none;
 				}
 			}
 		`];
@@ -68,7 +82,8 @@ class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin
 	render() {
 		return html`
 			<div class="d2l-activity-editor-save-buttons" id="${this.saveButtons}">
-				<div id="save-buttons"><d2l-button class="d2l-activity-editor-save-button" primary @click="${this._onSaveClick}" ?disabled="${!this._loaded}">${this.localize('action-saveClose')}</d2l-button></div>
+				<div id="save-buttons" class="d2l-desktop"><d2l-button class="d2l-activity-editor-save-button" primary @click="${this._onSaveClick}" ?disabled="${!this._loaded}">${this.localize('action-saveClose')}</d2l-button></div>
+				<div id="save-buttons" class="d2l-mobile"><d2l-button class="d2l-activity-editor-save-button" primary @click="${this._onSaveClick}" ?disabled="${!this._loaded}">Save</d2l-button></div>
 				<d2l-button class="d2l-activity-editor-save-button" @click="${this._onCancelClick}" ?disabled="${!this._loaded}">${this.localize('action-cancel')}</d2l-button>
 				<d2l-hc-visibility-toggle class="d2l-activity-editor-save-buttons-visibility" href="${this.href}" .token="${this.token}" ?disabled="${!this._loaded}"></d2l-hc-visibility-toggle>
 			</div>
