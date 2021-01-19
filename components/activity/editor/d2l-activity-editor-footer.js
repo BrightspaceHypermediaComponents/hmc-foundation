@@ -51,10 +51,10 @@ class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin
 				display: flex;
 			}
 			@media only screen and (max-width: 615px) {
-				.d2l-desktop {
+				.d2l-desktop-button {
 					display: none;
 				}
-				.d2l-mobile {
+				.d2l-mobile-button {
 					display: inline-block;
 				}
 			}
@@ -62,10 +62,10 @@ class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin
 				.d2l-activity-editor-save-buttons-visibility {
 					width: 300px;
 				}
-				.d2l-desktop {
+				.d2l-desktop-button {
 					display: inline-block;
 				}
-				.d2l-mobile {
+				.d2l-mobile-button {
 					display: none;
 				}
 			}
@@ -82,8 +82,8 @@ class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin
 	render() {
 		return html`
 			<div class="d2l-activity-editor-save-buttons" id="${this.saveButtons}">
-				<div id="save-buttons" class="d2l-desktop"><d2l-button class="d2l-activity-editor-save-button" primary @click="${this._onSaveClick}" ?disabled="${!this._loaded}">${this.localize('action-saveClose')}</d2l-button></div>
-				<div id="save-buttons" class="d2l-mobile"><d2l-button class="d2l-activity-editor-save-button" primary @click="${this._onSaveClick}" ?disabled="${!this._loaded}">Save</d2l-button></div>
+				<d2l-button class="d2l-activity-editor-save-button d2l-desktop-button" primary @click="${this._onSaveClick}" ?disabled="${!this._loaded}">${this.localize('action-saveClose')}</d2l-button>
+				<d2l-button class="d2l-activity-editor-save-button d2l-mobile-button" primary @click="${this._onSaveClick}" ?disabled="${!this._loaded}">Save</d2l-button>
 				<d2l-button class="d2l-activity-editor-save-button" @click="${this._onCancelClick}" ?disabled="${!this._loaded}">${this.localize('action-cancel')}</d2l-button>
 				<d2l-hc-visibility-toggle class="d2l-activity-editor-save-buttons-visibility" href="${this.href}" .token="${this.token}" ?disabled="${!this._loaded}"></d2l-hc-visibility-toggle>
 			</div>
@@ -93,7 +93,7 @@ class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin
 					${this.localize('text-saveComplete')}
 			</d2l-alert-toast>
 
-			<d2l-backdrop id="save-backdrop" for-target="save-buttons" ?shown="${this._backdropOpen}"></d2l-backdrop>
+			<d2l-backdrop id="save-backdrop" for-target="${this.saveButtons}" ?shown="${this._backdropOpen}"></d2l-backdrop>
 			<d2l-dialog id="save-failed-dialog" ?opened="${this._dialogOpen}" @d2l-dialog-close="${this._closeDialog}" title-text="${this._isNew ? this.localize('text-newDialogSaveTitle') : this.localize('text-editDialogSaveTitle')}">
 				<div>${this._isNew ? this.localize('text-newDialogSaveContent') : this.localize('text-editDialogSaveContent')}</div>
 				<d2l-button slot="footer" primary data-dialog-action="okay">${this.localize('label-ok')}</d2l-button>
