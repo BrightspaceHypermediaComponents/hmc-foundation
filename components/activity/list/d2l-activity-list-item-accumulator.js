@@ -41,11 +41,7 @@ class ActivityListItemAccumulator extends HypermediaStateMixin(ListItemAccumulat
 
 	_onRemoveKeydown(e) {
 		if (e.keyCode === keyCodes.ENTER || e.keyCode === keyCodes.SPACE) {
-			const event = new CustomEvent('d2l-remove-collection-activity-item', {
-				detail: { key: this.key },
-				bubbles: true
-			});
-			this.dispatchEvent(event);
+			this._onRemoveClick();
 		}
 	}
 }
