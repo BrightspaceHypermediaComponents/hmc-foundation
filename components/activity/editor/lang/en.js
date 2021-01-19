@@ -3,6 +3,7 @@
 export default {
 	"action-addActivity": "Add Activity", // Add a learning task to a list that are similar.
 	"action-cancel": "Cancel", // Undo all changes and return to the learning path admin page.
+	"action-save": "Save", // Save all changes and return to the learning path admin page -- visible when screen is small
 	"action-saveClose": "Save and Close", // Save all changes and return to the learning path admin page.
 	"label-instructions": "Instructions", // Shows where the user should write instructions for an activity
 	"label-ok": "OK", // Confirm dialog box was read to return to editing learning path after save error
