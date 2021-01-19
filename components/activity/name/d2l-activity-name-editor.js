@@ -34,7 +34,11 @@ class ActivityNameEditor extends LocalizeActivityName(HypermediaStateMixin(LitEl
 
 	_onInputName(e) {
 		if (this.updateName.has) {
-			this.updateName.commit({name: { observable: observableTypes.property, value: e.target.value} });
+			const name = e.target.value.trim();
+			if (name.length === 0) {
+				return;
+			}
+			this.updateName.commit({name: { observable: observableTypes.property, value: name} });
 		}
 	}
 
