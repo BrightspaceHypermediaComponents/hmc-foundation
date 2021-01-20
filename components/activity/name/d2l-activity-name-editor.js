@@ -28,6 +28,7 @@ class ActivityNameEditor extends LocalizeActivityName(HypermediaStateMixin(LitEl
 				placeholder="${this.localize('action-name')}"
 				value="${this.name}"
 				?skeleton="${!this._loaded}"
+				required
 			></d2l-input-text>
 		`;
 	}
