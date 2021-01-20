@@ -110,14 +110,14 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 
 	constructor() {
 		super();
-		this._currentSelection = {};
+		this._currentSelection = new Map();
 		this._dialogOpened = false;
 		this._isLoadingCandidates = true;
 		this._items = [];
 	}
 
 	clearSelected() {
-		this._currentSelection = {};
+		this._currentSelection.clear();
 		this._selectionCount = 0;
 	}
 
@@ -140,7 +140,7 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 					<d2l-list-item
 						selectable
 						?disabled="${candidate.alreadyAdded || this._isLoadingCandidates}"
-						?selected="${candidate.alreadyAdded || this._currentSelection[candidate.properties.actionState]}"
+						?selected="${candidate.alreadyAdded || this._currentSelection.has(candidate.properties.actionState)}"
 						key="${candidate.properties.actionState}">
 						${guard([candidate.activityUsageHref, candidate.token], () => html`
 						<d2l-activity-image slot="illustration" class="d2l-activity-item-illustration" href="${candidate.activityUsageHref}" .token="${this.token}"></d2l-activity-image>`)}
@@ -273,12 +273,17 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 	}
 
 	_onSelectionChange(e) {
-		this._currentSelection[e.detail.key] = e.detail.selected;
-		this._selectionCount = this._selectedCandidates.length;
+		if (e.detail.selected && !this._currentSelection.has(e.detail.key)) {
+			const candidate = this._candidates.find((candidate) => candidate.properties.actionState === e.detail.key);
+			this._currentSelection.set(e.detail.key, candidate);
+		} else if (!e.detail.selected && this._currentSelection.has(e.detail.key)) {
+			this._currentSelection.delete(e.detail.key);
+		}
+		this._selectionCount = this._currentSelection.size;
 	}
 
 	get _selectedCandidates() {
-		return this._candidates.filter((candidate) => this._currentSelection[candidate.properties.actionState]);
+		return Array.from(this._currentSelection.values());
 	}
 }
 
