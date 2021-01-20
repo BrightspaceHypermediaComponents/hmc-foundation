@@ -51,7 +51,6 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 			:host {
 				display: block;
 				position: relative;
-				z-index: 0;
 			}
 			:host([hidden]) {
 				display: none;
