@@ -120,5 +120,8 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 	}
 };
 
-customHypermediaElement('d2l-activity-list-item-question', componentClass,
-	'd2l-activity-list-item-question', [['activity-usage', 'question-version-activity']]);
+// todo: decide if this component should be dynamic later
+// customHypermediaElement('d2l-activity-list-item-question', componentClass,
+// 	'd2l-activity-list-item-question', [['activity-usage', 'question-version-activity']]);
+
+customElements.define('d2l-activity-list-item-question', componentClass);

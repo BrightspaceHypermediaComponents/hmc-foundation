@@ -2,7 +2,7 @@
 // END custom component imports
 import '@brightspace-ui/core/components/list/list.js';
 import '@brightspace-ui/core/components/list/list-item.js';
-import './d2l-activity-list-item-question-container.js';
+import './d2l-activity-collection-item-quiz.js';
 
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
@@ -71,7 +71,7 @@ class ActivityEditorMainCollection extends HypermediaStateMixin(LitElement) {
 				<div class="d2l-activity-collection-activities">
 					<d2l-list separators="between" @d2l-list-item-position-change="${this._moveItems}">
 						${repeat(this.items, item => item.href, (item, idx) => html`
-						<d2l-activity-list-item-question-container number="${idx + 1}" href="${item.href}" .token="${this.token}" key="${item.properties.id}"></d2l-activity-list-item-question-container>
+						<d2l-activity-collection-item-quiz number="${idx + 1}" href="${item.href}" .token="${this.token}" key="${item.properties.id}"></d2l-activity-collection-item-quiz>
 						`)}
 					</d2l-list>
 				</div>
