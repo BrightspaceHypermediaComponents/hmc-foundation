@@ -62,8 +62,8 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(SkeletonMixi
 				box-sizing: border-box;
 				display: flex;
 				height: 3rem;
-				margin-left: -0.3rem;
-				margin-right: -0.3rem;
+				margin-left: 0rem;
+				margin-right: 0rem;
 				padding: 0 2rem;
 				position: relative;
 				max-width: 1242px;
