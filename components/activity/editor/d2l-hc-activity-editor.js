@@ -33,7 +33,7 @@ class ActivityEditor extends LitElement {
 					"footer";
 				grid-template-columns: auto;
 				grid-template-rows: auto 1fr auto;
-				height: calc(100vh - 130px);
+				height: calc(100vh - 134px);
 				margin: auto;
 				max-width: 1230px;
 				overflow-y: scroll;
