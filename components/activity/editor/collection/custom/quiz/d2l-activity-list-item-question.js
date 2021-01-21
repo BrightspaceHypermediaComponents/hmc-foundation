@@ -38,10 +38,16 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 				id: 'title',
 				route: [route.specialization]
 			},
-			type: {
+			// type: {
+			// 	type: Number,
+			// 	observable: observableTypes.property,
+			// 	id: 'type',
+			// 	route: [route.specialization]
+			// },
+			typeText: {
 				type: String,
 				observable: observableTypes.property,
-				id: 'type',
+				id: 'typeText',
 				route: [route.specialization]
 			},
 			points: {
@@ -115,7 +121,7 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 				<div class="question"><span class="d2l-label-text">${this.questionText} </span></div>
 				<div class="points d2l-body-compact">${this.localize('points', { count: this.points })}</div>
 			</div>
-			<div class="d2l-body-small question-type d2l-skeletize">${this.type}</div>
+			<div class="d2l-body-small question-type d2l-skeletize">${this.typeText}</div>
 		`;
 	}
 };
