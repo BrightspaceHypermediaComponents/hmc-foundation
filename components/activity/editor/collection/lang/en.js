@@ -11,4 +11,5 @@ export default  {
 	"label-search": "Search", // When adding activities to the learning path, this is where you can search for potential activities to add.
 	"list-noActivitiesFound": "There were no activities found using your search term.", // Displayed when the learning path has no activities while in the screen that allows you to add them.
 	"listitem-alreadyAdded": "Already added", // When seeing a list of activities that can be added to the learning path, these activities have already in the list.
+	"text-loadMoreError": "Failed to load activities", // When adding activities to the learning path, this is text will appear when the load more button results in an error.
 };

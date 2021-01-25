@@ -11,6 +11,7 @@ import '../../image/d2l-activity-image.js';
 import '../../name/d2l-activity-name.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
+//import { announce } from '@brightspace-ui/core/helpers/announce.js';
 import { classMap } from 'lit-html/directives/class-map.js';
 import { guard } from 'lit-html/directives/guard';
 import { html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
@@ -42,6 +43,7 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 			_dialogOpened: { type: Boolean },
 			_isLoadingCandidates: { type: Boolean },
 			_isLoadingMore: { type: Boolean },
+			_loadMoreFailed: { type: Boolean },
 			_selectionCount: { type: Number }
 		};
 	}
@@ -112,6 +114,7 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 		this._currentSelection = new Map();
 		this._dialogOpened = false;
 		this._isLoadingCandidates = true;
+		this._loadMoreFailed = false;
 		this._items = [];
 	}
 
@@ -155,7 +158,12 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 		};
 		const renderLoadMoreButton = () => {
 			if (this._hasAction('_startAddExistingNext') && !this._isLoadingMore) {
-				return html`<d2l-button @click="${this._onLoadMoreClick}">${this.localize('button-loadMore')}</d2l-button>`;
+				return html`
+					<d2l-button @click="${this._onLoadMoreClick}">${this.localize('button-loadMore')}</d2l-button>
+					<div class="d2l-compact-body" aria-live="assertive">
+						${this._loadMoreFailed ? this.localize('text-loadMoreError') : null }
+					</div>
+				`;
 			} else if (this._isLoadingMore) {
 				return html`<d2l-loading-spinner size="85"></d2l-loading-spinner>`;
 			}
@@ -256,9 +264,16 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 
 	async _onLoadMoreClick() {
 		this._isLoadingMore = true;
-		const summoned = await this._startAddExistingNext.summon();
-		const newCandidates = this._addExtrasToCandidates(summoned.entities);
-		this._candidates.push(...newCandidates);
+		try {
+			const summoned = await this._startAddExistingNext.summon();
+			const newCandidates = this._addExtrasToCandidates(summoned.entities);
+			this._candidates.push(...newCandidates);
+			this._loadMoreFailed = false;
+		} catch (e) {
+			console.log(e);
+			this._loadMoreFailed = true;
+		}
+
 		this._isLoadingMore = false;
 	}
 
