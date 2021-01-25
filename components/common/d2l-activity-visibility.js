@@ -47,20 +47,18 @@ class ActivityVisibilityEditorToggle extends HypermediaStateMixin(LitElement) {
 	}
 
 	render() {
-		if (this._hasAction('_updateDraft')) {
-			if (this._draftValue === undefined) {
-				this._draftValue = this._isDraft;
-			}
-
-			return html`
-			<d2l-switch-visibility
-				?disabled="${!this.switchEnabled}"
-				@change="${this._onChange}"
-				?on="${!this._isDraft}"
-				text-position="${this._textHidden ? 'hidden' : 'end'}">
-			</d2l-switch-visibility>`;
+		if (!this._hasAction('_updateDraft')) return;
+		if (this._draftValue === undefined) {
+			this._draftValue = this._isDraft;
 		}
-		return null;
+
+		return html`
+		<d2l-switch-visibility
+			?disabled="${!this.switchEnabled}"
+			@change="${this._onChange}"
+			?on="${!this._isDraft}"
+			text-position="${this._textHidden ? 'hidden' : 'end'}">
+		</d2l-switch-visibility>`;
 	}
 
 	resizedCallback(width) {
@@ -73,7 +71,7 @@ class ActivityVisibilityEditorToggle extends HypermediaStateMixin(LitElement) {
 
 	_onChange() {
 		this._draftValue = !this._draftValue;
-		if (this._updateDraft.has) {
+		if (this._hasAction('_updateDraft')) {
 			this._updateDraft.commit({draft: this._draftValue});
 		}
 	}
