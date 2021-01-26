@@ -58,7 +58,7 @@ class ActivityDescriptionEditor extends LocalizeFoundationDescription(Hypermedia
 	}
 
 	render() {
-		const lines = (this.description && this.description !== '') ? this.description.split('\n') : '';
+		const lines = (this.description && this.description !== '') ? this.description.split('\n') : [];
 
 		return this._loaded ? html`
 		<label class="d2l-input-label" for="${this._descriptionId}">
