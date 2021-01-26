@@ -167,7 +167,7 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 
 			<div class="dialog-div">
 				<d2l-dialog id="dialog" ?opened="${this._dialogOpened}" title-text="${this.localize('dialog-browseActivityLibrary')}" @d2l-dialog-close="${this._onCloseDialog}">
-					<div class="d2l-add-activity-dialog" aria-live="polite" aria-busy="${!this._candidates}">
+					<div class="d2l-add-activity-dialog" aria-busy="${!this._candidates}">
 						<div class="d2l-add-activity-dialog-header">
 							<div>${this._hasAction('_startAddExistingSearch') ? html`
 								<d2l-input-search label="${this.localize('label-search')}" placeholder="${this.localize('input-searchPlaceholder')}" @d2l-input-search-searched="${this._onSearch}"></d2l-input-search>
