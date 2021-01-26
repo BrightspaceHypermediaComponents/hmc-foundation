@@ -49,7 +49,6 @@ class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin
 			}
 			.d2l-activity-editor-save-buttons {
 				display: flex;
-				z-index: 999;
 			}
 			.d2l-desktop-button {
 				display: none;

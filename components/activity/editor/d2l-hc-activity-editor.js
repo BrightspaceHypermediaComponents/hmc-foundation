@@ -60,7 +60,6 @@ class ActivityEditor extends LitElement {
 				left: 0;
 				position: fixed;
 				right: 0;
-				z-index: 999;
 			}
 			.d2l-activity-editor-template-default-footer * {
 				margin: auto;
