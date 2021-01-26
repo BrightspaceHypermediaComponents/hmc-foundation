@@ -261,6 +261,8 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 	}
 
 	_onCloseDialog() {
+		// reset errror state
+		this._loadMoreFailed = false;
 		this._dialogOpened = false;
 		this.clearSelected();
 	}
