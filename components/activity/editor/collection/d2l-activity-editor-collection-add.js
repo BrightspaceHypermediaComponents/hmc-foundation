@@ -11,7 +11,6 @@ import '../../image/d2l-activity-image.js';
 import '../../name/d2l-activity-name.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
-//import { announce } from '@brightspace-ui/core/helpers/announce.js';
 import { classMap } from 'lit-html/directives/class-map.js';
 import { guard } from 'lit-html/directives/guard';
 import { html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
@@ -84,6 +83,10 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 			.d2l-add-activity-dialog-load-more {
 				margin: 0.5rem 0;
 			}
+			.d2l-add-activity-dialog-load-more-error{
+				min-height: 1rem;
+			}
+
 			.d2l-add-activity-dialog-selection-count {
 				align-self: center;
 				color: var(--d2l-color-ferrite);
@@ -160,7 +163,7 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 			if (this._hasAction('_startAddExistingNext') && !this._isLoadingMore) {
 				return html`
 					<d2l-button @click="${this._onLoadMoreClick}">${this.localize('button-loadMore')}</d2l-button>
-					<div class="d2l-compact-body" aria-live="assertive">
+					<div class="d2l-compact-body d2l-add-activity-dialog-load-more-error" aria-live="assertive">
 						${this._loadMoreFailed ? this.localize('text-loadMoreError') : null }
 					</div>
 				`;
@@ -270,7 +273,6 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 			this._candidates.push(...newCandidates);
 			this._loadMoreFailed = false;
 		} catch (e) {
-			console.log(e);
 			this._loadMoreFailed = true;
 		}
 
