@@ -98,7 +98,7 @@
     "name": "Common",
     "source_dir": "components/common/lang",
     "source_match": "en\\.js$",
-    "output_file_path": "FileLocation/%LANG%.json",
+    "output_file_path": "components/common/lang/%LANG%.json",
     "parser_plugin": {
       "plugin": "parse_js"
     },
@@ -122,7 +122,7 @@
     "name": "ActivityList",
     "source_dir": "components/activity/list/lang",
     "source_match": "en\\.js$",
-    "output_file_path": "FileLocation/%LANG%.json",
+    "output_file_path": "components/activity/list/lang/%LANG%.json",
     "parser_plugin": {
       "plugin": "parse_js"
     },
