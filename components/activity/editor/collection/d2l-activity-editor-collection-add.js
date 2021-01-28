@@ -42,6 +42,7 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 			_dialogOpened: { type: Boolean },
 			_isLoadingCandidates: { type: Boolean },
 			_isLoadingMore: { type: Boolean },
+			_loadMoreFailed: { type: Boolean },
 			_selectionCount: { type: Number }
 		};
 	}
@@ -82,6 +83,10 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 			.d2l-add-activity-dialog-load-more {
 				margin: 0.5rem 0;
 			}
+			.d2l-add-activity-dialog-load-more-error{
+				min-height: 1rem;
+			}
+
 			.d2l-add-activity-dialog-selection-count {
 				align-self: center;
 				color: var(--d2l-color-ferrite);
@@ -112,6 +117,7 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 		this._currentSelection = new Map();
 		this._dialogOpened = false;
 		this._isLoadingCandidates = true;
+		this._loadMoreFailed = false;
 		this._items = [];
 	}
 
@@ -155,7 +161,12 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 		};
 		const renderLoadMoreButton = () => {
 			if (this._hasAction('_startAddExistingNext') && !this._isLoadingMore) {
-				return html`<d2l-button @click="${this._onLoadMoreClick}">${this.localize('button-loadMore')}</d2l-button>`;
+				return html`
+					<d2l-button @click="${this._onLoadMoreClick}">${this.localize('button-loadMore')}</d2l-button>
+					<div class="d2l-compact-body d2l-add-activity-dialog-load-more-error" aria-live="assertive">
+						${this._loadMoreFailed ? this.localize('text-loadMoreError') : null }
+					</div>
+				`;
 			} else if (this._isLoadingMore) {
 				return html`<d2l-loading-spinner size="85"></d2l-loading-spinner>`;
 			}
@@ -167,7 +178,7 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 
 			<div class="dialog-div">
 				<d2l-dialog id="dialog" ?opened="${this._dialogOpened}" title-text="${this.localize('dialog-browseActivityLibrary')}" @d2l-dialog-close="${this._onCloseDialog}">
-					<div class="d2l-add-activity-dialog" aria-live="polite" aria-busy="${!this._candidates}">
+					<div class="d2l-add-activity-dialog" aria-busy="${!this._candidates}">
 						<div class="d2l-add-activity-dialog-header">
 							<div>${this._hasAction('_startAddExistingSearch') ? html`
 								<d2l-input-search label="${this.localize('label-search')}" placeholder="${this.localize('input-searchPlaceholder')}" @d2l-input-search-searched="${this._onSearch}"></d2l-input-search>
@@ -250,15 +261,23 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 	}
 
 	_onCloseDialog() {
+		// reset errror state
+		this._loadMoreFailed = false;
 		this._dialogOpened = false;
 		this.clearSelected();
 	}
 
 	async _onLoadMoreClick() {
 		this._isLoadingMore = true;
-		const summoned = await this._startAddExistingNext.summon();
-		const newCandidates = this._addExtrasToCandidates(summoned.entities);
-		this._candidates.push(...newCandidates);
+		try {
+			const summoned = await this._startAddExistingNext.summon();
+			const newCandidates = this._addExtrasToCandidates(summoned.entities);
+			this._candidates.push(...newCandidates);
+			this._loadMoreFailed = false;
+		} catch (e) {
+			this._loadMoreFailed = true;
+		}
+
 		this._isLoadingMore = false;
 	}
 
