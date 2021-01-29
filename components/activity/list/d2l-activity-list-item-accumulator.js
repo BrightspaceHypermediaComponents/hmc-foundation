@@ -6,6 +6,7 @@ import { guard } from 'lit-html/directives/guard';
 import { html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { ListItemAccumulatorMixin } from '@brightspace-ui-labs/list-item-accumulator/list-item-accumulator-mixin.js';
 import { LitElement } from 'lit-element/lit-element.js';
+import { LocalizeActivityList } from './lang/localization.js';
 
 const rels = Object.freeze({
 	activityUsage: 'https://activities.api.brightspace.com/rels/activity-usage'
@@ -15,7 +16,7 @@ const keyCodes = Object.freeze({
 	SPACE: 32
 });
 
-class ActivityListItemAccumulator extends HypermediaStateMixin(ListItemAccumulatorMixin(LitElement)) {
+class ActivityListItemAccumulator extends LocalizeActivityList(HypermediaStateMixin(ListItemAccumulatorMixin(LitElement))) {
 	static get properties() {
 		return {
 			_activityHref: { observable: observableTypes.link, rel: rels.activityUsage }
@@ -27,7 +28,7 @@ class ActivityListItemAccumulator extends HypermediaStateMixin(ListItemAccumulat
 			illustration: html`${guard([this._activityHref, this.token], () => html`<d2l-activity-image href="${this._activityHref}" .token="${this.token}"></d2l-activity-image>`)}`,
 			title: html`${guard([this._activityHref, this.token], () => html`<d2l-activity-name href="${this._activityHref}" .token="${this.token}"></d2l-activity-name>`)}`,
 			secondary: html`${guard([this._activityHref, this.token], () => html`<d2l-activity-type href="${this._activityHref}" .token="${this.token}" slot="supporting-info"></d2l-activity-type>`)}`,
-			secondaryAction: html`${guard([this._activityHref, this.token], () => html`<d2l-menu-item text="Remove" @click="${this._onRemoveClick}" @keydown="${this._onRemoveKeydown}"></d2l-menu-item>`)}`
+			secondaryAction: html`${guard([this._activityHref, this.token], () => html`<d2l-menu-item text="${this.localize('action-remove')}" @click="${this._onRemoveClick}" @keydown="${this._onRemoveKeydown}"></d2l-menu-item>`)}`
 		});
 	}
 
