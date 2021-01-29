@@ -9,6 +9,9 @@ export const LocalizeActivityList = superclass => class extends LocalizeMixin(su
 				case 'ar':
 					translations = await import('./ar.js');
 					break;
+				case 'da-dk':
+					translations = await import('./da-dk.js');
+					break;
 				case 'de':
 					translations = await import('./de.js');
 					break;
