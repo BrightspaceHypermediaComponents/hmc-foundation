@@ -14,15 +14,3 @@ export default {
 	"dialog-selected": "{count} seleccionada(s).", // When adding activities (bulk add) to a learning path this is the number of activities that will be added to the list.
 	"text-loadMoreError": "Failed to load activities", // When adding activities to the learning path, this is text will appear when the load more button results in an error.
 };
-
-
-
-
-
-
-
-
-
-
-
-
