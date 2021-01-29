@@ -24,6 +24,30 @@
     ]
   },
   {
+    "name": "ActivityDialog",
+    "source_dir": "components/activity/dialog/lang",
+    "source_match": "en\\.js$",
+    "output_file_path": "components/activity/dialog/lang/%LANG%.js",
+    "parser_plugin": {
+      "plugin": "parse_js"
+    },
+    "output_lang_rewrite": [
+      "ar-sa ar",
+      "de-de de",
+      "es-mx es",
+      "fi-FI fi",
+      "fr-ca fr",
+      "ja-jp ja",
+      "ko-kr ko",
+      "nl-nl nl",
+      "pt-br pt",
+      "sv-se sv",
+      "tr-tr tr",
+      "zh-cn zh",
+      "zh-tw zh-tw"
+    ]
+  },
+  {
     "name": "ActivityEditor",
     "source_dir": "components/activity/editor/lang",
     "source_match": "en\\.js$",
@@ -98,7 +122,55 @@
     "name": "Common",
     "source_dir": "components/common/lang",
     "source_match": "en\\.js$",
-    "output_file_path": "FileLocation/%LANG%.js",
+    "output_file_path": "components/common/lang/%LANG%.js",
+    "parser_plugin": {
+      "plugin": "parse_js"
+    },
+    "output_lang_rewrite": [
+      "ar-sa ar",
+      "de-de de",
+      "es-mx es",
+      "fi-FI fi",
+      "fr-ca fr",
+      "ja-jp ja",
+      "ko-kr ko",
+      "nl-nl nl",
+      "pt-br pt",
+      "sv-se sv",
+      "tr-tr tr",
+      "zh-cn zh",
+      "zh-tw zh-tw"
+    ]
+  },
+  {
+    "name": "QuizCustomCollectionEditor",
+    "source_dir": "components/activity/editor/collection/custom/quiz/lang",
+    "source_match": "en\\.js$",
+    "output_file_path": "components/activity/editor/collection/custom/quiz/lang/%LANG%.js",
+    "parser_plugin": {
+      "plugin": "parse_js"
+    },
+    "output_lang_rewrite": [
+      "ar-sa ar",
+      "de-de de",
+      "es-mx es",
+      "fi-FI fi",
+      "fr-ca fr",
+      "ja-jp ja",
+      "ko-kr ko",
+      "nl-nl nl",
+      "pt-br pt",
+      "sv-se sv",
+      "tr-tr tr",
+      "zh-cn zh",
+      "zh-tw zh-tw"
+    ]
+  },
+  {
+    "name": "CollectionEditor",
+    "source_dir": "components/activity/editor/collection/lang",
+    "source_match": "en\\.js$",
+    "output_file_path": "components/activity/editor/collection/lang/%LANG%.js",
     "parser_plugin": {
       "plugin": "parse_js"
     },

@@ -2,7 +2,7 @@
     "name": "ClassName",
     "source_dir": "FileLocation",
     "source_match": "en\\.js$",
-    "output_file_path": "FileLocation/%LANG%.json",
+    "output_file_path": "FileLocation/%LANG%.js",
     "parser_plugin": {
       "plugin": "parse_js"
     },
