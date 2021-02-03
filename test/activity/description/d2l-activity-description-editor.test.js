@@ -1,6 +1,6 @@
 import '../../../components/activity/description/d2l-activity-description-editor.js';
 import { assert, aTimeout, elementUpdated, expect, fixture, html } from '@open-wc/testing';
-import { learningPathExisting, learningPathNew, learningPathUpdated } from '../../data.js';
+import { learningPathExisting, learningPathMissingAction, learningPathNew, learningPathUpdated } from '../../data.js';
 import { clearStore } from '@brightspace-hmc/foundation-engine/state/HypermediaState.js';
 import { mockLink } from '../../fetchMocks.js';
 import { runConstructor } from '@brightspace-ui/core/tools/constructor-test-helper.js';
@@ -138,6 +138,21 @@ describe('d2l-activity-description-editor', () => {
 
 				const textarea2 = element.shadowRoot.querySelector('textarea');
 				assert.equal(textarea2.value, learningPathExisting.properties.description, 'textarea value should be reset');
+			});
+
+		});
+		describe('path:/learning-path/missing-action', () => {
+			let element;
+			beforeEach(async() => {
+				clearStore();
+				element = await _createComponentAndWait('/learning-path/missing-action');
+				assert.equal(element.description, learningPathMissingAction.properties.description, 'description should match response');
+			});
+
+			it('description should not be updated because action is missing', async() => {
+				await fireTextareaInputEvent(element);
+
+				assert.equal(element.description, learningPathMissingAction.properties.description, 'description property should match');
 			});
 		});
 	});

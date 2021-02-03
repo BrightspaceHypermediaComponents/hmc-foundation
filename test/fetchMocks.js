@@ -1,4 +1,4 @@
-import { learningPathExisting, learningPathNew, learningPathUpdated } from './data.js';
+import { learningPathExisting, learningPathMissingAction, learningPathNew, learningPathUpdated } from './data.js';
 import fetchMock from 'fetch-mock/esm/client.js';
 
 /*
@@ -32,4 +32,10 @@ export const mockLink = fetchMock.mock('path:/learning-path/new', () => {
 	})
 	.mock('path:/description/update', () => {
 		return learningPathUpdated;
+	})
+	.mock('path:/learning-path/missing-action', () => {
+		return GenerateComponentLink('/learning-path/missing-action/object');
+	})
+	.mock('path:/learning-path/missing-action/object', () => {
+		return learningPathMissingAction;
 	});
