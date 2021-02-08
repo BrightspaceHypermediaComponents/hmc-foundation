@@ -93,10 +93,5 @@ export const learningPathMissingAction = {
 		{'class':['relative-uri'],  'rel':['item',  'https://api.brightspace.com/rels/organization-homepage'],  'properties':{'path':'/learningpaths/123231/View'}}
 	],
 	actions: [
-		{'href':'/update/name',  'name':'update-name',  'method':'PATCH',  'fields':[{'class':['required'],  'type':'text',  'name':'name',  'value':'[object Object]'}]},
-		{'href':'/update/draft',  'name':'update-draft',  'method':'PATCH',  'fields':[{'type':'checkbox',  'name':'draft',  'value':false}]},
-		{'href':'/set/catalog/image',  'name':'set-catalog-image',  'method':'POST',  'fields':[{'type':'text',  'name':'imagePath',  'value':''}]},
-		{'href':'/remove/homepage/banner',  'name':'remove-homepage-banner',  'method':'PUT',  'fields':[{'type':'hidden',  'name':'showCourseBanner',  'value':false}]},
-		{'href':'/delete/item',  'name':'delete',  'method':'DELETE'}
 	]
 };

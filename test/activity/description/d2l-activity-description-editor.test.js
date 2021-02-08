@@ -1,6 +1,6 @@
 import '../../../components/activity/description/d2l-activity-description-editor.js';
 import { assert, elementUpdated, expect, html } from '@open-wc/testing';
-import { createComponentAndWait, delayAndAwaitForElement, fireTextareaInputEvent } from '../../test-util.js';
+import { createComponentAndWait, delayAndAwaitForElement, fireEventAndWait } from '../../test-util.js';
 import { learningPathExisting, learningPathMissingAction, learningPathNew, learningPathUpdated } from '../../data/learningPath.js';
 import { clearStore } from '@brightspace-hmc/foundation-engine/state/HypermediaState.js';
 import { mockLink } from '../../data/fetchMocks.js';
@@ -13,6 +13,12 @@ const textAreaLabel = 'textarea';
 
 async function _createDescriptionEditor(path) {
 	return await createComponentAndWait(html`<d2l-activity-description-editor href="${path}" token="test-token"></d2l-activity-description-editor>`);
+}
+
+async function _fireTextareaInputEvent(element, updatedText) {
+	const textarea = element.shadowRoot.querySelector(textAreaLabel);
+	textarea.value = updatedText;
+	await fireEventAndWait(textarea, 'input');
 }
 
 describe('d2l-activity-description-editor', () => {
@@ -79,7 +85,7 @@ describe('d2l-activity-description-editor', () => {
 
 			it('updating should commit state', async() => {
 				const spy = sinon.spy(element.updateDescription);
-				await fireTextareaInputEvent(element, textAreaLabel, updatedDescriptionText);
+				await _fireTextareaInputEvent(element, updatedDescriptionText, updatedDescriptionText);
 
 				assert.equal(element.description, updatedDescriptionText, 'description was updated to match');
 				assert.isTrue(spy.commit.called, 'Commit should be called when input event is triggered');
@@ -89,7 +95,7 @@ describe('d2l-activity-description-editor', () => {
 			*	Still need to figure out how to wait for element to be updated after push / reset
 			*/
 			it('pushing state should save description', async() => {
-				await fireTextareaInputEvent(element, textAreaLabel, updatedDescriptionText);
+				await _fireTextareaInputEvent(element, updatedDescriptionText);
 
 				element._state.push();
 				await delayAndAwaitForElement(element, 100);
@@ -102,7 +108,7 @@ describe('d2l-activity-description-editor', () => {
 			});
 
 			it('reset state should revert description and textarea', async() => {
-				await fireTextareaInputEvent(element, textAreaLabel, updatedDescriptionText);
+				await _fireTextareaInputEvent(element, updatedDescriptionText);
 
 				assert.equal(element.description, updatedDescriptionText, 'description should be updated');
 
@@ -127,7 +133,7 @@ describe('d2l-activity-description-editor', () => {
 			});
 
 			it('description should not be updated because action is missing', async() => {
-				await fireTextareaInputEvent(element, textAreaLabel, updatedDescriptionText);
+				await _fireTextareaInputEvent(element, updatedDescriptionText);
 
 				assert.equal(element.description, learningPathMissingAction.properties.description, 'description property should match');
 			});

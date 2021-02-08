@@ -34,7 +34,6 @@ class ActivityNameEditor extends LocalizeActivityName(HypermediaStateMixin(LitEl
 	}
 
 	_onInputName(e) {
-		console.log('input name called');
 		if (this.updateName.has) {
 			const name = e.target.value.trim();
 			if (name.length === 0) {
