@@ -17,12 +17,10 @@ export async function delayAndAwaitForElement(element, delayMs) {
 	});
 }
 
-// Handle updating the component textarea with a new value and await the update
-export async function fireTextareaInputEvent(element, label, updatedDescriptionText) {
-	const textarea = element.shadowRoot.querySelector(label);
-	textarea.value = updatedDescriptionText;
-	const inputEvent = new Event('input');
-	textarea.dispatchEvent(inputEvent);
+// Handle updating the component with a new value and await the update
+export async function fireEventAndWait(element, eventType) {
+	const inputEvent = new Event(eventType);
+	element.dispatchEvent(inputEvent);
 
 	// A render happens after events, we needed this extra await
 	// wait for element to be updated from the input event
