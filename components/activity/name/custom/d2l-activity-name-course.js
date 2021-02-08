@@ -7,7 +7,7 @@ const rels = Object.freeze({
 	organization: 'https://api.brightspace.com/rels/organization'
 });
 
-class ActivityNameCourse extends HypermediaStateMixin(LitElement) {
+export class ActivityNameCourse extends HypermediaStateMixin(LitElement) {
 	static get properties() {
 		return {
 			_organizationHref: { type: String, observable: observableTypes.link, rel: rels.organization, prime: true }

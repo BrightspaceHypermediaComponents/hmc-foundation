@@ -9,7 +9,7 @@ async function _createDialog(path) {
 	return await createComponentAndWait(html`<d2l-activity-dialog-load-failed href="${path}" token="test-token"></d2l-activity-dialog-load-failed>`);
 }
 
-describe.only('d2l-activity-dialog-load-failed', () => {
+describe('d2l-activity-dialog-load-failed', () => {
 
 	describe('constructor', () => {
 
