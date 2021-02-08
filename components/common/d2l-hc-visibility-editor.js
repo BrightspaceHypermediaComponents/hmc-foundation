@@ -14,7 +14,7 @@ const ro = new ResizeObserver(entries => {
 	});
 });
 
-class ActivityVisibilityEditorToggle extends HypermediaStateMixin(LitElement) {
+class HmVisibilityEditor extends HypermediaStateMixin(LitElement) {
 
 	static get properties() {
 		return {
@@ -78,4 +78,4 @@ class ActivityVisibilityEditorToggle extends HypermediaStateMixin(LitElement) {
 
 }
 
-customHypermediaElement('d2l-hc-visibility-toggle', ActivityVisibilityEditorToggle);
+customHypermediaElement('d2l-hc-visibility-editor', HmVisibilityEditor);

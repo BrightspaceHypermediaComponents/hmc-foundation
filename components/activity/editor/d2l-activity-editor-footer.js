@@ -2,7 +2,7 @@ import '@brightspace-ui/core/components/alert/alert-toast.js';
 import '@brightspace-ui/core/components/backdrop/backdrop.js';
 import '@brightspace-ui/core/components/button/button.js';
 import '@brightspace-ui/core/components/dialog/dialog.js';
-import '../../common/d2l-activity-visibility.js';
+import '../../common/d2l-hc-visibility-editor.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { getUniqueId } from '@brightspace-ui/core/helpers/uniqueId.js';
@@ -80,7 +80,7 @@ class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin
 				<d2l-button class="d2l-activity-editor-save-button d2l-desktop-button" primary @click="${this._onSaveClick}" ?disabled="${!this._loaded}">${this.localize('action-saveClose')}</d2l-button>
 				<d2l-button class="d2l-activity-editor-save-button d2l-mobile-button" primary @click="${this._onSaveClick}" ?disabled="${!this._loaded}">${this.localize('action-save')}</d2l-button>
 				<d2l-button class="d2l-activity-editor-save-button" @click="${this._onCancelClick}" ?disabled="${!this._loaded}">${this.localize('action-cancel')}</d2l-button>
-				<d2l-hc-visibility-toggle class="d2l-activity-editor-save-buttons-visibility" href="${this.href}" .token="${this.token}" ?disabled="${!this._loaded}"></d2l-hc-visibility-toggle>
+				<d2l-hc-visibility-editor class="d2l-activity-editor-save-buttons-visibility" href="${this.href}" .token="${this.token}" ?disabled="${!this._loaded}"></d2l-hc-visibility-editor>
 			</div>
 
 			<d2l-alert-toast ?open="${this._toastOpen}" type="success"
