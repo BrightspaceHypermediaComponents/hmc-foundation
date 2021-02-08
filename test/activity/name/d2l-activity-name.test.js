@@ -16,10 +16,10 @@ async function _createNameCourse(path) {
 	return await createComponentAndWait(html`<d2l-activity-name-course href="${path}" token="test-token"></d2l-activity-name-course>`);
 }
 
-async function updateName(inputArea, updatedText) {
+async function updateName(inputArea, updatedText, component) {
 	inputArea.value = updatedText;
 
-	await fireEventAndWait(inputArea, 'input');
+	await fireEventAndWait(inputArea, 'input', component);
 }
 
 describe('d2l-activity-description', () => {
@@ -53,7 +53,7 @@ describe('d2l-activity-description', () => {
 		it('updating should commit state', async() => {
 			const spy = sinon.spy(element.updateName);
 			const inputArea = element.shadowRoot.querySelector('d2l-input-text');
-			await updateName(inputArea, 'new name');
+			await updateName(inputArea, 'new name', element);
 
 			assert.equal(element.name, 'new name', 'name was updated to match');
 			assert.isTrue(spy.commit.called, 'onInputName should be called when input event is triggered');

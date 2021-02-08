@@ -17,7 +17,7 @@ async function updateName(element, updatedText) {
 	const inputArea = element.shadowRoot.querySelector('d2l-input-text');
 	inputArea.value = updatedText;
 
-	await fireEventAndWait(inputArea, 'input');
+	await fireEventAndWait(inputArea, 'input', element);
 }
 
 describe('d2l-activity-name-editor', () => {
