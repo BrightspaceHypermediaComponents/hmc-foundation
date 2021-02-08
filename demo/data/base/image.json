@@ -1,0 +1,37 @@
+{
+  "class": [
+    "course-image"
+  ],
+  "links": [
+    {
+      "rel": [
+        "self"
+      ],
+      "href": "../data/base/image.json"
+    },
+    {
+      "class": [
+        "narrow",
+        "high-density",
+        "min"
+      ],
+      "rel": [
+        "alternate"
+      ],
+      "type": "image/jpeg",
+      "href": "../data/images/banner-narrow-high-density-min-size.jpg"
+    },
+    {
+      "class": [
+        "tile",
+        "low-density",
+        "max"
+      ],
+      "rel": [
+        "alternate"
+      ],
+      "type": "image/jpeg",
+      "href": "../data/images/tile-low-density-max-size.jpg"
+    }
+  ]
+}

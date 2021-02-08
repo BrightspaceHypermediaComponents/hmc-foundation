@@ -1,0 +1,9 @@
+{
+  "properties": {
+    "name": "Demo Semester Name"
+  },
+  "links": [{
+    "rel": ["self"],
+    "href": "..data/base/semester.json"
+  }]
+}
