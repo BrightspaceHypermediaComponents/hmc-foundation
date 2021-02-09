@@ -32,12 +32,12 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 					observable: observableTypes.subEntity,	rel: rels.questionText
 				}]
 			},
-			title: {
-				type: String,
-				observable: observableTypes.property,
-				id: 'title',
-				route: [route.specialization]
-			},
+			// name: {
+			// 	type: String,
+			// 	observable: observableTypes.property,
+			// 	id: 'name',
+			// 	route: [route.specialization]
+			// },
 			// type: {
 			// 	type: Number,
 			// 	observable: observableTypes.property,
