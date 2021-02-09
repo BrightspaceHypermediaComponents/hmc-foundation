@@ -1,7 +1,7 @@
 {
   "class": [
     "activity-usage",
-    "custom-org-unit-203"
+    "learning-path"
   ],
   "links": [
     {
@@ -9,7 +9,7 @@
         "https://activities.api.brightspace.com/rels/activity-usage",
         "self"
       ],
-      "href": "../data/base/learning-path-activity-usage.json"
+      "href": "../data/base/learning-path.json"
     },
     {
       "rel": [
