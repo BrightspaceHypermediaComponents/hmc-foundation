@@ -18,7 +18,7 @@ async function _createDescriptionEditor(path) {
 async function _fireTextareaInputEvent(element, updatedText) {
 	const textarea = element.shadowRoot.querySelector(textAreaLabel);
 	textarea.value = updatedText;
-	await fireEventAndWait(textarea, 'input');
+	await fireEventAndWait(textarea, 'input', element);
 }
 
 describe('d2l-activity-description-editor', () => {
@@ -85,7 +85,7 @@ describe('d2l-activity-description-editor', () => {
 
 			it('updating should commit state', async() => {
 				const spy = sinon.spy(element.updateDescription);
-				await _fireTextareaInputEvent(element, updatedDescriptionText, updatedDescriptionText);
+				await _fireTextareaInputEvent(element, updatedDescriptionText);
 
 				assert.equal(element.description, updatedDescriptionText, 'description was updated to match');
 				assert.isTrue(spy.commit.called, 'Commit should be called when input event is triggered');
