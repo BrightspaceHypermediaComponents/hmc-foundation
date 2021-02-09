@@ -1,4 +1,3 @@
-//import '../../../components/activity/name/d2l-activity-name.js';
 import { assert, fixture, html } from '@open-wc/testing';
 import { createComponentAndWait, fireEventAndWait } from '../../test-util.js';
 import { learningPathExisting, learningPathMissingAction, learningPathNew } from '../../data/learningPath.js';
@@ -22,7 +21,7 @@ async function updateName(inputArea, updatedText, component) {
 	await fireEventAndWait(inputArea, 'input', component);
 }
 
-describe('d2l-activity-description', () => {
+describe('d2l-activity-name', () => {
 
 	describe('constructor', () => {
 		it('should construct d2l-activity-name', () => {
@@ -33,8 +32,8 @@ describe('d2l-activity-description', () => {
 			runConstructor('d2l-activity-name-learning-path');
 		});
 
-		it('should construct d2l-activity-name-learning-path', () => {
-			runConstructor('d2l-activity-name-learning-path');
+		it('should construct d2l-activity-name-course', () => {
+			runConstructor('d2l-activity-name-course');
 		});
 	});
 	describe('activity-name-learning-path', () => {
@@ -82,7 +81,7 @@ describe('d2l-activity-description', () => {
 			assert.instanceOf(element, ActivityNameCourse, 'course name component should exist');
 		});
 	});
-	it('create course from learning path', async() => {
+	it('generic name constructed', async() => {
 		const element = await fixture(html`<d2l-activity-name></d2l-activity-name>`);
 		await element.updateComplete;
 		assert.instanceOf(element, ActivityName, 'should create basic name component');
