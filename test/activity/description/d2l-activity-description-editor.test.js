@@ -1,14 +1,14 @@
 import '../../../components/activity/description/d2l-activity-description-editor.js';
 import { assert, elementUpdated, expect, html } from '@open-wc/testing';
 import { createComponentAndWait, delayAndAwaitForElement, fireEventAndWait } from '../../test-util.js';
-import { learningPathExisting, learningPathMissingAction, learningPathNew, learningPathUpdated } from '../../data/learningPath.js';
+import { learningPathExisting, learningPathMissingAction, learningPathNew } from '../../data/learningPath.js';
 import { clearStore } from '@brightspace-hmc/foundation-engine/state/HypermediaState.js';
 import { mockLink } from '../../data/fetchMocks.js';
 import { runConstructor } from '@brightspace-ui/core/tools/constructor-test-helper.js';
 import sinon from 'sinon/pkg/sinon-esm.js';
 
 // use the learningPathUpdated description as the text when updating textareas
-const updatedDescriptionText = learningPathUpdated.properties.description;
+const updatedDescriptionText = 'updated description text';
 const textAreaLabel = 'textarea';
 
 async function _createDescriptionEditor(path) {
