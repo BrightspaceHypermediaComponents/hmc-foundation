@@ -54,10 +54,10 @@ describe('d2l-activity-name-editor', () => {
 			beforeEach(async() => {
 				clearStore();
 				element = await _createNameEditor('/learning-path/existing');
-				assert.equal(element.name, learningPathExisting.properties.name, 'description should match response');
+				assert.equal(element.name, learningPathExisting.properties.name, 'name should match response');
 			});
 
-			it('name should be set when one is provided', async() => {
+			it('name should be set when one is provided', () => {
 				// new path should be followed
 				assert.isTrue(mockLink.called('path:/learning-path/existing'), '/learing-path/exiting was not called');
 				assert.isTrue(mockLink.called('path:/learning-path/existing/object'), '/learning-path/existing/object was not called');

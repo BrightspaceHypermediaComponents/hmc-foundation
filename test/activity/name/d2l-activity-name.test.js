@@ -36,6 +36,12 @@ describe('d2l-activity-name', () => {
 			runConstructor('d2l-activity-name-course');
 		});
 	});
+
+	it('creation', async() => {
+		const element = await _createNameLearningPath('/learning-path/new');
+		assert.equal(element.name, learningPathNew.properties.name, 'name should be blank in new learning path');
+	});
+
 	describe('activity-name-learning-path', () => {
 		let element;
 		beforeEach(async() => {
@@ -44,10 +50,7 @@ describe('d2l-activity-name', () => {
 			assert.equal(element.name, learningPathExisting.properties.name, 'name should match response');
 		});
 
-		it('creation', async() => {
-			element = await _createNameLearningPath('/learning-path/new');
-			assert.equal(element.name, learningPathNew.properties.name, 'name should be blank in new learning path');
-		});
+
 
 		it('updating should commit state', async() => {
 			const spy = sinon.spy(element.updateName);
