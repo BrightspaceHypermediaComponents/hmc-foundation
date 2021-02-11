@@ -18,31 +18,16 @@ function GenerateComponentLink(linkPath) {
 	};
 }
 
-export const mockLink = fetchMock.mock('path:/learning-path/new', () => {
-	return GenerateComponentLink('/learning-path/new/object');
-})
-	.mock('path:/learning-path/new/object', () => {
-		return learningPathNew;
-	})
-	.mock('path:/learning-path/existing', () => {
-		return GenerateComponentLink('/learning-path/existing/object');
-	})
+export const mockLink = fetchMock;
+addToMock('/learning-path/new', learningPathNew);
+addToMock('/learning-path/existing', learningPathExisting);
+addToMock('/learning-path/missing-action', learningPathMissingAction);
+addToMock('/course/existing', courseExisting);
+addToMock('/description/update', learningPathUpdated);
 
-	.mock('path:/learning-path/existing/object', () => {
-		return learningPathExisting;
-	})
-	.mock('path:/description/update', () => {
-		return learningPathUpdated;
-	})
-	.mock('path:/learning-path/missing-action', () => {
-		return GenerateComponentLink('/learning-path/missing-action/object');
-	})
-	.mock('path:/learning-path/missing-action/object', () => {
-		return learningPathMissingAction;
-	})
-	.mock('path:/course/existing', () => {
-		return GenerateComponentLink('/course/existing/object');
-	})
-	.mock('path:/course/existing/object', () => {
-		return courseExisting;
-	});
+export function addToMock(path, object) {
+	mockLink.mock(`path:${path}`, () => {return GenerateComponentLink(`${path}/object`);});
+	if (object) {
+		mockLink.mock(`path:${path}/object`, () => {return object;});
+	}
+}
