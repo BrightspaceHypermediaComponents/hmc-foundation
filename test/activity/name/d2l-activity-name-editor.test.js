@@ -57,7 +57,7 @@ describe('d2l-activity-name-editor', () => {
 				assert.equal(element.name, learningPathExisting.properties.name, 'name should match response');
 			});
 
-			it('name should be set when one is provided', () => {
+			it('name should be set when one is present', () => {
 				// new path should be followed
 				assert.isTrue(mockLink.called('path:/learning-path/existing'), '/learing-path/exiting was not called');
 				assert.isTrue(mockLink.called('path:/learning-path/existing/object'), '/learning-path/existing/object was not called');
@@ -65,7 +65,7 @@ describe('d2l-activity-name-editor', () => {
 				assert.equal(element.shadowRoot.querySelector(inputText).value,
 					learningPathExisting.properties.name, 'textarea value does not match');
 
-				assert.equal(element.name, learningPathExisting.properties.name, 'description property should match');
+				assert.equal(element.name, learningPathExisting.properties.name, 'name property should match');
 
 			});
 
