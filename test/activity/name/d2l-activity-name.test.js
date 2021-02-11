@@ -50,8 +50,6 @@ describe('d2l-activity-name', () => {
 			assert.equal(element.name, learningPathExisting.properties.name, 'name should match response');
 		});
 
-
-
 		it('updating should commit state', async() => {
 			const spy = sinon.spy(element.updateName);
 			const inputArea = element.shadowRoot.querySelector('d2l-input-text');
