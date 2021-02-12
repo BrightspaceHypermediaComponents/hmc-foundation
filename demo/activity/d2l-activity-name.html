@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link rel="stylesheet" href="/node_modules/@brightspace-ui/core/components/demo/styles.css" type="text/css">
+		<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+		<script type="module">
+			import '@brightspace-ui/core/components/demo/demo-page.js';
+			import '../../components/activity/name/d2l-activity-name.js';
+			import '../../components/activity/name/d2l-activity-name-editor.js';
+		</script>
+		<title>d2l-activity-name</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<meta charset="UTF-8">
+	</head>
+	<body>
+		<d2l-demo-page page-title="d2l-activity-name">
+			<h2>d2l-activity-name</h2>
+			<d2l-demo-snippet>
+				<d2l-activity-name-course href="../data/base/course-offering.json" token="cake"></d2l-activity-name-course>
+			</d2l-demo-snippet>
+
+			<h2>d2l-activity-name (learning path)</h2>
+			<p>Currently is combined with an editor for demo purposes.</p>
+			<d2l-demo-snippet>
+				<d2l-activity-name-learning-path href="../data/base/learning-path.json" token="cake"></d2l-activity-name-learning-path>
+			</d2l-demo-snippet>
+
+			<h2>d2l-activity-name-editor</h2>
+			<d2l-demo-snippet>
+				<d2l-activity-name-editor href="../data/base/learning-path.json" token="cake"></d2l-activity-name-editor>
+			</d2l-demo-snippet>
+
+		</d2l-demo-page>
+	</body>
+</html>
