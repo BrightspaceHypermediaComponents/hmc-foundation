@@ -24,6 +24,20 @@ class ActivityEditor extends LitElement {
 			:host {
 				display: block;
 			}
+			.d2l-activity-editor-template-primary-secondary {
+				display: grid;
+				grid-template-areas:
+					"header"
+					"content"
+					"footer";
+				grid-template-columns: auto;
+				grid-template-rows: auto 1fr auto;
+				height: calc(100vh - 134px);
+				margin: auto;
+				max-width: 1230px;
+				overflow-y: scroll;
+				position: relative;
+			}
 
 			.d2l-activity-editor-template-default {
 				display: grid;
@@ -38,7 +52,6 @@ class ActivityEditor extends LitElement {
 				max-width: 1230px;
 				overflow-y: scroll;
 			}
-
 			[class^="d2l-activity-editor-main"] {
 				display: block;
 			}
@@ -66,7 +79,7 @@ class ActivityEditor extends LitElement {
 				max-width: 1230px;
 				padding: 0.55rem 1.7rem 0.6rem 1.7rem;
 			}
-			.d2l-actiity-editor-template-footer-space {
+			.d2l-activity-editor-template-footer-space {
 				height: 0px;
 			}
 
@@ -93,7 +106,7 @@ class ActivityEditor extends LitElement {
 
 	constructor() {
 		super();
-		this.template = 'default';
+		this.template = 'primary-secondary';
 	}
 
 	render() {
@@ -134,17 +147,19 @@ class ActivityEditor extends LitElement {
 
 	_renderPrimarySecondary() {
 		return html`
-			<d2l-template-primary-secondary background-shading="secondary">
-				<slot name="editor-nav" slot="header"></slot>
-				${this.noHeader ? nothing : html`
-					<d2l-activity-editor-header slot="primary" href="${this.href}" .token="${this.token}"></d2l-activity-editor-header>
-				`}
-				<d2l-activity-editor-main slot="primary" href="${this.href}" .token="${this.token}" class="d2l-activity-editor-main"></d2l-activity-editor-main>
-				<d2l-activity-editor-sidebar slot="secondary" href="${this.href}" .token="${this.token}" class="d2l-activity-editor-sidebar"></d2l-activity-editor-sidebar>
-				<div slot="footer">
-					<d2l-activity-editor-footer href="${this.href}" .token="${this.token}"></d2l-activity-editor-footer>
-				</div>
-			</d2l-template-primary-secondary>
+			<div class="d2l-template-scroll d2l-activity-editor-template-primary-secondary">
+				<d2l-template-primary-secondary background-shading="secondary">
+					<slot name="editor-nav" slot="header"></slot>
+					${this.noHeader ? nothing : html`
+						<d2l-activity-editor-header slot="primary" href="${this.href}" .token="${this.token}"></d2l-activity-editor-header>
+					`}
+					<d2l-activity-editor-main slot="primary" href="${this.href}" .token="${this.token}" class="d2l-activity-editor-main"></d2l-activity-editor-main>
+					<d2l-activity-editor-sidebar slot="secondary" href="${this.href}" .token="${this.token}" class="d2l-activity-editor-sidebar"></d2l-activity-editor-sidebar>
+					<div slot="footer">
+						<d2l-activity-editor-footer href="${this.href}" .token="${this.token}"></d2l-activity-editor-footer>
+					</div>
+				</d2l-template-primary-secondary>
+			</div>
 			${this._renderLoadFailureDialog()}
 		`;
 	}
