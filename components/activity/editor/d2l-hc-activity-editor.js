@@ -32,11 +32,12 @@ class ActivityEditor extends LitElement {
 					"footer";
 				grid-template-columns: auto;
 				grid-template-rows: auto 1fr auto;
-				height: calc(100vh - 134px);
+				height: calc(100vh - 106px);
 				margin: auto;
 				max-width: 1230px;
 				overflow-y: scroll;
 				position: relative;
+				border: none;
 			}
 
 			.d2l-activity-editor-template-default {
@@ -62,7 +63,7 @@ class ActivityEditor extends LitElement {
 			iron-overlay-backdrop {
 				--iron-overlay-backdrop-opacity: 0.0;
 			}
-			.d2l-activity-editor-template-default-footer {
+			.d2l-activity-editor-template-footer {
 				background-color: #ffffff;
 				background-color: rgba(255, 255, 255, 0.88);
 				border-top-color: var(--d2l-color-mica);
@@ -74,7 +75,7 @@ class ActivityEditor extends LitElement {
 				position: fixed;
 				right: 0;
 			}
-			.d2l-activity-editor-template-default-footer * {
+			.d2l-activity-editor-template-footer * {
 				margin: auto;
 				max-width: 1230px;
 				padding: 0.55rem 1.7rem 0.6rem 1.7rem;
@@ -125,13 +126,13 @@ class ActivityEditor extends LitElement {
 
 	_renderDefault() {
 		return html`
-			<div class="d2l-activity-editor-template-default d2l-template-scroll">
+			<div class="d2l-template-scroll d2l-activity-editor-template-default">
 				${this.noHeader ? nothing : html`
 					<d2l-activity-editor-header href="${this.href}" .token="${this.token}"></d2l-activity-editor-header>
 				`}
 				<d2l-activity-editor-main href="${this.href}" .token="${this.token}"></d2l-activity-editor-main>
 				<div class="d2l-actiity-editor-template-footer-space"></div>
-				<div class="d2l-activity-editor-template-default-footer">
+				<div class="d2l-activity-editor-template-footer">
 					<d2l-activity-editor-footer href="${this.href}" .token="${this.token}"></d2l-activity-editor-footer>
 				</div>
 			</div>
@@ -156,7 +157,9 @@ class ActivityEditor extends LitElement {
 					<d2l-activity-editor-main slot="primary" href="${this.href}" .token="${this.token}" class="d2l-activity-editor-main"></d2l-activity-editor-main>
 					<d2l-activity-editor-sidebar slot="secondary" href="${this.href}" .token="${this.token}" class="d2l-activity-editor-sidebar"></d2l-activity-editor-sidebar>
 					<div slot="footer">
-						<d2l-activity-editor-footer href="${this.href}" .token="${this.token}"></d2l-activity-editor-footer>
+					<div class="d2l-activity-editor-template-footer">
+						<d2l-activity-editor-footer slot="primary" href="${this.href}" .token="${this.token}"></d2l-activity-editor-footer>
+					</div>
 					</div>
 				</d2l-template-primary-secondary>
 			</div>
