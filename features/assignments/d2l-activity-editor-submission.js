@@ -1,4 +1,4 @@
-import '../../components/activity/type/d2l-activity-type-editor.js';
+import '../../components/activity/type/d2l-activity-type.js';
 import '@brightspace-ui-labs/accordion/accordion-collapse.js';
 import { bodyCompactStyles, bodySmallStyles, heading3Styles, labelStyles } from '@brightspace-ui/core/components/typography/styles.js';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
