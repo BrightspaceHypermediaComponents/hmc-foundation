@@ -22,7 +22,7 @@
           "rel": [
             "https://activities.api.brightspace.com/rels/activity-usage"
           ],
-          "href": "../data/base/learning-path.json"
+          "href": "data/learning-path/course-offering.json"
         },
         {
           "rel": [
@@ -61,7 +61,7 @@
           "rel": [
             "https://activities.api.brightspace.com/rels/activity-usage"
           ],
-          "href": "../data/base/learning-path.json"
+          "href": "data/learning-path/course-offering.json"
         },
         {
           "rel": [
@@ -86,7 +86,7 @@
       "method": "POST"
     },
     {
-      "href": "../../demo/data/base/add-existing-activity.json",
+      "href": "../../demo/data/learning-path/add-existing-activity.json",
       "name": "start-add-existing-activity",
       "method": "GET"
     },
