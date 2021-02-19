@@ -22,7 +22,7 @@
           "rel": [
             "https://activities.api.brightspace.com/rels/activity-usage"
           ],
-          "href": "../data/base/learning-path.json"
+          "href": "data/base/course-offering.json"
         },
         {
           "rel": [
@@ -61,7 +61,7 @@
           "rel": [
             "https://activities.api.brightspace.com/rels/activity-usage"
           ],
-          "href": "../data/base/learning-path.json"
+          "href": "data/base/course-offering.json"
         },
         {
           "rel": [

@@ -21,7 +21,7 @@
       "rel": [
         "https://api.brightspace.com/rels/organization-image"
       ],
-      "href": "../data/base/image.json"
+      "href": "../../demo/data/base/image.json"
     },
     {
       "rel": [

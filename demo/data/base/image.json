@@ -31,7 +31,7 @@
         "alternate"
       ],
       "type": "image/jpeg",
-      "href": "../data/images/tile-low-density-max-size.jpg"
+      "href": "../../demo/data/images/tile-low-density-max-size.jpg"
     }
   ]
 }
