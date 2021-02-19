@@ -24,23 +24,10 @@ class ActivityEditor extends LitElement {
 			:host {
 				display: block;
 			}
-			.d2l-activity-editor-template-primary-secondary {
-				display: grid;
-				grid-template-areas:
-					"header"
-					"content"
-					"footer";
-				grid-template-columns: auto;
-				grid-template-rows: auto 1fr auto;
-				height: calc(100vh - 106px);
-				margin: auto;
-				max-width: 1230px;
-				overflow-y: scroll;
+			.d2l-primary-secondary {
 				position: relative;
-				border: none;
 			}
-
-			.d2l-activity-editor-template-default {
+			.d2l-activity-editor-template {
 				display: grid;
 				grid-template-areas:
 					"header"
@@ -112,7 +99,7 @@ class ActivityEditor extends LitElement {
 
 	render() {
 		const templates = {
-			'default': () => this._renderDefault(),
+			'single-pane': () => this._renderSinglePane(),
 			'primary-secondary': () => this._renderPrimarySecondary()
 		};
 
@@ -124,9 +111,9 @@ class ActivityEditor extends LitElement {
 		return templates[this.template]();
 	}
 
-	_renderDefault() {
+	_renderSinglePane() {
 		return html`
-			<div class="d2l-template-scroll d2l-activity-editor-template-default">
+			<div class="d2l-template-scroll d2l-activity-editor-template">
 				${this.noHeader ? nothing : html`
 					<d2l-activity-editor-header href="${this.href}" .token="${this.token}"></d2l-activity-editor-header>
 				`}
@@ -148,7 +135,7 @@ class ActivityEditor extends LitElement {
 
 	_renderPrimarySecondary() {
 		return html`
-			<div class="d2l-template-scroll d2l-activity-editor-template-primary-secondary">
+			<div class="d2l-template-scroll d2l-activity-editor-template d2l-primary-secondary">
 				<d2l-template-primary-secondary background-shading="secondary">
 					<slot name="editor-nav" slot="header"></slot>
 					${this.noHeader ? nothing : html`
