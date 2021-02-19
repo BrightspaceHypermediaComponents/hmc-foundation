@@ -1,8 +1,8 @@
 import '@brightspace-ui-labs/checkbox-drawer/checkbox-drawer.js';
 import '@brightspace/discover-components/components/rule-picker-dialog.js';
-import { bodySmallStyles } from '@brightspace-ui/core/components/typography/styles.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
+import { bodySmallStyles } from '@brightspace-ui/core/components/typography/styles.js';
 import { LocalizeDiscoverEntitlement } from './lang/localization.js';
 import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton-mixin.js';
 
@@ -81,7 +81,7 @@ class EntitlementRules extends LocalizeDiscoverEntitlement(SkeletonMixin(Hyperme
 		`;
 	}
 
-	_onRuleConditionsChanged(e) {
+	_onRuleConditionsChanged() {
 		//todo: change the state from within the component instead of catching this event
 	}
 
