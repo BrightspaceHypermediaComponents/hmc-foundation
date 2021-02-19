@@ -1,0 +1,81 @@
+{
+  "class": [
+    "named-entity",
+    "describable-entity",
+    "active",
+    "course-offering"
+  ],
+  "properties": {
+    "name": "The Legend of Zelda",
+    "code": "MTE320",
+    "startDate": null,
+    "endDate": null,
+    "isActive": true,
+    "description": "Determining the true Zelda timeline"
+  },
+  "entities": [
+    {
+      "class": [
+        "course-image"
+      ],
+      "rel": [
+        "https://api.brightspace.com/rels/organization-image"
+      ],
+      "href": "../../demo/data/base/image.json"
+    },
+    {
+      "rel": [
+        "https://api.brightspace.com/rels/organization-homepage"
+      ],
+      "properties": {
+        "path": "http://example.com"
+      }
+    }
+  ],
+  "links": [
+    {
+      "rel": [
+        "self"
+      ],
+      "href": "../data/base/organization.json"
+    },
+    {
+      "rel": [
+        "https://api.brightspace.com/rels/parent-semester"
+      ],
+      "href": "../data/base/semester.json"
+    }
+  ],
+  "actions": [
+    {
+      "href": "https://example.com/123061",
+      "name": "update-name",
+      "method": "PATCH",
+      "fields": [
+        {
+          "class": [
+            "required"
+          ],
+          "type": "text",
+          "name": "name",
+          "value": "Course"
+        }
+      ]
+    },
+    {
+      "href": "https://example.com/123061",
+      "name": "update-description",
+      "method": "PATCH",
+      "fields": [
+        {
+          "class": [
+            "required"
+          ],
+          "type": "text",
+          "name": "description",
+          "value": ""
+        }
+      ]
+    }
+  ]
+}

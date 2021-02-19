@@ -38,6 +38,12 @@
     },
     {
       "rel": [
+        "https://activities.api.brightspace.com/rels/activity-collection"
+      ],
+      "href": "../../demo/data/base/collection-empty.json"
+    },
+    {
+      "rel": [
         "alternate"
       ],
       "type": "text/html",

@@ -1,0 +1,31 @@
+{
+  "entities": [
+  ],
+  "actions": [
+    {
+      "href": "https://a71e6beb-ddbc-4b15-8cbf-11b5bf524779.activities.api.dev.brightspace.com/activities/6606_706000_123059/usages/123059/collection/actions?mode=New",
+      "name": "start-add-new-activity",
+      "method": "POST"
+    },
+    {
+      "href": "../../demo/data/base/add-existing-activity.json",
+      "name": "start-add-existing-activity",
+      "method": "GET"
+    },
+    {
+      "href": "https://a71e6beb-ddbc-4b15-8cbf-11b5bf524779.activities.api.dev.brightspace.com/activities/6606_706000_123059/usages/123059/collection",
+      "name": "move-activity",
+      "method": "PATCH",
+      "fields": [
+        {
+          "type": "text",
+          "name": "itemToMoveId"
+        },
+        {
+          "type": "text",
+          "name": "targetId"
+        }
+      ]
+    }
+  ]
+}
