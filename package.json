@@ -36,8 +36,10 @@
   },
   "dependencies": {
     "@brightspace-hmc/foundation-engine": "github:BrightspaceHypermediaComponents/foundation-engine#semver:^0",
+    "@brightspace-ui-labs/checkbox-drawer": "git+https://github.com/BrightspaceUILabs/checkbox-drawer.git",
     "@brightspace-ui-labs/list-item-accumulator": "^1",
     "@brightspace-ui/core": "^1",
+    "@brightspace/discover-components": "git+https://github.com/Brightspace/Discover-Components.git",
     "d2l-activities": "BrightspaceHypermediaComponents/activities.git#semver:^3",
     "d2l-course-image": "github:Brightspace/course-image#semver:^3",
     "lit-element": "^2",
