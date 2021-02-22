@@ -1,5 +1,5 @@
 import '@brightspace-ui-labs/checkbox-drawer/checkbox-drawer.js';
-import '@brightspace/discover-components/components/rule-picker-dialog.js';
+import './d2l-discover-rule-picker-dialog.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { bodySmallStyles } from '@brightspace-ui/core/components/typography/styles.js';
@@ -24,7 +24,8 @@ class EntitlementRules extends LocalizeDiscoverEntitlement(SkeletonMixin(Hyperme
 			// ] },
 			conditionTypes: { observable: observableTypes.subEntities, rel: rels.conditionType, route: [
 				{ observable: observableTypes.link, rel: rels.conditionTypes }
-			]}
+			]},
+			_conditionTypesHref: { observable: observableTypes.link, rel: rels.conditionTypes } // must be defined after the above
 		};
 	}
 
@@ -71,11 +72,13 @@ class EntitlementRules extends LocalizeDiscoverEntitlement(SkeletonMixin(Hyperme
 			</div>
 			` : null}
 			${typeList ? html`
-			<rule-picker-dialog
+			<d2l-discover-rule-picker-dialog
+				href="${this._conditionTypesHref}"
+				token="${this.token}"
 				@rule-conditions-changed="${this._onRuleConditionsChanged}"
 				.conditionTypes="${typeList}"
 				default="${typeList[0]}"
-			></rule-picker-dialog>
+			></d2l-discover-rule-picker-dialog>
 			` : null }
 			</d2l-labs-checkbox-drawer>
 		`;

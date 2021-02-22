@@ -5,4 +5,16 @@ export default {
 	"text-checkbox-description": "Inactive courses will not be included in Discover", // extra info for discover checkbox
 	"text-rules": "Enrollment Rules", // title for enrollment rules options
 	"text-rules-description": "To self-enroll in this course, users must match one or more of these rules.", // description for enrollment rules
+	"addAnotherCondition": "Add Another Condition",
+	"addEnrollmentRuleButton": "Add Enrollment Rule",
+	"addEnrollmentRuleHeader": "Add Enrollment Rule",
+	"and": "AND",
+	"cancel": "Cancel",
+	"conditionIs": "is",
+	"conditionOrgRole": "Org Role",
+	"done": "Done",
+	"pickerSelectConditions": "Select Conditions",
+	"removeCondition": "Remove condition {conditionType}",
+	"selectConditions": "Select Conditions",
+	"ruleMatches": "Rule matches {count} users"
 };
