@@ -1,0 +1,24 @@
+{
+  "class": [
+    "named-entity",
+    "describable-entity",
+    "draft-published-entity",
+    "published",
+    "active",
+    "course-offering",
+    "self-assignable"
+  ],
+  "properties": {
+    "name": "Course",
+    "code": "C1",
+    "startDate": null,
+    "endDate": null,
+    "isActive": true,
+    "description": ""
+  },
+  "links": [
+    { "rel": [ "self" ], "href": "../demo/course.json" },
+    { "rel": [ "entitlement-rules" ], "href": "../demo/course-entitlement-rules.json" },
+    { "rel": [ "available-condition-types" ], "href": "../demo/condition-types.json" }
+  ]
+}

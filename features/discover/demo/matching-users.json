@@ -1,0 +1,49 @@
+{
+  "class": ["collection", "users"],
+  "entitites": [
+    {
+      "class": ["user"],
+      "properties": {
+        "displayName": "Zina Ramirez",
+        "firstName": "Zina",
+        "lastName": "Ramirez",
+        "userId": 100
+      },
+      "links": [
+        { "rel": ["self"], "href": "../demo/user-1.json" },
+        { "rel": ["image"], "href": "../demo/user-image.png" }
+      ]
+    },
+    {
+      "class": ["user"],
+      "properties": {
+        "displayName": "Brad Hamelin",
+        "firstName": "Bradley",
+        "lastName": "Hamelin",
+        "userId": 90
+      },
+      "links": [
+        { "rel": ["self"], "href": "../demo/user-2.json" },
+        { "rel": ["image"], "href": "../demo/user-image2.png" }
+      ]
+    },
+    {
+      "class": ["user"],
+      "properties": {
+        "displayName": "Alex Kobets",
+        "firstName": "Alex",
+        "lastName": "Kobets",
+        "userId": 20
+      },
+      "links": [
+        { "rel": ["self"], "href": "../demo/user-3.json" }
+      ]
+    }
+  ],
+  "properties": {
+    "total": 120
+  },
+  "links": [
+    { "rel": ["self"], "href": "../demo/matching-users.json" }
+  ]
+}
