@@ -46,6 +46,8 @@ Components that have not been made fully shareable can be found in the [features
   * Availability editor
   * Score editor
   * Submission editor
+* Discover
+  * [Entitlement Rules](features/discover): Displays the rules for self enrollment and allows users to edit them
 
 ### Creating New Components
 

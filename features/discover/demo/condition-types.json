@@ -1,0 +1,35 @@
+{
+  "entities": [
+    {
+      "actions": [{
+        "name": "possible-values",
+        "href": "../demo/condition-typea-values.json",
+        "method": "POST"
+      }],
+      "properties": {
+        "type": "conditionTypeA"
+      },
+      "links": [
+        { "rel": ["self"], "href": "../demo/condition-type-a.json" }
+      ],
+      "rel": ["condition-type"]
+    },
+    {
+      "actions": [{
+        "name": "possible-values",
+        "href": "../demo/condition-typeb-values.json",
+        "method": "POST"
+      }],
+      "properties": {
+        "type": "conditionTypeB"
+      },
+      "links": [
+        { "rel": ["self"], "href": "../demo/condition-type-b.json" }
+      ],
+      "rel": ["condition-type"]
+    }
+  ],
+  "links": [
+    { "rel": ["self"], "href": "../demo/condition-types.json" }
+  ]
+}

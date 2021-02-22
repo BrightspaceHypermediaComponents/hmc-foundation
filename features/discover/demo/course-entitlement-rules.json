@@ -1,0 +1,20 @@
+{
+  "entities": [
+    {
+      "rel": ["rule"],
+      "entities": [
+        {
+          "rel": ["condition"],
+          "properties": {
+            "type": "TypeX",
+            "values": [ "value1", "value2" ]
+          }
+        }
+      ],
+      "links": [ { "rel": ["matching-users"], "href": "../demo/matching-users.json"} ]
+    }
+  ],
+  "links": [
+    { "rel": ["self"], "href": "../demo/course-entitlement-rules.json" }
+  ]
+}
