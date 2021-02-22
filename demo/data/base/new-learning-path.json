@@ -1,5 +1,5 @@
 {
-	"class": ["named-entity", "describable-entity", "draft-published-entity", "published", "active", "learning-path"],
+	"class": ["draft", "named-entity", "describable-entity", "draft-published-entity", "published", "active", "learning-path"],
 	"properties": {
 		"name":"",
 		"code":"LP",
@@ -55,6 +55,23 @@
       ],
       "type": "text/html",
       "href": "http://127.0.0.1:8081/components/d2l-activities/demo/d2l-activity-collection-editor/d2l-activity-collection-editor-demo.html"
+    }
+  ],
+  "actions": [
+    {
+      "href": "/update/name",
+      "name": "update-draft",
+      "method": "PATCH",
+      "fields": [
+        {
+          "class": [
+            "required"
+          ],
+          "type": "text",
+          "name": "name",
+          "value": "[object Object]"
+        }
+      ]
     }
   ]
 }
