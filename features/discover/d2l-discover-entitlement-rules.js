@@ -59,7 +59,7 @@ class EntitlementRules extends LocalizeDiscoverEntitlement(SkeletonMixin(Hyperme
 		return html`
 			<h4 class="d2l-body-small d2l-skeletize"><strong>${this.localize('text-title')}</strong></h4>
 			<d2l-labs-checkbox-drawer
-				?checked="${this.isSelfEnrollable}"
+				?checked="${this.isSelfEnrollable || (this.rules && this.rules.length)}"
 				label="${this.localize('label-checkbox')}"
 				description="${this.localize('text-checkbox-description')}"
 				class="d2l-skeletize">

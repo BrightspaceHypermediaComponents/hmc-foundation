@@ -18,7 +18,7 @@
   },
   "links": [
     { "rel": [ "self" ], "href": "../demo/course.json" },
-    { "rel": [ "entititlement-rules" ], "href": "../demo/course-entititlement-rules.json" },
+    { "rel": [ "entitlement-rules" ], "href": "../demo/course-entitlement-rules.json" },
     { "rel": [ "available-condition-types" ], "href": "../demo/condition-types.json" }
   ]
 }

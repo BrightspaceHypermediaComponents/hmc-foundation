@@ -15,6 +15,6 @@
     }
   ],
   "links": [
-    { "rel": ["self"], "href": "../demo/course-enrollment-rules.json" }
+    { "rel": ["self"], "href": "../demo/course-entitlement-rules.json" }
   ]
 }
