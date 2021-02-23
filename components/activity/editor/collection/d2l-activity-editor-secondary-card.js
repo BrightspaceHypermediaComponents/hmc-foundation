@@ -1,11 +1,10 @@
 
 import '@brightspace-ui-labs/accordion/accordion-collapse.js';
-import '@brightspace-ui-labs/accordion/accordion.js';
 import { css, LitElement } from 'lit-element/lit-element';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { labelStyles } from '@brightspace-ui/core/components/typography/styles.js';
 
-class ActivityAvailabilityDatesEditor extends LitElement {
+class ActivityEditorSecondaryCard extends LitElement {
 
 	static get styles() {
 		return [labelStyles, css`
@@ -22,17 +21,28 @@ class ActivityAvailabilityDatesEditor extends LitElement {
 	render() {
 
 		return html`
-		<d2l-labs-accordion-collapse
-		flex header-border>
+		<d2l-activity-accordion-collapse header-border>
 		<span slot="header">
-			Words!
+		<h3>
+		Additional Identification
+		</h3>
 		</span>
-		<ul slot="summary">
-			More words!
-		</ul>
-		</d2l-labs-accordion-collapse>
+		</d2l-activity-accordion-collapse>
 		`;
 	}
 }
 
-customHypermediaElement('d2l-activity-editor-card', ActivityAvailabilityDatesEditor);
+customHypermediaElement('d2l-activity-editor-card', ActivityEditorSecondaryCard);
+
+/*
+<d2l-activity-accordion-collapse flex header-border>
+		<span slot="header">
+			<h3>
+			Additional Identification
+			</h3>
+		</span>
+		<span slot="content">
+		Components go here.
+		</span>
+		</d2l-activity-accordion-collapse>
+*/
