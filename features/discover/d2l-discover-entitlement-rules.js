@@ -11,7 +11,7 @@ const rels = Object.freeze({
 	rule: 'rule',
 	entitlementRules: 'entitlement-rules',
 	conditionType: 'condition-type',
-	conditionTypes: 'available-condition-types'
+	newRule: 'new-rule'
 });
 
 class EntitlementRules extends LocalizeDiscoverEntitlement(SkeletonMixin(HypermediaStateMixin(LitElement))) {
@@ -22,10 +22,13 @@ class EntitlementRules extends LocalizeDiscoverEntitlement(SkeletonMixin(Hyperme
 			// rules: { observable: observableTypes.subEntities, rel: rels.rule, route: [
 			// 	{ observable: observableTypes.link, rel: rels.entitlementRules }
 			// ] },
-			conditionTypes: { observable: observableTypes.subEntities, rel: rels.conditionType, route: [
-				{ observable: observableTypes.link, rel: rels.conditionTypes }
-			]},
-			_conditionTypesHref: { observable: observableTypes.link, rel: rels.conditionTypes } // must be defined after the above
+			_dialogOpened: { type: Boolean },
+			_newRuleHref: { observable: observableTypes.link, rel: rels.newRule, route: [
+				{ observable: observableTypes.link, rel: rels.entitlementRules }
+			] },
+			// _addNewRule: { observable: observableTypes.action, name: "add-new-rule", route: [
+			// 	{ observable: observableTypes.link, rel: rels.entitlementRules }
+			// ]}
 		};
 	}
 
@@ -71,21 +74,27 @@ class EntitlementRules extends LocalizeDiscoverEntitlement(SkeletonMixin(Hyperme
 				<!-- rules cards -->
 			</div>
 			` : null}
-			${typeList ? html`
+			<d2l-button-subtle
+				@click=${this._onButtonClick}
+				id="add-enrollment-rule-button"
+				text="${this.localize('addEnrollmentRuleButton')}"
+				icon="tier1:lock-locked"></d2l-button-subtle>
 			<d2l-discover-rule-picker-dialog
-				href="${this._conditionTypesHref}"
+				@d2l-dialog-close="${this._onDialogClose}"
+				href="${this._newRuleHref}"
 				token="${this.token}"
-				@rule-conditions-changed="${this._onRuleConditionsChanged}"
-				.conditionTypes="${typeList}"
-				default="${typeList[0]}"
+				?opened="${this._dialogOpened}"
 			></d2l-discover-rule-picker-dialog>
-			` : null }
 			</d2l-labs-checkbox-drawer>
 		`;
 	}
 
-	_onRuleConditionsChanged() {
-		//todo: change the state from within the component instead of catching this event
+	_onButtonClick() {
+		this._dialogOpened = true;
+	}
+
+	_onDialogClose() {
+		this._dialogOpened = false;
 	}
 
 }

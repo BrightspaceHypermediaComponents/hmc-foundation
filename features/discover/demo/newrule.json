@@ -1,0 +1,13 @@
+{
+  "actions": [
+    { "name": "update-conditions", "method": "PATCH", "href": "../demo/add-conditions-result.json", "fields": [
+      { "name": "conditions", "type": "text" }
+    ] }
+  ],
+  "class": ["rule", "creating"],
+  "links": [
+    { "rel": ["self"], "href": "../demo/newrule.json"},
+    { "rel": ["matching-users"], "href": "../demo/matching-users.json"},
+    { "rel": [ "available-condition-types" ], "href": "../demo/condition-types.json" }
+  ]
+}

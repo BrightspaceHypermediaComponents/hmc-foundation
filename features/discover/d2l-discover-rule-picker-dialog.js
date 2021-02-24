@@ -2,31 +2,25 @@ import '@brightspace-ui/core/components/button/button.js';
 import '@brightspace-ui/core/components/button/button-subtle.js';
 import '@brightspace-ui/core/components/dialog/dialog.js';
 import '@brightspace-ui/core/components/inputs/input-text.js';
-import '@brightspace/discover-components/components/rule-picker.js';
+import './d2l-discover-entitlement-rule-picker.js';
 
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { LocalizeDiscoverEntitlement } from './lang/localization.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 
+const rels = Object.freeze({
+	condition: 'condition',
+	updateCondions: 'update-conditions',
+});
+
 class RulePickerDialog extends LocalizeDiscoverEntitlement(HypermediaStateMixin(RtlMixin(LitElement))) {
 	static get properties() {
 		return {
-			opened: {
-				type: Boolean,
-			},
-			conditionList: {
-				type: Array,
-			},
-			conditionTypes: {
-				type: Array
-			},
-			defaultType: {
-				type: String
-			},
-			_savedConditionList: {
-				type: Array,
-			},
+			opened: { type: Boolean },
+			conditions: { type: Array, observable: observableTypes.subEntities, rel: rels.condition },
+			creating: { type: Boolean, observable: observableTypes.classes, method: classes => classes.includes('creating') },
+			updateConditions: { observable: observableTypes.action, name: rels.updateCondions }
 		};
 	}
 
@@ -41,81 +35,69 @@ class RulePickerDialog extends LocalizeDiscoverEntitlement(HypermediaStateMixin(
 	constructor() {
 		super();
 		this.conditionTypes = [];
-		this.defaultType = '';
-		this.conditionList = {};
-		this._savedConditionList = {};
+		this.conditions = [];
+		this._copiedConditions = [];
+	}
+
+	updated(changedProperties) {
+		super.updated(changedProperties);
+		if (changedProperties.has('opened')) {
+			this._copyConditions();
+		}
 	}
 
 	render() {
 		return html`
-			<d2l-button-subtle
-				@click=${this._openDialog}
-				id="add-enrollment-rule-button"
-				text="${this.localize('addEnrollmentRuleButton')}"
-				icon="tier1:lock-locked"></d2l-button-subtle>
-			<d2l-dialog ?opened="${this.opened}" @d2l-dialog-close="${this._dialogClosed}" title-text="${this.localize('addEnrollmentRuleHeader')}">
+			<d2l-dialog
+				?opened="${this.opened}"
+				title-text="${this.creating ? this.localize('addEnrollmentRuleHeader') : this.localize('editEnrollmentRuleHeader')}">
 				<div class="d2l-rule-picker-area">${this.localize('pickerSelectConditions')}</div>
-				<rule-picker
-					.conditionTypes="${this.conditionTypes}"
-					defaultType="${this.defaultType}"
-					@add-condition-pressed="${this._addConditionPressed}"
+				<d2l-discover-entitlement-rule-picker
+					href="${this.href}"
+					.token="${this.token}"
+					@d2l-rule-condition-added="${this._onConditionAdded}"
 					>
-				</rule-picker>
-				<d2l-button @click="${this._dialogDonePressed}" slot="footer" primary data-dialog-action="done">Done</d2l-button>
-				<d2l-button @click="${this._dialogCancelPressed}" slot="footer" data-dialog-action>Cancel</d2l-button>
+				</d2l-discover-entitlement-rule-picker>
+				<d2l-button @click="${this._onDoneClick}" slot="footer" primary data-dialog-action="done">Done</d2l-button>
+				<d2l-button @click="${this._onCancelClick}" slot="footer" data-dialog-action>Cancel</d2l-button>
 			</d2l-dialog>
 		`;
 	}
 
-	_addConditionPressed() {
+	_onConditionAdded() {
 		const dialog = this.shadowRoot.querySelector('d2l-dialog');
 		dialog.resize();
 	}
 
-	_cancelConditions() {
-		this.conditionList = this._copyConditions(this._savedConditionList);
-	}
-
-	_copyConditions(originalList) {
-		const newList = [];
-		for (let x = 0; x < originalList.length; x++) {
-			const condition = {};
-			condition.type = originalList[x].type;
-			condition.value = originalList[x].value;
-			newList.push(condition);
-		}
-
-		return newList;
-	}
-
-	_dialogCancelPressed() {
-		this.conditionList = this._copyConditions(this._savedConditionList);
-		this.requestUpdate().then(() => {
-			const picker = this.shadowRoot.querySelector('rule-picker');
-			picker.reload(this.conditionList);
+	_copyConditions() {
+		this._copiedConditions = this.conditions.map(condition => {
+			return {...condition};
 		});
 	}
 
-	_dialogClosed() {
-		this.opened = false;
+	_onCancelClick() {
+		this.conditions = this._copiedConditions;
+		this.requestUpdate().then(() => {
+			const picker = this.shadowRoot.querySelector('d2l-discover-entitlement-rule-picker');
+			picker.reload(this.conditions);
+		});
 	}
 
-	_dialogDonePressed() {
-		this._savedConditionList = this._copyConditions(this.conditionList);
-		this.requestUpdate();
-		this.dispatchEvent(new CustomEvent('rule-conditions-changed', {
-			detail: { conditionList: this._copyConditions(this.conditionList) },
-			bubbles: true,
-			composed: true
-		}));
-	}
-
-	_openDialog() {
-		this.opened = true;
-	}
-
-	_saveConditions() {
-		this._savedConditionList = this._copyConditions(this.conditionList);
+	_onDoneClick() {
+		const picker = this.shadowRoot.querySelector('d2l-discover-entitlement-rule-picker');
+		this._state.updateProperties({
+			conditions: {
+				observable: observableTypes.subEntities,
+				rel: rels.condition,
+				value: picker.conditions
+			}
+		});
+		// action is commited differently because it's a JSON string
+		this.updateConditions.commit({
+			conditions: JSON.stringify(this.conditions.map(condition => {
+				return { type: condition.properties.type, value: condition.properties.value };
+			}))
+		});
 	}
 }
 

@@ -8,6 +8,7 @@ export default {
 	"addAnotherCondition": "Add Another Condition",
 	"addEnrollmentRuleButton": "Add Enrollment Rule",
 	"addEnrollmentRuleHeader": "Add Enrollment Rule",
+	"editEnrollmentRuleHeader": "Edit Enrollment Rule",
 	"and": "AND",
 	"cancel": "Cancel",
 	"conditionIs": "is",
