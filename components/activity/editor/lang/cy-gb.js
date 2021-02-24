@@ -3,7 +3,7 @@
 export default {
 	"action-addActivity": "Ychwanegu Gweithgaredd", // Add a learning task to a list that are similar.
 	"action-cancel": "Canslo", // Undo all changes and return to the learning path admin page.
-	"action-save": "Save", // Save all changes and return to the learning path admin page -- visible when screen is small
+	"action-save": "Cadw", // Save all changes and return to the learning path admin page -- visible when screen is small
 	"action-saveClose": "Cadw a Chau", // Save all changes and return to the learning path admin page.
 	"label-instructions": "Cyfarwyddiadau", // Shows where the user should write instructions for an activity
 	"label-ok": "Iawn", // Confirm dialog box was read to return to editing learning path after save error
