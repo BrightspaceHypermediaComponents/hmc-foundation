@@ -27,13 +27,6 @@ class ActivityCollectionEditorSidebar extends HypermediaStateMixin(LitElement) {
 			:host([hidden]) {
 				display: none;
 			}
-			:host > * {
-				background: var(--d2l-color-white);
-				border-radius: 8px;
-				margin-bottom: 10px;
-				padding: 20px;
-				padding-top: 0;
-			}
 			`
 		];
 	}

@@ -14,35 +14,28 @@ class ActivityEditorSecondaryCard extends LitElement {
 			:host {
 				display: flex;
 				flex-direction: column;
+				background: var(--d2l-color-white);
+				border-radius: 8px;
+				margin-bottom: 10px;
+				padding: 20px;
+				padding-top: 0;
 			}
 		`];
 	}
 
 	render() {
-
 		return html`
-		<d2l-activity-accordion-collapse header-border>
 		<span slot="header">
 		<h3>
 		Additional Identification
 		</h3>
+		<hr>
 		</span>
-		</d2l-activity-accordion-collapse>
+		<span class="content">
+		Blah blah blah
+		</span>
 		`;
 	}
 }
 
 customHypermediaElement('d2l-activity-editor-card', ActivityEditorSecondaryCard);
-
-/*
-<d2l-activity-accordion-collapse flex header-border>
-		<span slot="header">
-			<h3>
-			Additional Identification
-			</h3>
-		</span>
-		<span slot="content">
-		Components go here.
-		</span>
-		</d2l-activity-accordion-collapse>
-*/
