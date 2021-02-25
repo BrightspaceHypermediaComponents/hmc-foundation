@@ -1,0 +1,183 @@
+{
+  "class": [
+    "named-entity",
+    "describable-entity",
+    "draft-published-entity",
+    "published",
+    "active",
+    "learning-path"
+  ],
+  "properties": {
+    "name": "Existing Learning Path",
+    "code": "LP",
+    "startDate": null,
+    "endDate": null,
+    "isActive": true,
+    "description": "This is a learning path that exists"
+  },
+  "entities": [
+    {
+      "class": [
+        "richtext",
+        "description"
+      ],
+      "rel": [
+        "item"
+      ],
+      "properties": {
+        "text": "description of my LP",
+        "html": "description of my LP"
+      }
+    },
+    {
+      "class": [
+        "color"
+      ],
+      "rel": [
+        "https://api.brightspace.com/rels/color"
+      ],
+      "properties": {
+        "hexString": "#2f5e00",
+        "description": ""
+      }
+    },
+    {
+      "class": [
+        "course-image"
+      ],
+      "rel": [
+        "https://api.brightspace.com/rels/organization-image",
+        "nofollow"
+      ],
+      "href": "/images/123456"
+    },
+    {
+      "class": [
+        "relative-uri"
+      ],
+      "rel": [
+        "item",
+        "https://api.brightspace.com/rels/organization-homepage"
+      ],
+      "properties": {
+        "path": "/learningpaths/123231/View"
+      }
+    }
+  ],
+  "actions": [
+    {
+      "href": "/update/name",
+      "name": "update-name",
+      "method": "PATCH",
+      "fields": [
+        {
+          "class": [
+            "required"
+          ],
+          "type": "text",
+          "name": "name",
+          "value": "[object Object]"
+        }
+      ]
+    },
+    {
+      "href": "/description/update",
+      "name": "update-description",
+      "method": "PATCH",
+      "fields": [
+        {
+          "class": [
+            "required"
+          ],
+          "type": "text",
+          "name": "description",
+          "value": "description of my LP"
+        }
+      ]
+    },
+    {
+      "href": "/update/draft",
+      "name": "update-draft",
+      "method": "PATCH",
+      "fields": [
+        {
+          "type": "checkbox",
+          "name": "draft",
+          "value": false
+        }
+      ]
+    },
+    {
+      "href": "/set/catalog/image",
+      "name": "set-catalog-image",
+      "method": "POST",
+      "fields": [
+        {
+          "type": "text",
+          "name": "imagePath",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "href": "/remove/homepage/banner",
+      "name": "remove-homepage-banner",
+      "method": "PUT",
+      "fields": [
+        {
+          "type": "hidden",
+          "name": "showCourseBanner",
+          "value": false
+        }
+      ]
+    },
+    {
+      "href": "/delete/item",
+      "name": "delete",
+      "method": "DELETE"
+    }
+  ],
+  "links": [
+    {
+      "rel": [
+        "https://activities.api.brightspace.com/rels/activity-usage",
+        "self"
+      ],
+      "href": "../../../demo/data/base/existing-learning-path.json"
+    },
+    {
+      "rel": [
+        "https://activities.api.brightspace.com/rels/user-activity-usage",
+        "https://activities.api.brightspace.com/rels/my-activity-usage"
+      ],
+      "href": "https://activities.api.proddev.d2l/activities/6606_706000_6607/usages/6607/users/169"
+    },
+    {
+      "rel": [
+        "https://activities.api.brightspace.com/rels/activity-collection"
+      ],
+      "href": "../../demo/data/base/collection-full.json"
+    },
+    {
+      "rel": [
+        "https://api.brightspace.com/rels/organization",
+        "https://api.brightspace.com/rels/specialization"
+      ],
+      "href": "../../../demo/data/base/existing-learning-path.json"
+    },
+    {
+      "rel": [
+        "alternate"
+      ],
+      "type": "text/html",
+      "href": "http://127.0.0.1:8081/components/d2l-activities/demo/d2l-activity-admin-list/d2l-activity-admin-list-demo.html"
+    },
+    {
+      "rel": [
+        "edit"
+      ],
+      "type": "text/html",
+      "href": "http://127.0.0.1:8081/components/d2l-activities/demo/d2l-activity-collection-editor/d2l-activity-collection-editor-demo.html"
+    }
+  ]
+}

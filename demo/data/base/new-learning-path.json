@@ -1,0 +1,77 @@
+{
+	"class": ["draft", "named-entity", "describable-entity", "draft-published-entity", "published", "active", "learning-path"],
+	"properties": {
+		"name":"",
+		"code":"LP",
+		"startDate":null,
+		"endDate":null,
+		"isActive":true,
+		"description":""
+	},
+	"entities": [
+		{"class":["richtext",  "description"],  "rel":["item"], "properties":{"text":"", "html":""}},
+		{"class":["color"],  "rel":["https://api.brightspace.com/rels/color"],  "properties":{"hexString":"#2f5e00",  "description":""}},
+		{"class":["course-image"],  "rel":["https://api.brightspace.com/rels/organization-image",  "nofollow"],  "href":"/images/123456"},
+		{"class":["relative-uri"],  "rel":["item",  "https://api.brightspace.com/rels/organization-homepage"],  "properties":{"path":"/learningpaths/123456/View"}}
+	],
+  "links": [
+    {
+      "rel": [
+        "https://activities.api.brightspace.com/rels/activity-usage",
+        "self"
+      ],
+      "href": "../../../demo/data/base/new-learning-path.json"
+    },
+    {
+      "rel": [
+        "https://activities.api.brightspace.com/rels/user-activity-usage",
+        "https://activities.api.brightspace.com/rels/my-activity-usage"
+      ],
+      "href": "https://activities.api.proddev.d2l/activities/6606_706000_6607/usages/6607/users/169"
+    },
+    {
+      "rel": [
+        "https://api.brightspace.com/rels/organization",
+        "https://api.brightspace.com/rels/specialization"
+      ],
+      "href": "../../../demo/data/base/new-learning-path.json"
+    },
+    {
+      "rel": [
+        "https://activities.api.brightspace.com/rels/activity-collection"
+      ],
+      "href": "../../demo/data/base/collection-empty.json"
+    },
+    {
+      "rel": [
+        "alternate"
+      ],
+      "type": "text/html",
+      "href": "http://127.0.0.1:8081/components/d2l-activities/demo/d2l-activity-admin-list/d2l-activity-admin-list-demo.html"
+    },
+    {
+      "rel": [
+        "edit"
+      ],
+      "type": "text/html",
+      "href": "http://127.0.0.1:8081/components/d2l-activities/demo/d2l-activity-collection-editor/d2l-activity-collection-editor-demo.html"
+    }
+  ],
+  "actions": [
+    {
+      "href": "/update/name",
+      "name": "update-draft",
+      "method": "PATCH",
+      "fields": [
+        {
+          "class": [
+            "required"
+          ],
+          "type": "text",
+          "name": "name",
+          "value": "[object Object]"
+        }
+      ]
+    }
+  ]
+}

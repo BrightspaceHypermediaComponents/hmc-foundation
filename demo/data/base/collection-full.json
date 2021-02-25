@@ -16,13 +16,13 @@
           "rel": [
             "self"
           ],
-          "href": "https://b2771ffd-edef-4cf0-8460-54480c021623.activities.api.proddev.d2l/activities/6606_706000_6606/usages/6606/collection/TmpZd05sODNNRFl3TURCZk5qWXdOdy42NjA3"
+          "href": "data/base/courses/course-offering-1.json"
         },
         {
           "rel": [
             "https://activities.api.brightspace.com/rels/activity-usage"
           ],
-          "href": "../data/base/learning-path.json"
+          "href": "data/base/courses/course-offering-1.json"
         },
         {
           "rel": [
@@ -55,13 +55,13 @@
           "rel": [
             "self"
           ],
-          "href": "https://b2771ffd-edef-4cf0-8460-54480c021623.activities.api.proddev.d2l/activities/6606_706000_6606/usages/6606/collection/TmpZd05sODNNRFl3TURCZk5qWXdOdy42NjA3"
+          "href": "data/base/courses/course-offering-2.json"
         },
         {
           "rel": [
             "https://activities.api.brightspace.com/rels/activity-usage"
           ],
-          "href": "../data/base/learning-path.json"
+          "href": "data/base/courses/course-offering-2.json"
         },
         {
           "rel": [
@@ -86,7 +86,7 @@
       "method": "POST"
     },
     {
-      "href": "../demo/data/base/add-existing-activity.json",
+      "href": "../../demo/data/base/add-existing-activity.json",
       "name": "start-add-existing-activity",
       "method": "GET"
     },

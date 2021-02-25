@@ -34,7 +34,6 @@ class RulePickerDialog extends LocalizeDiscoverEntitlement(HypermediaStateMixin(
 
 	constructor() {
 		super();
-		this.conditionTypes = [];
 		this.conditions = [];
 		this._copiedConditions = [];
 	}
