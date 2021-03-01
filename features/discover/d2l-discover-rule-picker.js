@@ -71,7 +71,7 @@ class RulePicker extends LocalizeDiscoverEntitlement(HypermediaStateMixin(RtlMix
 		super.updated(changedProperties);
 		if (changedProperties.has('conditions') && this.conditions.length === 0) {
 			this._addDefaultCondition();
-		};
+		}
 	}
 
 	render() {
@@ -145,10 +145,11 @@ class RulePicker extends LocalizeDiscoverEntitlement(HypermediaStateMixin(RtlMix
 		${this.conditions.map(condition => html`
 		<div class="d2l-picker-rule-container">
 			<select class="d2l-input-select picker-rule-select"
+				aria-label="Condition type"
 				.condition="${condition}"
 				value="${condition.properties.type}"
 				@blur="${this._onConditionSelectChange}">
-				${this.conditionTypes?.map(conditionType => html`
+				${this.conditionTypes.map(conditionType => html`
 					<option value="${conditionType.properties.type}" ?selected="${condition.properties.type === conditionType.properties.type}">${conditionType.properties.type}</option>
 				`)}
 			</select>
@@ -156,6 +157,7 @@ class RulePicker extends LocalizeDiscoverEntitlement(HypermediaStateMixin(RtlMix
 				${this.localize('conditionIs')}
 			</div>
 			<d2l-input-text
+				label="Condition value"
 				class="d2l-picker-rule-input"
 				placeholder="Enter a condition value"
 				value="${condition.properties.value}"
@@ -163,7 +165,7 @@ class RulePicker extends LocalizeDiscoverEntitlement(HypermediaStateMixin(RtlMix
 				@blur="${this._onConditionValueChange}">
 			</d2l-input-text>
 			<d2l-button-icon
-				id="delete-condition-button"
+				class="delete-condition-button"
 				?hidden=${this._isOnlyCondition()}
 				text="${this.localize('removeCondition', 'conditionType', condition.properties.type)}"
 				icon="tier1:close-default"
@@ -178,4 +180,4 @@ class RulePicker extends LocalizeDiscoverEntitlement(HypermediaStateMixin(RtlMix
 	}
 }
 
-customElements.define('d2l-discover-entitlement-rule-picker', RulePicker);
+customElements.define('d2l-discover-rule-picker', RulePicker);

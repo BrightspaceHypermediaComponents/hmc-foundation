@@ -59,7 +59,6 @@ class EntitlementRules extends LocalizeDiscoverEntitlement(SkeletonMixin(Hyperme
 	}
 
 	render() {
-		const typeList = this.conditionTypes?.map(conditionType => conditionType.properties.type);
 		return html`
 			<h4 class="d2l-body-small d2l-skeletize"><strong>${this.localize('text-title')}</strong></h4>
 			<d2l-labs-checkbox-drawer
@@ -98,4 +97,4 @@ class EntitlementRules extends LocalizeDiscoverEntitlement(SkeletonMixin(Hyperme
 	}
 
 }
-customElements.define('d2l-discover-entitlement-rules', EntitlementRules);
+customElements.define('d2l-discover-rules', EntitlementRules);

@@ -2,7 +2,7 @@ import '@brightspace-ui/core/components/button/button.js';
 import '@brightspace-ui/core/components/button/button-subtle.js';
 import '@brightspace-ui/core/components/dialog/dialog.js';
 import '@brightspace-ui/core/components/inputs/input-text.js';
-import './d2l-discover-entitlement-rule-picker.js';
+import './d2l-discover-rule-picker.js';
 
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
@@ -51,12 +51,12 @@ class RulePickerDialog extends LocalizeDiscoverEntitlement(HypermediaStateMixin(
 				?opened="${this.opened}"
 				title-text="${this.creating ? this.localize('addEnrollmentRuleHeader') : this.localize('editEnrollmentRuleHeader')}">
 				<div class="d2l-rule-picker-area">${this.localize('pickerSelectConditions')}</div>
-				<d2l-discover-entitlement-rule-picker
+				<d2l-discover-rule-picker
 					href="${this.href}"
 					.token="${this.token}"
 					@d2l-rule-condition-added="${this._onConditionAdded}"
 					>
-				</d2l-discover-entitlement-rule-picker>
+				</d2l-discover-rule-picker>
 				<d2l-button @click="${this._onDoneClick}" slot="footer" primary data-dialog-action="done">Done</d2l-button>
 				<d2l-button @click="${this._onCancelClick}" slot="footer" data-dialog-action>Cancel</d2l-button>
 			</d2l-dialog>
@@ -77,13 +77,13 @@ class RulePickerDialog extends LocalizeDiscoverEntitlement(HypermediaStateMixin(
 	_onCancelClick() {
 		this.conditions = this._copiedConditions;
 		this.requestUpdate().then(() => {
-			const picker = this.shadowRoot.querySelector('d2l-discover-entitlement-rule-picker');
+			const picker = this.shadowRoot.querySelector('d2l-discover-rule-picker');
 			picker.reload(this.conditions);
 		});
 	}
 
 	_onDoneClick() {
-		const picker = this.shadowRoot.querySelector('d2l-discover-entitlement-rule-picker');
+		const picker = this.shadowRoot.querySelector('d2l-discover-rule-picker');
 		this._state.updateProperties({
 			conditions: {
 				observable: observableTypes.subEntities,
