@@ -1,9 +1,11 @@
+import { addToMock, mockLink } from '../../../test/data/fetchMock.js';
 import { assert, fixture, html } from '@open-wc/testing';
 import { createComponentAndWait, fireEventAndWait } from '../../test-util.js';
-import { learningPathExisting, learningPathMissingAction, learningPathNew } from '../../data/learningPath.js';
+import { learningPathExisting, learningPathMissingAction, learningPathNew, learningPathUpdated } from '../../data/learningPath.js';
 import { ActivityName } from '../../../components/activity/name/d2l-activity-name.js';
 import { ActivityNameCourse } from '../../../components/activity/name/custom/d2l-activity-name-course.js';
 import { clearStore } from '@brightspace-hmc/foundation-engine/state/HypermediaState.js';
+import { courseExisting } from '../../data/course.js';
 import { runConstructor } from '@brightspace-ui/core/tools/constructor-test-helper.js';
 import sinon from 'sinon/pkg/sinon-esm.js';
 
@@ -22,6 +24,18 @@ async function updateName(inputArea, updatedText, component) {
 }
 
 describe('d2l-activity-name', () => {
+
+	before(() => {
+		mockLink.reset();
+		addToMock('/learning-path/new', learningPathNew);
+		addToMock('/learning-path/existing', learningPathExisting);
+		addToMock('/learning-path/missing-action', learningPathMissingAction);
+		addToMock('/course/existing', courseExisting);
+		addToMock('/description/update', learningPathUpdated);
+	});
+	after(() => {
+		mockLink.reset();
+	});
 
 	describe('constructor', () => {
 		it('should construct d2l-activity-name', () => {
@@ -88,3 +102,5 @@ describe('d2l-activity-name', () => {
 		assert.instanceOf(element, ActivityName, 'should create basic name component');
 	});
 });
+
+mockLink.reset();

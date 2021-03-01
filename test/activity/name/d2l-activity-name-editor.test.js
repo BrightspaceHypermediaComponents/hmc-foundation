@@ -1,9 +1,10 @@
 import '../../../components/activity/name/d2l-activity-name-editor.js';
+import { addToMock, mockLink } from '../../data/fetchMock.js';
 import { assert, html } from '@open-wc/testing';
 import { createComponentAndWait, fireEventAndWait } from '../../test-util.js';
 import { learningPathExisting, learningPathMissingAction, learningPathNew } from '../../data/learningPath.js';
 import { clearStore } from '@brightspace-hmc/foundation-engine/state/HypermediaState.js';
-import { mockLink } from '../../data/fetchMocks.js';
+
 import { runConstructor } from '@brightspace-ui/core/tools/constructor-test-helper.js';
 import sinon from 'sinon/pkg/sinon-esm.js';
 
@@ -21,6 +22,16 @@ async function updateName(element, updatedText) {
 }
 
 describe('d2l-activity-name-editor', () => {
+
+	before(() => {
+		mockLink.reset();
+		addToMock('/learning-path/new', learningPathNew);
+		addToMock('/learning-path/existing', learningPathExisting);
+		addToMock('/learning-path/missing-action', learningPathMissingAction);
+	});
+	after(() => {
+		mockLink.reset();
+	});
 
 	describe('constructor', () => {
 
@@ -111,3 +122,5 @@ describe('d2l-activity-name-editor', () => {
 		});
 	});
 });
+
+mockLink.reset();
