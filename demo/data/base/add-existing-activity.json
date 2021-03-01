@@ -34,7 +34,7 @@
             "https://activities.api.brightspace.com/rels/activity-usage",
             "self"
           ],
-          "href": "../../demo/data/base/courses/course-offering-1.json"
+          "href": "../../../demo/data/base/courses/course-offering-1.json"
         }
       ]
     },
@@ -68,7 +68,7 @@
             "https://activities.api.brightspace.com/rels/activity-usage",
             "self"
           ],
-          "href": "../../demo/data/base/courses/course-offering-2.json"
+          "href": "../../../demo/data/base/courses/course-offering-2.json"
         }
       ]
     },
@@ -102,7 +102,7 @@
             "https://activities.api.brightspace.com/rels/activity-usage",
             "self"
           ],
-          "href": "../../demo/data/base/courses/course-offering-3.json"
+          "href": "../../../demo/data/base/courses/course-offering-3.json"
         }
       ]
     }
