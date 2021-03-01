@@ -1,7 +1,7 @@
 import { assert, html } from '@open-wc/testing';
-import { createComponentAndWait, fireEventAndWait } from '../../test-util.js';
 import { addToMock } from './data/fetchMock.js';
 import { clearStore } from '@brightspace-hmc/foundation-engine/state/HypermediaState.js';
+import { createComponentAndWait } from '../../test-util.js';
 import { mockLink } from '../../data/fetchMocks.js';
 import { runConstructor } from '@brightspace-ui/core/tools/constructor-test-helper.js';
 
@@ -16,7 +16,8 @@ describe('component-name', () => {
 
 	beforeEach(() => {
 		// add fecth data necessary for tests
-		addToMock('ref', jsonObject);
+		// parameters: href/path, jsonObject
+		addToMock();
 	});
 
 	describe('construction', () => {
@@ -68,6 +69,7 @@ describe('component-name', () => {
 			assert.isTrue(mockLink.called('path:/learning-path/new/object'), '/learing-path/new/object was not called');
 
 			// call methods on element and ensure expected results
+			assert(element);
 		});
 
 	});
