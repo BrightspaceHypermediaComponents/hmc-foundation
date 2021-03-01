@@ -12,13 +12,11 @@ async function _createComponent(path) {
 	return await createComponentAndWait(html`<tag href="${path}" token="test-token"></tag>`);
 }
 
-describe('component-name', () => {
+// add any testing data to the mock fetch
+//addToMock('path', jsonResponse);
+addToMock();
 
-	beforeEach(() => {
-		// add fecth data necessary for tests
-		// parameters: href/path, jsonObject
-		addToMock();
-	});
+describe('component-name', () => {
 
 	describe('construction', () => {
 
@@ -41,11 +39,7 @@ describe('component-name', () => {
 		it('should initialize using ...', async() => {
 			const element = await _createComponent('ref');
 
-			// ensure mocked fetchs were performed
-			assert.isTrue(mockLink.called('path:/ref'), 'mock fetch was not called');
-			assert.isTrue(mockLink.called('path:/ref/object'), 'mock fetch was not called for object');
-
-			// assert fields are assigned
+			// assert fields are assigned as desired
 			assert(element);
 		});
 
@@ -62,15 +56,7 @@ describe('component-name', () => {
 		});
 
 		it('should ...', async() => {
-			const element = await _createComponent();
-
-			// paths should be followed
-			assert.isTrue(mockLink.called('path:/learning-path/new'), '/learing-path/new was not called');
-			assert.isTrue(mockLink.called('path:/learning-path/new/object'), '/learing-path/new/object was not called');
-
-			// call methods on element and ensure expected results
-			assert(element);
+			await _createComponent('path');
 		});
-
 	});
 });
