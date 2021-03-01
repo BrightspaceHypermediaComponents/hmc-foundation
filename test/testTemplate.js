@@ -12,10 +12,6 @@ async function _createComponent(path) {
 	return await createComponentAndWait(html`<tag href="${path}" token="test-token"></tag>`);
 }
 
-// add any testing data to the mock fetch
-//addToMock('path', jsonResponse);
-addToMock();
-
 describe('component-name', () => {
 
 	before(() => {
