@@ -8,6 +8,8 @@ class ActivityEditorSecondaryCard extends LitElement {
 
 	static get properties() {
 		return {
+			ref: { type: String, reflect: true },
+			token: { type: String },
 			titleText: { type: String, attribute: 'title-text' },
 			bodyText: { type: String, attribute: 'body-text' },
 			collapsable: { type: Boolean }
@@ -56,20 +58,23 @@ class ActivityEditorSecondaryCard extends LitElement {
 			</span>
 			<span class="content">
 			${this.bodyText}
-			</span>`;
+			</span>
+			<slot name="card-content"></slot>
+		`;
 	}
 
 	_renderCollapsable() {
 		return html`<d2l-labs-accordion-collapse flex>
-		<span slot="header">
-		<h3>
-		${this.titleText}
-		</h3>
-		<hr>
-		</span>
-		<span class="content">
-		${this.bodyText}
-		</span>
+			<span slot="header">
+			<h3>
+			${this.titleText}
+			</h3>
+			<hr>
+			</span>
+			<span class="content">
+			${this.bodyText}
+			</span>
+			<slot name="card-content"></slot>
 		</d2l-labs-accordion-collapse>
 		`;
 	}

@@ -33,7 +33,7 @@ class ActivityCollectionEditorSidebar extends HypermediaStateMixin(LitElement) {
 
 	render() {
 		return html`
-		<d2l-activity-card-learning-path href="${this.href}" .token="${this.token}" }></d2l-activity-card-learning-path>
+		<d2l-activity-card-learning-path href="${this.href}" .token="${this.token}"></d2l-activity-card-learning-path>
 		`;
 	}
 }
