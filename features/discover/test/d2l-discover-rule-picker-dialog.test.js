@@ -49,7 +49,7 @@ describe('d2l-discover-rule-picker-dialog', () => {
 		it('should pass all aXe tests', async() => {
 			const el = await fixture(html`<d2l-discover-rule-picker-dialog></d2l-discover-rule-picker-dialog>`);
 			const elFull = await createComponentAndWait(html`
-				<d2l-discover-rule-picker-dialog href="${selfHref}" token="cake"></d2l-discover-rule-picke-dialogr>
+				<d2l-discover-rule-picker-dialog href="${selfHref}" token="cake"></d2l-discover-rule-picker-dialog>
 			`);
 			await expect(el).to.be.accessible();
 			await expect(elFull).to.be.accessible();
@@ -60,7 +60,7 @@ describe('d2l-discover-rule-picker-dialog', () => {
 		let el;
 		beforeEach(async() => {
 			el = await createComponentAndWait(html`
-				<d2l-discover-rule-picker-dialog href="${selfHref}" token="cake"></d2l-discover-rule-picke-dialogr>
+				<d2l-discover-rule-picker-dialog href="${selfHref}" token="cake"></d2l-discover-rule-picker-dialog>
 			`);
 			clearStore();
 		});
