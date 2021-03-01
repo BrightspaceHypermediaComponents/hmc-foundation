@@ -1,21 +1,21 @@
 /* eslint quotes: 0 */
 export default {
-	"text-title": "Discover", // The title for Discover options
+	"button-cancel": "Cancel", // cancel button to trash changes
+	"button-done": "Done", // done button to commit changes
 	"label-checkbox": "Make this course available in Discover so Learners can self-enroll", // label for the discover checkbox
+	"label-condition-type": "Condition type", // label for screen readers for the condition type select box
+	"label-condition-value": "Condition value", // label for screen readers for the condition value input
+	"text-add-another-condition": "Add Another Condition",
+	"text-add-enrollment-rule": "Add Enrollment Rule",
+	"text-and": "AND", // word used for combining multiple conditions
 	"text-checkbox-description": "Inactive courses will not be included in Discover", // extra info for discover checkbox
-	"text-rules": "Enrollment Rules", // title for enrollment rules options
+	"text-condition-is": "is", // condition 'is' this and that
+	"text-condition-placeholder": "Enter a condition value", // Placeholder text for condition value input
+	"text-edit-enrollment-rule": "Edit Enrollment Rule",
+	"text-remove-condition": "Remove condition {conditionType}",
+	"text-rule-matches": "Rule matches {count} users",
 	"text-rules-description": "To self-enroll in this course, users must match one or more of these rules.", // description for enrollment rules
-	"addAnotherCondition": "Add Another Condition",
-	"addEnrollmentRuleButton": "Add Enrollment Rule",
-	"addEnrollmentRuleHeader": "Add Enrollment Rule",
-	"editEnrollmentRuleHeader": "Edit Enrollment Rule",
-	"and": "AND",
-	"cancel": "Cancel",
-	"conditionIs": "is",
-	"conditionOrgRole": "Org Role",
-	"done": "Done",
-	"pickerSelectConditions": "Select Conditions",
-	"removeCondition": "Remove condition {conditionType}",
-	"selectConditions": "Select Conditions",
-	"ruleMatches": "Rule matches {count} users"
+	"text-rules": "Enrollment Rules", // title for enrollment rules options
+	"text-select-conditions": "Select Conditions",
+	"text-title": "Discover", // The title for Discover options
 };

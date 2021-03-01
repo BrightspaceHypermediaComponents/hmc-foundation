@@ -78,12 +78,12 @@ class RulePicker extends LocalizeDiscoverEntitlement(HypermediaStateMixin(RtlMix
 		return html`
 			${this._renderPickerConditions()}
 			<d2l-button-subtle id="add-another-condition-button"
-				text="${this.localize('addAnotherCondition')}"
+				text="${this.localize('text-add-another-condition')}"
 				icon="tier1:plus-default"
 				@click="${this._addDefaultCondition}"></d2l-button-subtle>
 			<div class="d2l-picker-hr-match-separator">
 				<div class="d2l-picker-hr"></div>
-				<div class="d2l-body-compact">${this.localize('ruleMatches', 'count', 'xxx')}</div>
+				<div class="d2l-body-compact">${this.localize('text-rule-matches', 'count', 'xxx')}</div>
 			</div>
 		`;
 	}
@@ -145,7 +145,7 @@ class RulePicker extends LocalizeDiscoverEntitlement(HypermediaStateMixin(RtlMix
 		${this.conditions.map(condition => html`
 		<div class="d2l-picker-rule-container">
 			<select class="d2l-input-select picker-rule-select"
-				aria-label="Condition type"
+				aria-label="${this.localize('label-condition-type')}"
 				.condition="${condition}"
 				value="${condition.properties.type}"
 				@blur="${this._onConditionSelectChange}">
@@ -154,12 +154,13 @@ class RulePicker extends LocalizeDiscoverEntitlement(HypermediaStateMixin(RtlMix
 				`) : null}
 			</select>
 			<div class="d2l-picker-rule-separator d2l-body-compact">
-				${this.localize('conditionIs')}
+				${this.localize('text-condition-is')}
 			</div>
 			<d2l-input-text
-				label="Condition value"
+				label="${this.localize('label-condition-value')}"
+				label-hidden="true"
 				class="d2l-picker-rule-input"
-				placeholder="Enter a condition value"
+				placeholder="${this.localize('text-condition-placeholder')}"
 				value="${condition.properties.value}"
 				.condition="${condition}"
 				@blur="${this._onConditionValueChange}">
@@ -167,13 +168,13 @@ class RulePicker extends LocalizeDiscoverEntitlement(HypermediaStateMixin(RtlMix
 			<d2l-button-icon
 				class="delete-condition-button"
 				?hidden=${this._isOnlyCondition()}
-				text="${this.localize('removeCondition', 'conditionType', condition.properties.type)}"
+				text="${this.localize('text-remove-condition', 'conditionType', condition.properties.type)}"
 				icon="tier1:close-default"
 				.condition="${condition}"
 				@click="${this._removeCondition}"></d2l-button-icon>
 		</div>
 		<div class="d2l-picker-and d2l-body-compact" ?hidden="${this._isLastCondition(condition)}">
-			${this.localize('and')}
+			${this.localize('text-and')}
 			<div class="d2l-picker-hr d2l-picker-hr-condition-separator"></div>
 		</div>
 		`)}`;

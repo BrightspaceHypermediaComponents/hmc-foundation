@@ -49,16 +49,16 @@ class RulePickerDialog extends LocalizeDiscoverEntitlement(HypermediaStateMixin(
 		return html`
 			<d2l-dialog
 				?opened="${this.opened}"
-				title-text="${this.creating ? this.localize('addEnrollmentRuleHeader') : this.localize('editEnrollmentRuleHeader')}">
-				<div class="d2l-rule-picker-area">${this.localize('pickerSelectConditions')}</div>
+				title-text="${this.creating ? this.localize('text-add-enrollment-rule') : this.localize('text-edit-enrollment-rule')}">
+				<div class="d2l-rule-picker-area">${this.localize('text-select-conditions')}</div>
 				<d2l-discover-rule-picker
 					href="${this.href}"
 					.token="${this.token}"
 					@d2l-rule-condition-added="${this._onConditionAdded}"
 					>
 				</d2l-discover-rule-picker>
-				<d2l-button @click="${this._onDoneClick}" slot="footer" primary data-dialog-action="done">Done</d2l-button>
-				<d2l-button @click="${this._onCancelClick}" slot="footer" data-dialog-action>Cancel</d2l-button>
+				<d2l-button @click="${this._onDoneClick}" slot="footer" primary data-dialog-action="done">${this.localize('button-done')}</d2l-button>
+				<d2l-button @click="${this._onCancelClick}" slot="footer" data-dialog-action>${this.localize('button-cancel')}</d2l-button>
 			</d2l-dialog>
 		`;
 	}

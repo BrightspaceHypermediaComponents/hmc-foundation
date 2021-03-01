@@ -76,7 +76,7 @@ class EntitlementRules extends LocalizeDiscoverEntitlement(SkeletonMixin(Hyperme
 			<d2l-button-subtle
 				@click=${this._onButtonClick}
 				id="add-enrollment-rule-button"
-				text="${this.localize('addEnrollmentRuleButton')}"
+				text="${this.localize('text-add-enrollment-rule')}"
 				icon="tier1:lock-locked"></d2l-button-subtle>
 			<d2l-discover-rule-picker-dialog
 				@d2l-dialog-close="${this._onDialogClose}"
