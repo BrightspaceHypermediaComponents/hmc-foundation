@@ -25,13 +25,13 @@ async function updateName(inputArea, updatedText, component) {
 
 describe('d2l-activity-name', () => {
 
-	before(() => {
+	before(async() => {
 		mockLink.reset();
-		addToMock('/learning-path/new', learningPathNew);
-		addToMock('/learning-path/existing', learningPathExisting);
-		addToMock('/learning-path/missing-action', learningPathMissingAction);
-		addToMock('/course/existing', courseExisting);
-		addToMock('/description/update', learningPathUpdated);
+		await addToMock('/learning-path/new', learningPathNew, _createNameLearningPath);
+		await addToMock('/learning-path/existing', learningPathExisting, _createNameLearningPath);
+		await addToMock('/learning-path/missing-action', learningPathMissingAction, _createNameLearningPath, false);
+		await addToMock('/course/existing', courseExisting, _createNameCourse);
+		await addToMock('/description/update', learningPathUpdated, _createNameLearningPath);
 	});
 	after(() => {
 		mockLink.reset();
