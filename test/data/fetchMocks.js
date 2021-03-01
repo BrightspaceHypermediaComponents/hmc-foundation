@@ -1,7 +1,5 @@
 
-import { learningPathExisting, learningPathMissingAction, learningPathNew, learningPathUpdated } from './learningPath.js';
 import { assert } from '@open-wc/testing';
-import { courseExisting } from  './course.js';
 import fetchMock from 'fetch-mock/esm/client.js';
 
 /*
@@ -21,11 +19,6 @@ function GenerateComponentLink(linkPath) {
 }
 
 export const mockLink = fetchMock;
-addToMock('/learning-path/new', learningPathNew);
-addToMock('/learning-path/existing', learningPathExisting);
-addToMock('/learning-path/missing-action', learningPathMissingAction);
-addToMock('/course/existing', courseExisting);
-addToMock('/description/update', learningPathUpdated);
 
 export function addToMock(path, object, createComponent) {
 	mockLink.mock(`path:${path}`, () => {return GenerateComponentLink(`${path}/object`);});
