@@ -28,6 +28,6 @@ addToMock('/description/update', learningPathUpdated);
 export function addToMock(path, object) {
 	mockLink.mock(`path:${path}`, () => {return GenerateComponentLink(`${path}/object`);});
 	if (object) {
-		mockLink.mock(`path:${path}/object`, () => {return object;});
+		mockLink.mock(`path:${path}/object`, () => object);
 	}
 }
