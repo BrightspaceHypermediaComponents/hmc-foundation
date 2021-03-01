@@ -27,11 +27,8 @@ export function addToMock(path, object, createComponent) {
 	}
 
 	describe(`mocking fetch to ${path}`, async() => {
-		const element = await createComponent(path);
-
+		await createComponent(path);
 		assert.isTrue(mockLink.called(`path:${path}`), `${path} was not called`);
 		if (object) assert.isTrue(mockLink.called(`path:${path}/object`), `${path}/object was not called`);
-
-		return element;
 	});
 }
