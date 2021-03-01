@@ -149,9 +149,9 @@ class RulePicker extends LocalizeDiscoverEntitlement(HypermediaStateMixin(RtlMix
 				.condition="${condition}"
 				value="${condition.properties.type}"
 				@blur="${this._onConditionSelectChange}">
-				${this.conditionTypes.map(conditionType => html`
+				${this.conditionTypes ? this.conditionTypes.map(conditionType => html`
 					<option value="${conditionType.properties.type}" ?selected="${condition.properties.type === conditionType.properties.type}">${conditionType.properties.type}</option>
-				`)}
+				`) : null}
 			</select>
 			<div class="d2l-picker-rule-separator d2l-body-compact">
 				${this.localize('conditionIs')}
