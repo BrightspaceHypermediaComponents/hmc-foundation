@@ -23,11 +23,11 @@ async function updateName(element, updatedText) {
 
 describe('d2l-activity-name-editor', () => {
 
-	before(() => {
+	before(async() => {
 		mockLink.reset();
-		addToMock('/learning-path/new', learningPathNew);
-		addToMock('/learning-path/existing', learningPathExisting);
-		addToMock('/learning-path/missing-action', learningPathMissingAction);
+		await addToMock('/learning-path/new', learningPathNew, _createNameEditor);
+		await addToMock('/learning-path/existing', learningPathExisting, _createNameEditor);
+		await addToMock('/learning-path/missing-action', learningPathMissingAction, _createNameEditor, false);
 	});
 	after(() => {
 		mockLink.reset();

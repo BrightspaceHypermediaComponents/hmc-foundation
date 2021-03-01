@@ -23,12 +23,12 @@ async function _fireTextareaInputEvent(element, updatedText) {
 
 describe('d2l-activity-description-editor', () => {
 
-	before(() => {
+	before(async() => {
 		mockLink.reset();
-		addToMock('/learning-path/new', learningPathNew);
-		addToMock('/learning-path/existing', learningPathExisting);
-		addToMock('/learning-path/missing-action', learningPathMissingAction);
-		addToMock('/description/update', learningPathUpdated);
+		await addToMock('/learning-path/new', learningPathNew, _createDescriptionEditor);
+		await addToMock('/learning-path/existing', learningPathExisting, _createDescriptionEditor);
+		await addToMock('/learning-path/missing-action', learningPathMissingAction, _createDescriptionEditor);
+		await addToMock('/description/update', learningPathUpdated, _createDescriptionEditor);
 	});
 	after(() => {
 		mockLink.reset();

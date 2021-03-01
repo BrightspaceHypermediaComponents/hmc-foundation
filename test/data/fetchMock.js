@@ -20,7 +20,7 @@ function GenerateComponentLink(linkPath) {
 
 export const mockLink = fetchMock;
 
-export async function addToMock(path, object, createComponent) {
+export async function addToMock(path, object, createComponent, testObject = true) {
 	mockLink.mock(`path:${path}`, () => {return GenerateComponentLink(`${path}/object`);});
 	if (object) {
 		mockLink.mock(`path:${path}/object`, () => object);
@@ -28,5 +28,12 @@ export async function addToMock(path, object, createComponent) {
 
 	await createComponent(path);
 	assert.isTrue(mockLink.called(`path:${path}`), `${path} was not called`);
-	if (object) assert.isTrue(mockLink.called(`path:${path}/object`), `${path}/object was not called`);
+	if (object && testObject) assert.isTrue(mockLink.called(`path:${path}/object`), `${path}/object was not called`);
 }
+
+// export async function addToMock2(path, object, createComponent) {
+// 	mockLink.mock(`path:${path}`, () => object);
+
+// 	await createComponent(path);
+// 	assert.isTrue(mockLink.called(`path:${path}`), `${path} was not called`);
+// }
