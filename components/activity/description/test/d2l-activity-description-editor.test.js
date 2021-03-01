@@ -1,9 +1,9 @@
-import '../../../components/activity/description/d2l-activity-description-editor.js';
+import '../d2l-activity-description-editor.js';
 import { assert, elementUpdated, expect, html } from '@open-wc/testing';
-import { createComponentAndWait, delayAndAwaitForElement, fireEventAndWait } from '../../test-util.js';
-import { learningPathExisting, learningPathMissingAction, learningPathNew } from '../../data/learningPath.js';
+import { createComponentAndWait, delayAndAwaitForElement, fireEventAndWait } from '../../../../test/test-util.js';
+import { learningPathExisting, learningPathMissingAction, learningPathNew } from '../../../../test/data/learningPath.js';
 import { clearStore } from '@brightspace-hmc/foundation-engine/state/HypermediaState.js';
-import { mockLink } from '../../data/fetchMocks.js';
+import { mockLink } from '../../../../test/data/fetchMocks.js';
 import { runConstructor } from '@brightspace-ui/core/tools/constructor-test-helper.js';
 import sinon from 'sinon/pkg/sinon-esm.js';
 

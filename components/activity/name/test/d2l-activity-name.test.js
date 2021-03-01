@@ -1,8 +1,8 @@
 import { assert, fixture, html } from '@open-wc/testing';
-import { createComponentAndWait, fireEventAndWait } from '../../test-util.js';
-import { learningPathExisting, learningPathMissingAction, learningPathNew } from '../../data/learningPath.js';
-import { ActivityName } from '../../../components/activity/name/d2l-activity-name.js';
-import { ActivityNameCourse } from '../../../components/activity/name/custom/d2l-activity-name-course.js';
+import { createComponentAndWait, fireEventAndWait } from '../../../../test/test-util.js';
+import { learningPathExisting, learningPathMissingAction, learningPathNew } from '../../../../test/data/learningPath.js';
+import { ActivityName } from '../d2l-activity-name.js';
+import { ActivityNameCourse } from '../custom/d2l-activity-name-course.js';
 import { clearStore } from '@brightspace-hmc/foundation-engine/state/HypermediaState.js';
 import { runConstructor } from '@brightspace-ui/core/tools/constructor-test-helper.js';
 import sinon from 'sinon/pkg/sinon-esm.js';
