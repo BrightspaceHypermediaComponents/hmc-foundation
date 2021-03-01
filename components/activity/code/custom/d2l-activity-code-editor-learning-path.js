@@ -60,4 +60,9 @@ class ActivityCodeEditorLearningPath extends LocalizeFoundationCode(HypermediaSt
 
 }
 
-customHypermediaElement('d2l-activity-code-editor-learning-path', ActivityCodeEditorLearningPath, 'd2l-activity-code-editor', [['activity-collection'], ['learning-path']]);
+customHypermediaElement(
+	'd2l-activity-code-editor-learning-path',
+	ActivityCodeEditorLearningPath,
+	'd2l-activity-code-editor',
+	[['activity-usage'], ['learning-path']]
+);

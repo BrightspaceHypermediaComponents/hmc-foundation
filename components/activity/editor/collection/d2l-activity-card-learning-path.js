@@ -29,8 +29,7 @@ class ActivityEditorLearningPathCard extends LitElement {
 	render() {
 		return html`
 		<d2l-activity-secondary-card title-text="Additional Identification">
-			<d2l-activity-code-editor-learning-path slot="card-content" href="${this.href}" .token="${this.token}">
-			</d2l-activity-code-editor-learning-path>
+			<d2l-activity-code-editor-learning-path slot="card-content" href="${this.href}" .token="${this.token}"></d2l-activity-code-editor-learning-path>
 		</d2l-activity-secondary-card>`;
 	}
 }
