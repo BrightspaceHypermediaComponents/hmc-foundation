@@ -1,15 +1,24 @@
+import '@brightspace-ui/core/components/colors/colors.js';
 import '@brightspace-ui/core/components/inputs/input-text.js';
 import { css,  LitElement } from 'lit-element/lit-element.js';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { inputLabelStyles } from '@brightspace-ui/core/components/inputs/input-label-styles.js';
-import { LocalizeFoundationCode } from '../lang/localization.js';
+import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
 
 const rels = Object.freeze({
 	organization: 'https://api.brightspace.com/rels/organization'
 });
 
-class ActivityCodeEditorLearningPath extends LocalizeFoundationCode(HypermediaStateMixin(LitElement)) {
+class ActivityCodeEditorLearningPath extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement)) {
+
+	static get localizeConfig() {
+		return {
+		   // Import path must be relative
+		  importFunc: async lang => (await import(`../lang/${lang}.js`)).default,
+		};
+	  }
+
 	static get properties() {
 		return {
 			code: { type: String, observable: observableTypes.property, route: [{observable: observableTypes.link, rel: rels.organization}] },
@@ -20,12 +29,12 @@ class ActivityCodeEditorLearningPath extends LocalizeFoundationCode(HypermediaSt
 	static get styles() {
 		return [ inputLabelStyles, css`
 			.d2l-activity-code-editor-description {
-				font-size: 14px;
-				line-height: 18px;
+				font-size: 0.7rem;
+				line-height: 1rem;
 				font-weight: 400; /* normal */
-				letter-spacing: 0.2px;
-				color: #6E7376; /* Tungsten */
-				margin-bottom: 6px;
+				letter-spacing: 0.013rem;
+				color: var(--d2l-color-tungsten);
+				margin-bottom: 0.3rem;
 			}
 		` ];
 	}
