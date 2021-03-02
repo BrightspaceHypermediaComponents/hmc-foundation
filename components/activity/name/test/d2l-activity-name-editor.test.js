@@ -1,5 +1,6 @@
+/* eslint-disable no-undef */
 import '../d2l-activity-name-editor.js';
-import { addToMock, mockLink } from '../../../../test/data/fetchMocks.js';
+import { addToMock, mockLink } from '../../../../test/data/fetchMock.js';
 import { assert, html } from '@open-wc/testing';
 import { createComponentAndWait, fireEventAndWait } from '../../../../test/test-util.js';
 import { learningPathExisting, learningPathMissingAction, learningPathNew } from '../../../../test/data/learningPath.js';

@@ -1,11 +1,12 @@
-import { addToMock, mockLink } from '../../../test/data/fetchMock.js';
+/* eslint-disable no-undef */
+import { addToMock, mockLink } from '../../../../test/data/fetchMock.js';
 import { assert, fixture, html } from '@open-wc/testing';
 import { createComponentAndWait, fireEventAndWait } from '../../../../test/test-util.js';
 import { learningPathExisting, learningPathMissingAction, learningPathNew, learningPathUpdated } from '../../../../test/data/learningPath.js';
 import { ActivityName } from '../d2l-activity-name.js';
 import { ActivityNameCourse } from '../custom/d2l-activity-name-course.js';
 import { clearStore } from '@brightspace-hmc/foundation-engine/state/HypermediaState.js';
-import { courseExisting } from '../../data/course.js';
+import { courseExisting } from '../../../../test/data/course.js';
 import { runConstructor } from '@brightspace-ui/core/tools/constructor-test-helper.js';
 import sinon from 'sinon/pkg/sinon-esm.js';
 
