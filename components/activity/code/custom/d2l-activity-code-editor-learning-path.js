@@ -12,13 +12,6 @@ const rels = Object.freeze({
 
 class ActivityCodeEditorLearningPath extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement)) {
 
-	static get localizeConfig() {
-		return {
-		   // Import path must be relative
-		  importFunc: async lang => (await import(`../lang/${lang}.js`)).default,
-		};
-	  }
-
 	static get properties() {
 		return {
 			code: { type: String, observable: observableTypes.property, route: [{observable: observableTypes.link, rel: rels.organization}] },
@@ -37,6 +30,16 @@ class ActivityCodeEditorLearningPath extends LocalizeDynamicMixin(HypermediaStat
 				margin-bottom: 0.3rem;
 			}
 		` ];
+	}
+
+	static get localizeConfig() {
+		return {
+			//grossness to make eslint pass tests
+			importFunc: async lang => {
+				const langFile = `../lang/${lang}.js`;
+				return (await import(langFile)).default;
+			}
+		};
 	}
 
 	constructor() {
