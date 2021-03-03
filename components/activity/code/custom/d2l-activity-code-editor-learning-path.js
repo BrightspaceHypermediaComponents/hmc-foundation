@@ -4,13 +4,13 @@ import { css,  LitElement } from 'lit-element/lit-element.js';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { inputLabelStyles } from '@brightspace-ui/core/components/inputs/input-label-styles.js';
-import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
+import { LocalizeFoundationCode } from '../lang/localization.js';
 
 const rels = Object.freeze({
 	organization: 'https://api.brightspace.com/rels/organization'
 });
 
-class ActivityCodeEditorLearningPath extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement)) {
+class ActivityCodeEditorLearningPath extends LocalizeFoundationCode(HypermediaStateMixin(LitElement)) {
 
 	static get properties() {
 		return {
@@ -30,16 +30,6 @@ class ActivityCodeEditorLearningPath extends LocalizeDynamicMixin(HypermediaStat
 				margin-bottom: 0.3rem;
 			}
 		` ];
-	}
-
-	static get localizeConfig() {
-		return {
-			//grossness to make eslint pass tests
-			importFunc: async lang => {
-				const langFile = `./lang/${lang}.js`;
-				return (await import(langFile)).default;
-			}
-		};
 	}
 
 	constructor() {
