@@ -88,14 +88,6 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(SkeletonMixi
 		this.skeleton = true;
 	}
 
-	get _loaded() {
-		return !this.skeleton;
-	}
-
-	set _loaded(loaded) {
-		this.skeleton = !loaded;
-	}
-
 	render() {
 		return html`
 			<div class="d2l-activity-collection-activity">
@@ -122,6 +114,26 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(SkeletonMixi
 				itemIds: this._items.map(item => item.properties.id || item.properties.actionState)
 			});
 		}
+	}
+
+	get _loaded() {
+		return !this.skeleton;
+	}
+
+	set _loaded(loaded) {
+		this.skeleton = !loaded;
+	}
+
+	_moveItems(e) {
+		e.detail.reorder(this._items, { keyFn: (item) => item.properties.id || item.properties.actionState });
+		this._state.updateProperties({
+			_items: {
+				observable: observableTypes.subEntities,
+				rel: rels.item,
+				value: this._items,
+				route: [{ observable: observableTypes.link, rel: rels.collection }]
+			}
+		});
 	}
 
 	_onRemoveActivity(e) {
@@ -166,18 +178,6 @@ class ActivityEditorMainCollection extends LocalizeFoundationEditor(SkeletonMixi
 			`)}
 			</d2l-list>
 		`;
-	}
-
-	_moveItems(e) {
-		e.detail.reorder(this._items, { keyFn: (item) => item.properties.id || item.properties.actionState });
-		this._state.updateProperties({
-			_items: {
-				observable: observableTypes.subEntities,
-				rel: rels.item,
-				value: this._items,
-				route: [{ observable: observableTypes.link, rel: rels.collection }]
-			}
-		});
 	}
 }
 

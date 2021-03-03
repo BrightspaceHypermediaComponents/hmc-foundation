@@ -50,14 +50,6 @@ class EntitlementRules extends LocalizeDiscoverEntitlement(SkeletonMixin(Hyperme
 		this.skeleton = true;
 	}
 
-	get _loaded() {
-		return !this.skeleton;
-	}
-
-	set _loaded(loaded) {
-		this.skeleton = !loaded;
-	}
-
 	render() {
 		return html`
 			<h4 class="d2l-body-small d2l-skeletize"><strong>${this.localize('text-title')}</strong></h4>
@@ -86,6 +78,14 @@ class EntitlementRules extends LocalizeDiscoverEntitlement(SkeletonMixin(Hyperme
 			></d2l-discover-rule-picker-dialog>
 			</d2l-labs-checkbox-drawer>
 		`;
+	}
+
+	get _loaded() {
+		return !this.skeleton;
+	}
+
+	set _loaded(loaded) {
+		this.skeleton = !loaded;
 	}
 
 	_onButtonClick() {

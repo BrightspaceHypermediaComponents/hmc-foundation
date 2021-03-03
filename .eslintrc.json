@@ -3,7 +3,12 @@
   "ignorePatterns": ["coverage/**/*"],
   "parser": "@babel/eslint-parser",
   "parserOptions": {
-    "sourceType": "module",
     "requireConfigFile": false
+  },
+  "globals": {
+    "Prism": false
+  },
+  "rules": {
+    "object-curly-spacing": "off"
   }
 }

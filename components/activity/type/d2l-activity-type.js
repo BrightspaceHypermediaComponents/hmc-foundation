@@ -29,14 +29,6 @@ class ActivityType extends SkeletonMixin(LocalizeFoundationType(HypermediaStateM
 		this.skeleton = true;
 	}
 
-	get _loaded() {
-		return !this.skeleton;
-	}
-
-	set _loaded(loaded) {
-		this.skeleton = !loaded;
-	}
-
 	render() {
 		let type = ActivityType.components.default;
 		this.classes && this.classes.some(hmClass => {
@@ -47,6 +39,14 @@ class ActivityType extends SkeletonMixin(LocalizeFoundationType(HypermediaStateM
 		return html`
 			<span class="d2l-skeletize">${this.localize(type)}</span>
 		`;
+	}
+
+	get _loaded() {
+		return !this.skeleton;
+	}
+
+	set _loaded(loaded) {
+		this.skeleton = !loaded;
 	}
 }
 

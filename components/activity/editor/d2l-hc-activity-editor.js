@@ -111,22 +111,6 @@ class ActivityEditor extends LitElement {
 		return templates[this.template]();
 	}
 
-	_renderSinglePane() {
-		return html`
-			<div class="d2l-template-scroll d2l-activity-editor-template">
-				${this.noHeader ? nothing : html`
-					<d2l-activity-editor-header href="${this.href}" .token="${this.token}"></d2l-activity-editor-header>
-				`}
-				<d2l-activity-editor-main href="${this.href}" .token="${this.token}"></d2l-activity-editor-main>
-				<div class="d2l-actiity-editor-template-footer-space"></div>
-				<div class="d2l-activity-editor-template-footer">
-					<d2l-activity-editor-footer href="${this.href}" .token="${this.token}"></d2l-activity-editor-footer>
-				</div>
-			</div>
-			${this._renderLoadFailureDialog()}
-		`;
-	}
-
 	_renderLoadFailureDialog() {
 		return html`
 			<d2l-activity-dialog-load-failed href="${this.href}" .token="${this.token}"></d2l-activity-dialog-load-failed>
@@ -149,6 +133,22 @@ class ActivityEditor extends LitElement {
 					</div>
 					</div>
 				</d2l-template-primary-secondary>
+			</div>
+			${this._renderLoadFailureDialog()}
+		`;
+	}
+
+	_renderSinglePane() {
+		return html`
+			<div class="d2l-template-scroll d2l-activity-editor-template">
+				${this.noHeader ? nothing : html`
+					<d2l-activity-editor-header href="${this.href}" .token="${this.token}"></d2l-activity-editor-header>
+				`}
+				<d2l-activity-editor-main href="${this.href}" .token="${this.token}"></d2l-activity-editor-main>
+				<div class="d2l-actiity-editor-template-footer-space"></div>
+				<div class="d2l-activity-editor-template-footer">
+					<d2l-activity-editor-footer href="${this.href}" .token="${this.token}"></d2l-activity-editor-footer>
+				</div>
 			</div>
 			${this._renderLoadFailureDialog()}
 		`;

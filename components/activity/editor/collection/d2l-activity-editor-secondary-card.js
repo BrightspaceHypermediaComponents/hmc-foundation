@@ -48,17 +48,6 @@ class ActivityEditorSecondaryCard extends LitElement {
 
 	}
 
-	_renderDefault() {
-		return html`
-			<span slot="header">
-				<h3>${this.titleText}</h3>
-				<hr>
-			</span>
-			<span class="content">${this.bodyText}</span>
-			<slot name="card-content"></slot>
-		`;
-	}
-
 	_renderCollapsable() {
 		return html`
 		<d2l-labs-accordion-collapse flex>
@@ -69,6 +58,17 @@ class ActivityEditorSecondaryCard extends LitElement {
 			<span class="content">${this.bodyText}</span>
 			<slot name="card-content"></slot>
 		</d2l-labs-accordion-collapse>
+		`;
+	}
+
+	_renderDefault() {
+		return html`
+			<span slot="header">
+				<h3>${this.titleText}</h3>
+				<hr>
+			</span>
+			<span class="content">${this.bodyText}</span>
+			<slot name="card-content"></slot>
 		`;
 	}
 }

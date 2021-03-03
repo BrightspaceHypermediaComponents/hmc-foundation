@@ -121,11 +121,6 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 		this._items = [];
 	}
 
-	clearSelected() {
-		this._currentSelection.clear();
-		this._selectionCount = 0;
-	}
-
 	render() {
 		const renderCandidates = () => {
 			if (this._candidates && this._candidates.length <= 0) {
@@ -217,6 +212,11 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 		if (changedProperties.has('_items') && this._candidates) {
 			this._addExtrasToCandidates(this._candidates);
 		}
+	}
+
+	clearSelected() {
+		this._currentSelection.clear();
+		this._selectionCount = 0;
 	}
 
 	_addExtrasToCandidates(candidates) {

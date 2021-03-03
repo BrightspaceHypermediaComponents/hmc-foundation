@@ -105,14 +105,6 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 		this.skeleton = true;
 	}
 
-	get _loaded() {
-		return !this.skeleton;
-	}
-
-	set _loaded(loaded) {
-		this.skeleton = !loaded;
-	}
-
 	render() {
 		return html`
 			<div class="question-item d2l-skeletize">
@@ -123,6 +115,14 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 			</div>
 			<div class="d2l-body-small question-type d2l-skeletize">${this.typeText}</div>
 		`;
+	}
+
+	get _loaded() {
+		return !this.skeleton;
+	}
+
+	set _loaded(loaded) {
+		this.skeleton = !loaded;
 	}
 };
 

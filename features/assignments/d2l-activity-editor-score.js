@@ -25,16 +25,6 @@ class ActivityEditorScore extends HypermediaStateMixin(LitElement) {
 		return styles;
 	}
 
-	// this should be made moot by selfless entities
-	get scoreOutOf() {
-		// todo: get action on the subentity first, then the property if the action doesn't exist
-		if (this.entity) {
-			const subEntity = this.entity.getSubEntityByRel(rels.scoreOutOf);
-			return subEntity && subEntity.properties && subEntity.properties.scoreOutOf;
-		}
-		return null;
-	}
-
 	render() {
 		return html`
 			<div id="score-info-container">
@@ -49,6 +39,16 @@ class ActivityEditorScore extends HypermediaStateMixin(LitElement) {
 				</div>
 			</div>
 		`;
+	}
+
+	// this should be made moot by selfless entities
+	get scoreOutOf() {
+		// todo: get action on the subentity first, then the property if the action doesn't exist
+		if (this.entity) {
+			const subEntity = this.entity.getSubEntityByRel(rels.scoreOutOf);
+			return subEntity && subEntity.properties && subEntity.properties.scoreOutOf;
+		}
+		return null;
 	}
 }
 

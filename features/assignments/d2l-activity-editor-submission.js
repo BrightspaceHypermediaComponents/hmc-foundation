@@ -43,10 +43,6 @@ class ActivityEditorSubmission extends HypermediaStateMixin(LitElement) {
 		`;
 	}
 
-	_renderTypeSummary() {
-		return html`<d2l-activity-type-summary href="${this.href}" .token="${this.token}"></d2l-activity-type-summary>`;
-	}
-
 	_renderType() {
 		return html`
 			<div id="assignment-type-container">
@@ -59,6 +55,10 @@ class ActivityEditorSubmission extends HypermediaStateMixin(LitElement) {
 				</d2l-activity-type-editor>
 			</div>
 		`;
+	}
+
+	_renderTypeSummary() {
+		return html`<d2l-activity-type-summary href="${this.href}" .token="${this.token}"></d2l-activity-type-summary>`;
 	}
 
 }

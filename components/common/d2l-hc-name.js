@@ -24,16 +24,16 @@ class HmName extends SkeletonMixin(HypermediaStateMixin(LocalizeCommon(LitElemen
 		this.skeleton = true;
 	}
 
+	render() {
+		return html`<span class="d2l-skeletize">${this.name ? this.name : html`${this.localize('name')} <div class="d2l-activity-name-skeleton-extend-skeleton-width"></div>`}</span>`;
+	}
+
 	get _loaded() {
 		return !this.skeleton;
 	}
 
 	set _loaded(loaded) {
 		this.skeleton = !loaded;
-	}
-
-	render() {
-		return html`<span class="d2l-skeletize">${this.name ? this.name : html`${this.localize('name')} <div class="d2l-activity-name-skeleton-extend-skeleton-width"></div>`}</span>`;
 	}
 
 }

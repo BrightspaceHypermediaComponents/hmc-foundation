@@ -38,13 +38,6 @@ class RulePickerDialog extends LocalizeDiscoverEntitlement(HypermediaStateMixin(
 		this._copiedConditions = [];
 	}
 
-	updated(changedProperties) {
-		super.updated(changedProperties);
-		if (changedProperties.has('opened')) {
-			this._copyConditions();
-		}
-	}
-
 	render() {
 		return html`
 			<d2l-dialog
@@ -63,9 +56,11 @@ class RulePickerDialog extends LocalizeDiscoverEntitlement(HypermediaStateMixin(
 		`;
 	}
 
-	_onConditionAdded() {
-		const dialog = this.shadowRoot.querySelector('d2l-dialog');
-		dialog.resize();
+	updated(changedProperties) {
+		super.updated(changedProperties);
+		if (changedProperties.has('opened')) {
+			this._copyConditions();
+		}
 	}
 
 	_copyConditions() {
@@ -80,6 +75,11 @@ class RulePickerDialog extends LocalizeDiscoverEntitlement(HypermediaStateMixin(
 			const picker = this.shadowRoot.querySelector('d2l-discover-rule-picker');
 			picker.reload(this.conditions);
 		});
+	}
+
+	_onConditionAdded() {
+		const dialog = this.shadowRoot.querySelector('d2l-dialog');
+		dialog.resize();
 	}
 
 	_onDoneClick() {

@@ -1,8 +1,6 @@
 {
 	"extends": "brightspace/open-wc-testing-config",
-  "parser": "@babel/eslint-parser",
-  "parserOptions": {
-      "sourceType": "module",
-      "requireConfigFile": false
+  "rules": {
+    "object-curly-spacing": "off"
   }
 }

@@ -101,6 +101,10 @@ class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin
 		this._backdropOpen = false;
 	}
 
+	_onCancelClick() {
+		this._pageRedirect();
+	}
+
 	async _onSaveClick() {
 		this._backdropOpen = true;
 		try {
@@ -114,10 +118,6 @@ class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin
 		this._toastOpen = true;
 		this._backdropOpen = false;
 
-		this._pageRedirect();
-	}
-
-	_onCancelClick() {
 		this._pageRedirect();
 	}
 

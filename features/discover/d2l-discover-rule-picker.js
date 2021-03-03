@@ -67,13 +67,6 @@ class RulePicker extends LocalizeDiscoverEntitlement(HypermediaStateMixin(RtlMix
 		this.conditions = [];
 	}
 
-	updated(changedProperties) {
-		super.updated(changedProperties);
-		if (changedProperties.has('conditions') && this.conditions.length === 0) {
-			this._addDefaultCondition();
-		}
-	}
-
 	render() {
 		return html`
 			${this._renderPickerConditions()}
@@ -86,6 +79,13 @@ class RulePicker extends LocalizeDiscoverEntitlement(HypermediaStateMixin(RtlMix
 				<div class="d2l-body-compact">${this.localize('text-rule-matches', 'count', 'xxx')}</div>
 			</div>
 		`;
+	}
+
+	updated(changedProperties) {
+		super.updated(changedProperties);
+		if (changedProperties.has('conditions') && this.conditions.length === 0) {
+			this._addDefaultCondition();
+		}
 	}
 
 	reload(newConditions) {
