@@ -35,10 +35,7 @@ class ActivityCodeEditorLearningPath extends LocalizeDynamicMixin(HypermediaStat
 	static get localizeConfig() {
 		return {
 			//grossness to make eslint pass tests
-			importFunc: async lang => {
-				const langFile = `./lang/${lang}.js`;
-				return (await import(langFile)).default;
-			}
+			importFunc: async lang => (await import(`./lang/${lang}.js`)).default
 		};
 	}
 

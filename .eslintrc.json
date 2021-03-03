@@ -1,4 +1,9 @@
 {
   "extends": "brightspace/lit-config",
-  "ignorePatterns": ["coverage/**/*"]
+  "ignorePatterns": ["coverage/**/*"],
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "sourceType": "module",
+    "requireConfigFile": false
+  }
 }
