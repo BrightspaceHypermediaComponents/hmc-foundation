@@ -18,7 +18,7 @@
   "author": "D2L Corporation",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@babel/eslint-parser": "^7.13.8",
+    "@babel/eslint-parser": "^7",
     "@open-wc/testing": "^2",
     "@open-wc/testing-karma": "^3",
     "@webcomponents/webcomponentsjs": "^2",
