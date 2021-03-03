@@ -7,7 +7,7 @@
       "rel": [
         "self"
       ],
-      "href": "../data/base/image.json"
+      "href": "/demo/data/base/image.json"
     },
     {
       "class": [
@@ -19,7 +19,7 @@
         "alternate"
       ],
       "type": "image/jpeg",
-      "href": "../data/images/banner-narrow-high-density-min-size.jpg"
+      "href": "/demo/data/images/banner-narrow-high-density-min-size.jpg"
     },
     {
       "class": [
@@ -31,7 +31,7 @@
         "alternate"
       ],
       "type": "image/jpeg",
-      "href": "../../demo/data/images/tile-low-density-max-size.jpg"
+      "href": "/demo/data/images/tile-low-density-max-size.jpg"
     }
   ]
 }

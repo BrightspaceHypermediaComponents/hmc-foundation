@@ -20,7 +20,7 @@
         "https://activities.api.brightspace.com/rels/activity-usage",
         "self"
       ],
-      "href": "../../../demo/data/base/new-learning-path.json"
+      "href": "/demo/data/base/new-learning-path.json"
     },
     {
       "rel": [
@@ -29,18 +29,12 @@
       ],
       "href": "https://activities.api.proddev.d2l/activities/6606_706000_6607/usages/6607/users/169"
     },
-    {
-      "rel": [
-        "https://api.brightspace.com/rels/organization",
-        "https://api.brightspace.com/rels/specialization"
-      ],
-      "href": "../../../demo/data/base/new-learning-path.json"
-    },
+
     {
       "rel": [
         "https://activities.api.brightspace.com/rels/activity-collection"
       ],
-      "href": "../../demo/data/base/collection-empty.json"
+      "href": "/demo/data/base/collection-empty.json"
     },
     {
       "rel": [

@@ -5,18 +5,23 @@
 		<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
 		<script type="module">
 			import '@brightspace-ui/core/components/demo/demo-page.js';
-			import '../../components/common/d2l-hc-code.js';
+			import '/components/common/d2l-hc-visibility-editor.js';
 		</script>
-		<title>d2l-hc-code</title>
+		<title>d2l-hc-visibility-editor</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
 		<meta charset="UTF-8">
 	</head>
 	<body>
-		<d2l-demo-page page-title="d2l-hc-code">
-			<h2>d2l-hc-code</h2>
+		<d2l-demo-page page-title="d2l-hc-visibility-editor">
+			<h2>d2l-hc-visibility-editor (draft)</h2>
 			<d2l-demo-snippet>
-				<d2l-hc-code href="../data/base/organization.json" token="cake"></d2l-hc-code>
+				<d2l-hc-visibility-editor href="/demo/data/base/new-learning-path.json" token="cake"></d2l-hc-visibility-editor>
+			</d2l-demo-snippet>
+
+			<h2>d2l-hc-visibility-editor (published)</h2>
+			<d2l-demo-snippet>
+				<d2l-hc-visibility-editor disabled href="/demo/data/base/existing-learning-path.json" token="cake"></d2l-hc-visibility-editor>
 			</d2l-demo-snippet>
 		</d2l-demo-page>
 	</body>
