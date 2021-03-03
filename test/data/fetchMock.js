@@ -30,10 +30,3 @@ export async function addToMock(path, object, createComponent, testObject = true
 	assert.isTrue(mockLink.called(`path:${path}`), `${path} was not called`);
 	if (object && testObject) assert.isTrue(mockLink.called(`path:${path}/object`), `${path}/object was not called`);
 }
-
-// export async function addToMock2(path, object, createComponent) {
-// 	mockLink.mock(`path:${path}`, () => object);
-
-// 	await createComponent(path);
-// 	assert.isTrue(mockLink.called(`path:${path}`), `${path} was not called`);
-// }
