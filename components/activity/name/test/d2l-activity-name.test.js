@@ -1,9 +1,12 @@
+/* eslint-disable no-undef */
+import { addToMock, mockLink } from '../../../../test/data/fetchMock.js';
 import { assert, fixture, html } from '@open-wc/testing';
-import { createComponentAndWait, fireEventAndWait } from '../../test-util.js';
-import { learningPathExisting, learningPathMissingAction, learningPathNew } from '../../data/learningPath.js';
-import { ActivityName } from '../../../components/activity/name/d2l-activity-name.js';
-import { ActivityNameCourse } from '../../../components/activity/name/custom/d2l-activity-name-course.js';
+import { createComponentAndWait, fireEventAndWait } from '../../../../test/test-util.js';
+import { learningPathExisting, learningPathMissingAction, learningPathNew, learningPathUpdated } from '../../../../test/data/learningPath.js';
+import { ActivityName } from '../d2l-activity-name.js';
+import { ActivityNameCourse } from '../custom/d2l-activity-name-course.js';
 import { clearStore } from '@brightspace-hmc/foundation-engine/state/HypermediaState.js';
+import { courseExisting } from '../../../../test/data/course.js';
 import { runConstructor } from '@brightspace-ui/core/tools/constructor-test-helper.js';
 import sinon from 'sinon/pkg/sinon-esm.js';
 
@@ -22,6 +25,18 @@ async function updateName(inputArea, updatedText, component) {
 }
 
 describe('d2l-activity-name', () => {
+
+	before(async() => {
+		mockLink.reset();
+		await addToMock('/learning-path/new', learningPathNew, _createNameLearningPath);
+		await addToMock('/learning-path/existing', learningPathExisting, _createNameLearningPath);
+		await addToMock('/learning-path/missing-action', learningPathMissingAction, _createNameLearningPath, false);
+		await addToMock('/course/existing', courseExisting, _createNameCourse);
+		await addToMock('/description/update', learningPathUpdated, _createNameLearningPath);
+	});
+	after(() => {
+		mockLink.reset();
+	});
 
 	describe('constructor', () => {
 		it('should construct d2l-activity-name', () => {
@@ -88,3 +103,5 @@ describe('d2l-activity-name', () => {
 		assert.instanceOf(element, ActivityName, 'should create basic name component');
 	});
 });
+
+mockLink.reset();

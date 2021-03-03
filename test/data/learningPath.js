@@ -2,7 +2,7 @@ export const learningPathExisting = {
 	class: ['named-entity', 'describable-entity', 'draft-published-entity', 'published', 'active', 'learning-path'],
 	properties: {
 		'name':'[object Object]',
-		'code':'LP',
+		'code':'LearningPath1',
 		'startDate':null,
 		'endDate':null,
 		'isActive':true,
@@ -18,6 +18,7 @@ export const learningPathExisting = {
 		{'href':'/update/name',  'name':'update-name',  'method':'PATCH',  'fields':[{'class':['required'],  'type':'text',  'name':'name',  'value':'[object Object]'}]},
 		{'href':'/description/update',  'name':'update-description',  'method':'PATCH',  'fields':[{'class':['required'],  'type':'text',  'name':'description',  'value':'description of my LP'}]},
 		{'href':'/update/draft',  'name':'update-draft',  'method':'PATCH',  'fields':[{'type':'checkbox',  'name':'draft',  'value':false}]},
+		{'href':'/update/code',  'name':'update-code',  'method':'PATCH',  'fields':[{'class':['required'],  'type':'text',  'name':'code',  'value':'LearningPath1'}]},
 		{'href':'/set/catalog/image',  'name':'set-catalog-image',  'method':'POST',  'fields':[{'type':'text',  'name':'imagePath',  'value':''}]},
 		{'href':'/remove/homepage/banner',  'name':'remove-homepage-banner',  'method':'PUT',  'fields':[{'type':'hidden',  'name':'showCourseBanner',  'value':false}]},
 		{'href':'/delete/item',  'name':'delete',  'method':'DELETE'}
@@ -70,6 +71,7 @@ export const learningPathNew = {
 		{'href':'/update/name',  'name':'update-name',  'method':'PATCH',  'fields':[{'class':['required'],  'type':'text',  'name':'name',  'value':'[object Object]'}]},
 		{'href':'/description/update',  'name':'update-description',  'method':'PATCH',  'fields':[{'class':['required'],  'type':'text',  'name':'description',  'value':'description of my LP'}]},
 		{'href':'/update/draft',  'name':'update-draft',  'method':'PATCH',  'fields':[{'type':'checkbox',  'name':'draft',  'value':false}]},
+		{'href':'/update/code',  'name':'update-code',  'method':'PATCH',  'fields':[{'class':['required'],  'type':'text',  'name':'code',  'value':'LearningPath1'}]},
 		{'href':'/set/catalog/image',  'name':'set-catalog-image',  'method':'POST',  'fields':[{'type':'text',  'name':'imagePath',  'value':''}]},
 		{'href':'/remove/homepage/banner',  'name':'remove-homepage-banner',  'method':'PUT',  'fields':[{'type':'hidden',  'name':'showCourseBanner',  'value':false}]},
 		{'href':'/delete/item',  'name':'delete',  'method':'DELETE'}

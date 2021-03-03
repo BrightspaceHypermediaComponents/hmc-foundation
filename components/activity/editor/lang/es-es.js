@@ -3,7 +3,7 @@
 export default {
 	"action-addActivity": "Agregar actividad", // Add a learning task to a list that are similar.
 	"action-cancel": "Cancelar", // Undo all changes and return to the learning path admin page.
-	"action-save": "Save", // Save all changes and return to the learning path admin page -- visible when screen is small
+	"action-save": "Guardar", // Save all changes and return to the learning path admin page -- visible when screen is small
 	"action-saveClose": "Guardar y cerrar", // Save all changes and return to the learning path admin page.
 	"label-instructions": "Instrucciones personalizadas", // Shows where the user should write instructions for an activity
 	"label-ok": "Aceptar", // Confirm dialog box was read to return to editing learning path after save error

@@ -1,5 +1,4 @@
-import '../../../components/activity/description/d2l-activity-description.js';
-// import { expect, fixture, html, oneEvent } from '@open-wc/testing';
+import '../d2l-activity-description.js';
 import { runConstructor } from '@brightspace-ui/core/tools/constructor-test-helper.js';
 
 describe('d2l-activity-description', () => {

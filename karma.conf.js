@@ -16,7 +16,8 @@ module.exports = config => {
 				//
 				// npm run test -- --grep test/foo/bar.test.js
 				// npm run test -- --grep test/bar/*
-				{ pattern: config.grep ? config.grep : '+(test|features)/**/*.test.js', type: 'module' },
+
+				{ pattern: config.grep ? config.grep : '+(components|features)/**/*.test.js', type: 'module' },
 			],
 			// see the karma-esm docs for all options
 			esm: {
