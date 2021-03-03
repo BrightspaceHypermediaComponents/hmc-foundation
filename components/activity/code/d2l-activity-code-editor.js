@@ -31,6 +31,16 @@ class ActivityCodeEditor extends LocalizeFoundationCode(HypermediaStateMixin(Lit
 		` ];
 	}
 
+	static get localizeConfig() {
+		return {
+			//grossness to make eslint pass tests
+			importFunc: async lang => {
+				const langFile = `./lang/${lang}.js`;
+				return (await import(langFile)).default;
+			}
+		};
+	}
+
 	render() {
 		return html`
 			<d2l-input-text
