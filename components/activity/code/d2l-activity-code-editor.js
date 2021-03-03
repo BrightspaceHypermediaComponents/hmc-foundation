@@ -33,7 +33,6 @@ class ActivityCodeEditor extends LocalizeFoundationCode(HypermediaStateMixin(Lit
 
 	static get localizeConfig() {
 		return {
-			//grossness to make eslint pass tests
 			importFunc: async lang => (await import(`./lang/${lang}.js`)).default
 		};
 	}
