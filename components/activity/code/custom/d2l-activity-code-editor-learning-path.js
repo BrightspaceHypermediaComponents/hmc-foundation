@@ -66,6 +66,10 @@ class ActivityCodeEditorLearningPath extends LocalizeDynamicMixin(HypermediaStat
 	_onInputCode(e) {
 		if (this._hasAction('updateCode')) {
 			const code = e.target.value.trim();
+			if (code === '') {
+				// use default code value from the action
+				this.updateCode.commit();
+			}
 			this.updateCode.commit({code: { observable: observableTypes.property, value: code} });
 		}
 	}
