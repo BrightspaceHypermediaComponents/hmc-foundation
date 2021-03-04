@@ -9,7 +9,6 @@ import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 
 class SampleButton extends LocalizeDiscoverEntitlement(RtlMixin(LitElement)) {
 
-
 	static get properties() {
 		return {
 			text: { type: String }
