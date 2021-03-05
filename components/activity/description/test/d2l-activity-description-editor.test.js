@@ -26,9 +26,9 @@ describe('d2l-activity-description-editor', () => {
 
 	before(async() => {
 		mockLink.reset();
-		await addToMock('/learning-path/new', learningPathNew, _createDescriptionEditor);
+		await addToMock('/learning-path/new', learningPathNew, _createDescriptionEditor, false);
 		await addToMock('/learning-path/existing', learningPathExisting, _createDescriptionEditor);
-		await addToMock('/learning-path/missing-action', learningPathMissingAction, _createDescriptionEditor);
+		await addToMock('/learning-path/missing-action', learningPathMissingAction, _createDescriptionEditor, false);
 		await addToMock('/description/update', learningPathUpdated, _createDescriptionEditor);
 	});
 	after(() => {

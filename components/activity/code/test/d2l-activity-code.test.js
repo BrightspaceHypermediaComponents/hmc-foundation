@@ -1,4 +1,4 @@
-import '../../../components/activity/code/d2l-activity-code.js';
+import '../d2l-activity-code.js';
 import { runConstructor } from '@brightspace-ui/core/tools/constructor-test-helper.js';
 
 describe('d2l-activity-code', () => {
