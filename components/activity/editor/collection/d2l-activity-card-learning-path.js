@@ -1,5 +1,4 @@
-
-import '@brightspace-ui-labs/accordion/accordion-collapse.js';
+import '@brightspace-ui-labs/caketray/secondary-card.js';
 import './d2l-activity-editor-secondary-card.js';
 import '../../code/custom/d2l-activity-code-editor-learning-path.js';
 import { css, html, LitElement } from 'lit-element/lit-element';
@@ -28,9 +27,9 @@ class ActivityEditorLearningPathCard extends LitElement {
 
 	render() {
 		return html`
-		<d2l-activity-secondary-card title-text="Additional Identification">
+		<d2l-labs-secondary-card title-text="Additional Identification">
 			<d2l-activity-code-editor-learning-path slot="card-content" href="${this.href}" .token="${this.token}"></d2l-activity-code-editor-learning-path>
-		</d2l-activity-secondary-card>`;
+		</d2l-labs-secondary-card>`;
 	}
 }
 
