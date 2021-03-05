@@ -3,6 +3,7 @@ import '@brightspace-ui/core/components/inputs/input-text.js';
 import { css,  LitElement } from 'lit-element/lit-element.js';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
+import { getUniqueId } from '@brightspace-ui/core/helpers/uniqueId';
 import { inputLabelStyles } from '@brightspace-ui/core/components/inputs/input-label-styles.js';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
 
@@ -41,21 +42,23 @@ class ActivityCodeEditorLearningPath extends LocalizeDynamicMixin(HypermediaStat
 	constructor() {
 		super();
 		this.defaultLearningPathCode = 'LP';
+		this._codeId = getUniqueId();
 	}
 
 	render() {
 		return html`
-			<label>
-				<span class="d2l-input-label">${this.localize('label-code-lp')}</span>
+			<label class="d2l-input-label" for="${this._codeId}">
+				<span>${this.localize('label-code-lp')}</span>
 				<div class="d2l-activity-code-editor-description">${this.localize('text-code-description-lp')}</div>
-				<d2l-input-text
-					@input="${this._onInputCode}"
-					placeholder="${this.defaultLearningPathCode}"
-					value="${this.code}"
-					?skeleton="${!this._loaded}"
-					maxlength=50
-				></d2l-input-text>
 			</label>
+			<d2l-input-text
+				aria-label="textfield ${this.localize('label-code-lp')} ${this.localize('text-code-description-lp')} ${this.code}"
+				id="${this._codeId}"
+				@input="${this._onInputCode}"
+				value="${this.code}"
+				?skeleton="${!this._loaded}"
+				maxlength=50
+			></d2l-input-text>
 		`;
 	}
 
