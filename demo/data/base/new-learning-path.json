@@ -24,6 +24,13 @@
     },
     {
       "rel": [
+        "https://api.brightspace.com/rels/organization",
+        "https://api.brightspace.com/rels/specialization"
+      ],
+      "href": "/demo/data/base/new-learning-path.json"
+    },
+    {
+      "rel": [
         "https://activities.api.brightspace.com/rels/user-activity-usage",
         "https://activities.api.brightspace.com/rels/my-activity-usage"
       ],
