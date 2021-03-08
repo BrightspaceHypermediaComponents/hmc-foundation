@@ -1,4 +1,4 @@
-import '@brightspace-ui-labs/caketray/secondary-card.js';
+import '@brightspace-ui-labs/caketray/caketray.js';
 import '../../code/custom/d2l-activity-code-editor-learning-path.js';
 import { css, html, LitElement } from 'lit-element/lit-element';
 import { customHypermediaElement } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
@@ -26,9 +26,9 @@ class ActivityEditorLearningPathCard extends LitElement {
 
 	render() {
 		return html`
-		<d2l-labs-secondary-card title-text="Additional Identification">
+		<d2l-labs-caketray title-text="Additional Identification" aria-label="Additional Identification">
 			<d2l-activity-code-editor-learning-path slot="card-content" href="${this.href}" .token="${this.token}"></d2l-activity-code-editor-learning-path>
-		</d2l-labs-secondary-card>`;
+		</d2l-labs-caketray>`;
 	}
 }
 
