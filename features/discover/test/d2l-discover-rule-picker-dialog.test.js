@@ -91,9 +91,6 @@ describe('d2l-discover-rule-picker-dialog', () => {
 		});
 
 		it('updates the state and commits action when done is pressed', async() => {
-			expect(el._hasAction('updateConditions')).to.be.true;
-			el.updateConditions.commit = sinon.spy();
-
 			el.opened = true;
 			await el.updateComplete;
 			// simulate removal
@@ -103,6 +100,9 @@ describe('d2l-discover-rule-picker-dialog', () => {
 			await rulePicker.updateComplete;
 			expect(rulePicker.conditions).to.have.lengthOf(2);
 			await el.updateComplete;
+
+			expect(el._hasAction('updateConditions')).to.be.true;
+			const spy = sinon.spy(el.updateConditions, 'commit');
 			// click done
 			el.shadowRoot.querySelector('d2l-button[primary]').click();
 			await el.updateComplete;
@@ -113,7 +113,7 @@ describe('d2l-discover-rule-picker-dialog', () => {
 				])
 			};
 			expect(el.conditions).to.deep.equal(rulePicker.conditions);
-			expect(el.updateConditions.commit.calledWith(expectedCommit)).to.be.true;
+			expect(spy.calledWith(expectedCommit)).to.be.true;
 		});
 	});
 
