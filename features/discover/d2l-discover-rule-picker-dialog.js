@@ -70,7 +70,6 @@ class RulePickerDialog extends LocalizeDiscoverEntitlement(HypermediaStateMixin(
 	}
 
 	_onCancelClick() {
-		this._copiedConditions;
 		this.requestUpdate().then(() => {
 			const picker = this.shadowRoot.querySelector('d2l-discover-rule-picker');
 			picker.reload(this._copiedConditions);
@@ -84,13 +83,24 @@ class RulePickerDialog extends LocalizeDiscoverEntitlement(HypermediaStateMixin(
 
 	_onDoneClick() {
 		const picker = this.shadowRoot.querySelector('d2l-discover-rule-picker');
-		this._state.updateProperties({
-			conditions: {
-				observable: observableTypes.subEntities,
-				rel: rels.condition,
-				value: picker.conditions
-			}
-		});
+		if (this.creating) {
+			const event = new CustomEvent('d2l-discover-rule-created', {
+				bubbles: true,
+				detail: {
+					conditions: picker.conditions
+				}
+			});
+			this.dispatchEvent(event);
+			picker.reload([]);
+		} else {
+			this._state.updateProperties({
+				conditions: {
+					observable: observableTypes.subEntities,
+					rel: rels.condition,
+					value: picker.conditions
+				}
+			});
+		}
 		// action is commited differently because it's a JSON string
 		this.updateConditions.commit({
 			conditions: JSON.stringify(this.conditions.map(condition => {
