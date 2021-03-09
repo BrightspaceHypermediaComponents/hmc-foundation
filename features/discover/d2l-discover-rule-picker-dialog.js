@@ -58,7 +58,7 @@ class RulePickerDialog extends LocalizeDiscoverEntitlement(HypermediaStateMixin(
 
 	updated(changedProperties) {
 		super.updated(changedProperties);
-		if (changedProperties.has('opened')) {
+		if (changedProperties.has('opened') && this.opened) {
 			this._copyConditions();
 		}
 	}
@@ -70,10 +70,10 @@ class RulePickerDialog extends LocalizeDiscoverEntitlement(HypermediaStateMixin(
 	}
 
 	_onCancelClick() {
-		this.conditions = this._copiedConditions;
+		this._copiedConditions;
 		this.requestUpdate().then(() => {
 			const picker = this.shadowRoot.querySelector('d2l-discover-rule-picker');
-			picker.reload(this.conditions);
+			picker.reload(this._copiedConditions);
 		});
 	}
 
