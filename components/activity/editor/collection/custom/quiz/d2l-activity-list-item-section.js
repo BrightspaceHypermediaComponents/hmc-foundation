@@ -57,10 +57,11 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 				}
 				.section {
 					flex-grow: 1;
+					margin-left: 0.3rem;
 				}
 				.section-type {
 					color: var(--d2l-color-tungsten);
-					margin-inline-start: 1.7rem;
+					margin-inline-start: 2rem;
 					max-width: 10rem;
 				}
 			`];
