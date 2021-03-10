@@ -37,7 +37,7 @@ class ActivityEditor extends LitElement {
 				grid-template-rows: auto 1fr auto;
 				height: calc(100vh - 134px);
 				margin: auto;
-				max-width: 1230px;
+				max-width: 1250px;
 				overflow-y: scroll;
 			}
 			[class^="d2l-activity-editor-sidebar"] {
