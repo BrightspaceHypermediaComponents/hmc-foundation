@@ -26,7 +26,7 @@
         "https://activities.api.brightspace.com/rels/activity-usage",
         "self"
       ],
-      "href": "../../demo/data/base/courses/course-offering-1.json"
+      "href": "/demo/data/base/courses/course-offering-1.json"
     },
     {
       "rel": [
@@ -52,7 +52,7 @@
         "https://api.brightspace.com/rels/organization",
         "https://api.brightspace.com/rels/specialization"
       ],
-      "href": "../../../demo/data/base/courses/organization-1.json"
+      "href": "/demo/data/base/courses/organization-1.json"
     }
   ]
 }

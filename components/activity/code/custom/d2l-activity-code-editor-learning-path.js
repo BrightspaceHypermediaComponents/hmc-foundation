@@ -45,17 +45,19 @@ class ActivityCodeEditorLearningPath extends LocalizeDynamicMixin(HypermediaStat
 
 	render() {
 		return html`
-			<label>
-				<span class="d2l-input-label">${this.localize('label-code-lp')}</span>
-				<div class="d2l-activity-code-editor-description">${this.localize('text-code-description-lp')}</div>
-				<d2l-input-text
-					@input="${this._onInputCode}"
-					placeholder="${this.defaultLearningPathCode}"
-					value="${this.code}"
-					?skeleton="${!this._loaded}"
-					maxlength=50
-				></d2l-input-text>
-			</label>
+			<div class="d2l-input-label">
+				<span aria-hidden="true">${this.localize('label-code-lp')}</span>
+				<div class="d2l-activity-code-editor-description" aria-hidden="true">${this.localize('text-code-description-lp')}</div>
+			</div>
+			<d2l-input-text
+				label="textfield ${this.localize('label-code-lp')}"
+				description="${this.localize('text-code-description-lp')}"
+				label-hidden
+				@input="${this._onInputCode}"
+				value="${this.code}"
+				?skeleton="${!this._loaded}"
+				maxlength=50
+			></d2l-input-text>
 		`;
 	}
 

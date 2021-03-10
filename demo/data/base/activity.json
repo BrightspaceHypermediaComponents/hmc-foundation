@@ -3,10 +3,10 @@
   "links":[
     {
       "rel":["self"],
-      "href":"../data/base/activity.json"
+      "href":"/demo/data/base/activity.json"
     },{
       "rel":["https://api.brightspace.com/rels/organization"],
-      "href":"../data/base/organization.json"
+      "href":"/demo/data/base/organization.json"
     },{
       "rel":["https://activities.api.brightspace.com/rels/activity-homepage"],
       "href":"#"
@@ -14,7 +14,7 @@
   ],
   "actions":[
     {
-      "href":"../data/base/activity.json",
+      "href":"/demo/data/base/activity.json",
       "name":"assign",
       "method":"GET"
     }

@@ -5,11 +5,11 @@
     "type": "git",
     "url": "https://github.com/BrightspaceHypermediaComponents/foundation-components.git"
   },
-  "version": "0.18.3",
+  "version": "0.19.5",
   "scripts": {
     "lint": "npm run lint:eslint && npm run lint:lit",
     "lint:eslint": "eslint . --ext .js,.html",
-    "lint:lit": "lit-analyzer  \"{components,test,demo}/**/*.js\" --strict --rules.no-unknown-tag-name off --rules.no-incompatible-type-binding off --rules.no-unknown-attribute off --rules.no-unknown-property off",
+    "lint:lit": "lit-analyzer  \"{components,demo,features,test}/**/*.js\" --strict --rules.no-unknown-tag-name off --rules.no-incompatible-type-binding off --rules.no-unknown-attribute off --rules.no-unknown-property off",
     "start": "es-dev-server --node-resolve --dedupe --open --watch",
     "test": "npm run lint && npm run test:headless",
     "test:headless": "karma start --coverage",
@@ -37,6 +37,7 @@
   "dependencies": {
     "@brightspace-hmc/foundation-engine": "github:BrightspaceHypermediaComponents/foundation-engine#semver:^0",
     "@brightspace-ui-labs/accordion": "^2.4.2",
+    "@brightspace-ui-labs/caketray": "^1",
     "@brightspace-ui-labs/checkbox-drawer": "github:BrightspaceUILabs/checkbox-drawer#semver:^1",
     "@brightspace-ui-labs/list-item-accumulator": "^1",
     "@brightspace-ui/core": "^1",

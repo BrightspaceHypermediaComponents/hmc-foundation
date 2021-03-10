@@ -8,7 +8,7 @@
       "method": "POST"
     },
     {
-      "href": "../../demo/data/base/add-existing-activity.json",
+      "href": "/demo/data/base/add-existing-activity.json",
       "name": "start-add-existing-activity",
       "method": "GET"
     },

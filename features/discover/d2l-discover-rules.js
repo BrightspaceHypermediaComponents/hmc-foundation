@@ -3,7 +3,7 @@ import './d2l-discover-rule-picker-dialog.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { bodySmallStyles } from '@brightspace-ui/core/components/typography/styles.js';
-import { LocalizeDiscoverEntitlement } from './lang/localization.js';
+import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
 import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton-mixin.js';
 
 const rels = Object.freeze({
@@ -14,7 +14,7 @@ const rels = Object.freeze({
 	newRule: 'new-rule'
 });
 
-class EntitlementRules extends LocalizeDiscoverEntitlement(SkeletonMixin(HypermediaStateMixin(LitElement))) {
+class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStateMixin(LitElement))) {
 	static get properties() {
 		return {
 			name: { type: String, observable: observableTypes.property },
@@ -45,6 +45,12 @@ class EntitlementRules extends LocalizeDiscoverEntitlement(SkeletonMixin(Hyperme
 		` ];
 	}
 
+	static get localizeConfig() {
+		return {
+			importFunc: async lang => (await import(`./lang/${lang}.js`)).default
+		};
+	}
+
 	constructor() {
 		super();
 		this.skeleton = true;
@@ -71,6 +77,7 @@ class EntitlementRules extends LocalizeDiscoverEntitlement(SkeletonMixin(Hyperme
 				text="${this.localize('text-add-enrollment-rule')}"
 				icon="tier1:lock-locked"></d2l-button-subtle>
 			<d2l-discover-rule-picker-dialog
+				@d2l-discover-rule-created="${this._onRuleCreated}"
 				@d2l-dialog-close="${this._onDialogClose}"
 				href="${this._newRuleHref}"
 				token="${this.token}"
@@ -94,6 +101,10 @@ class EntitlementRules extends LocalizeDiscoverEntitlement(SkeletonMixin(Hyperme
 
 	_onDialogClose() {
 		this._dialogOpened = false;
+	}
+
+	_onRuleCreated() {
+		// todo: add the rule to the list of rules - we need engine support for this to create a pseudo-href
 	}
 
 }

@@ -6,7 +6,7 @@ import './d2l-discover-rule-picker.js';
 
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
-import { LocalizeDiscoverEntitlement } from './lang/localization.js';
+import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 
 const rels = Object.freeze({
@@ -14,7 +14,7 @@ const rels = Object.freeze({
 	updateCondions: 'update-conditions',
 });
 
-class RulePickerDialog extends LocalizeDiscoverEntitlement(HypermediaStateMixin(RtlMixin(LitElement))) {
+class RulePickerDialog extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitElement))) {
 	static get properties() {
 		return {
 			opened: { type: Boolean },
@@ -30,6 +30,12 @@ class RulePickerDialog extends LocalizeDiscoverEntitlement(HypermediaStateMixin(
 				height: 100%;
 			}
 		`;
+	}
+
+	static get localizeConfig() {
+		return {
+			importFunc: async lang => (await import(`./lang/${lang}.js`)).default
+		};
 	}
 
 	constructor() {
@@ -58,7 +64,7 @@ class RulePickerDialog extends LocalizeDiscoverEntitlement(HypermediaStateMixin(
 
 	updated(changedProperties) {
 		super.updated(changedProperties);
-		if (changedProperties.has('opened')) {
+		if (changedProperties.has('opened') && this.opened) {
 			this._copyConditions();
 		}
 	}
@@ -70,10 +76,9 @@ class RulePickerDialog extends LocalizeDiscoverEntitlement(HypermediaStateMixin(
 	}
 
 	_onCancelClick() {
-		this.conditions = this._copiedConditions;
 		this.requestUpdate().then(() => {
 			const picker = this.shadowRoot.querySelector('d2l-discover-rule-picker');
-			picker.reload(this.conditions);
+			picker.reload(this._copiedConditions);
 		});
 	}
 
@@ -84,13 +89,24 @@ class RulePickerDialog extends LocalizeDiscoverEntitlement(HypermediaStateMixin(
 
 	_onDoneClick() {
 		const picker = this.shadowRoot.querySelector('d2l-discover-rule-picker');
-		this._state.updateProperties({
-			conditions: {
-				observable: observableTypes.subEntities,
-				rel: rels.condition,
-				value: picker.conditions
-			}
-		});
+		if (this.creating) {
+			const event = new CustomEvent('d2l-discover-rule-created', {
+				bubbles: true,
+				detail: {
+					conditions: picker.conditions
+				}
+			});
+			this.dispatchEvent(event);
+			picker.reload([]);
+		} else {
+			this._state.updateProperties({
+				conditions: {
+					observable: observableTypes.subEntities,
+					rel: rels.condition,
+					value: picker.conditions
+				}
+			});
+		}
 		// action is commited differently because it's a JSON string
 		this.updateConditions.commit({
 			conditions: JSON.stringify(this.conditions.map(condition => {

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link rel="stylesheet" href="/node_modules/@brightspace-ui/core/components/demo/styles.css" type="text/css">
+		<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+		<script type="module">
+			import '@brightspace-ui/core/components/demo/demo-page.js';
+			import '@brightspace-ui/core/components/list/list.js';
+			import '../d2l-activity-list-item.js';
+			import '../d2l-activity-list-item-accumulator.js';
+		</script>
+		<title>d2l-activity-list</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<meta charset="UTF-8">
+	</head>
+	<body>
+		<d2l-demo-page page-title="d2l-activity-list">
+
+			<h2>d2l-activity-list-item (default)</h2>
+			<d2l-demo-snippet>
+				<d2l-list>
+					<d2l-activity-list-item href="/demo/data/base/activity.json" token="cake"></d2l-activity-list-item>
+					<d2l-activity-list-item href="/demo/data/base/activity.json" token="cake"></d2l-activity-list-item>
+					<d2l-activity-list-item href="/demo/data/base/activity.json" token="cake"></d2l-activity-list-item>
+				</d2l-list>
+			</d2l-demo-snippet>
+			<h2>d2l-activity-list-item (course)</h2>
+			<d2l-demo-snippet>
+				<d2l-list>
+					<d2l-activity-list-item href="/demo/data/base/course-offering.json" token="cake"></d2l-activity-list-item>
+					<d2l-activity-list-item href="/demo/data/base/course-offering.json" token="cake"></d2l-activity-list-item>
+					<d2l-activity-list-item href="/demo/data/base/course-offering.json" token="cake"></d2l-activity-list-item>
+				</d2l-list>
+			</d2l-demo-snippet>
+
+			<h2>d2l-activity-list-item (learning path)</h2>
+			<d2l-demo-snippet>
+				<d2l-list>
+					<d2l-activity-list-item href="/demo/data/base/learning-path.json" token="cake"></d2l-activity-list-item>
+					<d2l-activity-list-item href="/demo/data/base/learning-path.json" token="cake"></d2l-activity-list-item>
+					<d2l-activity-list-item href="/demo/data/base/learning-path.json" token="cake"></d2l-activity-list-item>
+				</d2l-list>
+			</d2l-demo-snippet>
+
+			<h2>d2l-activity-list-item (mixed)</h2>
+			<d2l-demo-snippet>
+				<d2l-list>
+					<d2l-activity-list-item href="/demo/data/base/activity.json" token="cake"></d2l-activity-list-item>
+					<d2l-activity-list-item href="/demo/data/base/course-offering.json" token="cake"></d2l-activity-list-item>
+					<d2l-activity-list-item href="/demo/data/base/learning-path.json" token="cake"></d2l-activity-list-item>
+				</d2l-list>
+			</d2l-demo-snippet>
+
+			<h2>d2l-activity-list-item-accumulator</h2>
+			<p>Note that the move function must be added to the collection observing the item reorders.</p>
+			<d2l-demo-snippet>
+				<d2l-list>
+					<d2l-activity-list-item-accumulator draggable href="/demo/data/base/course-offering.json" token="cake" key="1"></d2l-activity-list-item-accumulator>
+					<d2l-activity-list-item-accumulator draggable href="/demo/data/base/course-offering.json" token="cake" key="2"></d2l-activity-list-item-accumulator>
+					<d2l-activity-list-item-accumulator draggable href="/demo/data/base/course-offering.json" token="cake" key="3"></d2l-activity-list-item-accumulator>
+				</d2l-list>
+			</d2l-demo-snippet>
+
+		</d2l-demo-page>
+	</body>
+</html>

@@ -143,7 +143,7 @@
         "https://activities.api.brightspace.com/rels/activity-usage",
         "self"
       ],
-      "href": "../../../demo/data/base/existing-learning-path.json"
+      "href": "/demo/data/base/existing-learning-path.json"
     },
     {
       "rel": [
@@ -156,14 +156,14 @@
       "rel": [
         "https://activities.api.brightspace.com/rels/activity-collection"
       ],
-      "href": "../../../demo/data/base/collection-full.json"
+      "href": "/demo/data/base/collection-full.json"
     },
     {
       "rel": [
         "https://api.brightspace.com/rels/organization",
         "https://api.brightspace.com/rels/specialization"
       ],
-      "href": "../../../demo/data/base/existing-learning-path.json"
+      "href": "/demo/data/base/existing-learning-path.json"
     },
     {
       "rel": [

@@ -5,28 +5,28 @@
 		<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
 		<script type="module">
 			import '@brightspace-ui/core/components/demo/demo-page.js';
-			import '../../components/activity/image/d2l-activity-image.js';
+			import '../d2l-activity-icon.js';
 		</script>
-		<title>d2l-activity-image</title>
+		<title>d2l-activity-icon</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
 		<meta charset="UTF-8">
 	</head>
 	<body>
-		<d2l-demo-page page-title="d2l-activity-image">
+		<d2l-demo-page page-title="d2l-activity-icon">
 
-			<h2>d2l-activity-image (default)</h2>
+			<h2>d2l-activity-icon (default)</h2>
 			<d2l-demo-snippet>
-				<d2l-activity-image href="../data/base/activity.json" token="cake"></d2l-activity-image>
+				<d2l-activity-icon href="/demo/data/base/activity.json" token="cake"></d2l-activity-icon>
 			</d2l-demo-snippet>
-			<h2>d2l-activity-image (course)</h2>
+			<h2>d2l-activity-icon (course)</h2>
 			<d2l-demo-snippet>
-				<d2l-activity-image-course href="../data/base/course-offering.json" token="cake"></d2l-activity-image-course>
+				<d2l-activity-icon href="/demo/data/base/course-offering.json" token="cake"></d2l-activity-icon>
 			</d2l-demo-snippet>
 
-			<h2>d2l-activity-image (learning path)</h2>
+			<h2>d2l-activity-icon (learning path)</h2>
 			<d2l-demo-snippet>
-				<d2l-activity-image-collection href="../data/base/learning-path.json" token="cake"></d2l-activity-image-collection>
+				<d2l-activity-icon href="/demo/data/base/learning-path.json" token="cake"></d2l-activity-icon>
 			</d2l-demo-snippet>
 
 		</d2l-demo-page>

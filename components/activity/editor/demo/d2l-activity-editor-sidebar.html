@@ -5,18 +5,18 @@
 		<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
 		<script type="module">
 			import '@brightspace-ui/core/components/demo/demo-page.js';
-			import '../../components/common/d2l-hc-code.js';
+			import '../d2l-activity-editor-sidebar.js';
 		</script>
-		<title>d2l-hc-code</title>
+		<title>Learning Path Editor</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
 		<meta charset="UTF-8">
 	</head>
 	<body>
-		<d2l-demo-page page-title="d2l-hc-code">
-			<h2>d2l-hc-code</h2>
+		<d2l-demo-page page-title="Editor Sidebar">
+			<h2>Existing Learning Path</h2>
 			<d2l-demo-snippet>
-				<d2l-hc-code href="../data/base/organization.json" token="cake"></d2l-hc-code>
+				<d2l-activity-editor-sidebar-learning-path href="/demo/data/base/existing-learning-path.json" token="cake"></d2l-activity-editor-sidebar-learning-path>
 			</d2l-demo-snippet>
 		</d2l-demo-page>
 	</body>

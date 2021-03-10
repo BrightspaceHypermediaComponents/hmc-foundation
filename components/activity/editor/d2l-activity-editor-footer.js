@@ -41,6 +41,7 @@ class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin
 			.d2l-activity-editor-save-buttons-visibility {
 				display: inline-block;
 				margin-left: 0.6rem;
+				order: 1;
 				width: 120px;
 			}
 			.d2l-activity-editor-save-button {
@@ -77,10 +78,10 @@ class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin
 	render() {
 		return html`
 			<div class="d2l-activity-editor-save-buttons" id="${this.saveButtons}">
+				<d2l-hc-visibility-editor class="d2l-activity-editor-save-buttons-visibility" href="${this.href}" .token="${this.token}" ?disabled="${!this._loaded}"></d2l-hc-visibility-editor>
 				<d2l-button class="d2l-activity-editor-save-button d2l-desktop-button" primary @click="${this._onSaveClick}" ?disabled="${!this._loaded}">${this.localize('action-saveClose')}</d2l-button>
 				<d2l-button class="d2l-activity-editor-save-button d2l-mobile-button" primary @click="${this._onSaveClick}" ?disabled="${!this._loaded}">${this.localize('action-save')}</d2l-button>
 				<d2l-button class="d2l-activity-editor-save-button" @click="${this._onCancelClick}" ?disabled="${!this._loaded}">${this.localize('action-cancel')}</d2l-button>
-				<d2l-hc-visibility-editor class="d2l-activity-editor-save-buttons-visibility" href="${this.href}" .token="${this.token}" ?disabled="${!this._loaded}"></d2l-hc-visibility-editor>
 			</div>
 
 			<d2l-alert-toast ?open="${this._toastOpen}" type="success"

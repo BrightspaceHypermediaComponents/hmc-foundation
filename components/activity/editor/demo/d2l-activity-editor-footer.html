@@ -5,30 +5,24 @@
 		<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
 		<script type="module">
 			import '@brightspace-ui/core/components/demo/demo-page.js';
-			import '../../components/activity/icon/d2l-activity-icon.js';
+			import '../d2l-activity-editor-footer.js';
 		</script>
-		<title>d2l-activity-icon</title>
+		<title>Learning Path Editor</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
 		<meta charset="UTF-8">
 	</head>
 	<body>
-		<d2l-demo-page page-title="d2l-activity-icon">
-
-			<h2>d2l-activity-icon (default)</h2>
+		<d2l-demo-page page-title="Editor Footer">
+			<h2>Hidden Learning Path</h2>
 			<d2l-demo-snippet>
-				<d2l-activity-icon href="../data/base/activity.json" token="cake"></d2l-activity-icon>
-			</d2l-demo-snippet>
-			<h2>d2l-activity-icon (course)</h2>
-			<d2l-demo-snippet>
-				<d2l-activity-icon href="../data/base/course-offering.json" token="cake"></d2l-activity-icon>
+				<d2l-activity-editor-footer href="/demo/data/base/new-learning-path.json" token="cake"></d2l-activity-editor-footer>
 			</d2l-demo-snippet>
 
-			<h2>d2l-activity-icon (learning path)</h2>
+			<h2>Visible Learning Path</h2>
 			<d2l-demo-snippet>
-				<d2l-activity-icon href="../data/base/learning-path.json" token="cake"></d2l-activity-icon>
+				<d2l-activity-editor-footer href="/demo/data/base/existing-learning-path.json" token="cake"></d2l-activity-editor-footer>
 			</d2l-demo-snippet>
-
 		</d2l-demo-page>
 	</body>
 </html>

@@ -9,7 +9,7 @@
         "https://activities.api.brightspace.com/rels/activity-usage",
         "self"
       ],
-      "href": "../data/base/learning-path.json"
+      "href": "/demo/data/base/learning-path.json"
     },
     {
       "rel": [
@@ -22,14 +22,14 @@
       "rel": [
         "https://activities.api.brightspace.com/rels/activity-collection"
       ],
-      "href": "../data/base/collection.json"
+      "href": "/demo/data/base/collection.json"
     },
     {
       "rel": [
         "https://api.brightspace.com/rels/organization",
         "https://api.brightspace.com/rels/specialization"
       ],
-      "href": "../data/base/organization.json"
+      "href": "/demo/data/base/organization.json"
     },
     {
       "rel": [

@@ -21,7 +21,7 @@
       "rel": [
         "https://api.brightspace.com/rels/organization-image"
       ],
-      "href": "../../demo/data/base/image.json"
+      "href": "/demo/data/base/image.json"
     },
     {
       "rel": [
@@ -37,13 +37,13 @@
       "rel": [
         "self"
       ],
-      "href": "../data/base/organization.json"
+      "href": "/demo/data/base/organization.json"
     },
     {
       "rel": [
         "https://api.brightspace.com/rels/parent-semester"
       ],
-      "href": "../data/base/semester.json"
+      "href": "/demo/data/base/semester.json"
     }
   ],
   "actions": [

@@ -1,10 +1,10 @@
-import '../../../components/activity/code/d2l-activity-code-editor.js';
-import '../../../components/activity/code/custom/d2l-activity-code-editor-learning-path.js';
+import '../d2l-activity-code-editor.js';
+import '../custom/d2l-activity-code-editor-learning-path.js';
+import { addToMock, mockLink } from '../../../../test/data/fetchMock.js';
 import { assert, html } from '@open-wc/testing';
-import { createComponentAndWait, fireEventAndWait } from '../../test-util.js';
-import { learningPathExisting, learningPathMissingAction, learningPathNew } from '../../data/learningPath.js';
+import { createComponentAndWait, fireEventAndWait } from '../../../../test/test-util.js';
+import { learningPathExisting, learningPathMissingAction, learningPathNew } from '../../../../test/data/learningPath.js';
 import { clearStore } from '@brightspace-hmc/foundation-engine/state/HypermediaState.js';
-import { mockLink } from '../../data/fetchMocks.js';
 import { runConstructor } from '@brightspace-ui/core/tools/constructor-test-helper.js';
 import sinon from 'sinon/pkg/sinon-esm.js';
 
@@ -25,7 +25,17 @@ async function updateCode(element, updatedText) {
 	await fireEventAndWait(inputArea, 'input', element);
 }
 
-describe('d2l-activity-code-editor', () => {
+describe('d2l-activity-code-editor', async() => {
+
+	before(async() => {
+		mockLink.reset();
+		await addToMock('/learning-path/new', learningPathNew, _createCodeEditorLearningPath);
+		await addToMock('/learning-path/existing', learningPathExisting, _createCodeEditorLearningPath);
+		await addToMock('/learning-path/missing-action', learningPathMissingAction, _createCodeEditorLearningPath);
+	});
+	after(() => {
+		mockLink.reset();
+	});
 
 	describe('constructor', () => {
 
@@ -47,10 +57,6 @@ describe('d2l-activity-code-editor', () => {
 		it('should initialize using defined path and expected values', async() => {
 			const element = await _createCodeEditor('/learning-path/new');
 
-			// paths should be followed
-			assert.isTrue(mockLink.called('path:/learning-path/new'), '/learing-path/new was not called');
-			assert.isTrue(mockLink.called('path:/learning-path/new/object'), '/learing-path/new/object was not called');
-
 			assert.equal(element.code, learningPathNew.properties.code);
 		});
 
@@ -59,14 +65,10 @@ describe('d2l-activity-code-editor', () => {
 			beforeEach(async() => {
 				clearStore();
 				element = await _createCodeEditor('/learning-path/existing');
-				assert.equal(element.code, learningPathExisting.properties.code, 'name should match response');
+				assert.equal(element.code, learningPathExisting.properties.code, 'code should match response');
 			});
 
-			it('name should be set when one is present', () => {
-				// new path should be followed
-				assert.isTrue(mockLink.called('path:/learning-path/existing'), '/learing-path/exiting was not called');
-				assert.isTrue(mockLink.called('path:/learning-path/existing/object'), '/learning-path/existing/object was not called');
-
+			it('code should be set when one is present', () => {
 				assert.equal(element.shadowRoot.querySelector(inputText).value,
 					learningPathExisting.properties.code, 'input value does not match');
 
@@ -87,6 +89,14 @@ describe('d2l-activity-code-editor', () => {
 				await updateCode(element, '   new  code     ');
 
 				assert.equal(element.code, 'new  code', 'code was updated to match');
+				assert.isTrue(spy.commit.called, 'commit should be called when input event is triggered');
+			});
+
+			it('can submit empty', async() => {
+				const spy = sinon.spy(element.updateCode);
+				await updateCode(element, '');
+
+				assert.equal(element.code, '', 'code should default to LP');
 				assert.isTrue(spy.commit.called, 'commit should be called when input event is triggered');
 			});
 		});
@@ -110,6 +120,16 @@ describe('d2l-activity-code-editor', () => {
 
 describe('d2l-activity-code-editor-learning-path', () => {
 
+	before(async() => {
+		mockLink.reset();
+		await addToMock('/learning-path/new', learningPathNew, _createCodeEditorLearningPath, false);
+		await addToMock('/learning-path/existing', learningPathExisting, _createCodeEditorLearningPath, false);
+		await addToMock('/learning-path/missing-action', learningPathMissingAction, _createCodeEditorLearningPath, false);
+	});
+	after(() => {
+		mockLink.reset();
+	});
+
 	describe('constructor', () => {
 
 		it('should construct', () => {
@@ -130,10 +150,6 @@ describe('d2l-activity-code-editor-learning-path', () => {
 		it('should initialize using defined path and expected values', async() => {
 			const element = await _createCodeEditorLearningPath('/learning-path/new');
 
-			// paths should be followed
-			assert.isTrue(mockLink.called('path:/learning-path/new'), '/learing-path/new was not called');
-			assert.isTrue(mockLink.called('path:/learning-path/new/object'), '/learing-path/new/object was not called');
-
 			assert.equal(element.code, learningPathNew.properties.code);
 		});
 
@@ -142,14 +158,10 @@ describe('d2l-activity-code-editor-learning-path', () => {
 			beforeEach(async() => {
 				clearStore();
 				element = await _createCodeEditorLearningPath('/learning-path/existing');
-				assert.equal(element.code, learningPathExisting.properties.code, 'name should match response');
+				assert.equal(element.code, learningPathExisting.properties.code, 'code should match response');
 			});
 
-			it('name should be set when one is present', () => {
-				// new path should be followed
-				assert.isTrue(mockLink.called('path:/learning-path/existing'), '/learing-path/exiting was not called');
-				assert.isTrue(mockLink.called('path:/learning-path/existing/object'), '/learning-path/existing/object was not called');
-
+			it('code should be set when one is present', () => {
 				assert.equal(element.shadowRoot.querySelector(inputText).value,
 					learningPathExisting.properties.code, 'input value does not match');
 
@@ -172,6 +184,19 @@ describe('d2l-activity-code-editor-learning-path', () => {
 				assert.equal(element.code, 'new  code', 'code was updated to match');
 				assert.isTrue(spy.commit.called, 'commit should be called when input event is triggered');
 			});
+
+			/*
+			// this is breaking sinon, because commit() is not passing an object
+			// adding an empty object makes test pass but breaks functionality
+			// not sure how to work around this
+			it('can submit empty', async() => {
+				const spy = sinon.spy(element.updateCode);
+				await updateCode(element, '');
+
+				assert.equal(element.code, '', 'code was updated to match');
+				assert.isTrue(spy.commit.called, 'commit should be called when input event is triggered');
+			});
+			*/
 		});
 		describe('path:/learning-path/missing-action', () => {
 			let element;
