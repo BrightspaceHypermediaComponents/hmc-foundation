@@ -10,8 +10,8 @@ import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton
 class ActivityIcon extends SkeletonMixin(HypermediaStateMixin(LitElement)) {
 	static get properties() {
 		return {
-			classes: { observable: observableTypes.classes },
-			configuredIcon: { observable: observableTypes.subEntity, rel: 'icon',
+			_classes: { type: Array, observable: observableTypes.classes },
+			_configuredIcon: { type: Object, observable: observableTypes.subEntity, rel: 'icon',
 				method: (icon) => icon.class.includes('tier2') && icon
 			}
 		};
@@ -38,15 +38,15 @@ class ActivityIcon extends SkeletonMixin(HypermediaStateMixin(LitElement)) {
 
 	constructor() {
 		super();
-		this.classes = [];
+		this._classes = [];
 	}
 
 	render() {
 		let icon = ActivityIcon.components.default;
-		if (this.configuredIcon) {
-			icon = `tier2:${this.configuredIcon.properties.iconSetKey}`;
+		if (this._configuredIcon) {
+			icon = `tier2:${this._configuredIcon.properties.iconSetKey}`;
 		} else {
-			this.classes.some(hmClass => {
+			this._classes.some(hmClass => {
 				if (!ActivityIcon.components[hmClass]) return false;
 				icon = ActivityIcon.components[hmClass];
 				return true;
