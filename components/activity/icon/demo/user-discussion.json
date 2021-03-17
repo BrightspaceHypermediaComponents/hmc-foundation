@@ -1,0 +1,6 @@
+{
+  "class": ["user-discussion-activity"],
+  "links": [
+    { "rel": ["self"], "href": "user-discussion.json"}
+  ]
+}

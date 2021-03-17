@@ -1,0 +1,6 @@
+{
+  "class": ["user-checklist-activity"],
+  "links": [
+    { "rel": ["self"], "href": "user-checklist.json"}
+  ]
+}

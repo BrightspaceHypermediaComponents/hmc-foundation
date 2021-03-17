@@ -1,0 +1,6 @@
+{
+  "class": ["user-course-offering-activity-usage"],
+  "links": [
+    { "rel": ["self"], "href": "user-course-offering.json"}
+  ]
+}

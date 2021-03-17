@@ -1,0 +1,15 @@
+{
+  "class": ["activity"],
+  "entities" : [
+    {
+      "class": ["icon", "tier2"],
+      "properties": {
+        "iconSetKey": "file-audio"
+      },
+      "rel": ["icon"]
+    }
+  ],
+  "links": [
+    { "rel": ["self"], "href": "configured-icon.json"}
+  ]
+}

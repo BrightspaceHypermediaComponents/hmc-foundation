@@ -15,18 +15,24 @@
 	<body>
 		<d2l-demo-page page-title="d2l-activity-icon">
 
-			<h2>d2l-activity-icon (default)</h2>
+			<h2>d2l-activity-icon (default, course, learning path)</h2>
 			<d2l-demo-snippet>
-				<d2l-activity-icon href="/demo/data/base/activity.json" token="cake"></d2l-activity-icon>
+				<d2l-activity-icon href="/demo/data/base/activity.json" token="cake"></d2l-activity-icon> Activity/Default<hr>
+				<d2l-activity-icon href="/demo/data/base/course-offering.json" token="cake"></d2l-activity-icon> Course Offering<hr>
+				<d2l-activity-icon href="/demo/data/base/learning-path.json" token="cake"></d2l-activity-icon> Learning Path
 			</d2l-demo-snippet>
-			<h2>d2l-activity-icon (course)</h2>
+			<h2>d2l-activity-icon (user-specific activity usages)</h2>
+			<p>These are used in Work-to-do widget</p>
 			<d2l-demo-snippet>
-				<d2l-activity-icon href="/demo/data/base/course-offering.json" token="cake"></d2l-activity-icon>
-			</d2l-demo-snippet>
-
-			<h2>d2l-activity-icon (learning path)</h2>
-			<d2l-demo-snippet>
-				<d2l-activity-icon href="/demo/data/base/learning-path.json" token="cake"></d2l-activity-icon>
+				<d2l-activity-icon href="user-assignment.json" token="cake"></d2l-activity-icon> Assignment<hr>
+				<d2l-activity-icon href="user-checklist.json" token="cake"></d2l-activity-icon> Checklist<hr>
+				<d2l-activity-icon href="user-content.json" token="cake"></d2l-activity-icon> Content<hr>
+				<d2l-activity-icon href="user-course-offering.json" token="cake"></d2l-activity-icon> Course Offering<hr>
+				<d2l-activity-icon href="user-discussion.json" token="cake"></d2l-activity-icon> Discussion<hr>
+				<d2l-activity-icon href="user-quiz.json" token="cake"></d2l-activity-icon> Quiz<hr>
+				<d2l-activity-icon href="user-quiz-attempt.json" token="cake"></d2l-activity-icon> Quiz Attempt<hr>
+				<d2l-activity-icon href="user-survey.json" token="cake"></d2l-activity-icon> Survey<hr>
+				<d2l-activity-icon href="configured-icon.json" token="cake"></d2l-activity-icon> <i>Custom Configured Icon</i><hr>
 			</d2l-demo-snippet>
 
 		</d2l-demo-page>

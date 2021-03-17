@@ -1,0 +1,6 @@
+{
+  "class": ["user-content-activity"],
+  "links": [
+    { "rel": ["self"], "href": "user-content.json"}
+  ]
+}
