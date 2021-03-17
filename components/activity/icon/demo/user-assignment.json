@@ -1,0 +1,6 @@
+{
+  "class": ["user-assignment-activity"],
+  "links": [
+    { "rel": ["self"], "href": "user-assignment.json"}
+  ]
+}

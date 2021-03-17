@@ -1,0 +1,6 @@
+{
+  "class": ["user-quiz-activity"],
+  "links": [
+    { "rel": ["self"], "href": "user-quiz.json"}
+  ]
+}

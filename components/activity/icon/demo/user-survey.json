@@ -1,0 +1,6 @@
+{
+  "class": ["user-survey-activity"],
+  "links": [
+    { "rel": ["self"], "href": "user-survey.json"}
+  ]
+}
