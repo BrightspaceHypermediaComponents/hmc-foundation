@@ -7,6 +7,7 @@ import './d2l-activity-collection-item-quiz.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
+import { ifDefined } from 'lit-html/directives/if-defined';
 import { repeat } from 'lit-html/directives/repeat';
 
 const rels = Object.freeze({
@@ -25,6 +26,11 @@ class ActivityEditorMainCollection extends HypermediaStateMixin(LitElement) {
 				route: [
 					{ observable: observableTypes.link, rel: rels.collection }
 				]
+			},
+			_organization: {
+				type: String,
+				observable: observableTypes.link,
+				rel: 'https://api.brightspace.com/rels/organization'
 			}
 		};
 	}
@@ -71,12 +77,21 @@ class ActivityEditorMainCollection extends HypermediaStateMixin(LitElement) {
 				<div class="d2l-activity-collection-activities">
 					<d2l-list separators="between" @d2l-list-item-position-change="${this._moveItems}">
 						${repeat(this.items, item => item.href, (item, idx) => html`
-						<d2l-activity-collection-item-quiz number="${idx + 1}" href="${item.href}" .token="${this.token}" key="${item.properties.id}"></d2l-activity-collection-item-quiz>
+						<d2l-activity-collection-item-quiz number="${idx + 1}" href="${item.href}" .token="${this.token}" key="${item.properties.id}" ou="${ifDefined(this._getOrgUnitId() || undefined)}"></d2l-activity-collection-item-quiz>
 						`)}
 					</d2l-list>
 				</div>
 			</div>
 		`;
+	}
+
+	_getOrgUnitId() {
+		if (this._organization) {
+			const match = /[0-9]+$/.exec(this._organization);
+			return match && match[0];
+		} else {
+			return;
+		}
 	}
 
 	_moveItems(e) {
