@@ -9,6 +9,8 @@ import { html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedi
 
 import { ListItemLinkMixin } from '@brightspace-ui/core/components/list/list-item-link-mixin.js';
 
+const context = JSON.parse(document.documentElement.getAttribute('data-he-context'));
+
 const rels = Object.freeze({
 	activityUsage: 'https://activities.api.brightspace.com/rels/activity-usage'
 });
@@ -18,9 +20,6 @@ const componentClass = class extends HypermediaStateMixin(ListItemLinkMixin(LitE
 		return {
 			number: {
 				type: Number
-			},
-			ou: {
-				type: String
 			},
 			_points: {
 				type: String,
@@ -71,7 +70,7 @@ const componentClass = class extends HypermediaStateMixin(ListItemLinkMixin(LitE
 	_openDialog() {
 		const open = D2L.LP.Web.UI.Legacy.MasterPages.Dialog.OpenFullscreen;
 		const url = new D2L.LP.Web.Http.UrlLocation(
-			`/d2l/lms/qc/editQuestionObject.d2l?ou=${this.ou}&qo=${this.key}`);
+			`/d2l/lms/qc/editQuestionObject.d2l?ou=${context.orgUnitId}&qo=${this.key}`);
 		return open(url, 'SrcCallBack', 'result', [], false, '');
 	}
 
