@@ -34,18 +34,16 @@ class AttributePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin
 	constructor() {
 		super();
 		this.attributeList = [];
-		this.assignableAttributes = ['apple', 'banana'];
 	}
 
 	render() {
-
 		return html`
 			<d2l-labs-attribute-picker
 				allow-freeform
 				aria-label="${this.localize('label-condition-value')}"
 				.attributeList="${this.attributeList}"
 				.assignableAttributes="${this.assignableAttributes}"
-				@attributes-changed="${this._onAttributesChanged}">
+				@d2l-attributes-changed="${this._onAttributesChanged}">
 			</d2l-labs-attribute-picker>
 		`;
 	}
@@ -61,10 +59,16 @@ class AttributePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin
 		});
 	}
 
+	async addAttribute(value) {
+		await this.updateComplete;
+		const innerPicker = this.shadowRoot.querySelector('d2l-labs-attribute-picker');
+		await innerPicker.addAttribute(value);
+	}
+
 	_onAttributesChanged(e) {
 		this.attributeList = e.detail.attributeList;
 
-		this.dispatchEvent(new CustomEvent('attributes-changed', {
+		this.dispatchEvent(new CustomEvent('d2l-attributes-changed', {
 			bubbles: true,
 			composed: true,
 			detail: {

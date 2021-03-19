@@ -1,5 +1,5 @@
 import '../d2l-discover-attribute-picker.js';
-import { expect, fixture, html, oneEvent } from '@open-wc/testing';
+import { expect, fixture, html, oneEvent, waitUntil  } from '@open-wc/testing';
 import { clearStore } from '@brightspace-hmc/foundation-engine/state/HypermediaState.js';
 import { createComponentAndWait } from '../../../test/test-util.js';
 import { default as fetchMock } from 'fetch-mock/esm/client.js';
@@ -100,7 +100,7 @@ describe('d2l-discover-attribute-picker', () => {
 			const conditionD2LPicker = el.shadowRoot.querySelector('d2l-labs-attribute-picker');
 
 			//Wait for the assignable attributes update to go through
-			await new Promise(resolve => setTimeout(resolve, 100));
+			await waitUntil(() => conditionD2LPicker.assignableAttributes && conditionD2LPicker.assignableAttributes.length > 0, 'assignableAttributes not initialized');
 			expect(conditionD2LPicker.assignableAttributes).to.deep.equal(assignableValuesA);
 		});
 
@@ -108,11 +108,12 @@ describe('d2l-discover-attribute-picker', () => {
 			const conditionD2LPicker = el.shadowRoot.querySelector('d2l-labs-attribute-picker');
 
 			//Wait for the assignable attributes update to go through
-			await new Promise(resolve => setTimeout(resolve, 100));
+			await waitUntil(() => conditionD2LPicker.assignableAttributes && conditionD2LPicker.assignableAttributes.length > 0, 'assignableAttributes not initialized');
+			const assignmentA = conditionD2LPicker.assignableAttributes;
 
+			//Apply the second assignable attribute list
 			el.href = conditionTypeBHref;
-			await new Promise(resolve => setTimeout(resolve, 100));
-
+			await waitUntil(() => conditionD2LPicker.assignableAttributes !== assignmentA, 'assignableAttributes did not update');
 			expect(conditionD2LPicker.assignableAttributes).to.deep.equal(assignableValuesB);
 		});
 
@@ -142,14 +143,12 @@ describe('d2l-discover-attribute-picker', () => {
 			<d2l-discover-attribute-picker href="${conditionTypeAHref}" token="cake" .attributeList=${attributeListA}></d2l-discover-attribute-picker>
 		`));
 
-		it('fires the attributes-changed event when the inner attribute list is modified', async() => {
-			const conditionD2LPicker = el.shadowRoot.querySelector('d2l-labs-attribute-picker');
-			await conditionD2LPicker.updateComplete;
+		it('fires the d2l-attributes-changed event when the inner attribute list is modified', async() => {
+			//Wait for the assignable attributes update to go through
+			await waitUntil(() => el.assignableAttributes && el.assignableAttributes.length > 0, 'assignableAttributes not initialized');
 
-			const listener = oneEvent(el, 'attributes-changed');
-
-			conditionD2LPicker._addAttribute('Zebra');
-
+			const  listener = oneEvent(el, 'd2l-attributes-changed');
+			el.addAttribute('Zebra');
 			const result = await verifyEventTimeout(listener, 'no event fired');
 			expect(result).to.not.equal('no event fired');
 			expect(result.detail.attributeList[2]).to.equal('Zebra');

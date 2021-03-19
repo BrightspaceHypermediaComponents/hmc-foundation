@@ -1,5 +1,5 @@
 import '../d2l-discover-rule-picker.js';
-import { expect, fixture, html, oneEvent } from '@open-wc/testing';
+import { expect, fixture, html, oneEvent, waitUntil } from '@open-wc/testing';
 import { clearStore } from '@brightspace-hmc/foundation-engine/state/HypermediaState.js';
 import { createComponentAndWait } from '../../../test/test-util.js';
 import { default as fetchMock } from 'fetch-mock/esm/client.js';
@@ -143,11 +143,10 @@ describe('d2l-discover-rule-picker', () => {
 		});
 
 		it('updates the condition information when a new attribute is added', async() => {
-			const discoverPickerList = el.shadowRoot.querySelector('d2l-discover-attribute-picker');
-			await discoverPickerList.updateComplete;
-			const conditionPickerList = discoverPickerList.shadowRoot.querySelector('d2l-labs-attribute-picker');
-			conditionPickerList._addAttribute('Zebra');
-			await conditionPickerList.updateComplete;
+			const discoverPickerList = el.shadowRoot.querySelectorAll('d2l-discover-attribute-picker');
+			const discoverPicker = discoverPickerList[0];
+			await waitUntil(() => discoverPicker.assignableAttributes && discoverPicker.assignableAttributes.length > 0, 'assignableAttributes not initialized');
+			await discoverPicker.addAttribute('Zebra');
 
 			expect(el.conditions[0].properties.values[0]).to.equal('Banana');
 			expect(el.conditions[0].properties.values[1]).to.equal('Zebra');

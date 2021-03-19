@@ -5,6 +5,7 @@ import './d2l-discover-attribute-picker.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { bodyCompactStyles } from '@brightspace-ui/core/components/typography/styles.js';
+import { classMap } from 'lit-html/directives/class-map';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { selectStyles } from '@brightspace-ui/core/components/inputs/input-select-styles.js';
@@ -18,7 +19,6 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 			] },
 			conditions: { type: Array, observable: observableTypes.subEntities, rel: 'condition' },
 			defaultType: { type: String },
-			_conditionTypesHash: { type: Object }
 		};
 	}
 
@@ -114,7 +114,7 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 		this.conditions.push({
 			properties: {
 				type: this.defaultType || (this.conditionTypes && this.conditionTypes[0].properties.type),
-				value: ''
+				values: []
 			}
 		});
 		this.requestUpdate();
@@ -173,9 +173,10 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 	}
 
 	_renderPickerConditions() {
+
 		return html`
 		${this.conditions.map((condition, index) => html`
-		<div class="d2l-picker-rule-container ${this.conditions.length - 1 === index ? 'd2l-picker-rule-container-final' : ''}">
+		<div class="${classMap({ 'd2l-picker-rule-container': true, 'd2l-picker-rule-container-final': this.conditions.length - 1 === index })}">
 			<select class="d2l-input-select picker-rule-select"
 				aria-label="${this.localize('label-condition-type')}"
 				.condition="${condition}"
@@ -194,7 +195,7 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 				.attributeList="${condition.properties.values}"
 				class="d2l-picker-rule-attribute-picker"
 				.condition="${condition}"
-				@attributes-changed="${this._onConditionValueChange}">
+				@d2l-attributes-changed="${this._onConditionValueChange}">
 			</d2l-discover-attribute-picker>
 			<d2l-button-icon
 				class="delete-condition-button"
