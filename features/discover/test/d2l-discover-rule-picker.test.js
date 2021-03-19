@@ -145,8 +145,9 @@ describe('d2l-discover-rule-picker', () => {
 		it('updates the condition information when a new attribute is added', async() => {
 			const discoverPickerList = el.shadowRoot.querySelectorAll('d2l-discover-attribute-picker');
 			const discoverPicker = discoverPickerList[0];
-			await waitUntil(() => discoverPicker.assignableAttributes && discoverPicker.assignableAttributes.length > 0, 'assignableAttributes not initialized');
-			await discoverPicker.addAttribute('Zebra');
+			await waitUntil(() => discoverPicker.attributeList && discoverPicker.attributeList.length > 0, 'attributeList not initialized');
+			discoverPicker.addAttribute('Zebra');
+			await waitUntil(() => discoverPicker.attributeList && discoverPicker.attributeList[1] === 'Zebra', 'Failed to add new attribute');
 
 			expect(el.conditions[0].properties.values[0]).to.equal('Banana');
 			expect(el.conditions[0].properties.values[1]).to.equal('Zebra');
