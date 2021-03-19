@@ -34,6 +34,7 @@ class AttributePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin
 	constructor() {
 		super();
 		this.attributeList = [];
+		this.assignableAttributes = [];
 	}
 
 	render() {
@@ -50,13 +51,9 @@ class AttributePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin
 
 	updated(changedProperties) {
 		super.updated(changedProperties);
-		changedProperties.forEach((oldValue, propName) => {
-			switch (propName) {
-				case '_getPossibleValues' :
-					this._updatePossibleValues();
-					break;
-			}
-		});
+		if (changedProperties.has('_getPossibleValues')) {
+			this._updatePossibleValues();
+		}
 	}
 
 	async addAttribute(value) {
