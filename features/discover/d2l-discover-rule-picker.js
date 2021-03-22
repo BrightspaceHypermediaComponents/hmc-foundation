@@ -1,11 +1,11 @@
 import '@brightspace-ui/core/components/button/button.js';
 import '@brightspace-ui/core/components/button/button-subtle.js';
 import '@brightspace-ui/core/components/dialog/dialog.js';
-import '@brightspace-ui/core/components/inputs/input-text.js';
-
+import './d2l-discover-attribute-picker.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { bodyCompactStyles } from '@brightspace-ui/core/components/typography/styles.js';
+import { classMap } from 'lit-html/directives/class-map';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { selectStyles } from '@brightspace-ui/core/components/inputs/input-select-styles.js';
@@ -32,7 +32,10 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 					margin-bottom: 1rem;
 					margin-top: 1rem;
 				}
-				.d2l-picker-rule-input {
+				.d2l-picker-rule-container-final {
+					margin-bottom: 6rem;
+				}
+				.d2l-picker-rule-attribute-picker {
 					flex-grow: 1;
 				}
 				.d2l-picker-rule-separator {
@@ -71,6 +74,7 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 	constructor() {
 		super();
 		this.conditions = [];
+		this._conditionTypesHash = {};
 	}
 
 	render() {
@@ -89,6 +93,13 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 
 	updated(changedProperties) {
 		super.updated(changedProperties);
+		if (changedProperties.has('conditionTypes')) {
+			this._buildConditionTypeHash();
+			// set the default condition type even if this resolves second
+			if (this.conditions && this.conditions.length && !this.conditions[0].properties.type) {
+				this.conditions[0].properties.type = this.defaultType = this.conditionTypes[0].properties.type;
+			}
+		}
 		if (changedProperties.has('conditions') && this.conditions.length === 0) {
 			this._addDefaultCondition();
 		}
@@ -107,7 +118,7 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 		this.conditions.push({
 			properties: {
 				type: this.defaultType || (this.conditionTypes && this.conditionTypes[0].properties.type),
-				value: ''
+				values: []
 			}
 		});
 		this.requestUpdate();
@@ -116,6 +127,20 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 			bubbles: true,
 			composed: true
 		}));
+	}
+
+	_buildConditionTypeHash() {
+		this._conditionTypesHash = {};
+		this.conditionTypes.forEach(conditionType => {
+			this._conditionTypesHash[conditionType.properties.type] = conditionType;
+		});
+	}
+
+	_getConditionTypeHref(condition) {
+		if (this._conditionTypesHash[condition.properties.type]) {
+			return this._conditionTypesHash[condition.properties.type].href;
+		}
+		return '';
 	}
 
 	_isLastCondition(condition) {
@@ -128,13 +153,17 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 
 	_onConditionSelectChange(e) {
 		const condition = e.target.condition;
-		condition.properties.type = e.target.value;
+
+		if (condition.properties.type !== e.target.value) {
+			condition.properties.type = e.target.value;
+		}
+
 		this.requestUpdate();
 	}
 
 	_onConditionValueChange(e) {
 		const condition = e.target.condition;
-		condition.properties.value = e.target.value;
+		condition.properties.values = e.detail.attributeList;
 	}
 
 	_removeCondition(e) {
@@ -148,9 +177,15 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 	}
 
 	_renderPickerConditions() {
+
 		return html`
-		${this.conditions.map(condition => html`
-		<div class="d2l-picker-rule-container">
+		${this.conditions.map((condition, index) => {
+		const classes = {
+			'd2l-picker-rule-container': true,
+			'd2l-picker-rule-container-final': this.conditions.length - 1 === index
+		};
+		return html`
+		<div class="${classMap(classes)}">
 			<select class="d2l-input-select picker-rule-select"
 				aria-label="${this.localize('label-condition-type')}"
 				.condition="${condition}"
@@ -163,15 +198,14 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 			<div class="d2l-picker-rule-separator d2l-body-compact">
 				${this.localize('text-condition-is')}
 			</div>
-			<d2l-input-text
-				label="${this.localize('label-condition-value')}"
-				label-hidden="true"
-				class="d2l-picker-rule-input"
-				placeholder="${this.localize('text-condition-placeholder')}"
-				value="${condition.properties.value}"
+			<d2l-discover-attribute-picker
+				href="${this._getConditionTypeHref(condition)}"
+				.token="${this.token}"
+				.attributeList="${condition.properties.values}"
+				class="d2l-picker-rule-attribute-picker"
 				.condition="${condition}"
-				@blur="${this._onConditionValueChange}">
-			</d2l-input-text>
+				@d2l-attributes-changed="${this._onConditionValueChange}">
+			</d2l-discover-attribute-picker>
 			<d2l-button-icon
 				class="delete-condition-button"
 				?hidden=${this._isOnlyCondition()}
@@ -184,7 +218,8 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 			${this.localize('text-and')}
 			<div class="d2l-picker-hr d2l-picker-hr-condition-separator"></div>
 		</div>
-		`)}`;
+		`;
+	})}`;
 	}
 }
 
