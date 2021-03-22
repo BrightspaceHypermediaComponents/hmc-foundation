@@ -93,11 +93,15 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 
 	updated(changedProperties) {
 		super.updated(changedProperties);
-		if (changedProperties.has('conditions') && this.conditions.length === 0) {
-			this._addDefaultCondition();
-		}
 		if (changedProperties.has('conditionTypes')) {
 			this._buildConditionTypeHash();
+			// set the default condition type even if this resolves second
+			if (this.conditions && this.conditions.length && !this.conditions[0].properties.type) {
+				this.conditions[0].properties.type = this.defaultType = this.conditionTypes[0].properties.type;
+			}
+		}
+		if (changedProperties.has('conditions') && this.conditions.length === 0) {
+			this._addDefaultCondition();
 		}
 	}
 
@@ -175,8 +179,13 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 	_renderPickerConditions() {
 
 		return html`
-		${this.conditions.map((condition, index) => html`
-		<div class="${classMap({ 'd2l-picker-rule-container': true, 'd2l-picker-rule-container-final': this.conditions.length - 1 === index })}">
+		${this.conditions.map((condition, index) => {
+		const classes = {
+			'd2l-picker-rule-container': true,
+			'd2l-picker-rule-container-final': this.conditions.length - 1 === index
+		};
+		return html`
+		<div class="${classMap(classes)}">
 			<select class="d2l-input-select picker-rule-select"
 				aria-label="${this.localize('label-condition-type')}"
 				.condition="${condition}"
@@ -209,7 +218,8 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 			${this.localize('text-and')}
 			<div class="d2l-picker-hr d2l-picker-hr-condition-separator"></div>
 		</div>
-		`)}`;
+		`;
+	})}`;
 	}
 }
 
