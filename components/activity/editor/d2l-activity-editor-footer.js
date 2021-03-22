@@ -1,4 +1,3 @@
-import '@brightspace-ui/core/components/alert/alert-toast.js';
 import '@brightspace-ui/core/components/backdrop/backdrop.js';
 import '@brightspace-ui/core/components/button/button.js';
 import '@brightspace-ui/core/components/dialog/dialog.js';
@@ -16,10 +15,11 @@ class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin
 
 	static get properties() {
 		return {
-			up: { type: Object, observable: observableTypes.link, rel: 'up'},
+			saveLink: { type: Object, observable: observableTypes.link, rel: 'save' },
+			cancelLink: { type: Object, observable: observableTypes.link, rel: 'cancel' },
+			up: { type: Object, observable: observableTypes.link, rel: ['up'] },
 			_backdropOpen: { type: Boolean },
 			_dialogOpen: { type: Boolean },
-			_toastOpen: { type: Boolean },
 			_isNew: {
 				type: Boolean,
 				observable: observableTypes.classes,
@@ -85,11 +85,6 @@ class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin
 				<d2l-button class="d2l-activity-editor-save-button" @click="${this._onCancelClick}" ?disabled="${!this._loaded}">${this.localize('action-cancel')}</d2l-button>
 			</div>
 
-			<d2l-alert-toast ?open="${this._toastOpen}" type="success"
-				announce-text="${this.localize('text-saveComplete')}">
-					${this.localize('text-saveComplete')}
-			</d2l-alert-toast>
-
 			<d2l-backdrop for-target="${this.saveButtons}" no-animate-hide ?shown="${this._backdropOpen}"></d2l-backdrop>
 			<d2l-dialog ?opened="${this._dialogOpen}" @d2l-dialog-close="${this._closeDialog}" title-text="${this._isNew ? this.localize('text-newDialogSaveTitle') : this.localize('text-editDialogSaveTitle')}">
 				<div>${this._isNew ? this.localize('text-newDialogSaveContent') : this.localize('text-editDialogSaveContent')}</div>
@@ -104,7 +99,7 @@ class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin
 	}
 
 	_onCancelClick() {
-		this._pageRedirect();
+		this._pageRedirect(this.cancelLink);
 	}
 
 	async _onSaveClick() {
@@ -117,14 +112,15 @@ class ActivityEditorFooter extends LocalizeFoundationEditor(HypermediaStateMixin
 			return;
 		}
 
-		this._toastOpen = true;
 		this._backdropOpen = false;
 
-		this._pageRedirect();
+		this._pageRedirect(this.saveLink);
 	}
 
-	_pageRedirect() {
-		if (this.up) {
+	_pageRedirect(preferredLink) {
+		if (preferredLink) {
+			window.location.href = preferredLink;
+		} else if (this.up) {
 			window.location.href = this.up;
 		}
 	}
