@@ -2,6 +2,7 @@ import '@brightspace-ui/core/components/inputs/input-checkbox.js';
 import '@brightspace-ui/core/components/inputs/input-checkbox-spacer.js';
 import '@brightspace-ui/core/components/inputs/input-styles.js';
 import '@brightspace-ui/core/components/colors/colors';
+import '../../../editor/collection/custom/quiz/d2l-activity-collection-item-quiz.js';
 
 import { bodyCompactStyles, bodySmallStyles, bodyStandardStyles, heading2Styles, heading3Styles  } from '@brightspace-ui/core/components/typography/styles.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
