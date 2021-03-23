@@ -60,7 +60,10 @@ const componentClass = class extends HypermediaStateMixin(ListItemLinkMixin(LitE
 		delayedResult.AddListener((/*result*/) => {
 			fetch(this._state, true).then(() => {
 				// refresh collection
-				fetch(Array.from(this._state._parents.keys())[0], true);
+				fetch(Array.from(this._state._parents.keys())[0], true).then(() => {
+					// refresh Quiz total points
+					this.dispatchEvent(new CustomEvent('d2l-question-updated', {bubbles: true, composed: true}));
+				});
 			});
 		});
 	}
