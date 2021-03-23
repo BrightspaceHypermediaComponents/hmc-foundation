@@ -62,7 +62,7 @@ const componentClass = class extends HypermediaStateMixin(ListItemLinkMixin(LitE
 				// refresh collection
 				fetch(Array.from(this._state._parents.keys())[0], true).then(() => {
 					// refresh Quiz total points
-					this.dispatchEvent(new CustomEvent('update-total-quiz-points', {bubbles: true, composed: true}));
+					this.dispatchEvent(new CustomEvent('d2l-question-updated', {bubbles: true, composed: true}));
 				});
 			});
 		});
