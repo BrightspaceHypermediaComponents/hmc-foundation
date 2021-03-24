@@ -14,5 +14,6 @@ export default {
 	"text-editDialogSaveContent": "Changes to this Learning Path could not be saved. You can try again after pressing OK.", // Message telling user changes could not be saved. Informs user they can try to save again after pressing ok to close dialog box
 	"text-newDialogSaveTitle": "Learning Path could not save", // Error when a new learning path could not be saved
 	"text-newDialogSaveContent": "This Learning Path could not be saved. You can try again after pressing OK.", // // Message telling user a new learning path could not be saved. Informs user they can try to save again after pressing ok to close dialog box
-	"text-saveComplete": "Save Complete" // Saving is complete and was successful
+	"text-saveComplete": "Save Complete", // Saving is complete and was successful,
+	"title-identification": "Additional Identification" // Title for side bar that contains supplementary information
 };
