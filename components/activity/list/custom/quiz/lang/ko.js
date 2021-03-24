@@ -1,4 +1,4 @@
 /* eslint quotes: 0 */
 export default  {
-	"points": "{count, plural, one {1포인트} other {{count}포인트}}"
+	"points": "{count, plural, one {1 점} other {{count} 점}}"
 };
