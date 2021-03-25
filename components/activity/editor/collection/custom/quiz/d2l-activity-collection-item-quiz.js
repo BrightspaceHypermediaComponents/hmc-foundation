@@ -40,7 +40,7 @@ const componentClass = class extends HypermediaStateMixin(ListItemLinkMixin(LitE
 	render() {
 		return this._renderListItem({
 			//${guard([this._activityHref, this.token], () => html`<d2l-activity-list-item-content href="${this._activityHref}" .token="${this.token}"></d2l-activity-list-item-content>`)}`
-			content: html`${guard([this._activityHref, this.token], () => html`
+			content: html`${guard([this._activityHref, this.token, this._points], () => html`
 			<d2l-activity-list-item-quiz number="${this.number}" href="${this._activityHref}"
 				.token="${this.token}" points="${this._points}">
 
