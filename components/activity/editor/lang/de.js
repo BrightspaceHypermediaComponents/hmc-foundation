@@ -14,5 +14,6 @@ export default {
 	"text-editDialogSaveContent": "Änderungen an diesem Lernpfad konnten nicht gespeichert werden. Versuchen Sie es erneut, nachdem Sie auf OK geklickt haben.", // Message telling user changes could not be saved. Informs user they can try to save again after pressing ok to close dialog box
 	"text-newDialogSaveTitle": "Lernpfad konnte nicht gespeichert werden", // Error when a new learning path could not be saved
 	"text-newDialogSaveContent": "Dieser Lernpfad konnte nicht gespeichert werden. Versuchen Sie es erneut, nachdem Sie auf OK geklickt haben.", // // Message telling user a new learning path could not be saved. Informs user they can try to save again after pressing ok to close dialog box
-	"text-saveComplete": "Speichern abgeschlossen" // Saving is complete and was successful
+	"text-saveComplete": "Speichern abgeschlossen", // Saving is complete and was successful,
+	"title-identification": "Additional Identification" // Title for side bar that contains supplementary information
 };

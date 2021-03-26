@@ -14,5 +14,6 @@ export default {
 	"text-editDialogSaveContent": "Wijzigingen in dit Leertraject kunnen niet worden opgeslagen. U kunt het opnieuw proberen nadat u op OK hebt geklikt.", // Message telling user changes could not be saved. Informs user they can try to save again after pressing ok to close dialog box
 	"text-newDialogSaveTitle": "Leertraject kan niet worden opgeslagen", // Error when a new learning path could not be saved
 	"text-newDialogSaveContent": "Dit Leertraject kan niet worden opgeslagen. U kunt het opnieuw proberen nadat u op OK hebt geklikt.", // // Message telling user a new learning path could not be saved. Informs user they can try to save again after pressing ok to close dialog box
-	"text-saveComplete": "Opslaan voltooid" // Saving is complete and was successful
+	"text-saveComplete": "Opslaan voltooid", // Saving is complete and was successful,
+	"title-identification": "Additional Identification" // Title for side bar that contains supplementary information
 };

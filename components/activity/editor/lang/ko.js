@@ -14,5 +14,6 @@ export default {
 	"text-editDialogSaveContent": "이 학습 경로에 대한 변경 사항을 저장할 수 없습니다. 확인을 누른 후 다시 시도할 수 있습니다.", // Message telling user changes could not be saved. Informs user they can try to save again after pressing ok to close dialog box
 	"text-newDialogSaveTitle": "학습 경로를 저장할 수 없습니다", // Error when a new learning path could not be saved
 	"text-newDialogSaveContent": "이 학습 경로를 저장할 수 없습니다. 확인을 누른 후 다시 시도할 수 있습니다.", // // Message telling user a new learning path could not be saved. Informs user they can try to save again after pressing ok to close dialog box
-	"text-saveComplete": "저장 완료" // Saving is complete and was successful
+	"text-saveComplete": "저장 완료", // Saving is complete and was successful,
+	"title-identification": "Additional Identification" // Title for side bar that contains supplementary information
 };
