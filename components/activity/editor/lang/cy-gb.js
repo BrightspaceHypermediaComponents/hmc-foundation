@@ -14,5 +14,6 @@ export default {
 	"text-editDialogSaveContent": "Ni ellid cadw newidiadau i’r Llwybr Dysgu hwn. Gallwch geisio eto ar ôl gwasgu Iawn.", // Message telling user changes could not be saved. Informs user they can try to save again after pressing ok to close dialog box
 	"text-newDialogSaveTitle": "Ni ellid cadw Llwybr Dysgu", // Error when a new learning path could not be saved
 	"text-newDialogSaveContent": "Ni ellid cadw’r Llwybr Dysgu hwn. Gallwch geisio eto ar ôl gwasgu Iawn.", // // Message telling user a new learning path could not be saved. Informs user they can try to save again after pressing ok to close dialog box
-	"text-saveComplete": "Wedi Cadw" // Saving is complete and was successful
+	"text-saveComplete": "Wedi Cadw", // Saving is complete and was successful,
+	"title-identification": "Additional Identification" // Title for side bar that contains supplementary information
 };

@@ -14,5 +14,6 @@ export default {
 	"text-editDialogSaveContent": "Det gick inte att spara ändringar i den här inlärningsvägen. Du kan försöka igen när du har tryckt på OK.", // Message telling user changes could not be saved. Informs user they can try to save again after pressing ok to close dialog box
 	"text-newDialogSaveTitle": "Det gick inte att spara inlärningsvägen", // Error when a new learning path could not be saved
 	"text-newDialogSaveContent": "Den här inlärningsvägen kunde inte sparas. Du kan försöka igen när du har tryckt på OK.", // // Message telling user a new learning path could not be saved. Informs user they can try to save again after pressing ok to close dialog box
-	"text-saveComplete": "Spara klart" // Saving is complete and was successful
+	"text-saveComplete": "Spara klart", // Saving is complete and was successful,
+	"title-identification": "Additional Identification" // Title for side bar that contains supplementary information
 };

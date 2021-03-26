@@ -14,5 +14,6 @@ export default {
 	"text-editDialogSaveContent": "تعذّر حفظ التغييرات التي أُجريت على مسار التعلّم هذا. يمكنك المحاولة مرة أخرى بعد الضغط على موافق.", // Message telling user changes could not be saved. Informs user they can try to save again after pressing ok to close dialog box
 	"text-newDialogSaveTitle": "تعذّر حفظ مسار التعلّم", // Error when a new learning path could not be saved
 	"text-newDialogSaveContent": "تعذّر حفظ تغييرات مسار التعلّم هذا. يمكنك المحاولة مرة أخرى بعد الضغط على موافق.", // // Message telling user a new learning path could not be saved. Informs user they can try to save again after pressing ok to close dialog box
-	"text-saveComplete": "اكتمل الحفظ" // Saving is complete and was successful
+	"text-saveComplete": "اكتمل الحفظ", // Saving is complete and was successful,
+	"title-identification": "Additional Identification" // Title for side bar that contains supplementary information
 };
