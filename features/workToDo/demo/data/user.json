@@ -1,0 +1,151 @@
+{
+  "class": [
+      "user"
+  ],
+  "entities": [
+      {
+          "class": [
+              "display",
+              "name"
+          ],
+          "rel": [
+              "https://api.brightspace.com/rels/display-name"
+          ],
+          "properties": {
+              "name": "Leda Batz"
+          }
+      },
+      {
+          "class": [
+              "first",
+              "name"
+          ],
+          "rel": [
+              "https://api.brightspace.com/rels/first-name"
+          ],
+          "properties": {
+              "name": "Leda"
+          }
+      },
+      {
+          "class": [
+              "last",
+              "name"
+          ],
+          "rel": [
+              "https://api.brightspace.com/rels/last-name"
+          ],
+          "properties": {
+              "name": "Batz"
+          }
+      },
+      {
+          "class": [
+              "profile"
+          ],
+          "rel": [
+              "https://api.brightspace.com/rels/user-profile"
+          ],
+          "properties": {
+              "path": "/d2l/lp/profile/profile_view.d2l?ou=6606&pid=b48qNxzcht"
+          },
+          "entities": [
+              {
+                  "class": [
+                      "file",
+                      "image",
+                      "default-image"
+                  ],
+                  "rel": [
+                      "https://api.brightspace.com/rels/profile-image"
+                  ],
+                  "properties": {},
+                  "links": [
+                      {
+                          "rel": [
+                              "alternate"
+                          ],
+                          "href": "http://d2l-9tdhoxoedfq.desire2learn.d2l:44444/d2l/img/0/Framework.UserProfileBadge.actProfileDaylight200.png?v=20.21.5.0-5390126"
+                      },
+                      {
+                          "rel": [
+                              "preview",
+                              "https://api.brightspace.com/rels/thumbnail#small"
+                          ],
+                          "href": "http://d2l-9tdhoxoedfq.desire2learn.d2l:44444/d2l/img/0/Framework.UserProfileBadge.actProfileDaylight22.png?v=20.21.5.0-5390126"
+                      },
+                      {
+                          "rel": [
+                              "preview",
+                              "https://api.brightspace.com/rels/thumbnail#regular"
+                          ],
+                          "href": "http://d2l-9tdhoxoedfq.desire2learn.d2l:44444/d2l/img/0/Framework.UserProfileBadge.actProfileDaylight50.png?v=20.21.5.0-5390126"
+                      }
+                  ]
+              }
+          ]
+      }
+  ],
+  "links": [
+      {
+          "rel": [
+              "https://api.brightspace.com/rels/my-organization-awards"
+          ],
+          "href": "https://9dbfdcbd-0b7a-44a4-ac5c-cd047bc29fc4.awards.api.proddev.d2l/organizations/6606/users/30220?allOrgUnits=1"
+      },
+      {
+          "rel": [
+              "https://activities.api.brightspace.com/rels/my-activities"
+          ],
+          "href": "https://9dbfdcbd-0b7a-44a4-ac5c-cd047bc29fc4.activities.api.proddev.d2l/users/30220?start=2021-03-29T17%3a10%3a16.926Z&end=2021-04-05T17%3a10%3a16.926Z"
+      },
+      {
+          "rel": [
+              "https://activities.api.brightspace.com/rels/my-activities#empty"
+          ],
+          "href": "https://9dbfdcbd-0b7a-44a4-ac5c-cd047bc29fc4.activities.api.proddev.d2l/users/30220"
+      },
+      {
+          "rel": [
+              "https://activities.api.brightspace.com/rels/my-unassessed-activities"
+          ],
+          "href": "https://9dbfdcbd-0b7a-44a4-ac5c-cd047bc29fc4.activities.api.proddev.d2l/my-unassessed-activities"
+      },
+      {
+          "rel": [
+              "https://activities.api.brightspace.com/rels/my-unassessed-activity-collections"
+          ],
+          "href": "https://9dbfdcbd-0b7a-44a4-ac5c-cd047bc29fc4.activities.api.proddev.d2l/my-unassessed-activities/collections"
+      },
+      {
+          "rel": [
+              "https://discussions.api.brightspace.com/rels/my-subscriptions"
+          ],
+          "href": "https://9dbfdcbd-0b7a-44a4-ac5c-cd047bc29fc4.discussions.api.proddev.d2l/subscriptions/threads/users/30220"
+      },
+      {
+          "rel": [
+              "self"
+          ],
+          "href": "https://9dbfdcbd-0b7a-44a4-ac5c-cd047bc29fc4.users.api.proddev.d2l/30220"
+      },
+      {
+          "rel": [
+              "https://api.brightspace.com/rels/root"
+          ],
+          "href": "http://d2l-9tdhoxoedfq.desire2learn.d2l:44444/d2l/api/hm"
+      },
+      {
+          "rel": [
+              "https://api.brightspace.com/rels/my-enrollments"
+          ],
+          "href": "https://9dbfdcbd-0b7a-44a4-ac5c-cd047bc29fc4.enrollments.api.proddev.d2l/users/30220"
+      },
+      {
+          "rel": [
+              "https://notifications.api.brightspace.com/rels/my-notifications"
+          ],
+          "href": "https://9dbfdcbd-0b7a-44a4-ac5c-cd047bc29fc4.notifications.api.proddev.d2l/"
+      }
+  ]
+}
