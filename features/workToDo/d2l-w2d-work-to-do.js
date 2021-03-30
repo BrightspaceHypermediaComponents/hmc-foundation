@@ -30,8 +30,8 @@ class w2dWorkToDo extends HypermediaStateMixin(LitElement) {
 	constructor() {
 		super();
 		this._categories = [];
-		this.waitForProperty('currentTime');
-		this.waitForProperty('groupByDays');
+		this.requiredPropertyForState('currentTime');
+		this.requiredPropertyForState('groupByDays');
 	}
 
 	render() {
