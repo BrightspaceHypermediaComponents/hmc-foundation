@@ -26,6 +26,9 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 	static get styles() {
 		return [ bodyCompactStyles, selectStyles,
 			css`
+				.relative-parent {
+					position: relative;
+				}
 				.d2l-picker-rule-container {
 					align-items: center;
 					display: flex;
@@ -80,14 +83,16 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 
 	render() {
 		return html`
-			${this._renderPickerConditions()}
-			<d2l-button-subtle id="add-another-condition-button"
-				text="${this.localize('text-add-another-condition')}"
-				icon="tier1:plus-default"
-				@click="${this._addDefaultCondition}"></d2l-button-subtle>
-			<div class="d2l-picker-hr-match-separator">
-				<div class="d2l-picker-hr"></div>
-				<div class="d2l-body-compact">${this.localize('text-rule-matches', 'count', 'xxx')}</div>
+			<div class="relative-parent">
+				${this._renderPickerConditions()}
+				<d2l-button-subtle id="add-another-condition-button"
+					text="${this.localize('text-add-another-condition')}"
+					icon="tier1:plus-default"
+					@click="${this._addDefaultCondition}"></d2l-button-subtle>
+				<div class="d2l-picker-hr-match-separator">
+					<div class="d2l-picker-hr"></div>
+					<div class="d2l-body-compact">${this.localize('text-rule-matches', 'count', 'xxx')}</div>
+				</div>
 			</div>
 		`;
 	}
