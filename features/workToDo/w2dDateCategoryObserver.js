@@ -27,34 +27,29 @@ export class W2dDateCategory extends SirenSubEntities {
 			this._sirenFacades = sirenFacades;
 			return;
 		}
+
 		const sirenFacadesByCategory = {};
 		const categoryInfo = {};
 		sirenFacades.forEach(sirenFacade => {
-			const date = dueDate(sirenFacade, this._startDate);
-			const index = Math.floor(date.daysPassed / this._groupByDays);
+			const daysTillDueDate = numOfDaysTillDueDate(sirenFacade, this._startDate);
+			const index = Math.floor(daysTillDueDate.daysPassed / this._groupByDays);
 			if (!categoryInfo[index]) {
-				const epochStartTime = this._startDate.getTime();
-				const startDate = new Date(epochStartTime + index * msInADay * this._groupByDays);
+				const startDate = new Date(this._startDate.getTime() + index * msInADay * this._groupByDays);
 				const endDate = new Date(startDate.getTime() +  msInADay * (this._groupByDays - 1));
 				categoryInfo[index] = {
 					startDate,
 					endDate,
-					index
+					index,
+					count: 0
 				};
 			}
+			categoryInfo[index].count++;
 			sirenFacadesByCategory[index] = sirenFacadesByCategory[index] ? sirenFacadesByCategory[index] : [];
-			sirenFacadesByCategory[index].push(date);
+			sirenFacadesByCategory[index].push(sirenFacade);
 		});
-		Object.keys(categoryInfo).forEach(index => {
-			categoryInfo[index].count = sirenFacadesByCategory[index].length;
-		});
-		if (this.entities !== sirenFacades) {
-			this._observers.setProperty({categoryInfo, sirenFacadesByCategory} || []);
-		}
-	}
 
-	// Note to self:
-	// Make it so we can wait on attributes to be set by the UI before running the HREF
+		this._observers.setProperty({categoryInfo, sirenFacadesByCategory} || []);
+	}
 
 	addObserver(observer, property, { method, category, startDate, groupByDays } = {}) {
 		if (!category) {
@@ -63,34 +58,15 @@ export class W2dDateCategory extends SirenSubEntities {
 			if (this._sirenFacades) this.entities = this._sirenFacades;
 		}
 
-		const filterByCategory = (categoryMap) => {
-			if (!category) {
-				return categoryMap.categoryInfo;
-			}
-
-			return categoryMap.sirenFacadesByCategory;
-		};
-
-		const newMethod = method ? (items) => method(filterByCategory(items)) : filterByCategory;
-		super.addObserver(observer, property, { method: newMethod });
+		const filterByCategory = categoryMap => (category ? categoryMap.sirenFacadesByCategory : categoryMap.categoryInfo);
+		super.addObserver(observer, property, { method: method ? (items) => method(filterByCategory(items)) : filterByCategory });
 	}
 }
 
-function dueDate(sirenFacade, relativeTime) {
+function numOfDaysTillDueDate(sirenFacade, relativeTime) {
 	const entities = sirenFacade.entities.filter(entity => entity.hasClass('due-date'));
 	if (!entities.length) return false;
-
 	const entity = entities.pop();
-
 	const date = new Date(Date.parse(entity.properties.localizedDate));
-
-	return {
-		dateObject: date,
-		year: date.getFullYear(),
-		month: date.getMonth(),
-		day: date.getDay(),
-		date: date.getDate(),
-		time: date.getTime(),
-		daysPassed: (Math.floor(date.getTime() / msInADay) - Math.floor(relativeTime.getTime() / msInADay))
-	};
+	return (Math.floor(date.getTime() / msInADay) - Math.floor(relativeTime.getTime() / msInADay));
 }
