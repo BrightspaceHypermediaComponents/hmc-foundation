@@ -4,6 +4,7 @@ import '../../../../list/custom/quiz/d2l-activity-list-item-section.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { fetch } from '@brightspace-hmc/foundation-engine/state/fetch.js';
+import { getComposedChildren } from '@brightspace-ui/core/helpers/dom.js';
 import { guard } from 'lit-html/directives/guard';
 import { html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 
@@ -61,8 +62,9 @@ const componentClass = class extends HypermediaStateMixin(ListItemLinkMixin(LitE
 			fetch(this._state, true).then(() => {
 				// refresh collection
 				fetch(Array.from(this._state._parents.keys())[0], true).then(() => {
-					// refresh Quiz total points
+					// refresh Total Quiz Points, Section name
 					this.dispatchEvent(new CustomEvent('d2l-question-updated', {bubbles: true, composed: true}));
+					this._refreshSection();
 				});
 			});
 		});
@@ -73,6 +75,14 @@ const componentClass = class extends HypermediaStateMixin(ListItemLinkMixin(LitE
 		const url = new D2L.LP.Web.Http.UrlLocation(
 			`/d2l/lms/question/edit/${this.key}`);
 		return open(url, 'SrcCallBack', 'result', [], false, '');
+	}
+
+	_refreshSection() {
+		const children = getComposedChildren(this);
+		if (!children) return;
+		const section = children[0].getElementsByTagName('d2l-activity-list-item-section')[0];
+		if (!section) return;
+		section.refetch();
 	}
 
 	_renderPrimaryAction(contentId) {

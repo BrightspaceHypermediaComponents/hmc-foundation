@@ -45,6 +45,11 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 				observable: observableTypes.subEntities,
 				rel: rels.item,
 				route: [route.collection]
+			},
+			_refreshState: {
+				type: Object,
+				observable: observableTypes.refreshState,
+				route: [route.specialization]
 			}
 		};
 	}
@@ -90,7 +95,6 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 		this.skeleton = true;
 		this.items = [];
 	}
-
 	render() {
 		// It is just a temporary solution to add nested list here. Waiting for the decision/discusson on how
 		// to do nested lists properly
@@ -106,6 +110,9 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 				`)}
 			</d2l-list>
 		`;
+	}
+	refetch() {
+		this._refreshState();
 	}
 
 	get _loaded() {
