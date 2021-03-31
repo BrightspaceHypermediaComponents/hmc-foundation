@@ -4,7 +4,6 @@ import '../../../../list/custom/quiz/d2l-activity-list-item-section.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { fetch } from '@brightspace-hmc/foundation-engine/state/fetch.js';
-import { getComposedChildren } from '@brightspace-ui/core/helpers/dom.js';
 import { guard } from 'lit-html/directives/guard';
 import { html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 
@@ -78,9 +77,7 @@ const componentClass = class extends HypermediaStateMixin(ListItemLinkMixin(LitE
 	}
 
 	_refreshSection() {
-		const children = getComposedChildren(this);
-		if (!children) return;
-		const section = children[0].getElementsByTagName('d2l-activity-list-item-section')[0];
+		const section = this.renderRoot.children[0].querySelector('d2l-activity-list-item-section');
 		if (!section) return;
 		section.refetch();
 	}
