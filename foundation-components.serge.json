@@ -262,9 +262,9 @@
     ]
   }, {
     "name": "WorkToDo",
-    "source_dir": "components/features/workToDo/lang",
+    "source_dir": "features/workToDo/lang",
     "source_match": "en\\.js$",
-    "output_file_path": "components/features/workToDo/lang/%LANG%.js",
+    "output_file_path": "features/workToDo/lang/%LANG%.js",
     "parser_plugin": {
       "plugin": "parse_js"
     },
