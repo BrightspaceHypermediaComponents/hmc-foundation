@@ -8,10 +8,6 @@ export class W2dDateCategory extends SirenSubEntities {
 		return { token, groupByDays, startDate, category, verbose };
 	}
 
-	constructor({ id, token, state, verbose }) {
-		super({id, token, state, verbose});
-	}
-
 	/**
 	 * @return { Array<SirenFacade> }
 	 */
@@ -23,8 +19,8 @@ export class W2dDateCategory extends SirenSubEntities {
 	 * @param { Array<SirenFacade> } sirenFacades - List of SirenFacade objects
 	 */
 	set entities(sirenFacades) {
+		this._sirenFacades = sirenFacades;
 		if (!this._startDate || !this._groupByDays) {
-			this._sirenFacades = sirenFacades;
 			return;
 		}
 
