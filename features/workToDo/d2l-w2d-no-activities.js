@@ -2,7 +2,7 @@ import { html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
 
-class w2dNoActivities extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement)) {//LocalizeDynamicMixin(HypermediaStateMixin(LitElement)) {
+class w2dNoActivities extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement)) {
 	static get properties() {
 		return {
 			_entity: { type: Object, observable: observableTypes.entity }
