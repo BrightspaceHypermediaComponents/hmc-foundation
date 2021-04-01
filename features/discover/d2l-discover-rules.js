@@ -34,7 +34,6 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 
 	static get styles() {
 		return [ super.styles, bodySmallStyles, css`
-			h4.d2l-body-small,
 			h5.d2l-body-small {
 				color: var(--d2l-color-ferrite);
 				margin: 0.7rem 0;
@@ -58,7 +57,6 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 
 	render() {
 		return html`
-			<h4 class="d2l-body-small d2l-skeletize"><strong>${this.localize('text-title')}</strong></h4>
 			<d2l-labs-checkbox-drawer
 				?checked="${this.isSelfEnrollable || (this.rules && this.rules.length)}"
 				label="${this.localize('label-checkbox')}"
@@ -104,7 +102,7 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 	}
 
 	_onRuleCreated() {
-		// todo: add the rule to the list of rules - we need engine support for this to create a pseudo-href
+		// todo: we should actually send the action here
 	}
 
 }
