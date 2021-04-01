@@ -48,6 +48,7 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 			},
 			refreshCounter: {
 				type: Number,
+				attribute: 'refresh-counter'
 			},
 			_refreshState: {
 				type: Object,
