@@ -24,7 +24,10 @@ const componentClass = class extends HypermediaStateMixin(ListItemLinkMixin(LitE
 				observable: observableTypes.property,
 				id: 'points'
 			},
-			_activityHref: { type: String, observable: observableTypes.link, rel: rels.activityUsage }
+			_activityHref: { type: String, observable: observableTypes.link, rel: rels.activityUsage },
+			_refreshCounter: {
+				type: Number,
+			}
 		};
 	}
 
@@ -35,14 +38,15 @@ const componentClass = class extends HypermediaStateMixin(ListItemLinkMixin(LitE
 	constructor() {
 		super();
 		this.actionHref = '#';
+		this._refreshCounter = 0;
 	}
 
 	render() {
 		return this._renderListItem({
 			//${guard([this._activityHref, this.token], () => html`<d2l-activity-list-item-content href="${this._activityHref}" .token="${this.token}"></d2l-activity-list-item-content>`)}`
-			content: html`${guard([this._activityHref, this.token, this._points], () => html`
+			content: html`${guard([this._activityHref, this.token, this._points, this._refreshCounter], () => html`
 			<d2l-activity-list-item-quiz number="${this.number}" href="${this._activityHref}"
-				.token="${this.token}" points="${this._points}">
+				.token="${this.token}" points="${this._points}" refresh-counter="${this._refreshCounter}">
 
 			</d2l-activity-list-item-quiz>`)}`,
 			// actions: html`actions here`
@@ -63,7 +67,7 @@ const componentClass = class extends HypermediaStateMixin(ListItemLinkMixin(LitE
 				fetch(Array.from(this._state._parents.keys())[0], true).then(() => {
 					// refresh Total Quiz Points, Section name
 					this.dispatchEvent(new CustomEvent('d2l-question-updated', {bubbles: true, composed: true}));
-					this._refreshSection();
+					++this._refreshCounter;
 				});
 			});
 		});
@@ -74,12 +78,6 @@ const componentClass = class extends HypermediaStateMixin(ListItemLinkMixin(LitE
 		const url = new D2L.LP.Web.Http.UrlLocation(
 			`/d2l/lms/question/edit/${this.key}`);
 		return open(url, 'SrcCallBack', 'result', [], false, '');
-	}
-
-	_refreshSection() {
-		const section = this.renderRoot.children[0].querySelector('d2l-activity-list-item-section');
-		if (!section) return;
-		section.refetch();
 	}
 
 	_renderPrimaryAction(contentId) {

@@ -46,6 +46,9 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 				rel: rels.item,
 				route: [route.collection]
 			},
+			refreshCounter: {
+				type: Number,
+			},
 			_refreshState: {
 				type: Object,
 				observable: observableTypes.refreshState,
@@ -111,8 +114,10 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 			</d2l-list>
 		`;
 	}
-	refetch() {
-		this._refreshState();
+	updated(changedProperties) {
+		if (changedProperties.has('refreshCounter') && this.refreshCounter > 0) {
+			this._refreshState();
+		}
 	}
 
 	get _loaded() {
