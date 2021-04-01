@@ -24,7 +24,10 @@ const componentClass = class extends HypermediaStateMixin(ListItemLinkMixin(LitE
 				observable: observableTypes.property,
 				id: 'points'
 			},
-			_activityHref: { type: String, observable: observableTypes.link, rel: rels.activityUsage }
+			_activityHref: { type: String, observable: observableTypes.link, rel: rels.activityUsage },
+			refreshCounter: {
+				type: Number, reflect: true, attribute: 'refresh-counter'
+			}
 		};
 	}
 
@@ -35,14 +38,16 @@ const componentClass = class extends HypermediaStateMixin(ListItemLinkMixin(LitE
 	constructor() {
 		super();
 		this.actionHref = '#';
+		this.refreshCounter = 0;
 	}
 
 	render() {
+		console.log('parent rerender');
 		return this._renderListItem({
 			//${guard([this._activityHref, this.token], () => html`<d2l-activity-list-item-content href="${this._activityHref}" .token="${this.token}"></d2l-activity-list-item-content>`)}`
 			content: html`${guard([this._activityHref, this.token, this._points], () => html`
 			<d2l-activity-list-item-quiz number="${this.number}" href="${this._activityHref}"
-				.token="${this.token}" points="${this._points}">
+				.token="${this.token}" points="${this._points}" refresh-counter="${this.refreshCounter}">
 
 			</d2l-activity-list-item-quiz>`)}`,
 			// actions: html`actions here`
@@ -63,7 +68,11 @@ const componentClass = class extends HypermediaStateMixin(ListItemLinkMixin(LitE
 				fetch(Array.from(this._state._parents.keys())[0], true).then(() => {
 					// refresh Total Quiz Points, Section name
 					this.dispatchEvent(new CustomEvent('d2l-question-updated', {bubbles: true, composed: true}));
-					this._refreshSection();
+					// this._refreshSection();
+					// debugger;
+					++this.refreshCounter;
+					this.requestUpdate();
+					console.log("COUNT", this.refreshCounter);
 				});
 			});
 		});

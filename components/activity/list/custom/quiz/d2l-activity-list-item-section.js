@@ -46,6 +46,15 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 				rel: rels.item,
 				route: [route.collection]
 			},
+			refreshCounter: {
+				type: Number,
+				attribute: 'refresh-counter'
+				// hasChanged(oldVal, newVal) {
+				// 	if (oldVal !== newVal) {
+				// 		console.log("HAS CHANGED");
+				// 	}
+				// }
+			},
 			_refreshState: {
 				type: Object,
 				observable: observableTypes.refreshState,
@@ -95,11 +104,18 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 		this.skeleton = true;
 		this.items = [];
 	}
+	attributeChangedCallback(name, oldval, newval) {
+		console.log('attribute change: ', name, newval);
+		super.attributeChangedCallback(name, oldval, newval);
+	}
+
 	render() {
 		// It is just a temporary solution to add nested list here. Waiting for the decision/discusson on how
 		// to do nested lists properly
+		// Don't think we need refresh-counter here but I was using it to inspect in the dom
+		console.log('child rerender');
 		return html`
-			<div class="section-item d2l-skeletize">
+			<div class="section-item d2l-skeletize" refresh-counter="${this.refreshCounter}">
 				<div class="checkbox"><d2l-input-checkbox></d2l-input-checkbox></div>
 				<div class="section"><span class="d2l-heading-2">${this.name}</span></div>
 			</div>
@@ -111,8 +127,26 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 			</d2l-list>
 		`;
 	}
+	updated(changedProperties) {
+		super.updated(changedProperties);
+		if (changedProperties.has('refreshCounter')) {
+			console.log('counter changed');
+		}
+	}
+
 	refetch() {
 		this._refreshState();
+	}
+	set refreshCounter(val) {
+		console.log('setter', val);
+		const oldVal = this._prop;
+		this._prop = val;
+		this.requestUpdate('refreshCounter', oldVal);
+		// if (oldVal === this._prop) {
+		// 	console.log('inner');
+		// 	// this.requestUpdate('refreshCounter', oldVal);
+		// 	this._refreshState();
+		// }
 	}
 
 	get _loaded() {
@@ -122,6 +156,7 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 	set _loaded(loaded) {
 		this.skeleton = !loaded;
 	}
+
 };
 
 customHypermediaElement('d2l-activity-list-item-section', componentClass,
