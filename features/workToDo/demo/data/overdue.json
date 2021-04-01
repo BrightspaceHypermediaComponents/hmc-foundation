@@ -1,0 +1,140 @@
+{
+  "class": [
+      "collection"
+  ],
+  "entities": [
+      {
+          "class": [
+              "user-quiz-activity",
+              "activity",
+              "started"
+          ],
+          "rel": [
+              "https://activities.api.brightspace.com/rels/user-activity-usage"
+          ],
+          "entities": [
+              {
+                  "class": [
+                      "start-date",
+                      "date"
+                  ],
+                  "rel": [
+                      "https://api.brightspace.com/rels/date"
+                  ],
+                  "properties": {
+                      "date": "2021-03-04T18:01:05.787Z",
+                      "localizedDate": "2021-03-04T13:01:05.787"
+                  }
+              },
+              {
+                  "class": [
+                      "due-date",
+                      "date"
+                  ],
+                  "rel": [
+                      "https://api.brightspace.com/rels/date"
+                  ],
+                  "properties": {
+                      "date": "2021-03-24T17:01:05.787Z",
+                      "localizedDate": "2021-03-24T13:01:05.787"
+                  }
+              },
+              {
+                  "class": [
+                      "end-date",
+                      "date"
+                  ],
+                  "rel": [
+                      "https://api.brightspace.com/rels/date"
+                  ],
+                  "properties": {
+                      "date": "2021-07-29T17:01:05.787Z",
+                      "localizedDate": "2021-07-29T13:01:05.787"
+                  }
+              },
+              {
+                  "class": [
+                      "completion",
+                      "incomplete"
+                  ],
+                  "rel": [
+                      "item",
+                      "https://activities.api.brightspace.com/rels/completion"
+                  ]
+              }
+          ],
+          "actions": [
+              {
+                  "href": "https://9dbfdcbd-0b7a-44a4-ac5c-cd047bc29fc4.activities.api.proddev.d2l/activities/6606_51000_23/usages/123084/users/30220/associations",
+                  "name": "query-associations",
+                  "method": "GET",
+                  "fields": [
+                      {
+                          "type": "text",
+                          "name": "type"
+                      }
+                  ]
+              }
+          ],
+          "links": [
+              {
+                  "rel": [
+                      "https://activities.api.brightspace.com/rels/user-activity-usage",
+                      "self"
+                  ],
+                  "href": "https://9dbfdcbd-0b7a-44a4-ac5c-cd047bc29fc4.activities.api.proddev.d2l/activities/6606_51000_23/usages/123084/users/30220"
+              },
+              {
+                  "rel": [
+                      "https://activities.api.brightspace.com/rels/activity-usage"
+                  ],
+                  "href": "https://9dbfdcbd-0b7a-44a4-ac5c-cd047bc29fc4.activities.api.proddev.d2l/activities/6606_51000_23/usages/123084"
+              },
+              {
+                  "rel": [
+                      "https://api.brightspace.com/rels/user"
+                  ],
+                  "href": "https://9dbfdcbd-0b7a-44a4-ac5c-cd047bc29fc4.users.api.proddev.d2l/30220"
+              },
+              {
+                  "rel": [
+                      "https://api.brightspace.com/rels/organization"
+                  ],
+                  "href": "https://9dbfdcbd-0b7a-44a4-ac5c-cd047bc29fc4.organizations.api.proddev.d2l/123084"
+              },
+              {
+                  "rel": [
+                      "https://activities.api.brightspace.com/rels/associations"
+                  ],
+                  "href": "https://9dbfdcbd-0b7a-44a4-ac5c-cd047bc29fc4.activities.api.proddev.d2l/activities/6606_51000_23/usages/123084/users/30220/associations"
+              },
+              {
+                  "rel": [
+                      "https://alignments.api.brightspace.com/rels/alignments"
+                  ],
+                  "href": "https://9dbfdcbd-0b7a-44a4-ac5c-cd047bc29fc4.alignments.api.proddev.d2l/user-activity-usage/6606_51000_23/123084/30220"
+              },
+              {
+                  "rel": [
+                      "https://api.brightspace.com/rels/quiz"
+                  ],
+                  "href": "https://9dbfdcbd-0b7a-44a4-ac5c-cd047bc29fc4.quizzes.api.proddev.d2l/123084/quizzes/23"
+              }
+          ]
+      }
+  ],
+  "links": [
+      {
+          "rel": [
+              "self"
+          ],
+          "href": "https://9dbfdcbd-0b7a-44a4-ac5c-cd047bc29fc4.activities.api.proddev.d2l/users/30220/overdue"
+      },
+      {
+          "rel": [
+              "up"
+          ],
+          "href": "https://9dbfdcbd-0b7a-44a4-ac5c-cd047bc29fc4.activities.api.proddev.d2l/users/30220?start=2021-03-29T17%3a10%3a18.606Z&end=2021-04-05T17%3a10%3a18.606Z"
+      }
+  ]
+}
