@@ -100,6 +100,8 @@ class w2dNoActivities extends LocalizeDynamicMixin(HypermediaStateMixin(LitEleme
 	}
 
 	emptyViewTextTemplate() {
+		// taken from activities repo
+		// just commenting as this might be needed somewhere?
 		// if (this.fullscreen) {
 		// 	return html`
 		// 		<div class="d2l-body-standard d2l-empty-body-text-container">
