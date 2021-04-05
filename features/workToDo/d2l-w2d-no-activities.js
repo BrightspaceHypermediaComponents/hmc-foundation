@@ -5,6 +5,8 @@ import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
 
+const weekCount = 2;
+
 class w2dNoActivities extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement)) {
 	static get properties() {
 		return {
@@ -48,7 +50,7 @@ class w2dNoActivities extends LocalizeDynamicMixin(HypermediaStateMixin(LitEleme
 					justify-content: center;
 					width: 100%;
 				}
-				#empty-icon {
+				.empty-icon {
 					max-width: 18rem;
 					width: 100%;
 				}
@@ -66,68 +68,56 @@ class w2dNoActivities extends LocalizeDynamicMixin(HypermediaStateMixin(LitEleme
 		return html`
 		<div class="d2l-empty-template">
 			<div class="d2l-empty-icon-container">
-				<d2l-work-to-do-empty-state-image id="empty-icon"></d2l-work-to-do-empty-state-image>
+				<d2l-work-to-do-empty-state-image class="empty-icon"></d2l-work-to-do-empty-state-image>
 			</div>
-			${this.emptyViewHeaderTemplate()}
-			${this.emptyViewTextTemplate()}
-			${this.emptyViewButtonTemplate()}
+			${this.renderEmptyViewHeader()}
+			${this.renderEmptyViewText()}
+			${this.renderEmptyViewButton()}
 		</div>`;
 	}
 
-	emptyViewButtonTemplate() {
-		if (this.activities) {
-			return html `
-				<div class="d2l-empty-button-container">
-					<d2l-button primary>
-					${this.localize('viewAllWork')}
-					</d2l-button>
-				</div>
-			`;
+	renderEmptyViewButton() {
+		if (!this.activities) {
+			return undefined;
 		}
+		return html `
+			<div class="d2l-empty-button-container">
+				<d2l-button primary>
+				${this.localize('viewAllWork')}
+				</d2l-button>
+			</div>
+		`;
 
-		return html``;
 	}
 
-	emptyViewHeaderTemplate()  {
+	renderEmptyViewHeader()  {
 		const emptyViewHeader = this.activities ?
-			this.localize('xWeeksClear', 'count', 2) :
+			this.localize('xWeeksClear', 'count', weekCount) :
 			this.localize('allClear');
 
 		return html`
-				<div class="d2l-heading-3 d2l-empty-header-text-container">
-					${emptyViewHeader}
-				</div>
+				<div class="d2l-heading-3 d2l-empty-header-text-container">${emptyViewHeader}</div>
 			`;
 	}
 
-	emptyViewTextTemplate() {
-		// taken from activities repo
-		// just commenting as this might be needed somewhere?
-		// if (this.fullscreen) {
-		// 	return html`
-		// 		<div class="d2l-body-standard d2l-empty-body-text-container">
-		// 			${this.localize('noActivities')}
-		// 		</div>
-		// 		<div class="d2l-body-standard d2l-empty-body-text-container">
-		// 			${this.localize('comeBackNoFutureActivities')}
-		// 		</div>
-		// 	`;
-		// }
+	renderEmptyViewText(collapse) {
 
-		let emptyViewText;
+		let emptyViewTextLabel = 'noActivitiesNoFutureActivities';
 		if (this.activities && this.complete) {
-			emptyViewText = this.localize('activitiesAvailable');
+			emptyViewTextLabel = 'activitiesAvailable';
 		} else if (this.activities) {
-			emptyViewText = this.localize('noActivitiesFutureActivities');
-		} else {
-			emptyViewText = this.localize('noActivitiesNoFutureActivities');
+			emptyViewTextLabel = 'noActivitiesFutureActivities';
+		} else if (!collapse) {
+			emptyViewTextLabel = 'noActivities';
 		}
 
 		return html`
 			<div class="d2l-body-standard d2l-empty-body-text-container">
-				${emptyViewText}
+				${this.localize(emptyViewTextLabel)}
+				${!collapse ? html`<div class="d2l-body-standard d2l-empty-body-text-container">
+				${this.localize('comeBackNoFutureActivities')}` : html``}
 			</div>
-		`;
+			`;
 	}
 
 }
