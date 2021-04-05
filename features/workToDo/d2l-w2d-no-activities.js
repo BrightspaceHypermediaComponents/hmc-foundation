@@ -114,9 +114,9 @@ class w2dNoActivities extends LocalizeDynamicMixin(HypermediaStateMixin(LitEleme
 		return html`
 			<div class="d2l-body-standard d2l-empty-body-text-container">
 				${this.localize(emptyViewTextLabel)}
-				${!collapse ? html`<div class="d2l-body-standard d2l-empty-body-text-container">
-				${this.localize('comeBackNoFutureActivities')}` : html``}
 			</div>
+			${!collapse ? html`<div class="d2l-body-standard d2l-empty-body-text-container">
+			${this.localize('comeBackNoFutureActivities')}</div>` : html``}
 			`;
 	}
 
