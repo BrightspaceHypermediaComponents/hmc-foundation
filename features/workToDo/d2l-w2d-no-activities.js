@@ -1,8 +1,8 @@
 import '@brightspace-ui/core/components/button/button.js';
-import './d2l-w2d-empty-state-image.js';
 
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
+import { img } from './d2l-w2d-empty-state-image.js';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
 
 const weekCount = 2;
@@ -50,7 +50,7 @@ class w2dNoActivities extends LocalizeDynamicMixin(HypermediaStateMixin(LitEleme
 					justify-content: center;
 					width: 100%;
 				}
-				.empty-icon {
+				.d2l-empty-icon {
 					max-width: 18rem;
 					width: 100%;
 				}
@@ -67,9 +67,7 @@ class w2dNoActivities extends LocalizeDynamicMixin(HypermediaStateMixin(LitEleme
 	render() {
 		return html`
 		<div class="d2l-empty-template">
-			<div class="d2l-empty-icon-container">
-				<d2l-work-to-do-empty-state-image class="empty-icon"></d2l-work-to-do-empty-state-image>
-			</div>
+			<div class="d2l-empty-icon-container d2l-empty-icon">${img}</div>
 			${this.renderEmptyViewHeader()}
 			${this.renderEmptyViewText()}
 			${this.renderEmptyViewButton()}

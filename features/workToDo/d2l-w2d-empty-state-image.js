@@ -1,14 +1,6 @@
-import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
+import { html } from 'lit-element/lit-element.js';
 
-/**
- * @customElement
- * @polymer
- */
-class D2LWorkToDoEmptyStateImage extends PolymerElement {
-	static get is() { return 'd2l-work-to-do-empty-state-image'; }
-
-	static get template() {
-		return html`
+export const img = html`
 			<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
 			viewBox="0 0 294 152.1" style="enable-background:new 0 0 294 152.1;" xml:space="preserve">
 				<style type="text/css">
@@ -372,8 +364,3 @@ class D2LWorkToDoEmptyStateImage extends PolymerElement {
 				</g>
 			</svg>
 		`;
-	}
-
-}
-
-window.customElements.define('d2l-work-to-do-empty-state-image', D2LWorkToDoEmptyStateImage);
