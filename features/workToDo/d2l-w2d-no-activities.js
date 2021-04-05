@@ -1,4 +1,5 @@
 import '@brightspace-ui/core/components/button/button.js';
+import './d2l-w2d-empty-state-image.js';
 
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
