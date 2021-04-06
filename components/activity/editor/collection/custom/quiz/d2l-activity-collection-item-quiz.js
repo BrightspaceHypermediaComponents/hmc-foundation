@@ -1,5 +1,6 @@
 import '../../../../list/custom/quiz/d2l-activity-list-item-question.js';
 import '../../../../list/custom/quiz/d2l-activity-list-item-section.js';
+import '../../../../list/custom/quiz/d2l-activity-list-item-questionpool.js';
 
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
