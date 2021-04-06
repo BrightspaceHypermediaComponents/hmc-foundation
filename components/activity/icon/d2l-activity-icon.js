@@ -1,5 +1,5 @@
 import '@brightspace-ui/core/components/icons/icon.js';
-import { html, LitElement } from 'lit-element/lit-element.js';
+import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton-mixin.js';
 
@@ -15,6 +15,17 @@ class ActivityIcon extends SkeletonMixin(HypermediaStateMixin(LitElement)) {
 				method: (icon) => icon.class.includes('tier2') && icon
 			}
 		};
+	}
+
+	static get styles() {
+		const styles = [css`
+			.d2l-activity-icon {
+				color: var(--d2l-activity-icon-color);
+			}
+		`];
+
+		super.styles && styles.unshift(super.styles);
+		return styles;
 	}
 
 	/**
@@ -53,7 +64,7 @@ class ActivityIcon extends SkeletonMixin(HypermediaStateMixin(LitElement)) {
 			});
 		}
 		return html`
-			<d2l-icon icon="${icon}" class="d2l-skeletize"></d2l-icon>
+			<d2l-icon icon="${icon}" class="d2l-skeletize d2l-activity-icon"></d2l-icon>
 		`;
 	}
 

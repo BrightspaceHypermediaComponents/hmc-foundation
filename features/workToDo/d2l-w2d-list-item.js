@@ -1,35 +1,148 @@
 import '@brightspace-ui/core/components/list/list-item-content.js';
 import '../../components/activity/icon/d2l-activity-icon.js';
 import '../../components/activity/name/d2l-activity-name.js';
+import '../../components/activity/name/custom/d2l-activity-name-course.js';
+import { css, LitElement } from 'lit-element/lit-element.js';
+import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
+import { classMap } from 'lit-html/directives/class-map.js';
 import { guard } from 'lit-html/directives/guard';
-import { html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { ListItemLinkMixin } from '@brightspace-ui/core/components/list/list-item-link-mixin.js';
-import { LitElement } from 'lit-element/lit-element.js';
 
-class W2DListItem extends HypermediaStateMixin(ListItemLinkMixin(LitElement)) {
-	static get properties() {
-		return {
-			_activityUsageHref: { type: String, observable: observableTypes.link, rel: 'https://activities.api.brightspace.com/rels/activity-usage' }
-		};
-	}
+const rels = Object.freeze({
+	quiz: 'https://api.brightspace.com/rels/quiz',
+	organization: 'https://api.brightspace.com/rels/organization',
+	organizationHomepage: 'https://api.brightspace.com/rels/organization-homepage',
+	checklist: 'https://checklists.api.brightspace.com/rels/checklist-item',
+	assignment: 'https://api.brightspace.com/rels/assignment'
+});
 
-	constructor() {
-		super();
-		this.actionHref = '#';
+class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LitElement)) {
+
+	static get styles() {
+		const styles = [css`
+			:host([action-href]:not([action-href=""])) {
+				--d2l-list-item-content-text-color: var(--d2l-color-ferrite);
+			}
+			:host([action-href]:not([action-href=""]):not([skeleton])) d2l-activity-icon.d2l-focusing,
+			:host([action-href]:not([action-href=""]):not([skeleton])) d2l-activity-icon.d2l-hovering {
+				--d2l-activity-icon-color: var(--d2l-color-celestine);
+			}
+			.d2l-w2d-list-item-name {
+				display: block;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+		`];
+
+		super.styles && styles.unshift(super.styles);
+		return styles;
 	}
 
 	render() {
+		const iconClasses = {
+			'd2l-hovering': this._hoveringPrimaryAction,
+			'd2l-focusing': this._focusingPrimaryAction,
+		};
 		return this._renderListItem({
-			illustration: html`${guard([this.href, this.token], () => html`
-				<d2l-activity-icon href="${this.href}" .token="${this.token}"></d2l-activity-icon>
-			`)}`,
-			content: html`${guard([this.href, this.token], () => html`
+			illustration: html`<d2l-activity-icon href="${this.href}" .token="${this.token}" class="${classMap(iconClasses)}"></d2l-activity-icon>`,
+			content: html`${guard([this.href, this.token ], () => html`
 				<d2l-list-item-content>
-					<d2l-activity-name href="${this._activityUsageHref}" .token="${this.token}"></d2l-activity-name>
+					<d2l-activity-name class="d2l-w2d-list-item-name" href="${this.href}" .token="${this.token}"></d2l-activity-name>
+					<div slot="secondary">
+						${this._isCourse ? html`course` : html`<d2l-activity-name-course href="${this.href}" .token="${this.token}"></d2l-activity-name-course>`}
+					</div>
 				</d2l-list-item-content>
 			`)}`
 		});
 	}
 }
-customElements.define('d2l-w2d-list-item', W2DListItem);
+
+class W2DListItem extends W2DListItemMixin {}
+customHypermediaElement('d2l-w2d-list-item', W2DListItem);
+
+class W2DListItemAssignment extends W2DListItemMixin {
+	static get properties() {
+		return {
+			actionHref: {
+				type: String,
+				observable: observableTypes.link,
+				rel: 'alternate',
+				route: [{observable: observableTypes.link, rel: rels.assignment}],
+				reflect: true,
+				attribute: 'action-href'
+			}
+		};
+	}
+}
+customHypermediaElement('d2l-w2d-list-item-assignment', W2DListItemAssignment, 'd2l-w2d-list-item', [['user-assignment-activity']]);
+
+class W2DListItemChecklist extends W2DListItemMixin {
+	static get properties() {
+		return {
+			actionHref: {
+				type: String,
+				observable: observableTypes.link,
+				rel: 'alternate',
+				route: [{observable: observableTypes.link, rel: rels.checklist}],
+				reflect: true,
+				attribute: 'action-href'
+			}
+		};
+	}
+}
+customHypermediaElement('d2l-w2d-list-item-checklist', W2DListItemChecklist, 'd2l-w2d-list-item', [['user-checklist-activity']]);
+
+class W2DListItemContent extends W2DListItemMixin {
+	static get properties() {
+		return {
+			actionHref: {
+				type: String,
+				observable: observableTypes.link,
+				rel: 'alternate',
+				route: [{observable: observableTypes.link, rel: rels.content}],
+				reflect: true,
+				attribute: 'action-href'
+			}
+		};
+	}
+}
+customHypermediaElement('d2l-w2d-list-item-content', W2DListItemContent, 'd2l-w2d-list-item', [['user-content-activity']]);
+
+class W2DListItemCourseOffering extends W2DListItemMixin {
+	static get properties() {
+		return {
+			actionHref: {
+				type: String,
+				observable: observableTypes.link,
+				rel: rels.organizationHomepage,
+				route: [{observable: observableTypes.link, rel: rels.organization}],
+				reflect: true,
+				attribute: 'action-href'
+			}
+		};
+	}
+
+	constructor() {
+		super();
+		this._isCourse = true;
+	}
+}
+customHypermediaElement('d2l-w2d-list-item-course', W2DListItemCourseOffering, 'd2l-w2d-list-item', [['course-offering']]);
+
+class W2DListItemQuiz extends W2DListItemMixin {
+	static get properties() {
+		return {
+			actionHref: {
+				type: String,
+				observable: observableTypes.link,
+				rel: 'alternate',
+				route: [{observable: observableTypes.link, rel: rels.quiz}],
+				reflect: true,
+				attribute: 'action-href'
+			}
+		};
+	}
+}
+customHypermediaElement('d2l-w2d-list-item-quiz', W2DListItemQuiz, 'd2l-w2d-list-item', [['user-quiz-activity']]);
