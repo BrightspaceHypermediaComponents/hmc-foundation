@@ -62,12 +62,12 @@ const componentClass = class extends HypermediaStateMixin(ListItemLinkMixin(LitE
 
 		// Save or Cancel button Handler
 		delayedResult.AddListener((/*result*/) => {
+			++this._refreshCounter;
 			fetch(this._state, true).then(() => {
 				// refresh collection
 				fetch(Array.from(this._state._parents.keys())[0], true).then(() => {
 					// refresh Total Quiz Points, Section name
 					this.dispatchEvent(new CustomEvent('d2l-question-updated', {bubbles: true, composed: true}));
-					++this._refreshCounter;
 				});
 			});
 		});
