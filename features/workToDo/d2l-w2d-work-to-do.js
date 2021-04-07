@@ -5,7 +5,8 @@ import { formatDate } from '@brightspace-ui/intl/lib/dateTime.js';
 import { W2dDateCategory } from './w2dDateCategoryObserver.js';
 
 const rel = Object.freeze({
-	myActivities: 'https://activities.api.brightspace.com/rels/my-activities'
+	myActivities: 'https://activities.api.brightspace.com/rels/my-activities',
+	userActivity: 'https://activities.api.brightspace.com/rels/user-activity-usage'
 });
 
 class w2dWorkToDo extends HypermediaStateMixin(LitElement) {
@@ -19,6 +20,7 @@ class w2dWorkToDo extends HypermediaStateMixin(LitElement) {
 				observableObject: W2dDateCategory,
 				groupByDays: 'groupByDays',
 				startDate: 'currentTime',
+				rel: rel.userActivity,
 				route: [
 					{ observable: observableTypes.link, rel: rel.myActivities }
 				],

@@ -3,19 +3,19 @@ import { customHypermediaElement } from '@brightspace-hmc/foundation-engine/fram
 import { observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 
 const rels = Object.freeze({
-	organization: 'https://api.brightspace.com/rels/organization'
+	specialization: 'https://api.brightspace.com/rels/specialization'
 });
 
-class ActivityDescriptionCourse extends DescriptionMixin {
+class ActivityDescriptionSpecialization extends DescriptionMixin {
 	static get properties() {
 		return {
 			_description: {
 				type: String,
 				observable: observableTypes.property,
-				route:[{observable: observableTypes.link, rel: rels.organization}]
+				route:[{observable: observableTypes.link, rel: rels.specialization}]
 			}
 		};
 	}
 }
 
-customHypermediaElement('d2l-activity-description-course', ActivityDescriptionCourse, 'd2l-activity-description', [['activity-usage', 'course-offering']]);
+customHypermediaElement('d2l-activity-description-specialization', ActivityDescriptionSpecialization, 'd2l-activity-description', [['activity-usage']]);

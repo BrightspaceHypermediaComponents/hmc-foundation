@@ -1,4 +1,5 @@
 import '@brightspace-ui/core/components/list/list-item-content.js';
+import '../../components/activity/description/d2l-activity-description.js';
 import '../../components/activity/icon/d2l-activity-icon.js';
 import '../../components/activity/name/d2l-activity-name.js';
 import '../../components/activity/name/custom/d2l-activity-name-course.js';
@@ -14,10 +15,34 @@ const rels = Object.freeze({
 	organization: 'https://api.brightspace.com/rels/organization',
 	organizationHomepage: 'https://api.brightspace.com/rels/organization-homepage',
 	checklist: 'https://checklists.api.brightspace.com/rels/checklist-item',
-	assignment: 'https://api.brightspace.com/rels/assignment'
+	assignment: 'https://api.brightspace.com/rels/assignment',
+	content: 'https://api.brightspace.com/rels/content',
+	date: 'https://api.brightspace.com/rels/date'
+});
+
+const dateTypes = Object.freeze({
+	due: 'due-date',
+	start: 'start-date'
 });
 
 class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LitElement)) {
+
+	static get properties() {
+		return {
+			_dates: {
+				type: Object,
+				observable: observableTypes.subEntities,
+				rel: rels.date,
+				method: (dates) => {
+					const datesByType = {};
+					dates.forEach(date => {
+						Object.keys(dateTypes).forEach((type) => date.class.includes(dateTypes[type]) && (datesByType[type] = date.properties.localizedDate));
+					});
+					return datesByType;
+				}
+			}
+		};
+	}
 
 	static get styles() {
 		const styles = [css`
@@ -40,21 +65,42 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LitElement
 		return styles;
 	}
 
+	constructor() {
+		super();
+		this._dates = {};
+	}
+
 	render() {
+		if (!this._loaded) return this._renderSkeleton();
 		const iconClasses = {
 			'd2l-hovering': this._hoveringPrimaryAction,
 			'd2l-focusing': this._focusingPrimaryAction,
 		};
+
 		return this._renderListItem({
 			illustration: html`<d2l-activity-icon href="${this.href}" .token="${this.token}" class="${classMap(iconClasses)}"></d2l-activity-icon>`,
-			content: html`${guard([this.href, this.token ], () => html`
+			content: html`${guard([this.href, this.token], () => html`
 				<d2l-list-item-content>
 					<d2l-activity-name class="d2l-w2d-list-item-name" href="${this.href}" .token="${this.token}"></d2l-activity-name>
 					<div slot="secondary">
-						${this._isCourse ? html`course` : html`<d2l-activity-name-course href="${this.href}" .token="${this.token}"></d2l-activity-name-course>`}
+						${this._isCourse ? html`Course` : html`<d2l-activity-name-course href="${this.href}" .token="${this.token}"></d2l-activity-name-course>`}
+						<div>Due Date: ${this._dates.due}</div>
+						<div>Start Date: ${this._dates.start}</div>
 					</div>
+					<d2l-activity-description slot="supporting-info" href="${this.href}" .token="${this.token}"></d2l-activity-description>
 				</d2l-list-item-content>
 			`)}`
+		});
+	}
+
+	_renderSkeleton() {
+		return this._renderListItem({
+			illustration: html`<d2l-activity-icon skeleton></d2l-activity-icon>`,
+			content: html`
+				<d2l-list-item-content skeleton>
+					<d2l-activity-name class="d2l-w2d-list-item-name" skeleton></d2l-activity-name>
+				</d2l-list-item-content>
+			`
 		});
 	}
 }
@@ -65,6 +111,7 @@ customHypermediaElement('d2l-w2d-list-item', W2DListItem);
 class W2DListItemAssignment extends W2DListItemMixin {
 	static get properties() {
 		return {
+			...super.properties,
 			actionHref: {
 				type: String,
 				observable: observableTypes.link,
@@ -81,6 +128,7 @@ customHypermediaElement('d2l-w2d-list-item-assignment', W2DListItemAssignment, '
 class W2DListItemChecklist extends W2DListItemMixin {
 	static get properties() {
 		return {
+			...super.properties,
 			actionHref: {
 				type: String,
 				observable: observableTypes.link,
@@ -97,6 +145,7 @@ customHypermediaElement('d2l-w2d-list-item-checklist', W2DListItemChecklist, 'd2
 class W2DListItemContent extends W2DListItemMixin {
 	static get properties() {
 		return {
+			...super.properties,
 			actionHref: {
 				type: String,
 				observable: observableTypes.link,
@@ -113,6 +162,7 @@ customHypermediaElement('d2l-w2d-list-item-content', W2DListItemContent, 'd2l-w2
 class W2DListItemCourseOffering extends W2DListItemMixin {
 	static get properties() {
 		return {
+			...super.properties,
 			actionHref: {
 				type: String,
 				observable: observableTypes.link,
@@ -134,6 +184,7 @@ customHypermediaElement('d2l-w2d-list-item-course', W2DListItemCourseOffering, '
 class W2DListItemQuiz extends W2DListItemMixin {
 	static get properties() {
 		return {
+			...super.properties,
 			actionHref: {
 				type: String,
 				observable: observableTypes.link,

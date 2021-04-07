@@ -7,6 +7,10 @@ import { html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedi
 import { LitElement } from 'lit-element/lit-element.js';
 import { W2dDateCategory } from './w2dDateCategoryObserver.js';
 
+const rel = Object.freeze({
+	userActivity: 'https://activities.api.brightspace.com/rels/user-activity-usage'
+});
+
 class W2dList extends HypermediaStateMixin(LitElement) {
 	static get properties() {
 		return {
@@ -15,6 +19,7 @@ class W2dList extends HypermediaStateMixin(LitElement) {
 				type: Array,
 				observable: observableTypes.custom,
 				observableObject: W2dDateCategory,
+				rel: rel.userActivity,
 				category: 'category'
 			}
 		};
