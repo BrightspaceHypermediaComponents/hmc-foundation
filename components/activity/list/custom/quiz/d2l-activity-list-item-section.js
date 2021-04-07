@@ -117,6 +117,7 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 	}
 	updated(changedProperties) {
 		if (changedProperties.has('refreshCounter') && this.refreshCounter > 0) {
+			this.skeleton = true;
 			this._refreshState();
 		}
 	}
