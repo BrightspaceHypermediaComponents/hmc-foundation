@@ -1,4 +1,5 @@
-export const val = {
+/* eslint quotes: 0 */
+export default {
 	activitiesAvailable: "Activities that are due or ending in two weeks are complete! Check View All Work to see what's coming later.", // 'Empty View' - When widget has no activities to display within the next two weeks, but there are more activities further into the future that can be shown on the full screen view
 	allClear: 'All Clear For Now!', // Displayed as header line in widget text when there are no activities
 	assignment: 'Assignment',  // Meta-data descriptor that informs which type of activity is being displayed on a line item
