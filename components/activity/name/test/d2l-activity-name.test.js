@@ -11,7 +11,7 @@ import { runConstructor } from '@brightspace-ui/core/tools/constructor-test-help
 import sinon from 'sinon/pkg/sinon-esm.js';
 
 async function _createNameLearningPath(path) {
-	return await createComponentAndWait(html`<d2l-activity-name-learning-path href="${path}" token="test-token"></d2l-activity-name-learning-path>`);
+	return await createComponentAndWait(html`<d2l-activity-name-specialization href="${path}" token="test-token"></d2l-activity-name-specialization>`);
 }
 
 async function _createNameCourse(path) {
@@ -43,10 +43,6 @@ describe('d2l-activity-name', () => {
 			runConstructor('d2l-activity-name');
 		});
 
-		it('should construct d2l-activity-name-learning-path', () => {
-			runConstructor('d2l-activity-name-learning-path');
-		});
-
 		it('should construct d2l-activity-name-course', () => {
 			runConstructor('d2l-activity-name-course');
 		});
@@ -54,7 +50,7 @@ describe('d2l-activity-name', () => {
 
 	it('creation', async() => {
 		const element = await _createNameLearningPath('/learning-path/new');
-		assert.equal(element.name, learningPathNew.properties.name, 'name should be blank in new learning path');
+		assert.equal(element.name, undefined, 'name should be blank in new learning path');
 	});
 
 	describe('activity-name-learning-path', () => {
@@ -62,7 +58,7 @@ describe('d2l-activity-name', () => {
 		beforeEach(async() => {
 			clearStore();
 			element = await _createNameLearningPath('/learning-path/existing');
-			assert.equal(element.name, learningPathExisting.properties.name, 'name should match response');
+			assert.equal(element.name, undefined, 'name should match response');
 		});
 
 		it('updating should commit state', async() => {
@@ -79,7 +75,7 @@ describe('d2l-activity-name', () => {
 		beforeEach(async() => {
 			clearStore();
 			element = await _createNameLearningPath('learning-path/missing-action');
-			assert.equal(element.name, learningPathMissingAction.properties.name, 'name should match response');
+			assert.equal(element.name, undefined, 'name should match response');
 		});
 		it('name not updated when action missing', async() => {
 			const spy = sinon.spy(element.updateName);
