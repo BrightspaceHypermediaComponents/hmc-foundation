@@ -1,9 +1,9 @@
 /* eslint-disable no-undef */
+import { ActivityName } from '../d2l-activity-name.js';
+import { ActivityNameCourse } from '../custom/d2l-activity-name-course.js';
 import { addToMock, mockLink } from '../../../../test/data/fetchMock.js';
 import { assert, fixture, html } from '@open-wc/testing';
 import { createComponentAndWait } from '../../../../test/test-util.js';
-import { ActivityName } from '../d2l-activity-name.js';
-import { ActivityNameCourse } from '../custom/d2l-activity-name-course.js';
 import { courseExisting } from '../../../../test/data/course.js';
 import { runConstructor } from '@brightspace-ui/core/tools/constructor-test-helper.js';
 
