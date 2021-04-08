@@ -2,6 +2,7 @@ import '@brightspace-ui/core/components/inputs/input-checkbox.js';
 import '@brightspace-ui/core/components/inputs/input-checkbox-spacer.js';
 import '@brightspace-ui/core/components/inputs/input-styles.js';
 import '@brightspace-ui/core/components/colors/colors';
+import '@brightspace-ui/core/components/icons/icon.js';
 
 import { bodyCompactStyles, bodySmallStyles, bodyStandardStyles } from '@brightspace-ui/core/components/typography/styles.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
@@ -36,6 +37,24 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 				observable: observableTypes.property,
 				id: 'typeText',
 				route: [route.specialization]
+			},
+			numChoices: {
+				type: Number,
+				observable: observableTypes.property,
+				id: 'numChoices',
+				route: [route.specialization]
+			},
+			numQuestions: {
+				type: Number,
+				observable: observableTypes.property,
+				id: 'numQuestions',
+				route: [route.specialization]
+			},
+			questionPoints: {
+				type: Number,
+				observable: observableTypes.property,
+				id: 'questionPoints',
+				route: [route.specialization]	
 			}
 		};
 	}
@@ -86,18 +105,24 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 	constructor() {
 		super();
 		this.skeleton = true;
-		this.points = 0;
+		this.numChoices = 0;
+		this.numQuestions = 0;
+		this.questionPoints = 0;
 	}
 
 	render() {
 		return html`
 			<div class="questionpool-item d2l-skeletize">
 				<div class="checkbox"><d2l-input-checkbox></d2l-input-checkbox></div>
-				<div class="d2l-body-standard questionpool-number">${this.number}</div>
+				<div class="d2l-body-standard questionpool-number">${this.number} - ${this.number + this.numQuestions}</div>
 				<div class="questionpool"><span class="d2l-body-compact">${this.name}</span></div>
-				<div class="points d2l-body-compact">${this.localize('points', { count: this.points })}</div>
+				<div class="points d2l-body-compact">${this.localize('points', { count: this.questionPoints * this.numQuestions })}</div>
 			</div>
-			<div class="d2l-body-small questionpool-type d2l-skeletize">${this.typeText}</div>
+			<span class="d2l-body-small questionpool-type d2l-skeletize">${this.typeText}</span>
+			<d2l-icon icon="d2l-tier1:bullet"></d2l-icon>
+			<span class="d2l-body-small d2l-skeletize">
+				${this.localize('question_selection', {numQuestions: this.numQuestions, numChoices: this.numChoices, questionPoints: this.questionPoints})}
+			</span>
 		`;
 	}
 
