@@ -1,7 +1,7 @@
 import '../../../common/d2l-hc-name.js';
-import { css, LitElement } from 'lit-element/lit-element.js';
-import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
+import { html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
+import { customHypermediaElement } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 
 const rels = Object.freeze({
 	organization: 'https://api.brightspace.com/rels/organization'
@@ -12,10 +12,6 @@ export class ActivityNameCourse extends HypermediaStateMixin(LitElement) {
 		return {
 			_organizationHref: { type: String, observable: observableTypes.link, rel: rels.organization, prime: true }
 		};
-	}
-
-	static get styles() {
-		return [ css`` ];
 	}
 
 	render() {

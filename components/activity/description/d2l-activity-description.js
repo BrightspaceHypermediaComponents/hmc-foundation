@@ -5,8 +5,8 @@ import './custom/d2l-activity-description-assignment.js';
 import './custom/d2l-activity-description-discussion.js';
 import './custom/d2l-activity-description-quiz.js';
 import './custom/d2l-activity-description-course.js';
-import { DescriptionMixin } from './custom/DescriptionMixin.js';
 import { customHypermediaElement } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
+import { DescriptionMixin } from './custom/DescriptionMixin.js';
 
 class ActivityDescription extends DescriptionMixin {}
 

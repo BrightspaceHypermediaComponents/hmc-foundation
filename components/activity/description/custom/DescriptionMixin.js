@@ -3,7 +3,6 @@ import { HypermediaStateMixin } from '@brightspace-hmc/foundation-engine/framewo
 import { nothing } from 'lit-html';
 import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton-mixin.js';
 
-
 export class DescriptionMixin extends SkeletonMixin(HypermediaStateMixin(LitElement)) {
 	static get styles() {
 		const styles = [ css`
@@ -25,12 +24,7 @@ export class DescriptionMixin extends SkeletonMixin(HypermediaStateMixin(LitElem
 	render() {
 		if (this.skeleton) return html`Description<div class="d2l-activity-description-skeleton-extend-skeleton-width"></div>`;
 		return html`
-			<span class="d2l-skeletize">
-				${this._description
-					? this._description
-					: nothing
-				}
-			</span>
+			<span class="d2l-skeletize">${this._description ? this._description : nothing}</span>
 		`;
 	}
 

@@ -1,5 +1,5 @@
-import { DescriptionMixin } from './DescriptionMixin.js';
 import { customHypermediaElement } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
+import { DescriptionMixin } from './DescriptionMixin.js';
 import { observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 
 const rels = Object.freeze({
@@ -19,7 +19,7 @@ export class ActivityDescriptionContent extends DescriptionMixin {
 					{observable: observableTypes.subEntity, rel: rels.description}
 				]
 			}
-		}
+		};
 	}
 }
 
