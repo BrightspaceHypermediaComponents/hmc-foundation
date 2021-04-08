@@ -3,13 +3,13 @@ import '@brightspace-ui/core/components/button/button-subtle.js';
 import '@brightspace-ui/core/components/dialog/dialog.js';
 import './d2l-discover-attribute-picker.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
+import { hide, show } from '@brightspace-ui/core/directives/animate/animate.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { bodyCompactStyles } from '@brightspace-ui/core/components/typography/styles.js';
 import { classMap } from 'lit-html/directives/class-map';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { selectStyles } from '@brightspace-ui/core/components/inputs/input-select-styles.js';
-import { hide, show } from '@brightspace-ui/core/directives/animate/animate.js';
 
 class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitElement))) {
 
@@ -193,7 +193,7 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 					bubbles: true,
 					composed: true
 				}));
-			}
+			};
 			elem.addEventListener('d2l-animate-complete', onAnimateEnd);
 			condition.properties.state = 'remove';
 		}
@@ -202,20 +202,19 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 	_renderPickerConditions() {
 
 		return html`
-		${this.conditions.map((condition, index) => {
-			let animateAction = undefined;
-			if (condition.properties.state === 'remove') {
-				condition.properties.state = 'removed';
-				animateAction = hide();
-			} else if (condition.properties.state === 'new') {
-				condition.properties.state = 'existing';
-				animateAction = show();
-			} else if (condition.properties.state === 'existing') {
-			}
-			const classes = {
-				'd2l-picker-rule-container': true
-			};
-			return html`
+		${this.conditions.map((condition) => {
+		let animateAction = undefined;
+		if (condition.properties.state === 'remove') {
+			condition.properties.state = 'removed';
+			animateAction = hide();
+		} else if (condition.properties.state === 'new') {
+			condition.properties.state = 'existing';
+			animateAction = show();
+		}
+		const classes = {
+			'd2l-picker-rule-container': true
+		};
+		return html`
 			<div .animate="${animateAction}">
 				<div class="d2l-picker-and d2l-body-compact" ?hidden="${this._isFirstCondition(condition)}">
 					${this.localize('text-and')}
@@ -252,7 +251,7 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 				</div>
 			</div>
 			`;
-		})}`;
+	})}`;
 	}
 }
 
