@@ -179,13 +179,23 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 
 	_removeCondition(e) {
 		const condition = e.target.condition;
-
-		condition.properties.state = 'remove';
+		const elem = e.target.parentNode.parentNode;
 
 		const index = this.conditions.indexOf(condition);
 		if (index > -1) {
-			// this.conditions.splice(index, 1);
 			this.requestUpdate();
+			const onAnimateEnd = () => {
+				elem.removeEventListener('d2l-animate-complete', onAnimateEnd);
+				this.conditions.splice(index, 1);
+				this.requestUpdate();
+
+				this.dispatchEvent(new CustomEvent('d2l-rule-condition-removed', {
+					bubbles: true,
+					composed: true
+				}));
+			}
+			elem.addEventListener('d2l-animate-complete', onAnimateEnd);
+			condition.properties.state = 'remove';
 		}
 	}
 
