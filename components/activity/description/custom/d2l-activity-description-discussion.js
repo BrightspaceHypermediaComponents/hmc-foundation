@@ -3,19 +3,19 @@ import { customHypermediaElement } from '@brightspace-hmc/foundation-engine/fram
 import { observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 
 const rels = Object.freeze({
-	description: 'https://quizzes.api.brightspace.com/rels/description',
-	quiz: 'https://api.brightspace.com/rels/quiz'
+	description: 'https://discussions.api.brightspace.com/rels/description',
+	topic: 'https://discussions.api.brightspace.com/rels/topic'
 });
 
-export class ActivityDescriptionQuiz extends DescriptionMixin {
+export class ActivityDiscussionAssignment extends DescriptionMixin {
 	static get properties() {
 		return {
 			_description: {
 				type: String,
-				id:'text',
+				id: 'text',
 				observable: observableTypes.property,
 				route:[
-					{observable: observableTypes.link, rel: rels.quiz},
+					{observable: observableTypes.link, rel: rels.topic},
 					{observable: observableTypes.subEntity, rel: rels.description}
 				]
 			}
@@ -23,4 +23,4 @@ export class ActivityDescriptionQuiz extends DescriptionMixin {
 	}
 }
 
-customHypermediaElement('d2l-activity-description-quiz', ActivityDescriptionQuiz, 'd2l-activity-description', [['user-quiz-activity'], ['user-quiz-attempt-activity']]);
+customHypermediaElement('d2l-activity-description-discussion', ActivityDiscussionAssignment, 'd2l-activity-description', [['user-discussion-activity']]);

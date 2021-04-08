@@ -1,5 +1,6 @@
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
+import { nothing } from 'lit-html';
 import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton-mixin.js';
 
 
@@ -22,7 +23,15 @@ export class DescriptionMixin extends SkeletonMixin(HypermediaStateMixin(LitElem
 	}
 
 	render() {
-		return html`<span class="d2l-skeletize">${this._description ? this._description : html`Description<div class="d2l-activity-description-skeleton-extend-skeleton-width"></div>`}</span>`;
+		if (this.skeleton) return html`Description<div class="d2l-activity-description-skeleton-extend-skeleton-width"></div>`;
+		return html`
+			<span class="d2l-skeletize">
+				${this._description
+					? this._description
+					: nothing
+				}
+			</span>
+		`;
 	}
 
 	get _loaded() {

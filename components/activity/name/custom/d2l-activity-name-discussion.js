@@ -4,22 +4,22 @@ import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engin
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 
 const rels = Object.freeze({
-	quiz: 'https://api.brightspace.com/rels/quiz'
+	topic: 'https://discussions.api.brightspace.com/rels/topic'
 });
 
-export class ActivityNameQuiz extends HypermediaStateMixin(LitElement) {
+export class ActivityNameDiscussion extends HypermediaStateMixin(LitElement) {
 	static get properties() {
 		return {
-			_quizHref: { type: String, observable: observableTypes.link, rel: rels.quiz, prime: true }
+			_topicHref: { type: String, observable: observableTypes.link, rel: rels.topic, prime: true }
 		};
 	}
 
 	render() {
 		return html`
-			<d2l-hc-name href="${this._quizHref}" .token="${this.token}"></d2l-hc-name>
+			<d2l-hc-name href="${this._topicHref}" .token="${this.token}"></d2l-hc-name>
 		`;
 	}
 
 }
 
-customHypermediaElement('d2l-activity-name-quiz', ActivityNameQuiz, 'd2l-activity-name', [['user-quiz-activity'], ['user-quiz-attempt-activity']]);
+customHypermediaElement('d2l-activity-name-discussion', ActivityNameDiscussion, 'd2l-activity-name', [['user-discussion-activity']]);

@@ -26,4 +26,4 @@ export class ActivityNameCourse extends HypermediaStateMixin(LitElement) {
 
 }
 
-customHypermediaElement('d2l-activity-name-course', ActivityNameCourse, 'd2l-activity-name', [['activity-usage', 'course-offering']]);
+customHypermediaElement('d2l-activity-name-course', ActivityNameCourse, 'd2l-activity-name', [['activity-usage', 'course-offering'], ['user-course-offering-activity-usage']]);

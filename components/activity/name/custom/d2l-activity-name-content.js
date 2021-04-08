@@ -10,13 +10,14 @@ const rels = Object.freeze({
 export class ActivityNameContent extends HypermediaStateMixin(LitElement) {
 	static get properties() {
 		return {
+			_title: { type: String, observable: observableTypes.property, route: [{observable: observableTypes.link, rel: rels.content}] },
 			_contentHref: { type: String, observable: observableTypes.link, rel: rels.content, prime: true }
 		};
 	}
 
 	render() {
 		return html`
-			<d2l-hc-name href="${this._contentHref}" .token="${this.token}"></d2l-hc-name>
+			${this._loaded && this._title ? html`${this._title}` : html`<d2l-hc-name href="${this._contentHref}" .token="${this.token}"></d2l-hc-name>`}
 		`;
 	}
 

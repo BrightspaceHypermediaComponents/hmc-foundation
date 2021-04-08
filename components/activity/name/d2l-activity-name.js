@@ -2,6 +2,7 @@ import './custom/d2l-activity-name-assignment.js';
 import './custom/d2l-activity-name-checklist.js';
 import './custom/d2l-activity-name-content.js';
 import './custom/d2l-activity-name-course.js';
+import './custom/d2l-activity-name-discussion.js';
 import './custom/d2l-activity-name-quiz.js';
 import './custom/d2l-activity-name-specialization.js';
 import '../../common/d2l-hc-name.js';

@@ -2,6 +2,7 @@ import '@brightspace-ui/core/components/list/list-item-content.js';
 import '../../components/activity/description/d2l-activity-description.js';
 import '../../components/activity/icon/d2l-activity-icon.js';
 import '../../components/activity/name/d2l-activity-name.js';
+import '../../components/activity/type/d2l-activity-type.js';
 import '../../components/activity/name/custom/d2l-activity-name-course.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
@@ -11,17 +12,19 @@ import { guard } from 'lit-html/directives/guard';
 import { ListItemLinkMixin } from '@brightspace-ui/core/components/list/list-item-link-mixin.js';
 
 const rels = Object.freeze({
-	quiz: 'https://api.brightspace.com/rels/quiz',
+	assignment: 'https://api.brightspace.com/rels/assignment',
+	checklist: 'https://checklists.api.brightspace.com/rels/checklist-item',
+	content: 'https://api.brightspace.com/rels/content',
+	date: 'https://api.brightspace.com/rels/date',
 	organization: 'https://api.brightspace.com/rels/organization',
 	organizationHomepage: 'https://api.brightspace.com/rels/organization-homepage',
-	checklist: 'https://checklists.api.brightspace.com/rels/checklist-item',
-	assignment: 'https://api.brightspace.com/rels/assignment',
-	content: 'https://api.brightspace.com/rels/content',
-	date: 'https://api.brightspace.com/rels/date'
+	quiz: 'https://api.brightspace.com/rels/quiz',
+	topic: 'https://discussions.api.brightspace.com/rels/topic'
 });
 
 const dateTypes = Object.freeze({
 	due: 'due-date',
+	end: 'end-date',
 	start: 'start-date'
 });
 
@@ -85,7 +88,9 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LitElement
 					<div slot="secondary">
 						${this._isCourse ? html`Course` : html`<d2l-activity-name-course href="${this.href}" .token="${this.token}"></d2l-activity-name-course>`}
 						<div>Due Date: ${this._dates.due}</div>
+						<div>End Date: ${this._dates.end}</div>
 						<div>Start Date: ${this._dates.start}</div>
+						<div>Type: <d2l-activity-type href="${this.href}" .token="${this.token}"></d2l-activity-type></div>
 					</div>
 					<d2l-activity-description slot="supporting-info" href="${this.href}" .token="${this.token}"></d2l-activity-description>
 				</d2l-list-item-content>
@@ -179,7 +184,24 @@ class W2DListItemCourseOffering extends W2DListItemMixin {
 		this._isCourse = true;
 	}
 }
-customHypermediaElement('d2l-w2d-list-item-course', W2DListItemCourseOffering, 'd2l-w2d-list-item', [['course-offering']]);
+customHypermediaElement('d2l-w2d-list-item-course', W2DListItemCourseOffering, 'd2l-w2d-list-item', [['course-offering'], ['user-course-offering-activity-usage']]);
+
+class W2DListItemDiscussion extends W2DListItemMixin {
+	static get properties() {
+		return {
+			...super.properties,
+			actionHref: {
+				type: String,
+				observable: observableTypes.link,
+				rel: 'alternate',
+				route: [{observable: observableTypes.link, rel: rels.topic}],
+				reflect: true,
+				attribute: 'action-href'
+			}
+		};
+	}
+}
+customHypermediaElement('d2l-w2d-list-item-discussion', W2DListItemDiscussion, 'd2l-w2d-list-item', [['user-discussion-activity']]);
 
 class W2DListItemQuiz extends W2DListItemMixin {
 	static get properties() {
@@ -196,4 +218,4 @@ class W2DListItemQuiz extends W2DListItemMixin {
 		};
 	}
 }
-customHypermediaElement('d2l-w2d-list-item-quiz', W2DListItemQuiz, 'd2l-w2d-list-item', [['user-quiz-activity']]);
+customHypermediaElement('d2l-w2d-list-item-quiz', W2DListItemQuiz, 'd2l-w2d-list-item', [['user-quiz-activity'], ['user-quiz-attempt-activity']]);
