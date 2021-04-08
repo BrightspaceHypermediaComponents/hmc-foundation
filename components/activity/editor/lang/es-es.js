@@ -14,5 +14,6 @@ export default {
 	"text-editDialogSaveContent": "No se han podido guardar los cambios en esta ruta de aprendizaje. Puede volver a intentarlo después de pulsar Aceptar.", // Message telling user changes could not be saved. Informs user they can try to save again after pressing ok to close dialog box
 	"text-newDialogSaveTitle": "No se ha podido guardar la ruta de aprendizaje", // Error when a new learning path could not be saved
 	"text-newDialogSaveContent": "No se ha podido guardar esta ruta de aprendizaje. Puede volver a intentarlo después de pulsar Aceptar.", // // Message telling user a new learning path could not be saved. Informs user they can try to save again after pressing ok to close dialog box
-	"text-saveComplete": "Guardado completado" // Saving is complete and was successful
+	"text-saveComplete": "Guardado completado", // Saving is complete and was successful,
+	"title-identification": "Additional Identification" // Title for side bar that contains supplementary information
 };

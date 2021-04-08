@@ -14,5 +14,6 @@ export default {
 	"text-editDialogSaveContent": "この学習パスへの変更を保存できませんでした。［OK］を押した後で、もう一度試行できます。", // Message telling user changes could not be saved. Informs user they can try to save again after pressing ok to close dialog box
 	"text-newDialogSaveTitle": "学習パスを保存できませんでした", // Error when a new learning path could not be saved
 	"text-newDialogSaveContent": "この学習パスを保存できませんでした。［OK］を押した後で、もう一度試行できます。", // // Message telling user a new learning path could not be saved. Informs user they can try to save again after pressing ok to close dialog box
-	"text-saveComplete": "保存が完了しました" // Saving is complete and was successful
+	"text-saveComplete": "保存が完了しました", // Saving is complete and was successful,
+	"title-identification": "Additional Identification" // Title for side bar that contains supplementary information
 };
