@@ -12,7 +12,7 @@ export class ActivityDescriptionAssignment extends DescriptionMixin {
 			_description: {
 				type: String,
 				id:'instructionsText',
-				observable: observableTypes.properties,
+				observable: observableTypes.property,
 				route:[{observable: observableTypes.link, rel: rels.assignment}]
 			}
 		};
