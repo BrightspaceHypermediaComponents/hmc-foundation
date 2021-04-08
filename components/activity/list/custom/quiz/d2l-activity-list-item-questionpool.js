@@ -54,7 +54,7 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 				type: Number,
 				observable: observableTypes.property,
 				id: 'questionPoints',
-				route: [route.specialization]	
+				route: [route.specialization]
 			}
 		};
 	}
@@ -86,8 +86,16 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 					margin-block-end: 0;
 					margin-inline-start: 0.4rem;
 					margin-inline-end: 0.3rem;
-					flex-basis: 1.9rem;
+					flex-basis: 3rem;
 					flex-shrink: 0;
+					word-break: break-all;
+				}
+				.questionpool-emoji {
+					margin-inline-start: 0.4rem;
+					margin-inline-end: 0.3rem;
+					flex-basis: 3rem;
+					flex-shrink: 0;
+					margin: 0.25rem 1.5rem 0 -0.75rem;    				
 				}
 				.points {
 					flex-basis: 4rem;
@@ -96,8 +104,8 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 				}
 				.questionpool-type {
 					color: var(--d2l-color-tungsten);
-					margin-inline-start: 4.3rem;
 					max-width: 10rem;
+					margin: 0;
 				}
 			`];
 	}
@@ -111,18 +119,25 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 	}
 
 	render() {
+		const range = `${this.number} - ${this.number + this.numQuestions}`;
 		return html`
 			<div class="questionpool-item d2l-skeletize">
 				<div class="checkbox"><d2l-input-checkbox></d2l-input-checkbox></div>
-				<div class="d2l-body-standard questionpool-number">${this.number} - ${this.number + this.numQuestions}</div>
-				<div class="questionpool"><span class="d2l-body-compact">${this.name}</span></div>
-				<div class="points d2l-body-compact">${this.localize('points', { count: this.questionPoints * this.numQuestions })}</div>
+				${this.numQuestions > 0 ?
+		html`<div class="d2l-body-standard questionpool-number d2l-skeletize">${range}</div>` :
+		html`<d2l-icon icon="emoji:sad" class="questionpool-emoji"></d2l-icon>`}
+				<div class="questionpool d2l-skeletize">
+					<span class="d2l-body-compact d2l-skeletize">${this.name}</span>
+					<div questionpool-type>
+						<span class="d2l-body-small d2l-skeletize">${this.typeText}</span>
+						<d2l-icon icon="d2l-tier1:bullet"></d2l-icon>
+						<span class="d2l-body-small d2l-skeletize">
+							${this.localize('question_selection', {numQuestions: this.numQuestions, numChoices: this.numChoices, questionPoints: this.questionPoints})}
+						</span>
+					</div>
+				</div>
+				<div class="points d2l-body-compact d2l-skeletize">${this.localize('points', { count: this.questionPoints * this.numQuestions })}</div>
 			</div>
-			<span class="d2l-body-small questionpool-type d2l-skeletize">${this.typeText}</span>
-			<d2l-icon icon="d2l-tier1:bullet"></d2l-icon>
-			<span class="d2l-body-small d2l-skeletize">
-				${this.localize('question_selection', {numQuestions: this.numQuestions, numChoices: this.numChoices, questionPoints: this.questionPoints})}
-			</span>
 		`;
 	}
 

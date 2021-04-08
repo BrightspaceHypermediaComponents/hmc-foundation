@@ -83,8 +83,9 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 					margin-block-end: 0;
 					margin-inline-start: 0.4rem;
 					margin-inline-end: 0.3rem;
-					flex-basis: 1.9rem;
+					flex-basis: 3rem;
 					flex-shrink: 0;
+					word-break: break-all;
 				}
 				.points {
 					flex-basis: 4rem;
@@ -93,8 +94,8 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 				}
 				.question-type {
 					color: var(--d2l-color-tungsten);
-					margin-inline-start: 4.3rem;
 					max-width: 10rem;
+					margin: 0;
 				}
 			`];
 	}
@@ -108,11 +109,13 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 		return html`
 			<div class="question-item d2l-skeletize">
 				<div class="checkbox"><d2l-input-checkbox></d2l-input-checkbox></div>
-				<div class="d2l-body-standard question-number">${this.number}</div>
-				<div class="question"><span class="d2l-body-compact">${this.name || this.questionText} </span></div>
-				<div class="points d2l-body-compact">${this.localize('points', { count: this.points })}</div>
-			</div>
-			<div class="d2l-body-small question-type d2l-skeletize">${this.typeText}</div>
+				<div class="d2l-body-standard question-number d2l-skeletize">${this.number}</div>
+				<div class="question d2l-skeletize">
+					<span class="d2l-body-compact d2l-skeletize">${this.name || this.questionText}</span>
+					<div class="d2l-body-small question-type d2l-skeletize">${this.typeText}</div>
+				</div>
+				<div class="points d2l-body-compact d2l-skeletize">${this.localize('points', { count: this.points })}</div>
+			</div>			
 		`;
 	}
 

@@ -75,8 +75,8 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 				}
 				.section-type {
 					color: var(--d2l-color-tungsten);
-					margin-inline-start: 2rem;
 					max-width: 10rem;
+					margin: 0;
 				}
 				.section-nested-items {
 					margin-left: 2rem
@@ -96,9 +96,11 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 		return html`
 			<div class="section-item d2l-skeletize">
 				<div class="checkbox"><d2l-input-checkbox></d2l-input-checkbox></div>
-				<div class="section"><span class="d2l-heading-2">${this.name}</span></div>
-			</div>
-			<div class="d2l-body-small section-type d2l-skeletize">${this.typeText}</div>
+				<div class="section d2l-skeletize">
+					<span class="d2l-heading-2 d2l-skeletize">${this.name}</span>
+					<div class="d2l-body-small section-type d2l-skeletize">${this.typeText}</div>
+				</div>
+			</div>			
 			<d2l-list separators="none" class="section-nested-items" @d2l-list-item-position-change="${this._moveItems}">
 				${repeat(this.items, item => item.href, (item, idx) => html`
 					<d2l-activity-collection-item-quiz number="${idx + 1}" href="${item.href}" .token="${this.token}" key="${item.properties.id}"></d2l-activity-collection-item-quiz>
