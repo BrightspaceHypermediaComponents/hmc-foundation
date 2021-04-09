@@ -7,7 +7,7 @@ const rels = Object.freeze({
 	topic: 'https://discussions.api.brightspace.com/rels/topic'
 });
 
-export class ActivityDiscussionAssignment extends DescriptionMixin {
+export class ActivityDescriptionDiscussion extends DescriptionMixin {
 	static get properties() {
 		return {
 			_description: {
@@ -23,4 +23,4 @@ export class ActivityDiscussionAssignment extends DescriptionMixin {
 	}
 }
 
-customHypermediaElement('d2l-activity-description-discussion', ActivityDiscussionAssignment, 'd2l-activity-description', [['user-discussion-activity']]);
+customHypermediaElement('d2l-activity-description-discussion', ActivityDescriptionDiscussion, 'd2l-activity-description', [['user-discussion-activity']]);

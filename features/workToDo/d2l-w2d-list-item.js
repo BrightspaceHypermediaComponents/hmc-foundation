@@ -71,6 +71,7 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LitElement
 	constructor() {
 		super();
 		this._dates = {};
+		this._isCourse = false;
 	}
 
 	render() {
