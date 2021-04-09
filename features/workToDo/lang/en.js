@@ -1,6 +1,6 @@
 /* eslint quotes: 0 */
 export default {
-	activitiesAvailable: "Activities that are due or ending in two weeks are complete! Check View All Work to see what's coming later.", // 'Empty View' - When widget has no activities to display within the next two weeks, but there are more activities further into the future that can be shown on the full screen view
+	activitiesAvailable: "Activities that are due or ending soon are complete! Check View All Work to see what's coming later.", // 'Empty View' - When widget has no activities to display within the next two weeks, but there are more activities further into the future that can be shown on the full screen view
 	allClear: 'All Clear For Now!', // Displayed as header line in widget text when there are no activities
 	assignment: 'Assignment',  // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	backToD2L: 'Back to Home', // Displayed in the immersive navbar to escape out of fullscreen view
@@ -15,9 +15,9 @@ export default {
 	loadMore: 'Load More', // Button text displayed in 'Fullscreen View' that allows the user to access the next page of activities which will append to the bottom of the list currently shown
 	loadMoreDescription: 'Display more assigned activities', // Additional description text to accompany the load more button for additional clarity for the user
 	workToDo: 'Work To Do', // Widget title
-	noActivities: 'You have no incomplete activities with due or end dates available.', // 'Empty state' - When widget has no activities in full page view
-	noActivitiesFutureActivities: "You have no incomplete activities due or ending soon. Come back later or View All Work to see what's coming next.",  // 'Empty View' - When widget has no activities to display within the next few weeks & there are activities in the future
-	noActivitiesNoFutureActivities: 'You have no incomplete activities with due or end dates available. Come back later to see if you have work to do.', // 'Empty View' - When widget has no activities to display within the next few weeks & there are no more activities in the future
+	noActivities: 'You have no activities with due or end dates available.', // 'Empty state' - When widget has no activities in full page view
+	noActivitiesFutureActivities: "You have no activities due or ending soon. Come back later or View All Work to see what's coming next.",  // 'Empty View' - When widget has no activities to display within the next few weeks & there are activities in the future
+	noActivitiesNoFutureActivities: 'You have no activities with due or end dates available. Come back later to see if you have work to do.', // 'Empty View' - When widget has no activities to display within the next few weeks & there are no more activities in the future
 	nothingHere: "There's nothing here...", // Displayed as header line in widget text when there are no activities within the provided time period
 	overdue: 'Overdue', // Indicates that the below list of activities are overdue (have a due date that is in the past)
 	quiz: 'Quiz', // Meta-data descriptor that informs which type of activity is being displayed on a line item
