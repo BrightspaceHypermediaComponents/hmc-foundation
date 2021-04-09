@@ -210,6 +210,7 @@ describe('d2l-discover-rule-picker', () => {
 				const conditionDropdownList = el.shadowRoot.querySelectorAll('select');
 				const conditionPickerList = el.shadowRoot.querySelectorAll('d2l-discover-attribute-picker');
 				await conditionPickerList.updateComplete;
+				await oneEvent(deleteButtonList[test.index].parentNode.parentNode, 'd2l-animate-complete');
 
 				expect(el.conditions.length).to.equal(newConditions.length);
 				expect(el.conditions).to.deep.equal(newConditions);
