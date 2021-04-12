@@ -11,6 +11,13 @@ import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynam
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { selectStyles } from '@brightspace-ui/core/components/inputs/input-select-styles.js';
 
+const conditionStates = Object.freeze({
+    new: 'new',
+    existing: 'existing',
+	remove: 'remove',
+	removed: 'removed'
+});
+
 class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitElement))) {
 
 	static get properties() {
@@ -26,7 +33,7 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 	static get styles() {
 		return [ bodyCompactStyles, selectStyles,
 			css`
-				.relative-parent {
+				.d2l-relative-parent {
 					position: relative;
 				}
 				.d2l-picker-rule-container {
@@ -84,7 +91,7 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 
 	render() {
 		return html`
-			<div class="relative-parent">
+			<div class="d2l-relative-parent">
 				${this._renderPickerConditions()}
 				<d2l-button-subtle id="add-another-condition-button"
 					text="${this.localize('text-add-another-condition')}"
@@ -108,7 +115,7 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 			}
 		}
 		if (changedProperties.has('conditions') && this.conditions.length === 0) {
-			this._addCondition('existing');
+			this._addCondition(conditionStates.existing);
 		}
 	}
 
@@ -121,7 +128,7 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 		}
 	}
 
-	_addCondition(state = 'new') {
+	_addCondition(state = conditionStates.new) {
 		this.conditions.push({
 			properties: {
 				type: this.defaultType || (this.conditionTypes && this.conditionTypes[0].properties.type),
@@ -193,7 +200,7 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 				const ruleElems = this.shadowRoot.querySelectorAll('.d2l-picker-rule-animator');
 				if (ruleElems.length > index) {
 					this._cleaningAnimState = true;
-					this.conditions[index].properties.state = 'new';
+					this.conditions[index].properties.state = conditionStates.new;
 					this.requestUpdate();
 				}
 
@@ -203,7 +210,7 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 				}));
 			};
 			elem.addEventListener('d2l-animate-complete', onAnimateEnd);
-			condition.properties.state = 'remove';
+			condition.properties.state = conditionStates.remove;
 		}
 	}
 
@@ -212,11 +219,11 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 		return html`
 		${this.conditions.map((condition) => {
 		let animateAction = undefined;
-		if (condition.properties.state === 'remove') {
-			condition.properties.state = 'removed';
+		if (condition.properties.state === conditionStates.remove) {
+			condition.properties.state = conditionStates.removed;
 			animateAction = hide();
-		} else if (condition.properties.state === 'new') {
-			condition.properties.state = 'existing';
+		} else if (condition.properties.state === conditionStates.new) {
+			condition.properties.state = conditionStates.existing;
 			animateAction = show({ skip: this._cleaningAnimState });
 			this._cleaningAnimState = false;
 		}
