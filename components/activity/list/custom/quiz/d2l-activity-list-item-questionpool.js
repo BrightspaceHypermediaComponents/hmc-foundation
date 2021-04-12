@@ -2,6 +2,7 @@ import '@brightspace-ui/core/components/inputs/input-checkbox.js';
 import '@brightspace-ui/core/components/inputs/input-checkbox-spacer.js';
 import '@brightspace-ui/core/components/inputs/input-styles.js';
 import '@brightspace-ui/core/components/colors/colors';
+import '@brightspace-ui/core/components/icons/icon.js';
 
 import { bodyCompactStyles, bodySmallStyles, bodyStandardStyles } from '@brightspace-ui/core/components/typography/styles.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
@@ -11,26 +12,19 @@ import { LocalizeQuizEditor } from './lang/localization.js';
 import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton-mixin.js';
 
 const rels = Object.freeze({
-	questionText: 'https://questions.api.brightspace.com/rels/questionText',
 	specialization: 'https://api.brightspace.com/rels/specialization'
 });
+
 const route = {
 	specialization:
 		{ observable: observableTypes.link, rel: rels.specialization }
 };
+
 const componentClass = class extends SkeletonMixin(HypermediaStateMixin(LocalizeQuizEditor(LitElement))) {
 	static get properties() {
 		return {
 			number: {
 				type: Number
-			},
-			questionText: {
-				type: String,
-				observable: observableTypes.property,
-				id: 'text',
-				route: [route.specialization, {
-					observable: observableTypes.subEntity,	rel: rels.questionText
-				}]
 			},
 			name: {
 				type: String,
@@ -38,21 +32,30 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 				id: 'name',
 				route: [route.specialization]
 			},
-			// type: {
-			// 	type: Number,
-			// 	observable: observableTypes.property,
-			// 	id: 'type',
-			// 	route: [route.specialization]
-			// },
 			typeText: {
 				type: String,
 				observable: observableTypes.property,
 				id: 'typeText',
 				route: [route.specialization]
 			},
-			points: {
-				type: Number
+			numChoices: {
+				type: Number,
+				observable: observableTypes.property,
+				id: 'numChoices',
+				route: [route.specialization]
 			},
+			numQuestions: {
+				type: Number,
+				observable: observableTypes.property,
+				id: 'numQuestions',
+				route: [route.specialization]
+			},
+			questionPoints: {
+				type: Number,
+				observable: observableTypes.property,
+				id: 'questionPoints',
+				route: [route.specialization]
+			}
 		};
 	}
 
@@ -66,7 +69,7 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 					display: block;
 					width: 100%;
 				}
-				.question-item {
+				.questionpool-item {
 					display: flex;
 					flex-wrap: nowrap;
 					width: 100%;
@@ -75,10 +78,10 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 					display: inline;
 					flex-shrink: 0;
 				}
-				.question {
+				.questionpool {
 					flex-grow: 1;
 				}
-				.question-number {
+				.questionpool-number {
 					margin-block-start: 0;
 					margin-block-end: 0;
 					margin-inline-start: 0.4rem;
@@ -87,12 +90,19 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 					flex-shrink: 0;
 					word-break: break-all;
 				}
+				.questionpool-emoji {
+					margin-inline-start: 0.4rem;
+					margin-inline-end: 0.3rem;
+					flex-basis: 3rem;
+					flex-shrink: 0;
+					margin: 0.25rem 1.5rem 0 -0.75rem;    				
+				}
 				.points {
 					flex-basis: 4rem;
 					text-align: end;
 					flex-shrink: 0;
 				}
-				.question-type {
+				.questionpool-type {
 					color: var(--d2l-color-tungsten);
 					max-width: 10rem;
 					margin: 0;
@@ -103,19 +113,31 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 	constructor() {
 		super();
 		this.skeleton = true;
+		this.numChoices = 0;
+		this.numQuestions = 0;
+		this.questionPoints = 0;
 	}
 
 	render() {
+		const range = `${this.number} - ${this.number + this.numQuestions}`;
 		return html`
-			<div class="question-item d2l-skeletize">
+			<div class="questionpool-item d2l-skeletize">
 				<div class="checkbox"><d2l-input-checkbox></d2l-input-checkbox></div>
-				<div class="d2l-body-standard question-number d2l-skeletize">${this.number}</div>
-				<div class="question d2l-skeletize">
-					<span class="d2l-body-compact d2l-skeletize">${this.name || this.questionText}</span>
-					<div class="d2l-body-small question-type d2l-skeletize">${this.typeText}</div>
+				${this.numQuestions > 0 ?
+		html`<div class="d2l-body-standard questionpool-number d2l-skeletize">${range}</div>` :
+		html`<d2l-icon icon="emoji:sad" class="questionpool-emoji"></d2l-icon>`}
+				<div class="questionpool d2l-skeletize">
+					<span class="d2l-body-compact d2l-skeletize">${this.name}</span>
+					<div questionpool-type>
+						<span class="d2l-body-small d2l-skeletize">${this.typeText}</span>
+						<d2l-icon icon="d2l-tier1:bullet"></d2l-icon>
+						<span class="d2l-body-small d2l-skeletize">
+							${this.localize('question_selection', {numQuestions: this.numQuestions, numChoices: this.numChoices, questionPoints: this.questionPoints})}
+						</span>
+					</div>
 				</div>
-				<div class="points d2l-body-compact d2l-skeletize">${this.localize('points', { count: this.points })}</div>
-			</div>			
+				<div class="points d2l-body-compact d2l-skeletize">${this.localize('points', { count: this.questionPoints * this.numQuestions })}</div>
+			</div>
 		`;
 	}
 
@@ -128,5 +150,5 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 	}
 };
 
-customHypermediaElement('d2l-activity-list-item-question', componentClass,
-	'd2l-activity-list-item-quiz', [['activity-usage', 'question-version-activity']]);
+customHypermediaElement('d2l-activity-list-item-questionpool', componentClass,
+	'd2l-activity-list-item-quiz', [['activity-usage', 'questionpool-activity']]);
