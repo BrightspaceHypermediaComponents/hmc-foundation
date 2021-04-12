@@ -79,6 +79,7 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 		super();
 		this.conditions = [];
 		this._conditionTypesHash = {};
+		this._cleaningAnimState = false;
 	}
 
 	render() {
@@ -180,14 +181,21 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 	_removeCondition(e) {
 		const condition = e.target.condition;
 		const elem = e.target.parentNode.parentNode;
-
 		const index = this.conditions.indexOf(condition);
 		if (index > -1) {
 			this.requestUpdate();
-			const onAnimateEnd = () => {
+			const onAnimateEnd = async() => {
 				elem.removeEventListener('d2l-animate-complete', onAnimateEnd);
 				this.conditions.splice(index, 1);
 				this.requestUpdate();
+
+				await this.updateComplete;
+				const ruleElems = this.shadowRoot.querySelectorAll('.d2l-picker-rule-animator');
+				if (ruleElems.length > index) {
+					this._cleaningAnimState = true;
+					this.conditions[index].properties.state = 'new';
+					this.requestUpdate();
+				}
 
 				this.dispatchEvent(new CustomEvent('d2l-rule-condition-removed', {
 					bubbles: true,
@@ -209,13 +217,14 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 			animateAction = hide();
 		} else if (condition.properties.state === 'new') {
 			condition.properties.state = 'existing';
-			animateAction = show();
+			animateAction = show({ skip: this._cleaningAnimState });
+			this._cleaningAnimState = false;
 		}
 		const classes = {
 			'd2l-picker-rule-container': true
 		};
 		return html`
-			<div .animate="${animateAction}">
+			<div class=d2l-picker-rule-animator .animate="${animateAction}">
 				<div class="d2l-picker-and d2l-body-compact" ?hidden="${this._isFirstCondition(condition)}">
 					${this.localize('text-and')}
 					<div class="d2l-picker-hr d2l-picker-hr-condition-separator"></div>
