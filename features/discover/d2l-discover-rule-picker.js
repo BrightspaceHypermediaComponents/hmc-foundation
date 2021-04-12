@@ -12,8 +12,8 @@ import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { selectStyles } from '@brightspace-ui/core/components/inputs/input-select-styles.js';
 
 const conditionStates = Object.freeze({
-    new: 'new',
-    existing: 'existing',
+	new: 'new',
+	existing: 'existing',
 	remove: 'remove',
 	removed: 'removed'
 });
