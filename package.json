@@ -41,6 +41,7 @@
     "@brightspace-ui-labs/caketray": "^1",
     "@brightspace-ui-labs/checkbox-drawer": "github:BrightspaceUILabs/checkbox-drawer#semver:^1",
     "@brightspace-ui-labs/list-item-accumulator": "^1",
+    "@brightspace-ui-labs/pagination": "^1.0.2",
     "@brightspace-ui/core": "^1",
     "@brightspace-ui/intl": "^3.3.2",
     "d2l-course-image": "github:Brightspace/course-image#semver:^3",

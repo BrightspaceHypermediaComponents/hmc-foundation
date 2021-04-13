@@ -1,0 +1,298 @@
+{
+  "class": [
+    "paged",
+    "organization",
+    "collection"
+  ],
+  "properties": {
+    "pagingInfo": {
+      "total": 274,
+      "page": 1,
+      "pageSize": 20
+    }
+  },
+  "entities": [
+    {
+      "rel": [
+        "https://api.brightspace.com/rels/organization"
+      ],
+      "links": [
+        {
+          "rel": [
+            "self"
+          ],
+          "href": "/demo/data/base/learning-path.json"
+        }
+      ]
+    },
+    {
+      "rel": [
+        "https://api.brightspace.com/rels/organization"
+      ],
+      "links": [
+        {
+          "rel": [
+            "self"
+          ],
+          "href": "/demo/data/base/learning-path.json"
+        }
+      ]
+    },
+    {
+      "rel": [
+        "https://api.brightspace.com/rels/organization"
+      ],
+      "links": [
+        {
+          "rel": [
+            "self"
+          ],
+          "href": "/demo/data/base/learning-path.json"
+        }
+      ]
+    },
+    {
+      "rel": [
+        "https://api.brightspace.com/rels/organization"
+      ],
+      "links": [
+        {
+          "rel": [
+            "self"
+          ],
+          "href": "/demo/data/base/learning-path.json"
+        }
+      ]
+    },
+    {
+      "rel": [
+        "https://api.brightspace.com/rels/organization"
+      ],
+      "links": [
+        {
+          "rel": [
+            "self"
+          ],
+          "href": "/demo/data/base/learning-path.json"
+        }
+      ]
+    },
+    {
+      "rel": [
+        "https://api.brightspace.com/rels/organization"
+      ],
+      "links": [
+        {
+          "rel": [
+            "self"
+          ],
+          "href": "/demo/data/base/learning-path.json"
+        }
+      ]
+    },
+    {
+      "rel": [
+        "https://api.brightspace.com/rels/organization"
+      ],
+      "links": [
+        {
+          "rel": [
+            "self"
+          ],
+          "href": "/demo/data/base/learning-path.json"
+        }
+      ]
+    },
+    {
+      "rel": [
+        "https://api.brightspace.com/rels/organization"
+      ],
+      "links": [
+        {
+          "rel": [
+            "self"
+          ],
+          "href": "/demo/data/base/learning-path.json"
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "rel": [
+        "self"
+      ],
+      "href": "https://9ae77247-1335-4f42-93b3-8be8586eb2ee.organizations.api.dev.brightspace.com/?organizationTypeIds=7&embedDepth=1&page=1&pageSize=20"
+    },
+    {
+      "rel": [
+        "next"
+      ],
+      "href": "https://9ae77247-1335-4f42-93b3-8be8586eb2ee.organizations.api.dev.brightspace.com/?organizationTypeIds=7&embedDepth=1&page=2&pageSize=20"
+    }
+  ],
+  "actions": [
+    {
+      "href": "https://9ae77247-1335-4f42-93b3-8be8586eb2ee.organizations.api.dev.brightspace.com/",
+      "name": "search-course-collection",
+      "method": "GET",
+      "fields": [
+        {
+          "type": "search",
+          "name": "search",
+          "value": ""
+        },
+        {
+          "type": "number",
+          "name": "page",
+          "value": "1"
+        },
+        {
+          "type": "number",
+          "name": "pageSize",
+          "value": "8"
+        },
+        {
+          "type": "number",
+          "name": "embedDepth",
+          "value": "1"
+        },
+        {
+          "type": "hidden",
+          "name": "organizationTypeIds",
+          "value": "7"
+        }
+      ]
+    },
+    {
+      "href": "https://9ae77247-1335-4f42-93b3-8be8586eb2ee.organizations.api.dev.brightspace.com/",
+      "name": "add-department-filter",
+      "method": "GET",
+      "fields": [
+        {
+          "type": "search",
+          "name": "search",
+          "value": ""
+        },
+        {
+          "type": "number",
+          "name": "page",
+          "value": "1"
+        },
+        {
+          "type": "number",
+          "name": "pageSize",
+          "value": "20"
+        },
+        {
+          "type": "number",
+          "name": "embedDepth",
+          "value": "1"
+        },
+        {
+          "type": "hidden",
+          "name": "organizationTypeIds",
+          "value": "7,203"
+        }
+      ]
+    },
+    {
+      "href": "https://9ae77247-1335-4f42-93b3-8be8586eb2ee.organizations.api.dev.brightspace.com/",
+      "name": "add-semester-filter",
+      "method": "GET",
+      "fields": [
+        {
+          "type": "search",
+          "name": "search",
+          "value": ""
+        },
+        {
+          "type": "number",
+          "name": "page",
+          "value": "1"
+        },
+        {
+          "type": "number",
+          "name": "pageSize",
+          "value": "20"
+        },
+        {
+          "type": "number",
+          "name": "embedDepth",
+          "value": "1"
+        },
+        {
+          "type": "hidden",
+          "name": "organizationTypeIds",
+          "value": "7,5"
+        }
+      ]
+    },
+    {
+      "href": "https://9ae77247-1335-4f42-93b3-8be8586eb2ee.organizations.api.dev.brightspace.com/",
+      "name": "add-active-filter",
+      "method": "GET",
+      "fields": [
+        {
+          "type": "search",
+          "name": "search",
+          "value": ""
+        },
+        {
+          "type": "number",
+          "name": "page",
+          "value": "1"
+        },
+        {
+          "type": "number",
+          "name": "pageSize",
+          "value": "20"
+        },
+        {
+          "type": "number",
+          "name": "embedDepth",
+          "value": "1"
+        },
+        {
+          "type": "hidden",
+          "name": "organizationTypeIds",
+          "value": "7"
+        },
+        {
+          "type": "checkbox",
+          "name": "active",
+          "value": true
+        }
+      ]
+    },
+    {
+      "href": "https://9ae77247-1335-4f42-93b3-8be8586eb2ee.organizations.api.dev.brightspace.com/",
+      "name": "create-org-unit",
+      "method": "POST",
+      "fields": [
+        {
+          "type": "number",
+          "name": "orgUnitTypeId"
+        },
+        {
+          "type": "text",
+          "name": "name"
+        },
+        {
+          "type": "text",
+          "name": "code"
+        },
+        {
+          "type": "number",
+          "name": "parentId",
+          "value": 6606
+        },
+        {
+          "type": "checkbox",
+          "name": "draft",
+          "value": true
+        }
+      ]
+    }
+  ]
+}
