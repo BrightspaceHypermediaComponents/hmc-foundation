@@ -170,6 +170,28 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 		return this.conditions?.length === 1;
 	}
 
+	async _onConditionAnimateEnd(e) {
+		const condition = e.target.condition;
+		if (condition.properties.state === conditionStates.removed) {
+			const index = this.conditions.indexOf(e.target.condition);
+			this.conditions.splice(index, 1);
+			this.requestUpdate();
+
+			await this.updateComplete;
+			const ruleElems = this.shadowRoot.querySelectorAll('.d2l-picker-rule-animator');
+			if (ruleElems.length > index) {
+				this._cleaningAnimState = true;
+				this.conditions[index].properties.state = conditionStates.new;
+				this.requestUpdate();
+			}
+
+			this.dispatchEvent(new CustomEvent('d2l-rule-condition-removed', {
+				bubbles: true,
+				composed: true
+			}));
+		}
+	}
+
 	_onConditionSelectChange(e) {
 		const condition = e.target.condition;
 
@@ -187,29 +209,9 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 
 	_removeCondition(e) {
 		const condition = e.target.condition;
-		const elem = e.target.parentNode.parentNode;
 		const index = this.conditions.indexOf(condition);
 		if (index > -1) {
 			this.requestUpdate();
-			const onAnimateEnd = async() => {
-				elem.removeEventListener('d2l-animate-complete', onAnimateEnd);
-				this.conditions.splice(index, 1);
-				this.requestUpdate();
-
-				await this.updateComplete;
-				const ruleElems = this.shadowRoot.querySelectorAll('.d2l-picker-rule-animator');
-				if (ruleElems.length > index) {
-					this._cleaningAnimState = true;
-					this.conditions[index].properties.state = conditionStates.new;
-					this.requestUpdate();
-				}
-
-				this.dispatchEvent(new CustomEvent('d2l-rule-condition-removed', {
-					bubbles: true,
-					composed: true
-				}));
-			};
-			elem.addEventListener('d2l-animate-complete', onAnimateEnd);
 			condition.properties.state = conditionStates.remove;
 		}
 	}
@@ -231,7 +233,7 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 			'd2l-picker-rule-container': true
 		};
 		return html`
-			<div class=d2l-picker-rule-animator .animate="${animateAction}">
+			<div class=d2l-picker-rule-animator .animate="${animateAction}" @d2l-animate-complete=${this._onConditionAnimateEnd} .condition=${condition}>
 				<div class="d2l-picker-and d2l-body-compact" ?hidden="${this._isFirstCondition(condition)}">
 					${this.localize('text-and')}
 					<div class="d2l-picker-hr d2l-picker-hr-condition-separator"></div>
