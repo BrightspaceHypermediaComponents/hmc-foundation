@@ -69,8 +69,8 @@ class w2dWorkToDo extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement))
 				display: none;
 			}
 			:host(:not([collapsed])) {
-				max-width: 1230px;
 				margin: auto;
+				max-width: 1230px;
 				padding: 0 52px;
 			}
 
@@ -79,9 +79,9 @@ class w2dWorkToDo extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement))
 			}
 			.d2l-w2d-flex {
 				align-items: center;
+				border-bottom: 2px solid var(--d2l-color-mica);
 				display: flex;
 				justify-content: space-between;
-				border-bottom: 2px solid var(--d2l-color-mica);
 				padding: 0 0 0.35rem 0;
 			}
 			:host(:not([collapsed])) .d2l-w2d-flex {
@@ -95,11 +95,11 @@ class w2dWorkToDo extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement))
 				box-sizing: content-box;
 				color: white;
 				display: inline-block;
+				font-weight: 400;
+				line-height: 100%;
 				padding: 2px;
 				position: relative;
 				text-align: center;
-				font-weight: 400;
-				line-height: 100%;
 			}
 			.d2l-w2d-heading-3-count {
 				font-size: 0.7rem;
