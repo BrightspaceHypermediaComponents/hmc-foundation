@@ -233,7 +233,7 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 			'd2l-picker-rule-container': true
 		};
 		return html`
-			<div class=d2l-picker-rule-animator .animate="${animateAction}" @d2l-animate-complete=${this._onConditionAnimateEnd} .condition=${condition}>
+			<div class="d2l-picker-rule-animator" .animate="${animateAction}" @d2l-animate-complete="${this._onConditionAnimateEnd}" .condition="${condition}">
 				<div class="d2l-picker-and d2l-body-compact" ?hidden="${this._isFirstCondition(condition)}">
 					${this.localize('text-and')}
 					<div class="d2l-picker-hr d2l-picker-hr-condition-separator"></div>
