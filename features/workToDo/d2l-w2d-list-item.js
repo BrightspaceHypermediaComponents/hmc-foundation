@@ -63,7 +63,7 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 			:host([action-href]:not([action-href=""]):not([skeleton])) d2l-activity-icon.d2l-hovering {
 				--d2l-activity-icon-color: var(--d2l-color-celestine);
 			}
-			:host([collasped]) .d2l-list-item-content {
+			:host([collapsed]) .d2l-list-item-content {
 				padding: 0.25rem 0;
 			}
 			.d2l-w2d-list-item-name {
