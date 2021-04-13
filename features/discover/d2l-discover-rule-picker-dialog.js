@@ -91,7 +91,7 @@ class RulePickerDialog extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixi
 	_onDoneClick() {
 		const picker = this.shadowRoot.querySelector('d2l-discover-rule-picker');
 		if (this.creating) {
-			const event = new CustomEvent('d2l-discover-rule-created', {
+			const event = new CustomEvent('d2l-discover-rules-changed', {
 				bubbles: true,
 				detail: {
 					conditions: picker.conditions
@@ -108,12 +108,6 @@ class RulePickerDialog extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixi
 				}
 			});
 		}
-		// action is commited differently because it's a JSON string
-		this.updateConditions.commit({
-			conditions: JSON.stringify(this.conditions.map(condition => {
-				return { type: condition.properties.type, value: condition.properties.value };
-			}))
-		});
 	}
 }
 

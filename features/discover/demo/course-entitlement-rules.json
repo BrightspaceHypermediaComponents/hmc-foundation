@@ -1,11 +1,11 @@
 {
+  "class": ["entitlement", "collection"],
   "actions": [
-    { "name": "add-new-rule", "method": "POST", "href": "../demo/action-add-rule-result.json" },
-    { "name": "delete-rule", "method": "PATCH", "href": "../demo/action-delete-rule-result.json" }
+    { "name": "create", "method": "POST", "href": "../demo/entitlement-create.json" }
   ],
   "entities": [
     {
-      "rel": ["rule"],
+      "rel": ["https://discovery.brightspace.com/rels/rule"],
       "class": ["rule"],
       "entities": [
         {
@@ -17,12 +17,14 @@
         }
       ],
       "links": [
-        { "rel": ["self"], "href": "../demo/rule1.json"},
         { "rel": ["matching-users"], "href": "../demo/matching-users.json"},
         { "rel": [ "available-condition-types" ], "href": "../demo/condition-types.json" }
       ]
     }
   ],
+  "properties": {
+    "id": 12345
+  },
   "links": [
     { "rel": ["self"], "href": "../demo/course-entitlement-rules.json" },
     { "rel": ["new-rule"], "href": "../demo/newrule.json"}

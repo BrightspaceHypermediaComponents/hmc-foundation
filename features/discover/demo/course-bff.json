@@ -1,0 +1,37 @@
+{
+  "class": [
+    "activity",
+    "course",
+    "assigned"
+  ],
+  "properties": {
+    "title": "Adv Engineering Mathematics",
+    "description": "This is a course in advanced\r\nmathematicsforEngineers.\r\n\r\nThis is a course in advancedmathematics for Engineers. This is a course in advanced mathematics for Engineers. This is a course in advanced mathematics for Engineers. This is a course in advanced mathematics for Engineers.&#160;"
+  },
+  "links": [
+    {
+      "rel": [
+        "self"
+      ],
+      "href": "../demo/course-bff.json"
+    },
+    {
+      "rel": [
+        "https://api.brightspace.com/rels/organization"
+      ],
+      "href": "../demo/course.json"
+    },
+    {
+      "rel": [
+        "https://discovery.brightspace.com/rels/entitlement-rules"
+      ],
+      "href": "../demo/course-entitlement-rules.json"
+    },
+    {
+      "rel": [
+        "https://activities.api.brightspace.com/rels/activity-homepage"
+      ],
+      "href": "https://corpdev.devlms.brightspace.com/d2l/le/discovery/view/course/121728"
+    }
+  ]
+}
