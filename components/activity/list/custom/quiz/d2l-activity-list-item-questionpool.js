@@ -55,6 +55,15 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 				observable: observableTypes.property,
 				id: 'questionPoints',
 				route: [route.specialization]
+			},
+			refreshCounter: {
+				type: Number,
+				attribute: 'refresh-counter'
+			},
+			_refreshState: {
+				type: Object,
+				observable: observableTypes.refreshState,
+				route: [route.specialization]
 			}
 		};
 	}
@@ -139,6 +148,12 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 				<div class="points d2l-body-compact d2l-skeletize">${this.localize('points', { count: this.questionPoints * this.numQuestions })}</div>
 			</div>
 		`;
+	}
+
+	updated(changedProperties) {		
+		if (changedProperties.has('refreshCounter') && this.refreshCounter > 0) {
+			this._refreshState();
+		}
 	}
 
 	get _loaded() {
