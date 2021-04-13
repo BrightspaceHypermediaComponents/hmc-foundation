@@ -174,9 +174,16 @@ class w2dWorkToDo extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement))
 					<div slot="middle" class="d2l-w2d-flex d2l-body-standard">${this.localize('myWorkToDo')}</div>
 				</d2l-navigation-immersive>
 			`;
+		const workToDoHeader = this.collapsed
+			? null
+			: html`
+				<h1 class="d2l-w2d-heading-1">
+					${this.localize('workToDo')}
+				</h1>
+			`;
 		return html`
 			${immersiveNav}
-			${!this.collapsed ? html`<h1 class="d2l-w2d-heading-1">${this.localize('workToDo')}<h1>` : null}
+			${workToDoHeader}
 			${this._renderHeader2(this.localize('overdue'), overdueCount)}
 			${overdue}
 			${this._renderHeader2(this.localize('upcoming'), upcomingCount)}
@@ -213,7 +220,7 @@ class w2dWorkToDo extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement))
 	}
 
 	_renderHeader3(heading, count) {
-		if (!this.collapsed) return html`<div class="d2l-w2d-flex"><h3 class="d2l-w2d-heading-3">${heading}</h3><div>`;
+		if (!this.collapsed) return html`<div class="d2l-w2d-flex"><h3 class="d2l-w2d-heading-3">${heading}</h3></div>`;
 		return html`
 			<div class="d2l-w2d-flex">
 				<h3 class="d2l-w2d-heading-3">${heading}</h3>
