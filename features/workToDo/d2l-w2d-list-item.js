@@ -13,6 +13,7 @@ import { classMap } from 'lit-html/directives/class-map.js';
 import { formatDate } from '@brightspace-ui/intl/lib/dateTime.js';
 import { guard } from 'lit-html/directives/guard';
 import { ListItemLinkMixin } from '@brightspace-ui/core/components/list/list-item-link-mixin.js';
+import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
 import { nothing } from 'lit-html';
 
 const rels = Object.freeze({
@@ -32,7 +33,7 @@ const dateTypes = Object.freeze({
 	start: 'start-date'
 });
 
-class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LitElement)) {
+class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDynamicMixin(LitElement))) {
 
 	static get properties() {
 		return {
@@ -86,6 +87,12 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LitElement
 		return styles;
 	}
 
+	static get localizeConfig() {
+		return {
+			importFunc: async lang => (await import(`./lang/${lang}.js`)).default
+		};
+	}
+
 	constructor() {
 		super();
 		this._dates = {};
@@ -135,11 +142,11 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LitElement
 
 	_renderAttributeListCollapsed() {
 		let dueDate;
-		if (this._dates.due instanceof Date || this._dates.end instanceof Date) {
-			dueDate = html`<div>${this._dates.due ? html`Due ${formatDate(this._dates.due, {format: 'shortMonthDay'})}` : html`End ${formatDate(this._dates.end, {format: 'shortMonthDay'})}`}</div>`;
+		if (this._dates.due || this._dates.end) {
+			dueDate = html`<div>${this._dates.due ? this.localize('dueWithDate', 'dueDate', formatDate(this._dates.due, {format: 'shortMonthDay'})) : this.localize('endWithDate', 'endDate', formatDate(this._dates.end, {format: 'shortMonthDay'}))}</div>`;
 		}
 		const type = html`<d2l-activity-type href="${this.href}" .token="${this.token}"></d2l-activity-type>`;
-		const courseName = this._isCourse ? html`<div>Course</div>` : html`<d2l-activity-name-course href="${this.href}" .token="${this.token}"></d2l-activity-name-course>`;
+		const courseName = this._isCourse ? html`<div>${this.localize('course')}</div>` : html`<d2l-activity-name-course href="${this.href}" .token="${this.token}"></d2l-activity-name-course>`;
 		return html`
 			${this.collapsed ? dueDate : type}
 			${courseName}

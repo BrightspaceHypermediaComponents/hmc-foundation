@@ -6,6 +6,7 @@ import { bodyStandardStyles, heading2Styles, heading3Styles } from '@brightspace
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { formatDate } from '@brightspace-ui/intl/lib/dateTime.js';
+import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
 import { W2dDateCategory } from './w2dDateCategoryObserver.js';
 
 const rel = Object.freeze({
@@ -14,7 +15,7 @@ const rel = Object.freeze({
 	overdue: 'https://activities.api.brightspace.com/rels/overdue'
 });
 
-class w2dWorkToDo extends HypermediaStateMixin(LitElement) {
+class w2dWorkToDo extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement)) {
 	static get properties() {
 		return {
 			currentTime: { type: String, attribute: 'current-time' },
@@ -120,6 +121,12 @@ class w2dWorkToDo extends HypermediaStateMixin(LitElement) {
 		`];
 	}
 
+	static get localizeConfig() {
+		return {
+			importFunc: async lang => (await import(`./lang/${lang}.js`)).default
+		};
+	}
+
 	constructor() {
 		super();
 		this._categories = [];
@@ -163,18 +170,18 @@ class w2dWorkToDo extends HypermediaStateMixin(LitElement) {
 		const immersiveNav = this.collapsed
 			? null
 			: html`
-				<d2l-navigation-immersive back-link-href="#" back-link-text="TEST" width-type="normal">
-					<div slot="middle" class="d2l-w2d-flex d2l-body-standard">My Work To Do</div>
+				<d2l-navigation-immersive back-link-href="#" back-link-text="${this.localize('backToD2L')}" width-type="normal">
+					<div slot="middle" class="d2l-w2d-flex d2l-body-standard">${this.localize('myWorkToDo')}</div>
 				</d2l-navigation-immersive>
 			`;
 		return html`
 			${immersiveNav}
-			${!this.collapsed ? html`<h1 class="d2l-w2d-heading-1">Work To Do<h1>` : null}
-			${this._renderHeader2('Overdue', overdueCount)}
+			${!this.collapsed ? html`<h1 class="d2l-w2d-heading-1">${this.localize('workToDo')}<h1>` : null}
+			${this._renderHeader2(this.localize('overdue'), overdueCount)}
 			${overdue}
-			${this._renderHeader2('Upcoming Work', upcomingCount)}
+			${this._renderHeader2(this.localize('upcoming'), upcomingCount)}
 			${categories}
-			${this.dataFullPagePath && this._loaded && this.collapsed ? html`<d2l-link href="${this.dataFullPagePath}">View All Work</d2l-link>` : null}
+			${this.dataFullPagePath && this._loaded && this.collapsed ? html`<d2l-link href="${this.dataFullPagePath}">${this.localize('fullViewLink')}</d2l-link>` : null}
 		`;
 	}
 
@@ -188,7 +195,7 @@ class w2dWorkToDo extends HypermediaStateMixin(LitElement) {
 			.map(date => {
 				let formatedDate = formatDate(date, { format: 'monthDay' });
 				if (!collapsed) {
-					formatedDate = `${formatDate(date, { format: 'longDayOfWeek'})}, ${formatedDate}`;
+					formatedDate = this.localize('dateHeader', 'dayOfWeek', formatDate(date, { format: 'longDayOfWeek'}), 'month', formatDate(date, { format: 'longMonth' }), 'dayOfMonth', date.getDate());
 				}
 				return formatedDate;
 			})
