@@ -15,6 +15,7 @@ class W2dList extends HypermediaStateMixin(LitElement) {
 	static get properties() {
 		return {
 			category: { type: String },
+			collapsed: { type: Boolean },
 			_activities: {
 				type: Array,
 				observable: observableTypes.custom,
@@ -28,14 +29,18 @@ class W2dList extends HypermediaStateMixin(LitElement) {
 	constructor() {
 		super();
 		this._activities = [];
+		this.collapsed = false;
 		this.requiredPropertyForState('category');
 	}
 
 	render() {
+		if (!this._activities) {
+			return null;
+		}
 		return html`
-			<d2l-list>
+			<d2l-list separators="${this.collapsed ? 'none' : 'all'}">
 				${this._activities.map(activity => html`
-					<d2l-w2d-list-item href="${activity.href}" .token="${this.token}"></d2l-w2d-list-item>
+					<d2l-w2d-list-item href="${activity.href}" .token="${this.token}" ?collapsed="${this.collapsed}"></d2l-w2d-list-item>
 				`)}
 			</d2l-list>
 		`;

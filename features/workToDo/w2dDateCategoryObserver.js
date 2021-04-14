@@ -28,7 +28,7 @@ export class W2dDateCategory extends SirenSubEntities {
 		const categoryInfo = {};
 		sirenFacades.forEach(sirenFacade => {
 			const daysTillDueDate = numOfDaysTillDueDate(sirenFacade, this._startDate);
-			const index = Math.floor(daysTillDueDate / this._groupByDays);
+			const index = this._groupByDays === 0 ? 0 : Math.floor(daysTillDueDate / this._groupByDays);
 			if (!categoryInfo[index]) {
 				const startDate = new Date(this._startDate.getTime() + index * msInADay * this._groupByDays);
 				const endDate = new Date(startDate.getTime() +  msInADay * (this._groupByDays - 1));
@@ -43,8 +43,7 @@ export class W2dDateCategory extends SirenSubEntities {
 			sirenFacadesByCategory[index] = sirenFacadesByCategory[index] ? sirenFacadesByCategory[index] : [];
 			sirenFacadesByCategory[index].push(sirenFacade);
 		});
-
-		this._observers.setProperty({categoryInfo, sirenFacadesByCategory} || []);
+		this._observers.setProperty({categoryInfo, sirenFacadesByCategory});
 	}
 
 	addObserver(observer, property, { method, category, startDate, groupByDays } = {}) {
