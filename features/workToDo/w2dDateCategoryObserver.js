@@ -36,7 +36,8 @@ export class W2dDateCategory extends SirenSubEntities {
 					startDate,
 					endDate,
 					index,
-					count: 0
+					count: 0,
+					href: this._state.href
 				};
 			}
 			categoryInfo[index].count++;
