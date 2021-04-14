@@ -66,11 +66,8 @@ const componentClass = class extends HypermediaStateMixin(ListItemLinkMixin(LitE
 			// Trigger Section child to refresh name
 			++this._refreshCounter;
 			fetch(this._state, true).then(() => {
-				// refresh collection
-				fetch(Array.from(this._state._parents.keys())[0], true).then(() => {
-					// refresh Total Quiz Points
-					this.dispatchEvent(new CustomEvent('d2l-question-updated', {bubbles: true, composed: true}));
-				});
+				// refresh Total Quiz Points
+				this.dispatchEvent(new CustomEvent('d2l-question-updated', {bubbles: true, composed: true}));
 			});
 		});
 	}
