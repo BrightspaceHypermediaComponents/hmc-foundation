@@ -1,5 +1,5 @@
 import '../d2l-discover-rules.js';
-import { expect, fixture, html, oneEvent } from '@open-wc/testing';
+import { expect, fixture, html, oneEvent, waitUntil } from '@open-wc/testing';
 import { clearStore } from '@brightspace-hmc/foundation-engine/state/HypermediaState.js';
 import { createComponentAndWait } from '../../../test/test-util.js';
 import { default as fetchMock } from 'fetch-mock/esm/client.js';
@@ -96,6 +96,7 @@ describe('d2l-discover-rules', () => {
 			const spy = sinon.spy(el._createEntitlement, 'commit');
 
 			const dialog = el.shadowRoot.querySelector('d2l-discover-rule-picker-dialog');
+			await waitUntil(() => dialog._state !== null || dialog._state !== undefined);
 			dialog.opened = true;
 			await dialog.updateComplete;
 			const listener = oneEvent(dialog, 'd2l-discover-rules-changed');
