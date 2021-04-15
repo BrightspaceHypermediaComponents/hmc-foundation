@@ -4,7 +4,7 @@ import '../../components/activity/description/d2l-activity-description.js';
 import '../../components/activity/icon/d2l-activity-icon.js';
 import '../../components/activity/name/d2l-activity-name.js';
 import '../../components/activity/type/d2l-activity-type.js';
-import '../../components/activity/name/custom/d2l-activity-name-course.js';
+import '../../components/common/d2l-hc-name.js';
 import './d2l-w2d-attribute-list.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
@@ -50,7 +50,8 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 					});
 					return datesByType;
 				}
-			}
+			},
+			_parentName: { type: String, name: 'name', observable: observableTypes.property, route:[{observable: observableTypes.link, rel: rels.organization}]}
 		};
 	}
 
@@ -146,7 +147,7 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 			dueDate = html`<div>${this._dates.due ? this.localize('dueWithDate', 'dueDate', formatDate(this._dates.due, {format: 'shortMonthDay'})) : this.localize('endWithDate', 'endDate', formatDate(this._dates.end, {format: 'shortMonthDay'}))}</div>`;
 		}
 		const type = html`<d2l-activity-type href="${this.href}" .token="${this.token}"></d2l-activity-type>`;
-		const courseName = this._isCourse ? html`<div>${this.localize('course')}</div>` : html`<d2l-activity-name-course href="${this.href}" .token="${this.token}"></d2l-activity-name-course>`;
+		const courseName = this._isCourse ? html`<div>${this.localize('course')}</div>` : html`<div>${this._parentName}</div>`;
 		return html`
 			${this.collapsed ? dueDate : type}
 			${courseName}

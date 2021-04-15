@@ -11,8 +11,13 @@ class ActivityIcon extends SkeletonMixin(HypermediaStateMixin(LitElement)) {
 	static get properties() {
 		return {
 			_classes: { type: Array, observable: observableTypes.classes },
-			_configuredIcon: { type: Object, observable: observableTypes.subEntity, rel: 'icon',
-				method: (icon) => icon.class.includes('tier2') && icon
+			_configuredIcon: { type: Object, observable: observableTypes.subEntities, rel: 'icon',
+				method: (icons) => {
+					for (const icon of icons) {
+						if (icon.class.includes('tier2')) return icon;
+					}
+				},
+				route: [{observable: observableTypes.link, rel: 'https://api.brightspace.com/rels/content'}]
 			},
 			_childContentClasses: {
 				type: Array,
@@ -62,7 +67,7 @@ class ActivityIcon extends SkeletonMixin(HypermediaStateMixin(LitElement)) {
 	render() {
 		let icon = ActivityIcon.components.default;
 		if (this._configuredIcon) {
-			icon = `tier2:${this._configuredIcon.properties.iconSetKey}`;
+			icon = this._configuredIcon.properties.iconSetKey;
 		} else {
 			const classes = this._childContentClasses.length > 0 ? this._childContentClasses : this._classes;
 			classes.some(hmClass => {
