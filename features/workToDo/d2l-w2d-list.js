@@ -16,6 +16,7 @@ class W2dList extends HypermediaStateMixin(LitElement) {
 		return {
 			category: { type: String },
 			collapsed: { type: Boolean },
+			limit: { type: Number },
 			_activities: {
 				type: Array,
 				observable: observableTypes.custom,
@@ -37,9 +38,13 @@ class W2dList extends HypermediaStateMixin(LitElement) {
 		if (!this._activities) {
 			return null;
 		}
+		let activities = this._activities;
+		if (this.limit) {
+			activities = activities.slice(0, this.limit);
+		}
 		return html`
 			<d2l-list separators="${this.collapsed ? 'none' : 'all'}">
-				${this._activities.map(activity => html`
+				${activities.map(activity => html`
 					<d2l-w2d-list-item href="${activity.href}" .token="${this.token}" ?collapsed="${this.collapsed}"></d2l-w2d-list-item>
 				`)}
 			</d2l-list>

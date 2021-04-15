@@ -9,8 +9,12 @@ import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynam
 
 const rel = Object.freeze({
 	myActivities: 'https://activities.api.brightspace.com/rels/my-activities#empty',
+	myOrganizationActivities: 'https://activities.api.brightspace.com/rels/my-organization-activities#empty',
+	organization: 'https://api.brightspace.com/rels/organization',
+	organizationHomepage: 'https://api.brightspace.com/rels/organization-homepage',
 	userActivity: 'https://activities.api.brightspace.com/rels/user-activity-usage',
-	overdue: 'https://activities.api.brightspace.com/rels/overdue'
+	overdue: 'https://activities.api.brightspace.com/rels/overdue',
+	root: 'https://api.brightspace.com/rels/root'
 });
 
 class w2dWorkToDo extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement)) {
@@ -19,9 +23,21 @@ class w2dWorkToDo extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement))
 			currentTime: { type: String, attribute: 'current-time' },
 			collapsed: { type: Boolean },
 			dataFullPagePath: { type: String, attribute: 'data-full-page-path' },
-			fullscreen: { type: String, attribute: 'data-fullscreen' },
 			groupByDays: { type: Number, attribute: 'group-by-days' },
-			_myActivitiesHref: { type: String, observable: observableTypes.link, rel: rel.myActivities, prime: true }
+			startDate: { type: String, attribute: 'start-date' },
+			endDate: { type: String, attribute: 'end-date' },
+			_myActivitiesHref: { type: String, observable: observableTypes.link, rel: rel.myActivities, prime: true },
+			_myOrganizationActivitiesHref: { type: String, observable: observableTypes.link, rel: rel.myOrganizationActivities, prime: true },
+			_organizationHompage: { type: String, observable: observableTypes.link, rel: rel.organizationHomepage },
+			_rootHomepage: {
+				type: String,
+				observable: observableTypes.link,
+				rel: rel.organizationHomepage,
+				route: [
+					{observable: observableTypes.link, rel: rel.root},
+					{observable: observableTypes.link, rel: rel.organization}
+				]
+			}
 		};
 	}
 
@@ -46,7 +62,7 @@ class w2dWorkToDo extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement))
 				padding: 0 0 0.35rem 0;
 			}
 			.d2l-w2d-heading-1 {
-				margin-top: 1.75rem;
+				margin: 1.75rem 0 0 0;
 			}
 		`];
 	}
@@ -62,26 +78,29 @@ class w2dWorkToDo extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement))
 		this.collapsed = false;
 	}
 
-	get fullscreen() {
-		return !this.collapsed;
+	get collapsed() {
+		return this._collapsed;
 	}
 
-	set fullscreen(isFullscreen) {
-		this.collapsed = isFullscreen !== 'True';
+	set collapsed(collapsed) {
+		const oldValue = this._collapsed;
+		this._collapsed = collapsed;
+		this._overdueGroupByDays = collapsed ? 0 : 1;
+		this.requestUpdate('collapsed', oldValue);
 	}
 
 	render() {
 		const immersiveNav = this.collapsed
 			? null
 			: html`
-				<d2l-navigation-immersive back-link-href="#" back-link-text="${this.localize('backToD2L')}" width-type="normal">
+				<d2l-navigation-immersive back-link-href="${this._organizationHompage ? this._organizationHompage : this._rootHomepage}" back-link-text="${this.localize('backToD2L')}" width-type="normal">
 					<div slot="middle" class="d2l-w2d-flex d2l-body-standard">${this.localize('myWorkToDo')}</div>
 				</d2l-navigation-immersive>
 			`;
 		const workToDoHeader = this.collapsed
 			? null
 			: html`
-				<h1 class="d2l-w2d-heading-1">
+				<h1 class="d2l-w2d-heading-1 d2l-heading-1">
 					${this.localize('workToDo')}
 				</h1>
 			`;
@@ -89,14 +108,15 @@ class w2dWorkToDo extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement))
 			${immersiveNav}
 			${workToDoHeader}
 			<d2l-w2d-collections
-				href="${this._myActivitiesHref}"
+				href="${this._myActivitiesHref ? this._myActivitiesHref : this._myOrganizationActivitiesHref}"
 				.token="${this.token}"
 				?collapsed="${this.collapsed}"
 				group-by-days="${this.groupByDays}"
+				overdue-group-by-days="${this._overdueGroupByDays}"
 				current-time="${this.currentTime}"
-				start-date="2021-04-13T17:02:08.559Z"
-				end-date="2021-04-20T17:02:08.559Z"></d2l-w2d-collections>
-			${this.dataFullPagePath && this._loaded && this.collapsed ? html`<d2l-link href="${this.dataFullPagePath}">${this.localize('fullViewLink')}</d2l-link>` : null}
+				start-date="${this.startDate}"
+				end-date="${this.endDate}"></d2l-w2d-collections>
+			${this.dataFullPagePath && this._loaded && this.collapsed && !this._myOrganizationActivitiesHref ? html`<d2l-link href="${this.dataFullPagePath}">${this.localize('fullViewLink')}</d2l-link>` : null}
 		`;
 	}
 

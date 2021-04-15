@@ -20,7 +20,7 @@ export class W2dDateCategory extends SirenSubEntities {
 	 */
 	set entities(sirenFacades) {
 		this._sirenFacades = sirenFacades;
-		if (!this._startDate || !this._groupByDays) {
+		if (!this._startDate || this._groupByDays === undefined) {
 			return;
 		}
 

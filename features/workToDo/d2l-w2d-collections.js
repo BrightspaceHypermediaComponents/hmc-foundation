@@ -16,14 +16,15 @@ const rel = Object.freeze({
 	overdue: 'https://activities.api.brightspace.com/rels/overdue'
 });
 
+const limitTheNumberOfActivitiesWhenCollapsed = 6;
+
 class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement)) {
 	static get properties() {
 		return {
 			currentTime: { type: String, attribute: 'current-time' },
 			collapsed: { type: Boolean },
-			dataFullPagePath: { type: String, attribute: 'data-full-page-path' },
-			fullscreen: { type: String, attribute: 'data-fullscreen' },
 			groupByDays: { type: Number, attribute: 'group-by-days' },
+			overdueGroupByDays: { type: Number, attribute: 'overdue-group-by-days' },
 			startDate: { type: String, attribute: 'start-date' },
 			endDate: { type: String, attribute: 'end-date' },
 			_categories: {
@@ -46,7 +47,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 				type: Array,
 				observable: observableTypes.custom,
 				observableObject: W2dDateCategory,
-				groupByDays: 'groupByDays',
+				groupByDays: 'overdueGroupByDays',
 				startDate: 'currentTime',
 				rel: rel.userActivity,
 				route: [
@@ -79,7 +80,6 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 			}
 			.d2l-w2d-count {
 				background-color: var(--d2l-color-carnelian-minus-1);
-				border-radius: 0.75rem;
 				border: 2px solid var(--d2l-color-carnelian-minus-1);
 				box-shadow: 0 0 0 1px white;
 				box-sizing: content-box;
@@ -87,17 +87,20 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 				display: inline-block;
 				font-weight: 400;
 				line-height: 100%;
-				padding: 2px;
 				position: relative;
 				text-align: center;
 			}
 			.d2l-w2d-heading-3-count {
+				border-radius: 0.75rem;
 				font-size: 0.7rem;
 				min-width: 0.7rem;
+				padding: 2px;
 			}
 			.d2l-w2d-heading-2-count {
+				border-radius: 1.05rem;
 				font-size: 1.05rem;
 				min-width: 1.05rem;
+				padding: 5px;
 			}
 			d2l-w2d-list {
 				display: block;
@@ -119,31 +122,38 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 		this.collapsed = false;
 		this.requiredPropertyForState('currentTime');
 		this.requiredPropertyForState('groupByDays');
+		this.requiredPropertyForState('overdueGroupByDays');
 		this.requiredPropertyForState('endDate');
 		this.requiredPropertyForState('startDate');
+		this.requiredPropertyForState('collapsed');
 	}
 
 	render() {
 		let overdueCount = 0;
+		let limit = this.collapsed ? limitTheNumberOfActivitiesWhenCollapsed : 0;
 		const overdue = this._overdue.map(category => {
 			let header = 'Overdue';
 			if (!this.collapsed) {
 				header = this._renderDate(category.startDate, category.endDate, this.collapsed);
 			}
 			overdueCount += category.count;
-			return html`
+			const list = html`
 				${this._renderHeader3(header, category.count)}
-				<d2l-w2d-list href="${this._overdueHref}" .token="${this.token}" category="${category.index}" ?collapsed="${this.collapsed}"></d2l-w2d-list>
+				<d2l-w2d-list href="${this._overdueHref}" .token="${this.token}" category="${category.index}" ?collapsed="${this.collapsed}" limit="${limit}"></d2l-w2d-list>
 			`;
+			limit = Math.max(limit - category.count, 0);
+			return list;
 		});
 		let upcomingCount = 0;
 		const categories = this._categories.map(category => {
 			const header = this._renderDate(category.startDate, category.endDate, this.collapsed);
 			upcomingCount += category.count;
-			return html`
+			const list = html`
 				${this._renderHeader3(header, category.count)}
-				<d2l-w2d-list href="${category.href}" .token="${this.token}" category="${category.index}" ?collapsed="${this.collapsed}"></d2l-w2d-list>
+				<d2l-w2d-list href="${category.href}" .token="${this.token}" category="${category.index}" ?collapsed="${this.collapsed}" limit="${limit}"></d2l-w2d-list>
 			`;
+			limit = Math.max(limit - category.count, 0);
+			return list;
 		});
 
 		return html`
@@ -175,7 +185,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 		if (this.collapsed) return;
 		return html`
 			<div class="d2l-w2d-flex">
-				<h2>${heading}</h2>
+				<h2 class="d2l-heading-2">${heading}</h2>
 				<div class="d2l-w2d-count d2l-w2d-heading-2-count ">${count}</div>
 			</div>
 		`;
@@ -185,7 +195,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 		if (!this.collapsed) return html`<div class="d2l-w2d-flex"><h3 class="d2l-w2d-heading-3">${heading}</h3></div>`;
 		return html`
 			<div class="d2l-w2d-flex">
-				<h3 class="d2l-w2d-heading-3">${heading}</h3>
+				<h3 class="d2l-w2d-heading-3 d2l-heading-3">${heading}</h3>
 				<div class="d2l-w2d-count d2l-w2d-heading-3-count">${count}</div>
 			</div>
 		`;
