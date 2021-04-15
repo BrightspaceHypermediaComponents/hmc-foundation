@@ -132,7 +132,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 		let overdueCount = 0;
 		let limit = this.collapsed ? limitTheNumberOfActivitiesWhenCollapsed : 0;
 		const overdue = this._overdue.map(category => {
-			let header = 'Overdue';
+			let header = this.localize('overdue');
 			if (!this.collapsed) {
 				header = this._renderDate(category.startDate, category.endDate, this.collapsed);
 			}
