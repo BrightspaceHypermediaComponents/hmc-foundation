@@ -44,6 +44,7 @@
     "@brightspace-ui/core": "^1",
     "@brightspace-ui/intl": "^3.3.2",
     "d2l-course-image": "github:Brightspace/course-image#semver:^3",
+    "d2l-navigation": "BrightspaceUI/navigation#semver:^4",
     "lit-element": "^2",
     "lit-html": "^1.3.0",
     "siren-parser": "^8.2.0"
