@@ -13,7 +13,7 @@ import { W2dSummonAction } from './w2dSummonActionObserver.js';
 const rel = Object.freeze({
 	myActivities: 'https://activities.api.brightspace.com/rels/my-activities',
 	userActivity: 'https://activities.api.brightspace.com/rels/user-activity-usage',
-	overdue: 'https://activities.api.brightspace.com/rels/overdue#notEmbed'
+	overdue: 'https://activities.api.brightspace.com/rels/overdue'
 });
 
 const limitTheNumberOfActivitiesWhenCollapsed = 6;
