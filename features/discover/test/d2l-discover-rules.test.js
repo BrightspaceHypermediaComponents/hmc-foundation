@@ -84,10 +84,10 @@ describe('d2l-discover-rules', () => {
 	describe('functionality', () => {
 		let el;
 		beforeEach(async() => {
+			clearStore();
 			el = await createComponentAndWait(html`
 				<d2l-discover-rules href="${selfHref}" token="cake"></d2l-discover-rules>
 			`);
-			clearStore();
 		});
 		afterEach(() => fetchMock.resetHistory());
 
@@ -101,8 +101,6 @@ describe('d2l-discover-rules', () => {
 			await dialog.updateComplete;
 			const listener = oneEvent(dialog, 'd2l-discover-rules-changed');
 			// click done
-			/* eslint no-console: 0 */
-			console.log(dialog.shadowRoot.querySelector('d2l-button'));
 			dialog.shadowRoot.querySelector('d2l-button[primary]').click();
 			await listener;
 			const expectedCommit = JSON.stringify([]);
