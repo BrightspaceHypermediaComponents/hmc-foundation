@@ -4,17 +4,10 @@ import { clearStore } from '@brightspace-hmc/foundation-engine/state/HypermediaS
 import { createComponentAndWait } from '../../../test/test-util.js';
 import { default as fetchMock } from 'fetch-mock/esm/client.js';
 import { runConstructor } from '@brightspace-ui/core/tools/constructor-test-helper.js';
-import { default as sinon } from 'sinon/pkg/sinon-esm.js';
 
 const selfHref = 'http://rule-2';
 const newEntityHref = 'http://new-rule';
-const actionHref = 'http://rule-update-conditions/result';
 const entity = {
-	actions: [
-		{ name: 'update-conditions', method: 'PATCH', href: actionHref, fields: [
-			{ name: 'conditions', type: 'text' }
-		] }
-	],
 	entities: [
 		{
 			rel: ['condition'],
@@ -36,11 +29,6 @@ const entity = {
 
 const newEntity = {
 	class: ['rule', 'creating'],
-	actions: [
-		{ name: 'update-conditions', method: 'PATCH', href: actionHref, fields: [
-			{ name: 'conditions', type: 'text' }
-		] }
-	],
 	links: [
 		{ rel: ['self'], href: newEntityHref }
 	]
@@ -104,7 +92,7 @@ describe('d2l-discover-rule-picker-dialog', () => {
 			expect(el.conditions).to.deep.equal(oldConditions);
 		});
 
-		it('updates the state and commits action when done is pressed', async() => {
+		it('updates the state when done is pressed', async() => {
 			el.opened = true;
 			await el.updateComplete;
 			// simulate removal
@@ -113,21 +101,14 @@ describe('d2l-discover-rule-picker-dialog', () => {
 
 			await rulePicker.updateComplete;
 			expect(rulePicker.conditions).to.have.lengthOf(2);
-			await el.updateComplete;
 
-			expect(el._hasAction('updateConditions')).to.be.true;
-			const spy = sinon.spy(el.updateConditions, 'commit');
+			const listener = oneEvent(el, 'd2l-discover-rules-changed');
 			// click done
 			el.shadowRoot.querySelector('d2l-button[primary]').click();
+			await listener;
 			await el.updateComplete;
-			const expectedCommit = {
-				conditions: JSON.stringify([
-					{ type: 'Fruit', value: 'Orange' },
-					{ type: 'Entree', value: 'Cake' }
-				])
-			};
+			//console.log(JSON.stringify(el.conditions, null, -2));
 			expect(el.conditions).to.deep.equal(rulePicker.conditions);
-			expect(spy.calledWith(expectedCommit)).to.be.true;
 		});
 	});
 
@@ -141,7 +122,7 @@ describe('d2l-discover-rule-picker-dialog', () => {
 		});
 		afterEach(() => fetchMock.resetHistory());
 
-		it.skip('throws a rule creation event and resets the dialog when done is pressed', async() => {
+		it.skip('throws a rules changed event and resets the dialog when done is pressed', async() => {
 			el.opened = true;
 			await el.updateComplete;
 			const rulePicker = el.shadowRoot.querySelector('d2l-discover-rule-picker');
@@ -157,7 +138,7 @@ describe('d2l-discover-rule-picker-dialog', () => {
 			// add a condition to a the rule
 			rulePicker.conditions[0] = newCondition;
 			await rulePicker.updateComplete;
-			const listener = oneEvent(el, 'd2l-discover-rule-created');
+			const listener = oneEvent(el, 'd2l-discover-rules-changed');
 			// click done button
 			el.shadowRoot.querySelector('d2l-button[primary]').click();
 			const { detail } = await listener;

@@ -91,13 +91,6 @@ class RulePickerDialog extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixi
 	_onDoneClick() {
 		const picker = this.shadowRoot.querySelector('d2l-discover-rule-picker');
 		if (this.creating) {
-			const event = new CustomEvent('d2l-discover-rules-changed', {
-				bubbles: true,
-				detail: {
-					conditions: picker.conditions
-				}
-			});
-			this.dispatchEvent(event);
 			picker.reload([]);
 		} else {
 			this._state.updateProperties({
@@ -108,6 +101,13 @@ class RulePickerDialog extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixi
 				}
 			});
 		}
+		const event = new CustomEvent('d2l-discover-rules-changed', {
+			bubbles: true,
+			detail: {
+				conditions: picker.conditions
+			}
+		});
+		this.dispatchEvent(event);
 	}
 }
 

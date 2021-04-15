@@ -18,16 +18,17 @@ const rels = Object.freeze({
 class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStateMixin(LitElement))) {
 	static get properties() {
 		return {
-			name: { type: String, observable: observableTypes.property,
-				route: [{observable: observableTypes.link, rel: rels.organization }] },
 			isSelfEnrollable: { type: Boolean, observable: observableTypes.classes,
 				method: (classes) => classes.includes(rels.selfAssignableClass),
 				route: [{observable: observableTypes.link, rel: rels.organization }] },
+			_rules: { type: Array, observable: observableTypes.subEntities, rel: rels.rule, route: [
+				{ observable: observableTypes.link, rel: rels.entitlementRules }
+			] },
 			_dialogOpened: { type: Boolean },
 			_newRuleHref: { observable: observableTypes.link, rel: rels.newRule, route: [
 				{ observable: observableTypes.link, rel: rels.entitlementRules }
 			] },
-			_createEntitlement: { observable: observableTypes.action, name: "create", route: [
+			_createEntitlement: { observable: observableTypes.action, name: 'create', route: [
 				{ observable: observableTypes.link, rel: rels.entitlementRules }
 			]}
 		};
@@ -54,6 +55,7 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 	constructor() {
 		super();
 		this.skeleton = true;
+		this._rules = [];
 	}
 
 	render() {
@@ -105,11 +107,11 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 	_onRulesChanged() {
 		if (!this._hasAction('_createEntitlement')) return;
 
-		this._createEntitlement.commit(JSON.stringify(this.rules.map(rule => {
-				const ruleObj = {};
-				rule.entities.forEach(condition => ruleObj[condition.properties.type] = condition.properties.values)
-				return ruleObj;
-			})));
+		this._createEntitlement.commit(JSON.stringify(this._rules.map(rule => {
+			const ruleObj = {};
+			rule.entities.forEach(condition => ruleObj[condition.properties.type] = condition.properties.values);
+			return ruleObj;
+		})));
 	}
 
 }
