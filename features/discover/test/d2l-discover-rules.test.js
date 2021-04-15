@@ -96,6 +96,7 @@ describe('d2l-discover-rules', () => {
 			const spy = sinon.spy(el._createEntitlement, 'commit');
 
 			const dialog = el.shadowRoot.querySelector('d2l-discover-rule-picker-dialog');
+			dialog.opened = true;
 			const listener = oneEvent(dialog, 'd2l-discover-rules-changed');
 			// click done
 			dialog.shadowRoot.querySelector('d2l-button[primary]').click();
