@@ -117,7 +117,7 @@ class w2dWorkToDo extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement))
 				current-time="${this.currentTime}"
 				start-date="${this.startDate}"
 				end-date="${this.endDate}"></d2l-w2d-collections>
-			${this.dataFullPagePath && this._loaded && this.collapsed && !this._myOrganizationActivitiesHref ? html`<d2l-link href="${this.dataFullPagePath}">${this.localize('fullViewLink')}</d2l-link>` : null}
+			${this.dataFullPagePath && this._loaded && this.collapsed ? html`<d2l-link href="${this.dataFullPagePath}">${this.localize('fullViewLink')}</d2l-link>` : null}
 		`;
 	}
 
