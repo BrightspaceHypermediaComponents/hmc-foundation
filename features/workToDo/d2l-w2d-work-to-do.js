@@ -5,6 +5,7 @@ import 'd2l-navigation/d2l-navigation-immersive';
 import { bodyStandardStyles, heading1Styles } from '@brightspace-ui/core/components/typography/styles.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
+import { ifDefined } from 'lit-html/directives/if-defined';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
 
 const rel = Object.freeze({
@@ -112,7 +113,7 @@ class w2dWorkToDo extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement))
 				.token="${this.token}"
 				?collapsed="${this.collapsed}"
 				group-by-days="${this.groupByDays}"
-				overdue-group-by-days="${this._overdueGroupByDays}"
+				overdue-group-by-days="${ifDefined(this._overdueGroupByDays)}"
 				current-time="${this.currentTime}"
 				start-date="${this.startDate}"
 				end-date="${this.endDate}"></d2l-w2d-collections>
