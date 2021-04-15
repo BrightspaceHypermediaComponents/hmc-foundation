@@ -13,8 +13,7 @@ class ActivityIcon extends SkeletonMixin(HypermediaStateMixin(LitElement)) {
 			_classes: { type: Array, observable: observableTypes.classes },
 			_configuredIcon: { type: Object, observable: observableTypes.subEntities, rel: 'icon',
 				method: (icons) => {
-					console.log(icons);
-					for(const icon of icons) {
+					for (const icon of icons) {
 						if (icon.class.includes('tier2')) return icon;
 					}
 				},
