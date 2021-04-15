@@ -97,6 +97,7 @@ describe('d2l-discover-rules', () => {
 
 			const dialog = el.shadowRoot.querySelector('d2l-discover-rule-picker-dialog');
 			dialog.opened = true;
+			await dialog.updateComplete;
 			const listener = oneEvent(dialog, 'd2l-discover-rules-changed');
 			// click done
 			/* eslint no-console: 0 */
