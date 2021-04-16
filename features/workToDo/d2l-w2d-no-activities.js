@@ -1,22 +1,23 @@
-import '@brightspace-ui/core/components/button/button.js';
-
+import '@brightspace-ui/core/components/link/link.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
-import { HypermediaStateMixin } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { img } from './d2l-w2d-empty-state-image.js';
+import { labelStyles } from '@brightspace-ui/core/components/typography/styles.js';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
 
 const weekCount = 2;
 
-class w2dNoActivities extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement)) {
+class w2dNoActivities extends LocalizeDynamicMixin(LitElement) {
 	static get properties() {
 		return {
 			activities: { type: Boolean },
-			complete: { type: Boolean }
+			complete: { type: Boolean },
+			dataFullPagePath: { type: String, attribute: 'data-full-page-path' },
+			collapse: { type: Boolean }
 		};
 	}
 
 	static get styles() {
-		return [
+		return [labelStyles,
 			css`
 				:host {
 					display: block;
@@ -54,6 +55,42 @@ class w2dNoActivities extends LocalizeDynamicMixin(HypermediaStateMixin(LitEleme
 					max-width: 18rem;
 					width: 100%;
 				}
+				.d2l-link-button {
+					border-radius: 0.3rem;
+					border-style: none;
+					box-shadow: 0 0 0 4px rgba(0, 0, 0, 0);
+					box-sizing: border-box;
+					cursor: pointer;
+					display: inline-block;
+					margin: 0;
+					min-height: calc(2rem + 2px);
+					outline: none;
+					text-align: center;
+					text-decoration: none;
+					-webkit-user-select: none;
+					-moz-user-select: none;
+					-ms-user-select: none;
+					user-select: none;
+					vertical-align: middle;
+					white-space: nowrap;
+					width: auto;
+				}
+				.d2l-link-button {
+					font-family: inherit;
+					padding: 0.55rem 1.5rem;
+				}
+				/* Firefox includes a hidden border which messes up button dimensions */
+				.d2l-link-button::-moz-focus-inner {
+					border: 0;
+				}
+				.d2l-link-button {
+					background-color: var(--d2l-color-celestine);
+					color: #ffffff;
+				}
+				.d2l-link-button:hover,
+				.d2l-link-button:focus {
+					background-color: var(--d2l-color-celestine-minus-1);
+				}
 			`
 		];
 	}
@@ -68,27 +105,27 @@ class w2dNoActivities extends LocalizeDynamicMixin(HypermediaStateMixin(LitEleme
 		return html`
 		<div class="d2l-empty-template">
 			<div class="d2l-empty-icon-container d2l-empty-icon">${img}</div>
-			${this.renderEmptyViewHeader()}
-			${this.renderEmptyViewText()}
-			${this.renderEmptyViewButton()}
+			${this._renderEmptyViewHeader()}
+			${this._renderEmptyViewText()}
+			${this._renderEmptyViewButton()}
 		</div>`;
 	}
 
-	renderEmptyViewButton() {
+	_renderEmptyViewButton() {
 		if (!this.activities) {
 			return undefined;
 		}
-		return html `
+		return html`
 			<div class="d2l-empty-button-container">
-				<d2l-button primary>
+				<a class='d2l-link-button d2l-label-text' href="${this.dataFullPagePath}">
 				${this.localize('viewAllWork')}
-				</d2l-button>
+				</a>
 			</div>
 		`;
 
 	}
 
-	renderEmptyViewHeader()  {
+	_renderEmptyViewHeader()  {
 		const emptyViewHeader = this.activities ?
 			this.localize('xWeeksClear', 'count', weekCount) :
 			this.localize('allClear');
@@ -98,14 +135,14 @@ class w2dNoActivities extends LocalizeDynamicMixin(HypermediaStateMixin(LitEleme
 			`;
 	}
 
-	renderEmptyViewText(collapse) {
+	_renderEmptyViewText() {
 
 		let emptyViewTextLabel = 'noActivitiesNoFutureActivities';
-		if (this.activities && this.complete) {
+		if (this.activities && this.complete && this.collapse) {
 			emptyViewTextLabel = 'activitiesAvailable';
-		} else if (this.activities) {
+		} else if (this.activities && this.collapse) {
 			emptyViewTextLabel = 'noActivitiesFutureActivities';
-		} else if (!collapse) {
+		} else if (!this.collapse) {
 			emptyViewTextLabel = 'noActivities';
 		}
 
@@ -113,7 +150,7 @@ class w2dNoActivities extends LocalizeDynamicMixin(HypermediaStateMixin(LitEleme
 			<div class="d2l-body-standard d2l-empty-body-text-container">
 				${this.localize(emptyViewTextLabel)}
 			</div>
-			${!collapse ? html`<div class="d2l-body-standard d2l-empty-body-text-container">
+			${!this.collapse ? html`<div class="d2l-body-standard d2l-empty-body-text-container">
 			${this.localize('comeBackNoFutureActivities')}</div>` : html``}
 			`;
 	}

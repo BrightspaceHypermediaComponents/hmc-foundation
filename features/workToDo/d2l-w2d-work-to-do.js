@@ -88,13 +88,16 @@ class w2dWorkToDo extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement))
 		this._collapsed = collapsed;
 		this._overdueGroupByDays = collapsed ? 0 : 1;
 		this.requestUpdate('collapsed', oldValue);
+		if (collapsed) {
+			sessionStorage.setItem('d2l.workToDo.prevPage', window.location.href);
+		}
 	}
 
 	render() {
 		const immersiveNav = this.collapsed
 			? null
 			: html`
-				<d2l-navigation-immersive back-link-href="${this._organizationHompage ? this._organizationHompage : this._rootHomepage}" back-link-text="${this.localize('backToD2L')}" width-type="normal">
+				<d2l-navigation-immersive back-link-href="${this._getHomeHref()}" back-link-text="${this.localize('backToD2L')}" width-type="normal">
 					<div slot="middle" class="d2l-w2d-flex d2l-body-standard">${this.localize('myWorkToDo')}</div>
 				</d2l-navigation-immersive>
 			`;
@@ -116,11 +119,22 @@ class w2dWorkToDo extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement))
 				overdue-group-by-days="${ifDefined(this._overdueGroupByDays)}"
 				current-time="${this.currentTime}"
 				start-date="${this.startDate}"
-				end-date="${this.endDate}"></d2l-w2d-collections>
-			${this.dataFullPagePath && this._loaded && this.collapsed ? html`<d2l-link href="${this.dataFullPagePath}">${this.localize('fullViewLink')}</d2l-link>` : null}
+				end-date="${this.endDate}"
+				data-full-page-path="${this.dataFullPagePath}"
+				?skeleton="${!this._loaded}"></d2l-w2d-collections>
 		`;
 	}
 
+	_getHomeHref() {
+		if (!this.collapsed) {
+			const prevPage = sessionStorage.getItem('d2l.workToDo.prevPage');
+			if (prevPage && (new URL(prevPage)).hostname === window.location.hostname) {
+				return  prevPage;
+			}
+		}
+
+		return this._organizationHompage ? this._organizationHompage : this._rootHomepage;
+	}
 }
 
 customElements.define('d2l-w2d-work-to-do', w2dWorkToDo);

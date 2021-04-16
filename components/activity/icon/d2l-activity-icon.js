@@ -50,6 +50,7 @@ class ActivityIcon extends SkeletonMixin(HypermediaStateMixin(LitElement)) {
 			'user-checklist-activity': 'tier2:checklist',
 			'user-content-activity': 'tier2:content',
 			'user-course-offering-activity-usage': 'tier2:syllabus',
+			'user-activity-usage': 'tier1:course',
 			'user-discussion-activity': 'tier2:discussions',
 			'user-quiz-activity': 'tier2:quizzing',
 			'user-quiz-attempt-activity': 'tier2:quizzing',
