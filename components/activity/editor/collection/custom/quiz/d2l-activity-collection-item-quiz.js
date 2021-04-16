@@ -40,6 +40,7 @@ const componentClass = class extends HypermediaStateMixin(ListItemLinkMixin(LitE
 		super();
 		this.actionHref = '#';
 		this._refreshCounter = 0;
+		this.selectable = true;
 	}
 
 	render() {
@@ -78,7 +79,19 @@ const componentClass = class extends HypermediaStateMixin(ListItemLinkMixin(LitE
 			`/d2l/lms/question/edit/${this.key}`);
 		return open(url, 'SrcCallBack', 'result', [], false, '');
 	}
-
+	_renderCheckbox() {
+		const disabled = this.disabled || this.skeleton;
+		return this.selectable ? html`
+			<input
+				id="${this._checkboxId}"
+				class="d2l-input-checkbox d2l-skeletize"
+				@change="${this._onCheckboxChange}"
+				style="margin-top: 0.7rem"
+				type="checkbox"
+				.checked="${this.selected}"
+				?disabled="${disabled}">
+			` : html ``;
+	}
 	_renderPrimaryAction(contentId) {
 		return html `<a aria-labelledby="${contentId}" href="#" @click="${this._handleLinkClick}"></a>`;
 	}
