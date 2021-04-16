@@ -33,7 +33,13 @@ const componentClass = class extends HypermediaStateMixin(ListItemLinkMixin(LitE
 	}
 
 	static get styles() {
-		return [ super.styles, css `` ];
+		return [
+			super.styles,
+			css `
+				input[type="checkbox"].d2l-input-checkbox {
+							margin-top: 0.7rem;
+				}
+			` ];
 	}
 
 	constructor() {
@@ -86,7 +92,6 @@ const componentClass = class extends HypermediaStateMixin(ListItemLinkMixin(LitE
 				id="${this._checkboxId}"
 				class="d2l-input-checkbox d2l-skeletize"
 				@change="${this._onCheckboxChange}"
-				style="margin-top: 0.7rem"
 				type="checkbox"
 				.checked="${this.selected}"
 				?disabled="${disabled}">
