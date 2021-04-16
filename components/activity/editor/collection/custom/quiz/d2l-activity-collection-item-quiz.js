@@ -85,18 +85,6 @@ const componentClass = class extends HypermediaStateMixin(ListItemLinkMixin(LitE
 			`/d2l/lms/question/edit/${this.key}`);
 		return open(url, 'SrcCallBack', 'result', [], false, '');
 	}
-	_renderCheckbox() {
-		const disabled = this.disabled || this.skeleton;
-		return this.selectable ? html`
-			<input
-				id="${this._checkboxId}"
-				class="d2l-input-checkbox d2l-skeletize"
-				@change="${this._onCheckboxChange}"
-				type="checkbox"
-				.checked="${this.selected}"
-				?disabled="${disabled}">
-			` : html ``;
-	}
 	_renderPrimaryAction(contentId) {
 		return html `<a aria-labelledby="${contentId}" href="#" @click="${this._handleLinkClick}"></a>`;
 	}
