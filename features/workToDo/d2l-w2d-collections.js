@@ -1,4 +1,5 @@
 import './d2l-w2d-list.js';
+import './d2l-w2d-no-activities.js';
 import '@brightspace-ui/core/components/colors/colors.js';
 import '@brightspace-ui/core/components/link/link.js';
 import 'd2l-navigation/d2l-navigation-immersive';
@@ -7,6 +8,7 @@ import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { formatDate } from '@brightspace-ui/intl/lib/dateTime.js';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
+import { skeletonStyles } from '@brightspace-ui/core/components/skeleton/skeleton-mixin.js';
 import { W2dDateCategory } from './w2dDateCategoryObserver.js';
 import { W2dSummonAction } from './w2dSummonActionObserver.js';
 
@@ -27,6 +29,8 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 			overdueGroupByDays: { type: Number, attribute: 'overdue-group-by-days' },
 			startDate: { type: String, attribute: 'start-date' },
 			endDate: { type: String, attribute: 'end-date' },
+			dataFullPagePath: { type: String, attribute: 'data-full-page-path' },
+			skeleton: { type: Boolean },
 			_categories: {
 				type: Array,
 				observable: observableTypes.custom,
@@ -40,7 +44,8 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 					observableObject: W2dSummonAction,
 					name: 'filter-work-to-do',
 					startDate: 'startDate',
-					endDate: 'endDate'
+					endDate: 'endDate',
+					collapsed: 'collapsed'
 				}]
 			},
 			_overdue: {
@@ -50,21 +55,21 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 				groupByDays: 'overdueGroupByDays',
 				startDate: 'currentTime',
 				rel: rel.userActivity,
-				route: [
-					{ observable: observableTypes.link, rel: rel.overdue }
-				],
+				route: [{
+					observable: observableTypes.custom,
+					observableObject: W2dSummonAction,
+					name: 'filter-overdue-activities',
+					startDate: 'startDate',
+					endDate: 'endDate',
+					collapsed: 'collapsed'
+				}],
 				method: (categories) => Object.values(categories)
-			},
-			_overdueHref: {
-				type: String,
-				observable: observableTypes.link,
-				rel: rel.overdue
 			}
 		};
 	}
 
 	static get styles() {
-		return [bodyStandardStyles, heading2Styles, heading3Styles, css`
+		return [bodyStandardStyles, heading2Styles, heading3Styles, skeletonStyles, css`
 			.d2l-w2d-heading-3 {
 				margin: 0;
 			}
@@ -106,6 +111,9 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 				display: block;
 				margin-bottom: 1.2rem;
 			}
+			.d2l-skeletize {
+				max-width: 40%;
+			}
 		`];
 	}
 
@@ -129,6 +137,22 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 	}
 
 	render() {
+		if (this.skeleton) {
+			return html`
+				${!this.collapsed ? html`<h2 class="d2l-skeletize d2l-heading-2">${this.localize('overdue')}</h2>` : null}
+				<h3 class="d2l-skeletize d2l-w2d-heading-3 d2l-heading-3">May 14 - May 23</h3>
+				<d2l-w2d-list skeleton ?collapsed="${this.collapsed}"></d2l-w2d-list>
+			`;
+		}
+		if (this._overdue.length === 0 && this._categories.length === 0) {
+			return html`
+				<d2l-w2d-no-activities
+					?activities="${this.collapsed}"
+					?collapsed="${this.collapsed}"
+					?complete="${!this.collapsed}"
+					data-full-page-path=${this.dataFullPagePath}></d2l-w2d-no-activities>
+			`;
+		}
 		let overdueCount = 0;
 		let limit = this.collapsed ? limitTheNumberOfActivitiesWhenCollapsed : 0;
 		const overdue = this._overdue.map(category => {
@@ -139,13 +163,14 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 			overdueCount += category.count;
 			const list = html`
 				${this._renderHeader3(header, category.count)}
-				<d2l-w2d-list href="${this._overdueHref}" .token="${this.token}" category="${category.index}" ?collapsed="${this.collapsed}" limit="${limit}"></d2l-w2d-list>
+				<d2l-w2d-list href="${category.href}" .token="${this.token}" category="${category.index}" ?collapsed="${this.collapsed}" limit="${limit}"></d2l-w2d-list>
 			`;
 			limit = Math.max(limit - category.count, 0);
 			return list;
 		});
 		let upcomingCount = 0;
 		const categories = this._categories.map(category => {
+			if (category.index < 0) return;
 			const header = this._renderDate(category.startDate, category.endDate, this.collapsed);
 			upcomingCount += category.count;
 			const list = html`
@@ -161,6 +186,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 			${overdue}
 			${this._renderHeader2(this.localize('upcoming'), upcomingCount)}
 			${categories}
+			${this.dataFullPagePath && this._loaded && this.collapsed ? html`<d2l-link href="${this.dataFullPagePath}">${this.localize('fullViewLink')}</d2l-link>` : null}
 		`;
 	}
 
@@ -186,7 +212,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 		return html`
 			<div class="d2l-w2d-flex">
 				<h2 class="d2l-heading-2">${heading}</h2>
-				<div class="d2l-w2d-count d2l-w2d-heading-2-count ">${count}</div>
+				<div class="d2l-w2d-count d2l-w2d-heading-2-count">${count}</div>
 			</div>
 		`;
 	}
@@ -200,7 +226,6 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 			</div>
 		`;
 	}
-
 }
 
 customElements.define('d2l-w2d-collections', W2dCollections);

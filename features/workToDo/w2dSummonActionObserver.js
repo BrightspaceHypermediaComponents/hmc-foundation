@@ -3,8 +3,8 @@ import { SirenSummonAction } from '@brightspace-hmc/foundation-engine/state/obse
 
 export class W2dSummonAction extends SirenSummonAction {
 
-	static definedProperty({ name: id, token, verbose, startDate, endDate }) {
-		return { id, token, verbose, startDate, endDate };
+	static definedProperty({ name: id, token, verbose, startDate, endDate, collapsed }) {
+		return { id, token, verbose, startDate, endDate, collapsed };
 	}
 
 	addObserver(observer, property, { method, route, startDate, endDate } = {}) {

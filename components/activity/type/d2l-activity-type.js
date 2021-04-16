@@ -31,6 +31,7 @@ class ActivityType extends SkeletonMixin(LocalizeFoundationType(HypermediaStateM
 			'user-checklist-activity': 'label-checklist',
 			'user-content-activity': 'label-content',
 			'user-course-offering-activity-usage': 'label-course',
+			'user-activity-usage': 'label-course',
 			'user-discussion-activity': 'label-discussion',
 			'user-quiz-activity': 'label-quiz',
 			'user-quiz-attempt-activity': 'label-quiz',
