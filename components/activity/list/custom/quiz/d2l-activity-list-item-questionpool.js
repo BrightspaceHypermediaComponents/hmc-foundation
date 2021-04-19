@@ -131,7 +131,6 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 		const range = `${this.number} - ${this.number + this.numQuestions}`;
 		return html`
 			<div class="questionpool-item d2l-skeletize">
-				<div class="checkbox"><d2l-input-checkbox></d2l-input-checkbox></div>
 				${this.numQuestions > 0 ?
 		html`<div class="d2l-body-standard questionpool-number d2l-skeletize">${range}</div>` :
 		html`<d2l-icon icon="emoji:sad" class="questionpool-emoji"></d2l-icon>`}
