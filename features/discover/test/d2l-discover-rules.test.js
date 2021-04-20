@@ -86,7 +86,7 @@ describe('d2l-discover-rules', () => {
 		beforeEach(async() => {
 			clearStore();
 			el = await createComponentAndWait(html`
-				<d2l-discover-rules href="${selfHref}" token="cake"></d2l-discover-rules>
+				<d2l-discover-rules hrefø="${selfHref}" token="cake"></d2l-discover-rules>
 			`);
 		});
 		afterEach(() => fetchMock.resetHistory());

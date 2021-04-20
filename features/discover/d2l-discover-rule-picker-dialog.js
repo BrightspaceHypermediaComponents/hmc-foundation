@@ -10,17 +10,15 @@ import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynam
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 
 const rels = Object.freeze({
-	condition: 'condition',
-	updateCondions: 'update-conditions',
+	condition: 'condition'
 });
 
 class RulePickerDialog extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitElement))) {
 	static get properties() {
 		return {
+			ruleIndex: { type: Number, attribute: 'rule-index' },
 			opened: { type: Boolean },
-			conditions: { type: Array, observable: observableTypes.subEntities, rel: rels.condition },
-			creating: { type: Boolean, observable: observableTypes.classes, method: classes => classes.includes('creating') },
-			updateConditions: { observable: observableTypes.action, name: rels.updateCondions }
+			conditions: { type: Array }
 		};
 	}
 
@@ -49,11 +47,12 @@ class RulePickerDialog extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixi
 			<d2l-dialog
 				width="845"
 				?opened="${this.opened}"
-				title-text="${this.creating ? this.localize('text-add-enrollment-rule') : this.localize('text-edit-enrollment-rule')}">
+				title-text="${!this.ruleIndex ? this.localize('text-add-enrollment-rule') : this.localize('text-edit-enrollment-rule')}">
 				<div class="d2l-rule-picker-area">${this.localize('text-select-conditions')}</div>
 				<d2l-discover-rule-picker
 					href="${this.href}"
 					.token="${this.token}"
+					.ruleIndex="${this.ruleIndex}"
 					@d2l-rule-condition-added="${this._onConditionAdded}"
 					>
 				</d2l-discover-rule-picker>

@@ -10,15 +10,24 @@ import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynam
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { selectStyles } from '@brightspace-ui/core/components/inputs/input-select-styles.js';
 
+const rels = Object.freeze({
+	rule: 'https://discovery.brightspace.com/rels/rule',
+	condition: 'https://discovery.brightspace.com/rels/condition',
+	conditionType: 'https://discovery.brightspace.com/rels/condition-type',
+	conditionTypes: 'https://discovery.brightspace.com/rels/entitlement/condition-types'
+});
+
 class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitElement))) {
 
 	static get properties() {
 		return {
-			conditionTypes: { observable: observableTypes.subEntities, rel: 'condition-type', route: [
-				{ observable: observableTypes.link, rel: 'available-condition-types' }
+			ruleIndex: { type: Number, attribute: 'rule-index' },
+			_conditionTypes: { type: Array, observable: observableTypes.subEntities, rel: rels.conditionType, route: [
+				{ observable: observableTypes.link, rel: rels.conditionTypes }
 			] },
-			conditions: { type: Array, observable: observableTypes.subEntities, rel: 'condition' },
-			defaultType: { type: String },
+			_rules: { type: Array, observable: observableTypes.subEntities, rel: rels.rule, verbose: true },
+			_conditions: { type: Array },
+			_defaultType: { type: String },
 		};
 	}
 
@@ -73,8 +82,10 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 
 	constructor() {
 		super();
-		this.conditions = [];
+		this._rules = [];
+		this._conditions = [];
 		this._conditionTypesHash = {};
+		this._existingConditions = [];
 	}
 
 	render() {
@@ -93,31 +104,31 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 
 	updated(changedProperties) {
 		super.updated(changedProperties);
-		if (changedProperties.has('conditionTypes')) {
+		if (changedProperties.has('_conditionTypes')) {
 			this._buildConditionTypeHash();
 			// set the default condition type even if this resolves second
-			if (this.conditions && this.conditions.length && !this.conditions[0].properties.type) {
-				this.conditions[0].properties.type = this.defaultType = this.conditionTypes[0].properties.type;
+			if (this._conditions && this._conditions.length && !this._conditions[0].properties.type) {
+				this._conditions[0].properties.type = this.defaultType = this._conditionTypes[0].properties.type;
 			}
 		}
-		if (changedProperties.has('conditions') && this.conditions.length === 0) {
+		if (changedProperties.has('_conditions') && this._conditions.length === 0) {
 			this._addDefaultCondition();
 		}
 	}
 
 	async reload(newConditions) {
-		this.conditions = newConditions;
+		this._conditions = newConditions;
 		await this.updateComplete;
 
-		if (!this.conditions || this.conditions.length === 0) {
+		if (!this._conditions || this._conditions.length === 0) {
 			this._addDefaultCondition();
 		}
 	}
 
 	_addDefaultCondition() {
-		this.conditions.push({
+		this._conditions.push({
 			properties: {
-				type: this.defaultType || (this.conditionTypes && this.conditionTypes[0].properties.type),
+				type: this.defaultType || (this._conditionTypes && this._conditionTypes[0].properties.type),
 				values: []
 			}
 		});
@@ -131,7 +142,7 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 
 	_buildConditionTypeHash() {
 		this._conditionTypesHash = {};
-		this.conditionTypes.forEach(conditionType => {
+		this._conditionTypes.forEach(conditionType => {
 			this._conditionTypesHash[conditionType.properties.type] = conditionType;
 		});
 	}
@@ -144,11 +155,11 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 	}
 
 	_isLastCondition(condition) {
-		return this.conditions[this.conditions.length - 1] === condition;
+		return this._conditions[this._conditions.length - 1] === condition;
 	}
 
 	_isOnlyCondition() {
-		return this.conditions?.length === 1;
+		return this._conditions?.length === 1;
 	}
 
 	_onConditionSelectChange(e) {
@@ -169,9 +180,9 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 	_removeCondition(e) {
 		const condition = e.target.condition;
 
-		const index = this.conditions.indexOf(condition);
+		const index = this._conditions.indexOf(condition);
 		if (index > -1) {
-			this.conditions.splice(index, 1);
+			this._conditions.splice(index, 1);
 			this.requestUpdate();
 		}
 	}
@@ -179,10 +190,10 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 	_renderPickerConditions() {
 
 		return html`
-		${this.conditions.map((condition, index) => {
+		${this._conditions.map((condition, index) => {
 		const classes = {
 			'd2l-picker-rule-container': true,
-			'd2l-picker-rule-container-final': this.conditions.length - 1 === index
+			'd2l-picker-rule-container-final': this._conditions.length - 1 === index
 		};
 		return html`
 		<div class="${classMap(classes)}">
@@ -191,7 +202,7 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 				.condition="${condition}"
 				value="${condition.properties.type}"
 				@blur="${this._onConditionSelectChange}">
-				${this.conditionTypes ? this.conditionTypes.map(conditionType => html`
+				${this._conditionTypes ? this._conditionTypes.map(conditionType => html`
 					<option value="${conditionType.properties.type}" ?selected="${condition.properties.type === conditionType.properties.type}">${conditionType.properties.type}</option>
 				`) : null}
 			</select>

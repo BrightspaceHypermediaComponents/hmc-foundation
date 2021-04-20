@@ -11,8 +11,6 @@ const rels = Object.freeze({
 	rule: 'rule',
 	organization: 'https://api.brightspace.com/rels/organization',
 	entitlementRules: 'https://discovery.brightspace.com/rels/entitlement-rules',
-	conditionType: 'condition-type',
-	newRule: 'new-rule'
 });
 
 class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStateMixin(LitElement))) {
@@ -25,9 +23,7 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 				{ observable: observableTypes.link, rel: rels.entitlementRules }
 			] },
 			_dialogOpened: { type: Boolean },
-			_newRuleHref: { observable: observableTypes.link, rel: rels.newRule, route: [
-				{ observable: observableTypes.link, rel: rels.entitlementRules }
-			] },
+			_entitlementsHref: { observable: observableTypes.link, rel: rels.entitlementRules },
 			_createEntitlement: { observable: observableTypes.action, name: 'create', route: [
 				{ observable: observableTypes.link, rel: rels.entitlementRules }
 			]}
@@ -80,7 +76,7 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 			<d2l-discover-rule-picker-dialog
 				@d2l-discover-rules-changed="${this._onRulesChanged}"
 				@d2l-dialog-close="${this._onDialogClose}"
-				href="${this._newRuleHref}"
+				href="${this._entitlementsHref}"
 				token="${this.token}"
 				?opened="${this._dialogOpened}"
 			></d2l-discover-rule-picker-dialog>

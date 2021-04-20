@@ -17,8 +17,7 @@
         }
       ],
       "links": [
-        { "rel": ["matching-users"], "href": "../demo/matching-users.json"},
-        { "rel": [ "available-condition-types" ], "href": "../demo/condition-types.json" }
+        { "rel": ["matching-users"], "href": "../demo/matching-users.json"}
       ]
     }
   ],
@@ -27,6 +26,6 @@
   },
   "links": [
     { "rel": ["self"], "href": "../demo/course-entitlement-rules.json" },
-    { "rel": ["new-rule"], "href": "../demo/newrule.json"}
+    { "rel": [ "https://discovery.brightspace.com/rels/entitlement/condition-types" ], "href": "../demo/condition-types.json" }
   ]
 }
