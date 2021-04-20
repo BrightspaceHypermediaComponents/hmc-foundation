@@ -10,15 +10,15 @@ import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynam
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 
 const rels = Object.freeze({
-	condition: 'condition'
+	rule: 'https://discovery.brightspace.com/rels/rule'
 });
 
 class RulePickerDialog extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitElement))) {
 	static get properties() {
 		return {
 			ruleIndex: { type: Number, attribute: 'rule-index' },
-			opened: { type: Boolean },
-			conditions: { type: Array }
+			_rules: { type: Array, observable: observableTypes.subEntities, rel: rels.rule, verbose: true },
+			opened: { type: Boolean }
 		};
 	}
 
@@ -89,24 +89,22 @@ class RulePickerDialog extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixi
 
 	_onDoneClick() {
 		const picker = this.shadowRoot.querySelector('d2l-discover-rule-picker');
-		if (this.creating) {
-			picker.reload([]);
-		} else {
-			this._state.updateProperties({
-				conditions: {
-					observable: observableTypes.subEntities,
-					rel: rels.condition,
-					value: picker.conditions
-				}
+		if (!this.ruleIndex) {
+			this._rules.push({
+				entities: [...picker.conditions],
+				rel: [rels.rule]
 			});
+			picker.reload([]);
 		}
-		const event = new CustomEvent('d2l-discover-rules-changed', {
-			bubbles: true,
-			detail: {
-				conditions: picker.conditions
+		this._state.updateProperties({
+			_rules: {
+				type: Array,
+				observable: observableTypes.subEntities,
+				rel: rels.rule,
+				value: this._rules,
+				verbose: true
 			}
 		});
-		this.dispatchEvent(event);
 	}
 }
 

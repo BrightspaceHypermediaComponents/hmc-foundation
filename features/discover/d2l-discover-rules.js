@@ -8,7 +8,7 @@ import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton
 
 const rels = Object.freeze({
 	selfAssignableClass: 'self-assignable',
-	rule: 'rule',
+	rule: 'https://discovery.brightspace.com/rels/rule',
 	organization: 'https://api.brightspace.com/rels/organization',
 	entitlementRules: 'https://discovery.brightspace.com/rels/entitlement-rules',
 });
@@ -74,7 +74,6 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 				text="${this.localize('text-add-enrollment-rule')}"
 				icon="tier1:lock-locked"></d2l-button-subtle>
 			<d2l-discover-rule-picker-dialog
-				@d2l-discover-rules-changed="${this._onRulesChanged}"
 				@d2l-dialog-close="${this._onDialogClose}"
 				href="${this._entitlementsHref}"
 				token="${this.token}"
@@ -82,6 +81,14 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 			></d2l-discover-rule-picker-dialog>
 			</d2l-labs-checkbox-drawer>
 		`;
+	}
+
+	updated(changedProperties) {
+		super.updated(changedProperties);
+
+		if (this._loaded && changedProperties.has('_rules') && changedProperties.get('_rules') !== undefined) {
+			this._onRulesChanged();
+		}
 	}
 
 	get _loaded() {
