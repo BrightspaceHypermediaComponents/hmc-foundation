@@ -14,9 +14,9 @@ const rels = Object.freeze({
 	rule: 'https://discovery.brightspace.com/rels/rule',
 	condition: 'https://discovery.brightspace.com/rels/condition',
 	conditionType: 'https://discovery.brightspace.com/rels/condition-type',
-	conditionTypes: 'https://discovery.brightspace.com/rels/entitlement/condition-types'
+	conditionTypes: 'https://discovery.brightspace.com/rels/condition-types'
 });
-
+// todo: edit an existing rule
 class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitElement))) {
 
 	static get properties() {
@@ -26,7 +26,7 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 			_conditionTypes: { type: Array, observable: observableTypes.subEntities, rel: rels.conditionType, route: [
 				{ observable: observableTypes.link, rel: rels.conditionTypes }
 			] },
-			_rules: { type: Array, observable: observableTypes.subEntities, rel: rels.rule, verbose: true },
+			_rules: { type: Array, observable: observableTypes.subEntities, rel: rels.rule },
 			_defaultType: { type: String },
 		};
 	}
@@ -85,7 +85,6 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 		this._rules = [];
 		this.conditions = [];
 		this._conditionTypesHash = {};
-		this._existingConditions = [];
 	}
 
 	render() {
@@ -114,12 +113,13 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 		if (changedProperties.has('conditions') && this.conditions.length === 0) {
 			this._addDefaultCondition();
 		}
+		if (this._loaded && changedProperties.has('ruleIndex')) {
+			this._setExistingConditions();
+		}
 	}
 
-	async reload(newConditions) {
+	reload(newConditions) {
 		this.conditions = newConditions;
-		await this.updateComplete;
-
 		if (!this.conditions || this.conditions.length === 0) {
 			this._addDefaultCondition();
 		}
@@ -231,6 +231,14 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 		</div>
 		`;
 	})}`;
+	}
+
+	_setExistingConditions() {
+		if (this.rulesIndex + 1 > this._rules.length || this.rulesIndex < 0) {
+			this.conditions = undefined;
+		}
+		const rule = this._rules[this.rulesIndex];
+		this.conditions = rule.entities;
 	}
 }
 

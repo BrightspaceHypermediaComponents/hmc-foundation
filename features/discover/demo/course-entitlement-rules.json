@@ -26,6 +26,6 @@
   },
   "links": [
     { "rel": ["self"], "href": "../demo/course-entitlement-rules.json" },
-    { "rel": [ "https://discovery.brightspace.com/rels/entitlement/condition-types" ], "href": "../demo/condition-types.json" }
+    { "rel": [ "https://discovery.brightspace.com/rels/condition-types" ], "href": "../demo/condition-types.json" }
   ]
 }

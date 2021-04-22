@@ -5,29 +5,24 @@ import { createComponentAndWait } from '../../../test/test-util.js';
 import { default as fetchMock } from 'fetch-mock/esm/client.js';
 import { runConstructor } from '@brightspace-ui/core/tools/constructor-test-helper.js';
 import { default as sinon } from 'sinon/pkg/sinon-esm.js';
+const rels = Object.freeze({
+	condition: 'https://discovery.brightspace.com/rels/condition',
+	rule: 'https://discovery.brightspace.com/rels/rule',
+	conditionTypes: 'https://discovery.brightspace.com/rels/condition-types',
+	conditionType: 'https://discovery.brightspace.com/rels/condition-type',
+	organization: 'https://api.brightspace.com/rels/organization',
+	entitlementRules: 'https://discovery.brightspace.com/rels/entitlement-rules'
+});
 const selfHref = 'http://course-bff/1';
-const newEntityHref = 'http://new-rule/1';
 const entitlementHref = 'http://entitlement-rules';
 const orgHref = 'http://org/1';
+const conditionTypesHref = 'http://condition-types/1';
 const entity = {
 	class: ['activity', 'course', 'assigned'],
 	links: [
-		{
-			rel: ['self'],
-			href: selfHref
-		},
-		{
-			rel: [
-				'https://api.brightspace.com/rels/organization'
-			],
-			href: orgHref
-		},
-		{
-			rel: [
-				'https://discovery.brightspace.com/rels/entitlement-rules'
-			],
-			href: entitlementHref
-		}
+		{ rel: ['self'], href: selfHref },
+		{ rel: [ rels.organization ], href: orgHref },
+		{ rel: [ rels.entitlementRules ], href: entitlementHref }
 	]
 };
 const orgEntity = {
@@ -45,13 +40,16 @@ const entitlementEntity = {
 	],
 	links: [
 		{ rel: ['self'], href: entitlementHref },
-		{ rel: ['new-rule'], href: newEntityHref }
+		{ rel: [rels.conditionTypes], href: conditionTypesHref }
 	]
 };
-const newEntity = {
-	class: ['rule', 'creating'],
+const conditionTypesEntity = {
+	entities: [
+		{ rel: [rels.conditionType], properties: { type: 'Fruit' } },
+		{ rel: [rels.conditionType], properties: { type: 'Entree' } }
+	],
 	links: [
-		{ rel: ['self'], href: newEntityHref }
+		{ rel: ['self'], href: conditionTypesHref }
 	]
 };
 
@@ -67,7 +65,7 @@ describe('d2l-discover-rules', () => {
 		fetchMock.mock(selfHref, JSON.stringify(entity))
 			.mock(orgHref, JSON.stringify(orgEntity))
 			.mock(entitlementHref, JSON.stringify(entitlementEntity))
-			.mock(newEntityHref, JSON.stringify(newEntity));
+			.mock(conditionTypesHref, JSON.stringify(conditionTypesEntity))
 	});
 
 	describe('accessibility', () => {
@@ -86,25 +84,32 @@ describe('d2l-discover-rules', () => {
 		beforeEach(async() => {
 			clearStore();
 			el = await createComponentAndWait(html`
-				<d2l-discover-rules hrefø="${selfHref}" token="cake"></d2l-discover-rules>
+				<d2l-discover-rules href="${selfHref}" token="cake"></d2l-discover-rules>
 			`);
 		});
 		afterEach(() => fetchMock.resetHistory());
 
 		it('commits an action when the dialog is closed', async() => {
-			expect(el._hasAction('_createEntitlement')).to.be.true;
+			expect(el._hasAction('_createEntitlement'), 'does not have the _createEntitlement action').to.be.true;
 			const spy = sinon.spy(el._createEntitlement, 'commit');
-
 			const dialog = el.shadowRoot.querySelector('d2l-discover-rule-picker-dialog');
-			await waitUntil(() => dialog._state !== null || dialog._state !== undefined);
-			dialog.opened = true;
-			await dialog.updateComplete;
-			const listener = oneEvent(dialog, 'd2l-discover-rules-changed');
+			await waitUntil(() => dialog._state !== null || dialog._state !== undefined, 'dialog state never initialized');
+
+			const rulePicker = dialog.shadowRoot.querySelector('d2l-discover-rule-picker');
+			const rule = [
+				{properties: {type: 'entree', values: ['spaghetti']}},
+				{properties: {type: 'dessert', values: ['cake', 'pie']}}
+			];
+			rulePicker.conditions = rule;
 			// click done
 			dialog.shadowRoot.querySelector('d2l-button[primary]').click();
-			await listener;
-			const expectedCommit = JSON.stringify([]);
-			expect(spy.calledWith(expectedCommit)).to.be.true;
+			await dialog.updateComplete;
+			const expectedCommit = JSON.stringify([
+				{ entree: ['spaghetti'], dessert: ['cake', 'pie'] }
+			]);
+
+			expect(spy.calledOnce, 'commit was not called').to.be.true;
+			expect(spy.calledWith(expectedCommit), `commit was not called with: ${expectedCommit}`).to.be.true;
 		});
 	});
 
