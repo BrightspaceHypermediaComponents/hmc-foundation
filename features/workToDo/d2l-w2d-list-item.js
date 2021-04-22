@@ -121,7 +121,7 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 
 		const startDate = (!this.actionHref && this._dates.start)
 			? html`
-				<d2l-status-indicator slot="supporting-info" state="none" text="Starts ${formatDate(this._dates.start, {format: 'shortMonthDay'})}"></d2l-status-indicator>
+				<div><d2l-status-indicator slot="supporting-info" state="none" text="Starts ${formatDate(this._dates.start, {format: 'shortMonthDay'})}"></d2l-status-indicator></div>
 			`
 			: nothing;
 
@@ -131,9 +131,8 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 				<d2l-list-item-content>
 					<d2l-activity-name class="d2l-w2d-list-item-name" href="${this.href}" .token="${this.token}"></d2l-activity-name>
 					<d2l-w2d-attribute-list slot="secondary">
-						${this._renderAttributeListCollapsed()}
+						${startDate} ${this._renderAttributeListCollapsed()}
 					</d2l-w2d-attribute-list>
-					${startDate}
 					${ !this.collapsed ? html`<d2l-activity-description slot="supporting-info" href="${this.href}" .token="${this.token}"></d2l-activity-description>` : nothing}
 				</d2l-list-item-content>
 			`)}`
