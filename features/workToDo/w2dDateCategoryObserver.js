@@ -20,7 +20,7 @@ export class W2dDateCategory extends SirenSubEntities {
 	 */
 	set entities(sirenFacades) {
 		this._sirenFacades = sirenFacades;
-		if (!this._startDate || !this._groupByDays) {
+		if (!this._startDate || this._groupByDays === undefined) {
 			return;
 		}
 
@@ -28,6 +28,7 @@ export class W2dDateCategory extends SirenSubEntities {
 		const categoryInfo = {};
 		sirenFacades.forEach(sirenFacade => {
 			const daysTillDueDate = numOfDaysTillDueDate(sirenFacade, this._startDate);
+			if (daysTillDueDate === false) return;
 			const index = this._groupByDays === 0 ? 0 : Math.floor(daysTillDueDate / this._groupByDays);
 			if (!categoryInfo[index]) {
 				const startDate = new Date(this._startDate.getTime() + index * msInADay * this._groupByDays);
@@ -36,7 +37,8 @@ export class W2dDateCategory extends SirenSubEntities {
 					startDate,
 					endDate,
 					index,
-					count: 0
+					count: 0,
+					href: this._state.href
 				};
 			}
 			categoryInfo[index].count++;
@@ -59,8 +61,11 @@ export class W2dDateCategory extends SirenSubEntities {
 }
 
 function numOfDaysTillDueDate(sirenFacade, relativeTime) {
-	const entities = sirenFacade.entities.filter(entity => entity.hasClass('due-date'));
-	if (!entities.length) return false;
+	let entities = sirenFacade.entities.filter(entity => entity.hasClass('due-date'));
+	if (!entities.length) {
+		entities = sirenFacade.entities.filter(entity => entity.hasClass('end-date'));
+		if (!entities.length) return false;
+	}
 	const entity = entities.pop();
 	const date = new Date(Date.parse(entity.properties.localizedDate));
 	return (Math.floor(date.getTime() / msInADay) - Math.floor(relativeTime.getTime() / msInADay));

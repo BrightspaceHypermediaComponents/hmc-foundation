@@ -54,7 +54,8 @@ class RulePickerDialog extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixi
 				<d2l-discover-rule-picker
 					href="${this.href}"
 					.token="${this.token}"
-					@d2l-rule-condition-added="${this._onConditionAdded}"
+					@d2l-rule-condition-added="${this._onConditionAddRemove}"
+					@d2l-rule-condition-removed="${this._onConditionAddRemove}"
 					>
 				</d2l-discover-rule-picker>
 				<d2l-button @click="${this._onDoneClick}" slot="footer" primary data-dialog-action="done">${this.localize('button-done')}</d2l-button>
@@ -83,7 +84,7 @@ class RulePickerDialog extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixi
 		});
 	}
 
-	_onConditionAdded() {
+	_onConditionAddRemove() {
 		const dialog = this.shadowRoot.querySelector('d2l-dialog');
 		dialog.resize();
 	}

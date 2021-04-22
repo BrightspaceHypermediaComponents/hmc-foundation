@@ -18,4 +18,4 @@ class ActivityDescriptionCourse extends DescriptionMixin {
 	}
 }
 
-customHypermediaElement('d2l-activity-description-course', ActivityDescriptionCourse, 'd2l-activity-description', [['activity-usage', 'course-offering'], ['user-course-offering-activity-usage']]);
+customHypermediaElement('d2l-activity-description-course', ActivityDescriptionCourse, 'd2l-activity-description', [['activity-usage', 'course-offering'], ['user-course-offering-activity-usage'], ['user-activity-usage']]);
