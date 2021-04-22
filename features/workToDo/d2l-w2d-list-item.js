@@ -4,9 +4,9 @@ import '../../components/activity/description/d2l-activity-description.js';
 import '../../components/activity/icon/d2l-activity-icon.js';
 import '../../components/activity/name/d2l-activity-name.js';
 import '../../components/activity/type/d2l-activity-type.js';
-import '../../components/activity/name/custom/d2l-activity-name-course.js';
+import '../../components/common/d2l-hc-name.js';
 import './d2l-w2d-attribute-list.js';
-import { css, LitElement } from 'lit-element/lit-element.js';
+import { css, LitElement, html as lithtml } from 'lit-element/lit-element.js';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { classMap } from 'lit-html/directives/class-map.js';
@@ -24,6 +24,7 @@ const rels = Object.freeze({
 	organization: 'https://api.brightspace.com/rels/organization',
 	organizationHomepage: 'https://api.brightspace.com/rels/organization-homepage',
 	quiz: 'https://api.brightspace.com/rels/quiz',
+	survey: 'https://surveys.api.brightspace.com/rels/survey',
 	topic: 'https://discussions.api.brightspace.com/rels/topic'
 });
 
@@ -38,6 +39,7 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 	static get properties() {
 		return {
 			collapsed: { type: Boolean },
+			skeleton: { type: Boolean },
 			_hasStarted: { type: Boolean, observable: observableTypes.classes, method: (classes) => classes.includes('started') },
 			_dates: {
 				type: Object,
@@ -50,7 +52,8 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 					});
 					return datesByType;
 				}
-			}
+			},
+			_parentName: { type: String, name: 'name', observable: observableTypes.property, route:[{observable: observableTypes.link, rel: rels.organization}]}
 		};
 	}
 
@@ -113,7 +116,7 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 	}
 
 	render() {
-		if (!this._loaded) return this._renderSkeleton();
+		if (this.skeleton || !this._loaded) return this._renderSkeleton();
 		const iconClasses = {
 			'd2l-hovering': this._hoveringPrimaryAction,
 			'd2l-focusing': this._focusingPrimaryAction,
@@ -146,8 +149,8 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 		if (this._dates.due || this._dates.end) {
 			dueDate = html`<div>${this._dates.due ? this.localize('dueWithDate', 'dueDate', formatDate(this._dates.due, {format: 'shortMonthDay'})) : this.localize('endWithDate', 'endDate', formatDate(this._dates.end, {format: 'shortMonthDay'}))}</div>`;
 		}
-		const type = html`<d2l-activity-type href="${this.href}" .token="${this.token}"></d2l-activity-type>`;
-		const courseName = this._isCourse ? html`<div>${this.localize('course')}</div>` : html`<d2l-activity-name-course href="${this.href}" .token="${this.token}"></d2l-activity-name-course>`;
+		const type = !this._isCourse ? html`<d2l-activity-type href="${this.href}" .token="${this.token}"></d2l-activity-type>` : null;
+		const courseName = this._isCourse ? html`<div>${this.localize('course')}</div>` : html`<div>${this._parentName}</div>`;
 		return html`
 			${this.collapsed ? dueDate : type}
 			${courseName}
@@ -158,8 +161,10 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 		return this._renderListItem({
 			illustration: html`<d2l-activity-icon skeleton></d2l-activity-icon>`,
 			content: html`
-				<d2l-list-item-content skeleton>
+				<d2l-list-item-content>
 					<d2l-activity-name class="d2l-w2d-list-item-name" skeleton></d2l-activity-name>
+					<d2l-w2d-attribute-list slot="secondary" skeleton></d2l-w2d-attribute-list>
+					${ !this.collapsed ? lithtml`<d2l-activity-description slot="supporting-info"></d2l-activity-description>` : nothing}
 				</d2l-list-item-content>
 			`
 		});
@@ -272,7 +277,7 @@ class W2DListItemCourseOffering extends W2DListItemMixin {
 		super.actionHref = href;
 	}
 }
-customHypermediaElement('d2l-w2d-list-item-course', W2DListItemCourseOffering, 'd2l-w2d-list-item', [['course-offering'], ['user-course-offering-activity-usage']]);
+customHypermediaElement('d2l-w2d-list-item-course', W2DListItemCourseOffering, 'd2l-w2d-list-item', [['course-offering'], ['user-course-offering-activity-usage'], ['user-activity-usage']]);
 
 class W2DListItemDiscussion extends W2DListItemMixin {
 	static get properties() {
@@ -323,3 +328,28 @@ class W2DListItemQuiz extends W2DListItemMixin {
 	}
 }
 customHypermediaElement('d2l-w2d-list-item-quiz', W2DListItemQuiz, 'd2l-w2d-list-item', [['user-quiz-activity'], ['user-quiz-attempt-activity']]);
+
+class W2DListItemSurvey extends W2DListItemMixin {
+	static get properties() {
+		return {
+			...super.properties,
+			actionHref: {
+				type: String,
+				observable: observableTypes.link,
+				rel: 'alternate',
+				route: [{observable: observableTypes.link, rel: rels.survey}],
+				reflect: true,
+				attribute: 'action-href'
+			}
+		};
+	}
+
+	get actionHref() {
+		return super.actionHref;
+	}
+
+	set actionHref(href) {
+		super.actionHref = href;
+	}
+}
+customHypermediaElement('d2l-w2d-list-item-survey', W2DListItemSurvey, 'd2l-w2d-list-item', [['user-survey-activity']]);

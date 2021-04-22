@@ -33,13 +33,20 @@ const componentClass = class extends HypermediaStateMixin(ListItemLinkMixin(LitE
 	}
 
 	static get styles() {
-		return [ super.styles, css `` ];
+		return [
+			super.styles,
+			css `
+				input[type="checkbox"].d2l-input-checkbox {
+							margin-top: 0.7rem;
+				}
+			` ];
 	}
 
 	constructor() {
 		super();
 		this.actionHref = '#';
 		this._refreshCounter = 0;
+		this.selectable = true;
 	}
 
 	render() {
@@ -78,7 +85,6 @@ const componentClass = class extends HypermediaStateMixin(ListItemLinkMixin(LitE
 			`/d2l/lms/question/edit/${this.key}`);
 		return open(url, 'SrcCallBack', 'result', [], false, '');
 	}
-
 	_renderPrimaryAction(contentId) {
 		return html `<a aria-labelledby="${contentId}" href="#" @click="${this._handleLinkClick}"></a>`;
 	}

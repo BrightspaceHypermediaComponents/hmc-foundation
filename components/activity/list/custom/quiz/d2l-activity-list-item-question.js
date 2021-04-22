@@ -108,14 +108,13 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 	render() {
 		return html`
 			<div class="question-item d2l-skeletize">
-				<div class="checkbox"><d2l-input-checkbox></d2l-input-checkbox></div>
 				<div class="d2l-body-standard question-number d2l-skeletize">${this.number}</div>
 				<div class="question d2l-skeletize">
 					<span class="d2l-body-compact d2l-skeletize">${this.name || this.questionText}</span>
 					<div class="d2l-body-small question-type d2l-skeletize">${this.typeText}</div>
 				</div>
 				<div class="points d2l-body-compact d2l-skeletize">${this.localize('points', { count: this.points })}</div>
-			</div>			
+			</div>
 		`;
 	}
 
