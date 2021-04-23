@@ -1,5 +1,5 @@
 import '../d2l-discover-rules.js';
-import { expect, fixture, html, oneEvent, waitUntil } from '@open-wc/testing';
+import { expect, fixture, html, waitUntil } from '@open-wc/testing';
 import { clearStore } from '@brightspace-hmc/foundation-engine/state/HypermediaState.js';
 import { createComponentAndWait } from '../../../test/test-util.js';
 import { default as fetchMock } from 'fetch-mock/esm/client.js';
@@ -65,7 +65,7 @@ describe('d2l-discover-rules', () => {
 		fetchMock.mock(selfHref, JSON.stringify(entity))
 			.mock(orgHref, JSON.stringify(orgEntity))
 			.mock(entitlementHref, JSON.stringify(entitlementEntity))
-			.mock(conditionTypesHref, JSON.stringify(conditionTypesEntity))
+			.mock(conditionTypesHref, JSON.stringify(conditionTypesEntity));
 	});
 
 	describe('accessibility', () => {
@@ -97,8 +97,8 @@ describe('d2l-discover-rules', () => {
 
 			const rulePicker = dialog.shadowRoot.querySelector('d2l-discover-rule-picker');
 			const rule = [
-				{properties: {type: 'entree', values: ['spaghetti']}},
-				{properties: {type: 'dessert', values: ['cake', 'pie']}}
+				{ properties: { type: 'entree', values: ['spaghetti'] } },
+				{ properties: { type: 'dessert', values: ['cake', 'pie'] } }
 			];
 			rulePicker.conditions = rule;
 			// click done

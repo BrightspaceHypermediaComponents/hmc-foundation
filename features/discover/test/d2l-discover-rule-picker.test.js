@@ -83,13 +83,13 @@ describe('d2l-discover-rule-picker', () => {
 			const conditionDropdownList = el.shadowRoot.querySelectorAll('select');
 			const conditionPickerList = el.shadowRoot.querySelectorAll('d2l-discover-attribute-picker');
 
-			expect(conditionDropdownList.length).to.equal(entity.entities.length);
-			expect(conditionPickerList.length).to.equal(entity.entities.length);
+			expect(conditionDropdownList.length).to.equal(entitlementEntity.entities.length);
+			expect(conditionPickerList.length).to.equal(entitlementEntity.entities.length);
 
 			//Ensure the data in the fields lines up with the passed data
 			for (let i = 0 ; i < conditionDropdownList.options; i++) {
-				expect(conditionDropdownList[i].value).to.equal(entity.entities[i].properties.type);
-				expect(conditionPickerList[i].value).to.equal(entity.entities[i].properties.value);
+				expect(conditionDropdownList[i].value).to.equal(entitlementEntity.entities[i].properties.type);
+				expect(conditionPickerList[i].value).to.equal(entitlementEntity.entities[i].properties.value);
 			}
 		});
 
@@ -125,7 +125,7 @@ describe('d2l-discover-rule-picker', () => {
 
 		it('updates the condition information when a new attribute is added', async() => {
 			el.conditions = [
-				{properties: {type: 'Fruit', values: ['Banana']}}
+				{ properties: { type: 'Fruit', values: ['Banana'] } }
 			];
 			await el.updateComplete;
 			const discoverPicker = el.shadowRoot.querySelector('d2l-discover-attribute-picker');
@@ -163,8 +163,8 @@ describe('d2l-discover-rule-picker', () => {
 			expect(deleteButtonList[0].hasAttribute('hidden')).to.be.true;
 			// add new conditions
 			const newConditions = [
-				{properties: {type: 'entree', values: ['spaghetti']}},
-				{properties: {type: 'dessert', values: ['cake', 'pie']}}
+				{ properties: { type: 'entree', values: ['spaghetti'] } },
+				{ properties: { type: 'dessert', values: ['cake', 'pie'] } }
 			];
 			el.reload(newConditions);
 			await el.updateComplete;
@@ -177,9 +177,9 @@ describe('d2l-discover-rule-picker', () => {
 		describe('deletion', () => {
 			beforeEach(async() => {
 				el.conditions = [
-					{properties: {type: 'Entree', values: ['spaghetti']}},
-					{properties: {type: 'Fruit', values: ['cake', 'pie']}},
-					{properties: {type: 'Fruit', values: ['lemonade']}}
+					{ properties: { type: 'Entree', values: ['spaghetti'] } },
+					{ properties: { type: 'Fruit', values: ['cake', 'pie'] } },
+					{ properties: { type: 'Fruit', values: ['lemonade'] } }
 				];
 				await el.updateComplete;
 			});
@@ -209,6 +209,7 @@ describe('d2l-discover-rule-picker', () => {
 					const conditionDropdownList = el.shadowRoot.querySelectorAll('select');
 					const conditionPickerList = el.shadowRoot.querySelectorAll('d2l-discover-attribute-picker');
 					await conditionPickerList.updateComplete;
+					await oneEvent(el, 'd2l-rule-condition-removed');
 
 					expect(el.conditions.length).to.equal(newConditions.length);
 					expect(el.conditions).to.deep.equal(newConditions);

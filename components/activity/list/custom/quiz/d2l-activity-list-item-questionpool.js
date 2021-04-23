@@ -55,6 +55,15 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 				observable: observableTypes.property,
 				id: 'questionPoints',
 				route: [route.specialization]
+			},
+			refreshCounter: {
+				type: Number,
+				attribute: 'refresh-counter'
+			},
+			_refreshState: {
+				type: Object,
+				observable: observableTypes.refreshState,
+				route: [route.specialization]
 			}
 		};
 	}
@@ -122,7 +131,6 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 		const range = `${this.number} - ${this.number + this.numQuestions}`;
 		return html`
 			<div class="questionpool-item d2l-skeletize">
-				<div class="checkbox"><d2l-input-checkbox></d2l-input-checkbox></div>
 				${this.numQuestions > 0 ?
 		html`<div class="d2l-body-standard questionpool-number d2l-skeletize">${range}</div>` :
 		html`<d2l-icon icon="emoji:sad" class="questionpool-emoji"></d2l-icon>`}
@@ -139,6 +147,12 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 				<div class="points d2l-body-compact d2l-skeletize">${this.localize('points', { count: this.questionPoints * this.numQuestions })}</div>
 			</div>
 		`;
+	}
+
+	updated(changedProperties) {
+		if (changedProperties.has('refreshCounter') && this.refreshCounter > 0) {
+			this._refreshState();
+		}
 	}
 
 	get _loaded() {

@@ -3,24 +3,6 @@
   "actions": [
     { "name": "create", "method": "POST", "href": "../demo/entitlement-create.json" }
   ],
-  "entities": [
-    {
-      "rel": ["https://discovery.brightspace.com/rels/rule"],
-      "class": ["rule"],
-      "entities": [
-        {
-          "rel": ["condition"],
-          "properties": {
-            "type": "TypeX",
-            "values": [ "value1", "value2" ]
-          }
-        }
-      ],
-      "links": [
-        { "rel": ["matching-users"], "href": "../demo/matching-users.json"}
-      ]
-    }
-  ],
   "properties": {
     "id": 12345
   },
