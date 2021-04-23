@@ -76,7 +76,7 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 			<d2l-discover-rule-picker-dialog
 				@d2l-dialog-close="${this._onDialogClose}"
 				href="${this._entitlementsHref}"
-				token="${this.token}"
+				.token="${this.token}"
 				?opened="${this._dialogOpened}"
 			></d2l-discover-rule-picker-dialog>
 			</d2l-labs-checkbox-drawer>
