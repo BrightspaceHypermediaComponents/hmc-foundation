@@ -1,4 +1,5 @@
 import '@brightspace-ui-labs/checkbox-drawer/checkbox-drawer.js';
+import './d2l-discover-rule-card.js';
 import './d2l-discover-rule-picker-dialog.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
@@ -58,6 +59,21 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 	}
 
 	render() {
+		let conditions = [
+			{
+				properties: {
+					type: 'Role',
+					values: ['one', 'two', 'three']
+				}
+			},
+			{
+				properties: {
+					type: 'Department',
+					values: ['four', 'five', 'six']
+				}
+			}
+		];
+
 		return html`
 			<d2l-labs-checkbox-drawer
 				@d2l-checkbox-drawer-checked-change="${this._onCheckboxChange}"
@@ -75,6 +91,7 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 				`)}
 			</div>
 			` : null}
+			<d2l-discover-rule-card .conditions="${conditions}"></d2l-discover-rule-card>
 			<d2l-button-subtle
 				@click=${this._onButtonClick}
 				id="add-enrollment-rule-button"
