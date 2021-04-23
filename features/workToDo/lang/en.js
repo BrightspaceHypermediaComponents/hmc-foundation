@@ -15,7 +15,6 @@ export default {
 	loadMore: 'Load More', // Button text displayed in 'Fullscreen View' that allows the user to access the next page of activities which will append to the bottom of the list currently shown
 	loadMoreDescription: 'Display more assigned activities', // Additional description text to accompany the load more button for additional clarity for the user
 	workToDo: 'Work To Do', // Widget title
-	myWorkToDo: 'My Work To Do', // Widget title
 	noActivities: 'You have no activities with due or end dates available.', // 'Empty state' - When widget has no activities in full page view
 	noActivitiesFutureActivities: "You have no activities due or ending soon. Come back later or View All Work to see what's coming next.",  // 'Empty View' - When widget has no activities to display within the next few weeks & there are activities in the future
 	noActivitiesNoFutureActivities: 'You have no activities with due or end dates available. Come back later to see if you have work to do.', // 'Empty View' - When widget has no activities to display within the next few weeks & there are no more activities in the future
