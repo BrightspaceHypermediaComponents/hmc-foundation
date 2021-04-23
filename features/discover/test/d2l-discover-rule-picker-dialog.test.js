@@ -73,7 +73,10 @@ describe('d2l-discover-rule-picker-dialog', () => {
 			expect(el.conditions).to.be.empty;
 			// simulate changing conditions
 			const rulePicker = el.shadowRoot.querySelector('d2l-discover-rule-picker');
-			rulePicker.conditions = ['stuff', 'things'];
+			rulePicker.conditions = [
+				{ properties: { values: ['cake', 'pie'], type: 'dessert' }, rel: [rels.condition] },
+				{ properties: { values: ['edible'], type: 'edibility' }, rel: [rels.condition] }
+			];
 
 			await rulePicker.updateComplete;
 			expect(rulePicker.conditions).to.have.lengthOf(2);
