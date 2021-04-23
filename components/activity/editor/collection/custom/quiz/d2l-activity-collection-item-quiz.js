@@ -84,9 +84,6 @@ const componentClass = class extends HypermediaStateMixin(ListItemButtonMixin(Li
 			`/d2l/lms/question/edit/${this.key}`);
 		return open(url, 'SrcCallBack', 'result', [], false, '');
 	}
-	_renderPrimaryAction(contentId) {
-		return html `<button aria-labelledby="${contentId}" href="#" @click="${this._onButtonClick}"></button>`;
-	}
 
 };
 
