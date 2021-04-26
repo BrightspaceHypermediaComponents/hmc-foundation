@@ -1,5 +1,3 @@
-// START custom component imports
-// END custom component imports
 import '@brightspace-ui/core/components/list/list.js';
 import '@brightspace-ui/core/components/list/list-item.js';
 import './d2l-activity-collection-item-quiz.js';
@@ -30,20 +28,20 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 				]
 			},
 			_dialogOpened: { type: Boolean },
-			_selectedCandidates: {
-				type: Object
-			}
+			_selectedCandidates: { type: Object },
+			_selectionCount: { type: Number }
 		};
 	}
 
 	static get styles() {
-		return [ css`
+		return [ super.styles, css`
 			.d2l-activity-collection-body {
 				margin: auto;
 				max-width: 1230px;
 				padding: 0 1.5rem;
 			}
 			.d2l-activity-collection-body-content {
+				margin: 0 -1.5rem;
 				max-width: 820px;
 				padding: 0 0.35rem;
 			}
@@ -58,7 +56,6 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 				justify-content: flex-end;
 				margin: 0.1rem 0;
 				max-width: 820px;
-				margin-bottom: 0.3rem;
 				position: relative;
 			}
 		`];
@@ -69,27 +66,21 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 		this.items = [];
 		this._dialogOpened = false;
 		this._currentSelection = new Map();
+		this._selectionCount = 0;
 		this.addEventListener('d2l-question-updated', this._handleQuestionUpdate);
-		this.addEventListener('d2l-delete-quiz-collection-items', this._deleteCurrentSelection);
 	}
 
 	render() {
 		return html`
 			<div class="d2l-activity-collection-body">
 				<div class="d2l-activity-collection-body-content">
-					<div class="d2l-activity-collection-list-actions">
-						<!-- <d2l-activity-collection-item-delete-quiz
-							?skeleton="${this.skeleton}"
-							.items="${this.items}"
-							.selectedCandidates="${this._currentSelection}">
-						</d2l-activity-collection-item-delete-quiz> -->
-						<div class="d2l-skeletize">
-							<d2l-button-subtle
-								text="${this.localize('button-quizEditorDelete')}"
-								icon="tier1:delete"
-								@click="${this._handleDialogOpen}">
-							</d2l-button-subtle>
-						</div>
+					<div class="d2l-activity-collection-list-actions d2l-skeletize">
+						<d2l-button-subtle
+							text="${this.localize('button-quizEditorDelete')}"
+							icon="tier1:delete"
+							?disabled="${this._selectionCount ? false : true}"
+							@click="${this._handleDialogOpen}">
+						</d2l-button-subtle>
 						<div class="dialog-div">
 							<d2l-dialog-confirm id="delete-confirmation-dialog"
 								?opened="${this._dialogOpened}"
@@ -111,14 +102,18 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 			</div>
 		`;
 	}
+	get _loaded() {
+		return !this.skeleton;
+	}
+	set _loaded(loaded) {
+		this.skeleton = !loaded;
+	}
 	_handleDialogClose() {
 		this._dialogOpened = false;
 	}
 	_handleDialogOpen() {
 		this._dialogOpened = true;
-		console.log('selected', this.shadowRoot.querySelectorAll('d2l-activity-collection-item-quiz[selected]'));
 		this.shadowRoot.querySelectorAll('d2l-activity-collection-item-quiz[selected]').forEach(itemElem => itemElem.deleteAction.has && itemElem.deleteAction.commit({}));
-		// this.shadowRoot.querySelectorAll('d2l-activity-collection-item-quiz[selected]').forEach(itemElem => itemElem._state.push());
 	}
 	_handleQuestionUpdate() {
 		fetch(this._state, true);
@@ -129,7 +124,6 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 		this.requestUpdate('items', []);
 	}
 	_onDeleteSelectedContent() {
-		console.log('PUSH');
 		this._state.push();
 	}
 	_onSelectionChange(e) {
@@ -140,9 +134,6 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 			this._currentSelection.delete(e.detail.key);
 		}
 		this._selectionCount = this._currentSelection.size;
-	}
-	get _selectedCandidates() {
-		return Array.from(this._currentSelection.values());
 	}
 }
 
