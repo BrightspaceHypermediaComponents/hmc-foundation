@@ -27,6 +27,11 @@ const componentClass = class extends HypermediaStateMixin(ListItemButtonMixin(Li
 			_activityHref: { type: String, observable: observableTypes.link, rel: rels.activityUsage },
 			_refreshCounter: {
 				type: Number,
+			},
+			deleteAction: {
+				type: Object,
+				observable: observableTypes.action,
+				name: 'remove-activity'
 			}
 		};
 	}

@@ -8,6 +8,7 @@ import { css, LitElement } from 'lit-element/lit-element.js';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { fetch } from '@brightspace-hmc/foundation-engine/state/fetch.js';
+import { LocalizeCollectionAdd } from '../../lang/localize-collection-add.js';
 import { repeat } from 'lit-html/directives/repeat';
 import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton-mixin.js';
 
@@ -16,7 +17,7 @@ const rels = Object.freeze({
 	item: 'item'
 });
 
-class ActivityEditorMainCollection extends SkeletonMixin(HypermediaStateMixin(LitElement)) {
+class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(LocalizeCollectionAdd((LitElement)))) {
 
 	static get properties() {
 		return {
@@ -28,6 +29,7 @@ class ActivityEditorMainCollection extends SkeletonMixin(HypermediaStateMixin(Li
 					{ observable: observableTypes.link, rel: rels.collection }
 				]
 			},
+			_dialogOpened: { type: Boolean },
 			_selectedCandidates: {
 				type: Object
 			}
@@ -65,6 +67,7 @@ class ActivityEditorMainCollection extends SkeletonMixin(HypermediaStateMixin(Li
 	constructor() {
 		super();
 		this.items = [];
+		this._dialogOpened = false;
 		this._currentSelection = new Map();
 		this.addEventListener('d2l-question-updated', this._handleQuestionUpdate);
 		this.addEventListener('d2l-delete-quiz-collection-items', this._deleteCurrentSelection);
@@ -75,7 +78,27 @@ class ActivityEditorMainCollection extends SkeletonMixin(HypermediaStateMixin(Li
 			<div class="d2l-activity-collection-body">
 				<div class="d2l-activity-collection-body-content">
 					<div class="d2l-activity-collection-list-actions">
-						<d2l-activity-collection-item-delete-quiz ?skeleton="${this.skeleton}"></d2l-activity-collection-item-delete-quiz>
+						<!-- <d2l-activity-collection-item-delete-quiz
+							?skeleton="${this.skeleton}"
+							.items="${this.items}"
+							.selectedCandidates="${this._currentSelection}">
+						</d2l-activity-collection-item-delete-quiz> -->
+						<div class="d2l-skeletize">
+							<d2l-button-subtle
+								text="${this.localize('button-quizEditorDelete')}"
+								icon="tier1:delete"
+								@click="${this._handleDialogOpen}">
+							</d2l-button-subtle>
+						</div>
+						<div class="dialog-div">
+							<d2l-dialog-confirm id="delete-confirmation-dialog"
+								?opened="${this._dialogOpened}"
+								@d2l-dialog-close="${this._handleDialogClose}"
+								text=${this.localize('text-deleteConfirmationDialog')}>
+									<d2l-button slot="footer" primary data-dialog-action="yes" @click="${this._onDeleteSelectedContent}">${this.localize('button-deleteConfirmationDialogDelete')}</d2l-button>
+									<d2l-button slot="footer" data-dialog-action>${this.localize('button-deleteConfirmationDialogCancel')}</d2l-button>
+							</d2l-dialog-confirm>
+						</div>
 					</div>
 				</div>
 				<div class="d2l-activity-collection-activities">
@@ -88,9 +111,14 @@ class ActivityEditorMainCollection extends SkeletonMixin(HypermediaStateMixin(Li
 			</div>
 		`;
 	}
-	_deleteCurrentSelection() {
-		console.log('DELETE CURRENT SELECTION');
-		console.log('current selection', this._currentSelection);
+	_handleDialogClose() {
+		this._dialogOpened = false;
+	}
+	_handleDialogOpen() {
+		this._dialogOpened = true;
+		console.log('selected', this.shadowRoot.querySelectorAll('d2l-activity-collection-item-quiz[selected]'));
+		this.shadowRoot.querySelectorAll('d2l-activity-collection-item-quiz[selected]').forEach(itemElem => itemElem.deleteAction.has && itemElem.deleteAction.commit({}));
+		// this.shadowRoot.querySelectorAll('d2l-activity-collection-item-quiz[selected]').forEach(itemElem => itemElem._state.push());
 	}
 	_handleQuestionUpdate() {
 		fetch(this._state, true);
@@ -99,6 +127,10 @@ class ActivityEditorMainCollection extends SkeletonMixin(HypermediaStateMixin(Li
 	_moveItems(e) {
 		e.detail.reorder(this.items, { keyFn: (item) => item.properties.id });
 		this.requestUpdate('items', []);
+	}
+	_onDeleteSelectedContent() {
+		console.log('PUSH');
+		this._state.push();
 	}
 	_onSelectionChange(e) {
 		if (e.detail.selected && !this._currentSelection.has(e.detail.key)) {
@@ -114,4 +146,4 @@ class ActivityEditorMainCollection extends SkeletonMixin(HypermediaStateMixin(Li
 	}
 }
 
-customHypermediaElement('d2l-activity-collection-editor-quiz', ActivityEditorMainCollection, 'd2l-activity-editor-main', [['quiz-activity']]);
+customHypermediaElement('d2l-activity-collection-editor-quiz', ActivityCollectionEditorQuiz, 'd2l-activity-editor-main', [['quiz-activity']]);
