@@ -127,7 +127,7 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 		if (changedProperties.has('conditions') && this.conditions.length === 0) {
 			this._addCondition(conditionStates.existing);
 		}
-		if (this._loaded && changedProperties.has('ruleIndex')) {
+		if (changedProperties.has('ruleIndex')) {
 			this._setExistingConditions();
 		}
 	}
@@ -283,11 +283,13 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 	})}`;
 	}
 
-	_setExistingConditions() {
-		if (this.rulesIndex + 1 > this._rules.length || this.rulesIndex < 0) {
+	async _setExistingConditions() {
+		if (!this._loaded) await this._state.allFetchesComplete();
+
+		if (this.ruleIndex === undefined || this.ruleIndex + 1 > this._rules.length || this.ruleIndex < 0) {
 			this.conditions = undefined;
 		}
-		const rule = this._rules[this.rulesIndex];
+		const rule = this._rules[this.ruleIndex];
 		this.conditions = rule.entities;
 	}
 }
