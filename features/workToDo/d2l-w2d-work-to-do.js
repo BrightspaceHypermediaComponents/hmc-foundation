@@ -97,9 +97,7 @@ class w2dWorkToDo extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement))
 		const immersiveNav = this.collapsed
 			? null
 			: html`
-				<d2l-navigation-immersive back-link-href="${this._getHomeHref()}" back-link-text="${this.localize('backToD2L')}" width-type="normal">
-					<div slot="middle" class="d2l-w2d-flex d2l-body-standard">${this.localize('myWorkToDo')}</div>
-				</d2l-navigation-immersive>
+				<d2l-navigation-immersive back-link-href="${this._getHomeHref()}" back-link-text="${this.localize('backToD2L')}" width-type="normal"></d2l-navigation-immersive>
 			`;
 		const workToDoHeader = this.collapsed
 			? null
