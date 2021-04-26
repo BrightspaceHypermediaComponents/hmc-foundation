@@ -11,22 +11,31 @@ import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynam
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { selectStyles } from '@brightspace-ui/core/components/inputs/input-select-styles.js';
 
+const rels = Object.freeze({
+	rule: 'https://discovery.brightspace.com/rels/rule',
+	condition: 'https://discovery.brightspace.com/rels/condition',
+	conditionType: 'https://discovery.brightspace.com/rels/condition-type',
+	conditionTypes: 'https://discovery.brightspace.com/rels/condition-types'
+});
+
 const conditionStates = Object.freeze({
 	new: 'new',
 	existing: 'existing',
 	remove: 'remove',
 	removed: 'removed'
 });
-
+// todo: edit an existing rule
 class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitElement))) {
 
 	static get properties() {
 		return {
-			conditionTypes: { observable: observableTypes.subEntities, rel: 'condition-type', route: [
-				{ observable: observableTypes.link, rel: 'available-condition-types' }
+			conditions: { type: Array },
+			ruleIndex: { type: Number, attribute: 'rule-index' },
+			_conditionTypes: { type: Array, observable: observableTypes.subEntities, rel: rels.conditionType, route: [
+				{ observable: observableTypes.link, rel: rels.conditionTypes }
 			] },
-			conditions: { type: Array, observable: observableTypes.subEntities, rel: 'condition' },
-			defaultType: { type: String },
+			_rules: { type: Array, observable: observableTypes.subEntities, rel: rels.rule },
+			_defaultType: { type: String },
 		};
 	}
 
@@ -84,6 +93,7 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 
 	constructor() {
 		super();
+		this._rules = [];
 		this.conditions = [];
 		this._conditionTypesHash = {};
 		this._cleaningAnimState = false;
@@ -107,22 +117,23 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 
 	updated(changedProperties) {
 		super.updated(changedProperties);
-		if (changedProperties.has('conditionTypes')) {
+		if (changedProperties.has('_conditionTypes')) {
 			this._buildConditionTypeHash();
 			// set the default condition type even if this resolves second
 			if (this.conditions && this.conditions.length && !this.conditions[0].properties.type) {
-				this.conditions[0].properties.type = this.defaultType = this.conditionTypes[0].properties.type;
+				this.conditions[0].properties.type = this.defaultType = this._conditionTypes[0].properties.type;
 			}
 		}
 		if (changedProperties.has('conditions') && this.conditions.length === 0) {
 			this._addCondition(conditionStates.existing);
 		}
+		if (changedProperties.has('ruleIndex')) {
+			this._setExistingConditions();
+		}
 	}
 
-	async reload(newConditions) {
+	reload(newConditions) {
 		this.conditions = newConditions;
-		await this.updateComplete;
-
 		if (!this.conditions || this.conditions.length === 0) {
 			this._addDefaultCondition();
 		}
@@ -150,7 +161,7 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 
 	_buildConditionTypeHash() {
 		this._conditionTypesHash = {};
-		this.conditionTypes.forEach(conditionType => {
+		this._conditionTypes.forEach(conditionType => {
 			this._conditionTypesHash[conditionType.properties.type] = conditionType;
 		});
 	}
@@ -244,7 +255,7 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 						.condition="${condition}"
 						value="${condition.properties.type}"
 						@blur="${this._onConditionSelectChange}">
-						${this.conditionTypes ? this.conditionTypes.map(conditionType => html`
+						${this._conditionTypes ? this._conditionTypes.map(conditionType => html`
 							<option value="${conditionType.properties.type}" ?selected="${condition.properties.type === conditionType.properties.type}">${conditionType.properties.type}</option>
 						`) : null}
 					</select>
@@ -270,6 +281,16 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 			</div>
 			`;
 	})}`;
+	}
+
+	async _setExistingConditions() {
+		if (!this._loaded) await this._state.allFetchesComplete();
+
+		if (this.ruleIndex === undefined || this.ruleIndex + 1 > this._rules.length || this.ruleIndex < 0) {
+			this.conditions = undefined;
+		}
+		const rule = this._rules[this.ruleIndex];
+		this.conditions = rule.entities;
 	}
 }
 

@@ -8,27 +8,25 @@ import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton
 
 const rels = Object.freeze({
 	selfAssignableClass: 'self-assignable',
-	rule: 'rule',
-	entitlementRules: 'entitlement-rules',
-	conditionType: 'condition-type',
-	newRule: 'new-rule'
+	rule: 'https://discovery.brightspace.com/rels/rule',
+	organization: 'https://api.brightspace.com/rels/organization',
+	entitlementRules: 'https://discovery.brightspace.com/rels/entitlement-rules',
 });
 
 class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStateMixin(LitElement))) {
 	static get properties() {
 		return {
-			name: { type: String, observable: observableTypes.property },
-			isSelfEnrollable: { type: Boolean, observable: observableTypes.classes, method: (classes) => classes.includes(rels.selfAssignableClass) },
-			// rules: { observable: observableTypes.subEntities, rel: rels.rule, route: [
-			// 	{ observable: observableTypes.link, rel: rels.entitlementRules }
-			// ] },
-			_dialogOpened: { type: Boolean },
-			_newRuleHref: { observable: observableTypes.link, rel: rels.newRule, route: [
+			isSelfEnrollable: { type: Boolean, observable: observableTypes.classes,
+				method: (classes) => classes.includes(rels.selfAssignableClass),
+				route: [{observable: observableTypes.link, rel: rels.organization }] },
+			_rules: { type: Array, observable: observableTypes.subEntities, rel: rels.rule, route: [
 				{ observable: observableTypes.link, rel: rels.entitlementRules }
 			] },
-			// _addNewRule: { observable: observableTypes.action, name: "add-new-rule", route: [
-			// 	{ observable: observableTypes.link, rel: rels.entitlementRules }
-			// ]}
+			_dialogOpened: { type: Boolean },
+			_entitlementsHref: { observable: observableTypes.link, rel: rels.entitlementRules },
+			_createEntitlement: { observable: observableTypes.action, name: 'create', route: [
+				{ observable: observableTypes.link, rel: rels.entitlementRules }
+			]}
 		};
 	}
 
@@ -56,6 +54,7 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 	constructor() {
 		super();
 		this.skeleton = true;
+		this._rules = [];
 	}
 
 	render() {
@@ -79,14 +78,21 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 				text="${this.localize('text-add-enrollment-rule')}"
 				icon="tier1:lock-locked"></d2l-button-subtle>
 			<d2l-discover-rule-picker-dialog
-				@d2l-discover-rule-created="${this._onRuleCreated}"
 				@d2l-dialog-close="${this._onDialogClose}"
-				href="${this._newRuleHref}"
-				token="${this.token}"
+				href="${this._entitlementsHref}"
+				.token="${this.token}"
 				?opened="${this._dialogOpened}"
 			></d2l-discover-rule-picker-dialog>
 			</d2l-labs-checkbox-drawer>
 		`;
+	}
+
+	updated(changedProperties) {
+		super.updated(changedProperties);
+
+		if (this._loaded && changedProperties.has('_rules') && changedProperties.get('_rules') !== undefined) {
+			this._onRulesChanged();
+		}
 	}
 
 	get _loaded() {
@@ -113,8 +119,14 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 		this._dialogOpened = false;
 	}
 
-	_onRuleCreated() {
-		// todo: commit action to make not discoverable AND create entitlement
+	_onRulesChanged() {
+		if (!this._hasAction('_createEntitlement')) return;
+		const message = JSON.stringify(this._rules.map(rule => {
+			const ruleObj = {};
+			rule.entities.forEach(condition => ruleObj[condition.properties.type] = condition.properties.values);
+			return ruleObj;
+		}));
+		this._createEntitlement.commit(message);
 	}
 
 }
