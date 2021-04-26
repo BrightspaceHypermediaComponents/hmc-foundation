@@ -39,6 +39,9 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 			h5.d2l-body-small + p {
 				margin-top: 0;
 			}
+			d2l-button-subtle {
+				margin-left: -0.65rem;
+			}
 		` ];
 	}
 
@@ -57,6 +60,7 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 	render() {
 		return html`
 			<d2l-labs-checkbox-drawer
+				@d2l-checkbox-drawer-checked-change="${this._onCheckboxChange}"
 				?checked="${this.isSelfEnrollable || (this.rules && this.rules.length)}"
 				label="${this.localize('label-checkbox')}"
 				description="${this.localize('text-checkbox-description')}"
@@ -101,6 +105,14 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 
 	_onButtonClick() {
 		this._dialogOpened = true;
+	}
+
+	_onCheckboxChange(e) {
+		if (e.detail.checked) {
+			// todo: commit action to make discoverable
+		} else {
+			// todo: commit action to make not discoverable
+		}
 	}
 
 	_onDialogClose() {

@@ -7,6 +7,7 @@ import { bodyStandardStyles, heading2Styles, heading3Styles } from '@brightspace
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { formatDate } from '@brightspace-ui/intl/lib/dateTime.js';
+import { ifDefined } from 'lit-html/directives/if-defined';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
 import { skeletonStyles } from '@brightspace-ui/core/components/skeleton/skeleton-mixin.js';
 import { W2dDateCategory } from './w2dDateCategoryObserver.js';
@@ -154,18 +155,19 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 			`;
 		}
 		let overdueCount = 0;
-		let limit = this.collapsed ? limitTheNumberOfActivitiesWhenCollapsed : 0;
+		let limit = this.collapsed ? limitTheNumberOfActivitiesWhenCollapsed : undefined;
 		const overdue = this._overdue.map(category => {
 			let header = this.localize('overdue');
 			if (!this.collapsed) {
 				header = this._renderDate(category.startDate, category.endDate, this.collapsed);
 			}
 			overdueCount += category.count;
+			if (limit === 0) return;
 			const list = html`
 				${this._renderHeader3(header, category.count)}
-				<d2l-w2d-list href="${category.href}" .token="${this.token}" category="${category.index}" ?collapsed="${this.collapsed}" limit="${limit}"></d2l-w2d-list>
+				<d2l-w2d-list href="${category.href}" .token="${this.token}" category="${category.index}" ?collapsed="${this.collapsed}" limit="${ifDefined(limit)}"></d2l-w2d-list>
 			`;
-			limit = Math.max(limit - category.count, 0);
+			limit = limit === undefined ? limit : Math.max(limit - category.count, 0);
 			return list;
 		});
 		let upcomingCount = 0;
@@ -173,11 +175,12 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 			if (category.index < 0) return;
 			const header = this._renderDate(category.startDate, category.endDate, this.collapsed);
 			upcomingCount += category.count;
+			if (limit === 0) return;
 			const list = html`
 				${this._renderHeader3(header, category.count)}
-				<d2l-w2d-list href="${category.href}" .token="${this.token}" category="${category.index}" ?collapsed="${this.collapsed}" limit="${limit}"></d2l-w2d-list>
+				<d2l-w2d-list href="${category.href}" .token="${this.token}" category="${category.index}" ?collapsed="${this.collapsed}" limit="${ifDefined(limit)}"></d2l-w2d-list>
 			`;
-			limit = Math.max(limit - category.count, 0);
+			limit = limit === undefined ? limit : Math.max(limit - category.count, 0);
 			return list;
 		});
 
