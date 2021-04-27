@@ -121,11 +121,11 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 
 	_onRulesChanged() {
 		if (!this._hasAction('_createEntitlement')) return;
-		const message = JSON.stringify(this._rules.map(rule => {
+		const message = this._rules.map(rule => {
 			const ruleObj = {};
 			rule.entities.forEach(condition => ruleObj[condition.properties.type] = condition.properties.values);
 			return ruleObj;
-		}));
+		});
 		this._createEntitlement.commit(message);
 	}
 
