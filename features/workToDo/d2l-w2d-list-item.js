@@ -12,6 +12,7 @@ import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundati
 import { classMap } from 'lit-html/directives/class-map.js';
 import { formatDate } from '@brightspace-ui/intl/lib/dateTime.js';
 import { guard } from 'lit-html/directives/guard';
+import { ifDefined } from 'lit-html/directives/if-defined';
 import { ListItemLinkMixin } from '@brightspace-ui/core/components/list/list-item-link-mixin.js';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
 import { nothing } from 'lit-html';
@@ -124,9 +125,9 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 
 		const startDate = (!this.actionHref && this._dates.start)
 			? html`
-				<d2l-status-indicator ${ !this.collapsed ? html`slot="supporting-info"` : nothing } state="none" text="Starts ${formatDate(this._dates.start, {format: 'shortMonthDay'})}"></d2l-status-indicator>
+				<d2l-status-indicator slot="${ ifDefined(this.collapsed ? 'supporting-info' : undefined) }" state="none" text="Starts ${formatDate(this._dates.start, {format: 'shortMonthDay'})}"></d2l-status-indicator>
 			`
-			: nothing;
+			: null;
 
 		return this._renderListItem({
 			illustration: html`<d2l-activity-icon href="${this.href}" .token="${this.token}" class="${classMap(iconClasses)}"></d2l-activity-icon>`,
@@ -137,7 +138,6 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 						${ !this.collapsed ? startDate : nothing }
 						${this._renderAttributeListCollapsed()}
 					</d2l-w2d-attribute-list>
-
 					${ !this.collapsed ? html`<d2l-activity-description slot="supporting-info" href="${this.href}" .token="${this.token}"></d2l-activity-description>` : startDate}
 				</d2l-list-item-content>
 			`)}`
