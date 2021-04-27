@@ -65,7 +65,21 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 					collapsed: 'collapsed'
 				}],
 				method: (categories) => Object.values(categories)
-			}
+			},
+			_totalActivities: {
+				type: Number,
+				name: 'totalActivities',
+				observable: observableTypes.property,
+				route: [{
+					observable: observableTypes.custom,
+					observableObject: W2dSummonAction,
+					name: 'filter-work-to-do',
+					startDate: 'startDate',
+					endDate: 'endDate',
+					pageSize: '_pageSize',
+					page: '_pageUpcoming'
+				}]
+			},
 		};
 	}
 
@@ -129,6 +143,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 		this._categories = [];
 		this._overdue = [];
 		this.collapsed = false;
+		this._pagingTotalResults = 0;
 		this.requiredPropertyForState('currentTime');
 		this.requiredPropertyForState('groupByDays');
 		this.requiredPropertyForState('overdueGroupByDays');
@@ -145,10 +160,11 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 				<d2l-w2d-list skeleton ?collapsed="${this.collapsed}"></d2l-w2d-list>
 			`;
 		}
+
 		if (this._overdue.length === 0 && this._categories.length === 0) {
 			return html`
 				<d2l-w2d-no-activities
-					?activities="${this.collapsed}"
+					?activities="${this._totalActivities !== 0}"
 					?collapsed="${this.collapsed}"
 					?complete="${!this.collapsed}"
 					data-full-page-path=${this.dataFullPagePath}></d2l-w2d-no-activities>
