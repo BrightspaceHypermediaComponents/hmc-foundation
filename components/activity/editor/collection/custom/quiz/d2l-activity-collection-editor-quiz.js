@@ -27,7 +27,6 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 				]
 			},
 			_dialogOpened: { type: Boolean },
-			_selectedCandidates: { type: Object },
 			_selectionCount: { type: Number }
 		};
 	}
@@ -86,7 +85,7 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 								@d2l-dialog-close="${this._handleDialogClose}"
 								text=${this.localize('text-deleteConfirmationDialog')}>
 									<d2l-button slot="footer" primary data-dialog-action="yes" @click="${this._onDeleteSelectedContent}">${this.localize('button-deleteConfirmationDialogDelete')}</d2l-button>
-									<d2l-button slot="footer" data-dialog-action>${this.localize('button-deleteConfirmationDialogCancel')}</d2l-button>
+									<d2l-button slot="footer" data-dialog-action @click="${this._onCancelSelectedContent}">${this.localize('button-deleteConfirmationDialogCancel')}</d2l-button>
 							</d2l-dialog-confirm>
 						</div>
 					</div>
@@ -121,6 +120,9 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 	_moveItems(e) {
 		e.detail.reorder(this.items, { keyFn: (item) => item.properties.id });
 		this.requestUpdate('items', []);
+	}
+	_onCancelSelectedContent() {
+		this._state.reset();
 	}
 	_onDeleteSelectedContent() {
 		this._state.push();
