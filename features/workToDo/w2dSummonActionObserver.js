@@ -1,17 +1,28 @@
 import { fetch } from '@brightspace-hmc/foundation-engine/state/fetch.js';
 import { SirenSummonAction } from '@brightspace-hmc/foundation-engine/state/observable/SirenSummonAction.js';
 
+window.D2L = window.D2L || {};
+window.D2L.Foundation = window.D2L.Foundation || {};
+window.D2L.Foundation.renderQueue = window.D2L.Foundation.renderQueue || [];
+const renderQueue = window.D2L.Foundation.renderQueue;
 export class W2dSummonAction extends SirenSummonAction {
 
-	static definedProperty({ name: id, token, verbose, startDate, endDate, collapsed }) {
-		return { id, token, verbose, startDate, endDate, collapsed };
+	static definedProperty({ name: id, token, verbose, startDate, page, pageSize, endDate }) {
+		return { id, token, verbose, startDate, endDate, page, pageSize };
 	}
 
-	addObserver(observer, property, { method, route, startDate, endDate } = {}) {
+	async addObserver(observer, property, { method, route, startDate, page, pageSize, endDate } = {}) {
 		if (startDate && endDate) {
-			this.setQueryParams({ start: observer[startDate], end: observer[endDate], embed: false });
+			this.setQueryParams({
+				start: observer[startDate],
+				end: observer[endDate],
+				embed: false,
+				pageSize: observer[pageSize],
+				page: observer[page]
+			});
 		}
 		super.addObserver(observer, property, { method, route });
+		await this._setPage(observer[page]);
 	}
 
 	get method() {
@@ -39,8 +50,22 @@ export class W2dSummonAction extends SirenSummonAction {
 			this._routes.forEach((route, observer) => {
 				this.routedState.addObservables(observer, route);
 			});
-			fetch(this.routedState);
+			await fetch(this.routedState);
 		}
-		this._updateAction();
+	}
+
+	async _setPage(page) {
+		if (this._page === page) return;
+		let resolver;
+		renderQueue.push(new Promise(resolve => resolver = resolve));
+		this._page = page;
+		if (this._routes.size > 0 && this._href && this._token) {
+			this.routedState = await this.createRoutedState(this.href, this._token.rawToken);
+			this._routes.forEach((route, observer) => {
+				this.routedState.addObservables(observer, route);
+			});
+			await fetch(this.routedState);
+		}
+		resolver();
 	}
 }
