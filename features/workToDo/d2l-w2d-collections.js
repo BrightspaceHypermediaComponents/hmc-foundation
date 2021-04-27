@@ -143,7 +143,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 		this._categories = [];
 		this._overdue = [];
 		this.collapsed = false;
-		this._pagingTotalResults = 0;
+		this._totalActivities = 0;
 		this.requiredPropertyForState('currentTime');
 		this.requiredPropertyForState('groupByDays');
 		this.requiredPropertyForState('overdueGroupByDays');
