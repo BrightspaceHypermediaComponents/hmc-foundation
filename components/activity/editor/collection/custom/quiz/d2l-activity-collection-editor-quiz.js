@@ -1,11 +1,11 @@
 import '@brightspace-ui/core/components/list/list.js';
 import '@brightspace-ui/core/components/list/list-item.js';
 import './d2l-activity-collection-item-quiz.js';
+import './d2l-activity-collection-item-delete-quiz.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { fetch } from '@brightspace-hmc/foundation-engine/state/fetch.js';
-import { LocalizeCollectionAdd } from '../../lang/localize-collection-add.js';
 import { repeat } from 'lit-html/directives/repeat';
 import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton-mixin.js';
 
@@ -14,7 +14,7 @@ const rels = Object.freeze({
 	item: 'item'
 });
 
-class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(LocalizeCollectionAdd((LitElement)))) {
+class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin((LitElement))) {
 
 	static get properties() {
 		return {
@@ -26,7 +26,6 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 					{ observable: observableTypes.link, rel: rels.collection }
 				]
 			},
-			_dialogOpened: { type: Boolean },
 			_selectionCount: { type: Number }
 		};
 	}
@@ -54,6 +53,7 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 				justify-content: flex-end;
 				margin: 0.1rem 0;
 				max-width: 820px;
+				padding-bottom: 1rem;
 				position: relative;
 			}
 		`];
@@ -62,33 +62,24 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 	constructor() {
 		super();
 		this.items = [];
-		this._dialogOpened = false;
 		this._currentSelection = new Map();
 		this._selectionCount = 0;
 		this.addEventListener('d2l-question-updated', this._handleQuestionUpdate);
+		this.addEventListener('d2l-collection-item-delete-dialog-open', this._handleDeleteDialogOpen);
+		this.addEventListener('d2l-collection-item-delete-dialog-confirm', this._handleDeleteDialogConfirm);
+		this.addEventListener('d2l-collection-item-delete-dialog-cancel', this._handleDeleteDialogCancel);
 	}
 
 	render() {
 		return html`
 			<div class="d2l-activity-collection-body">
 				<div class="d2l-activity-collection-body-content">
-					<div class="d2l-activity-collection-list-actions d2l-skeletize">
-						<d2l-button-subtle
-							text="${this.localize('button-quizEditorDelete')}"
-							icon="tier1:delete"
-							?disabled="${this._selectionCount ? false : true}"
-							@click="${this._handleDialogOpen}">
-						</d2l-button-subtle>
-						<div class="dialog-div">
-							<d2l-dialog-confirm id="delete-confirmation-dialog"
-								?opened="${this._dialogOpened}"
-								@d2l-dialog-close="${this._handleDialogClose}"
-								text=${this.localize('text-deleteConfirmationDialog')}>
-									<d2l-button slot="footer" primary data-dialog-action="yes" @click="${this._onDeleteSelectedContent}">${this.localize('button-deleteConfirmationDialogDelete')}</d2l-button>
-									<d2l-button slot="footer" data-dialog-action @click="${this._onCancelSelectedContent}">${this.localize('button-deleteConfirmationDialogCancel')}</d2l-button>
-							</d2l-dialog-confirm>
-						</div>
+				${this.items.length ? html`
+					<div class="d2l-activity-collection-list-actions">
+						<d2l-activity-collection-item-delete-quiz ?skeleton="${this.skeleton}" selection-count="${this._selectionCount}">
+						</d2l-activity-collection-item-delete-quiz>
 					</div>
+				` : null}
 				</div>
 				<div class="d2l-activity-collection-activities">
 					<d2l-list separators="none" @d2l-list-item-position-change="${this._moveItems}" @d2l-list-selection-change="${this._onSelectionChange}">
@@ -106,26 +97,22 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 	set _loaded(loaded) {
 		this.skeleton = !loaded;
 	}
-	_handleDialogClose() {
-		this._dialogOpened = false;
+
+	_handleDeleteDialogCancel() {
+		this._state.reset();
 	}
-	_handleDialogOpen() {
-		this._dialogOpened = true;
+	_handleDeleteDialogConfirm() {
+		this._state.push();
+	}
+	_handleDeleteDialogOpen() {
 		this.shadowRoot.querySelectorAll('d2l-activity-collection-item-quiz[selected]').forEach(itemElem => itemElem.deleteAction.has && itemElem.deleteAction.commit({}));
 	}
 	_handleQuestionUpdate() {
 		fetch(this._state, true);
 	}
-
 	_moveItems(e) {
 		e.detail.reorder(this.items, { keyFn: (item) => item.properties.id });
 		this.requestUpdate('items', []);
-	}
-	_onCancelSelectedContent() {
-		this._state.reset();
-	}
-	_onDeleteSelectedContent() {
-		this._state.push();
 	}
 	_onSelectionChange(e) {
 		if (e.detail.selected && !this._currentSelection.has(e.detail.key)) {
