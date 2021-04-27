@@ -5,21 +5,14 @@ import { HypermediaStateMixin } from '@brightspace-hmc/foundation-engine/framewo
 import { LitElement } from 'lit-element/lit-element.js';
 import { LocalizeCollectionAdd } from '../../lang/localize-collection-add.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
-import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton-mixin.js';
 
-class ActivityCollectionItemDeleteQuiz extends SkeletonMixin(RtlMixin(HypermediaStateMixin(LocalizeCollectionAdd(LitElement)))) {
+class ActivityCollectionItemDeleteQuiz extends RtlMixin(HypermediaStateMixin(LocalizeCollectionAdd(LitElement))) {
 	static get properties() {
 		return {
 			_dialogOpened: { type: Boolean },
 			_selectionCount: { type: Number, attribute: 'selection-count' }
 		};
 	}
-	static get styles() {
-		return [
-			super.styles
-		];
-	}
-
 	constructor() {
 		super();
 		this._dialogOpened = false;
@@ -27,22 +20,20 @@ class ActivityCollectionItemDeleteQuiz extends SkeletonMixin(RtlMixin(Hypermedia
 
 	render() {
 		return html`
-            <div class="d2l-skeletize">
-                <d2l-button-subtle
-                    text="${this.localize('button-quizEditorDelete')}"
-                    icon="tier1:delete"
-                    ?disabled="${this._selectionCount ? false : true}"
-                    @click="${this._handleDialogOpen}">
-                </d2l-button-subtle>
-                <div class="dialog-div">
-                    <d2l-dialog-confirm id="delete-confirmation-dialog"
-                        ?opened="${this._dialogOpened}"
-                        @d2l-dialog-close="${this._handleDialogClose}"
-                        text=${this.localize('text-deleteConfirmationDialog')}>
-                            <d2l-button slot="footer" primary data-dialog-action="yes" @click="${this._onDeleteSelectedContent}">${this.localize('button-deleteConfirmationDialogDelete')}</d2l-button>
-                            <d2l-button slot="footer" data-dialog-action @click="${this._onCancelSelectedContent}">${this.localize('button-deleteConfirmationDialogCancel')}</d2l-button>
-                    </d2l-dialog-confirm>
-                </div>
+            <d2l-button-subtle
+                text="${this.localize('button-quizEditorDelete')}"
+                icon="tier1:delete"
+                ?disabled="${this._selectionCount ? false : true}"
+                @click="${this._handleDialogOpen}">
+            </d2l-button-subtle>
+            <div class="dialog-div">
+                <d2l-dialog-confirm id="delete-confirmation-dialog"
+                    ?opened="${this._dialogOpened}"
+                    @d2l-dialog-close="${this._handleDialogClose}"
+                    text=${this.localize('text-deleteConfirmationDialog')}>
+                        <d2l-button slot="footer" primary data-dialog-action="yes" @click="${this._onDeleteSelectedContent}">${this.localize('button-deleteConfirmationDialogDelete')}</d2l-button>
+                        <d2l-button slot="footer" data-dialog-action @click="${this._onCancelSelectedContent}">${this.localize('button-deleteConfirmationDialogCancel')}</d2l-button>
+                </d2l-dialog-confirm>
             </div>
 		`;
 	}
