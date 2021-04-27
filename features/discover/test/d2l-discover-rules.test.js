@@ -104,9 +104,11 @@ describe('d2l-discover-rules', () => {
 			// click done
 			dialog.shadowRoot.querySelector('d2l-button[primary]').click();
 			await dialog.updateComplete;
-			const expectedCommit = [
-				{ entree: ['spaghetti'], dessert: ['cake', 'pie'] }
-			];
+			const expectedCommit = {
+				rules: [
+					{ entree: ['spaghetti'], dessert: ['cake', 'pie'] }
+				]
+			};
 
 			expect(spy.calledOnce, 'commit was not called').to.be.true;
 			expect(spy.calledWith(expectedCommit), `commit was not called with: ${expectedCommit}`).to.be.true;

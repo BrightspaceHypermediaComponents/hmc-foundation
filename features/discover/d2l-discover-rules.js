@@ -126,7 +126,9 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 			rule.entities.forEach(condition => ruleObj[condition.properties.type] = condition.properties.values);
 			return ruleObj;
 		});
-		this._createEntitlement.commit(message);
+		this._createEntitlement.commit({
+			rules: message
+		});
 	}
 
 }
