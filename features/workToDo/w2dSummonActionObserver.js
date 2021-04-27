@@ -9,7 +9,7 @@ export class W2dSummonAction extends SirenSummonAction {
 
 	addObserver(observer, property, { method, route, startDate, endDate } = {}) {
 		if (startDate && endDate) {
-			this.setQueryParams({start: observer[startDate], end: observer[endDate], embed: false});
+			this.setQueryParams({ start: observer[startDate], end: observer[endDate], embed: false });
 		}
 		super.addObserver(observer, property, { method, route });
 	}
@@ -32,6 +32,7 @@ export class W2dSummonAction extends SirenSummonAction {
 
 		this._rawSirenAction = entity.getActionByName(this._name);
 		this._href = this._rawSirenAction.href;
+		this._fields = this._decodeFields(this._rawSirenAction);
 		this._method = this._rawSirenAction.method;
 		if (this._routes.size > 0) {
 			this.routedState = await this.createRoutedState(this.href, this._token.rawToken);
