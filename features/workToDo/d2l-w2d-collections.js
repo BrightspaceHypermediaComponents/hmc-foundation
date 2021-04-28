@@ -252,7 +252,6 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 			`;
 		}
 
-		let overdueCount = 0;
 		let limit = this._pageSize;
 		let overdue = null;
 		if (this._page <= this._currentPageOverdue) {
@@ -261,7 +260,6 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 				if (!this.collapsed) {
 					header = this._renderDate(category.startDate, category.endDate, this.collapsed);
 				}
-				overdueCount += category.count;
 				if (limit === 0) return;
 				const list = html`
 					${this._renderHeader3(header, category.count)}
@@ -276,13 +274,11 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 			limit = this._lastOverduePageHasMoreThanHalf() ? 0 : this._pageSize;
 		}
 
-		let upcomingCount = 0;
 		let categories = null;
 		if (limit > 0) {
 			categories = this._categories.map(category => {
 				if (category.index < 0) return;
 				const header = this._renderDate(category.startDate, category.endDate, this.collapsed);
-				upcomingCount += category.count;
 				if (limit === 0) return;
 				const list = html`
 					${this._renderHeader3(header, category.count)}
@@ -294,9 +290,9 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 		}
 
 		return html`
-			${overdue ? this._renderHeader2(this.localize('overdue'), overdueCount) : null}
+			${overdue ? this._renderHeader2(this.localize('overdue'), this._pagingTotalResultsOverdue) : null}
 			${overdue}
-			${categories ? this._renderHeader2(this.localize('upcoming'), upcomingCount) : null}
+			${categories ? this._renderHeader2(this.localize('upcoming'), this._pagingTotalResultsUpcomming) : null}
 			${categories}
 			${this.dataFullPagePath && this._loaded && this.collapsed ? html`<d2l-link href="${this.dataFullPagePath}">${this.localize('fullViewLink')}</d2l-link>` : null}
 			${this._renderPagination()}
@@ -374,7 +370,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 	}
 
 	_lastOverduePageHasMoreThanHalf() {
-		return this._pagingTotalResultsOverdue && this._pageSize && this._pagingTotalResultsOverdue % this._pageSize > this._pageSize / 2;
+		return this._pagingTotalResultsOverdue && this._pageSize && (this._pagingTotalResultsOverdue === this._pageSize || (this._pagingTotalResultsOverdue % this._pageSize) > (this._pageSize / 2));
 	}
 
 	async _onPageChange(e) {
