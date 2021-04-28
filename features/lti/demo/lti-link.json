@@ -1,0 +1,25 @@
+{
+    "class": [
+      "named-entity",
+      "describable-entity",
+      "lti-link"
+    ],
+    "properties": {
+      "name": "What is the capital of Canada?",
+      "description": "Multiple Choice",
+      "providerName": "H5P",
+      "launchUrl": "http://example.com",
+      "iFrameWidth": "700px",
+      "iFrameHeight": "400px"
+    },
+    "links": [
+        { 
+            "rel": [
+                "self",
+                "https://api.brightspace.com/lti-link"
+            ], 
+            "href": "../demo/lti-link.json"
+        }
+    ]
+  }
+  
