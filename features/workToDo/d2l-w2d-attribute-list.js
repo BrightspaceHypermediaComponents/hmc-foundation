@@ -5,7 +5,7 @@ class W2DAttributeList extends SkeletonMixin(LitElement) {
 	static get styles() {
 		return [ super.styles, css`
 			:host {
-				display: inline-flex;
+				display: flex;
 				flex-flow: row wrap;
 				height: 1rem;
 				overflow-y: hidden;
