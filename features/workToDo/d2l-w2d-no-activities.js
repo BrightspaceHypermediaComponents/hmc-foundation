@@ -136,13 +136,10 @@ class w2dNoActivities extends LocalizeDynamicMixin(LitElement) {
 	}
 
 	_renderEmptyViewText() {
-
 		let emptyViewTextLabel = 'noActivitiesNoFutureActivities';
-		if (this.activities && this.complete && this.collapse) {
-			emptyViewTextLabel = 'activitiesAvailable';
-		} else if (this.activities && this.collapse) {
+		if (this.activities && !this.collapse) {
 			emptyViewTextLabel = 'noActivitiesFutureActivities';
-		} else if (!this.collapse) {
+		} else if (this.collapse) {
 			emptyViewTextLabel = 'noActivities';
 		}
 
@@ -150,8 +147,6 @@ class w2dNoActivities extends LocalizeDynamicMixin(LitElement) {
 			<div class="d2l-body-standard d2l-empty-body-text-container">
 				${this.localize(emptyViewTextLabel)}
 			</div>
-			${!this.collapse ? html`<div class="d2l-body-standard d2l-empty-body-text-container">
-			${this.localize('comeBackNoFutureActivities')}</div>` : html``}
 			`;
 	}
 
