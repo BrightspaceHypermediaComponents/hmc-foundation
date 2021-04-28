@@ -22,7 +22,7 @@ const rel = Object.freeze({
 
 const pageSize = Object.freeze({
 	collapsed: 6,
-	fullScreen: 5
+	fullScreen: 20
 });
 
 class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement)) {
