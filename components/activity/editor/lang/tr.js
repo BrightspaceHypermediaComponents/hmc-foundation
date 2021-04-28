@@ -15,5 +15,5 @@ export default {
 	"text-newDialogSaveTitle": "Öğrenim Yolu kaydedilemedi", // Error when a new learning path could not be saved
 	"text-newDialogSaveContent": "Bu Öğrenim Yolu kaydedilemedi. Tamam düğmesine bastıktan sonra tekrar deneyebilirsiniz.", // // Message telling user a new learning path could not be saved. Informs user they can try to save again after pressing ok to close dialog box
 	"text-saveComplete": "Kaydetme İşlemini Tamamla", // Saving is complete and was successful,
-	"title-identification": "Additional Identification" // Title for side bar that contains supplementary information
+	"title-identification": "Ek Tanımlama" // Title for side bar that contains supplementary information
 };
