@@ -23,6 +23,7 @@ export default {
 	quiz: 'Quiz', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	StartsWithDate: 'Starts {startDate}', // show Start Date on status indicator when an activity starts in the future - formatted like "Starts Aug 15"
 	survey: 'Survey', // Meta-data descriptor that informs which type of activity is being displayed on a line item
+	totalActivities: '{count, plural, =1 {1 activity} other {{count} activities}} total', // screen reader announcement number of activities in the following list
 	upcoming: 'Upcoming Work', // Indicates that the below list of activites are upcoming (have a due due or end date that is in the future)
 	viewAllWork: 'View All Work', // Button text displayed in 'Empty View' when user can navigate to full page view to see all work
 	xWeeksClear: '{count, plural, =1 {1 week} other {{count} weeks}} clear!', // 'Empty state' - Header when widget has no activities to display within the next x weeks
