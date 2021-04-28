@@ -270,7 +270,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 			});
 		}
 
-		if (this._isOverdueOnLastPage()) {
+		if (!this.collapsed && this._isOverdueOnLastPage()) {
 			limit = this._lastOverduePageHasMoreThanHalf() ? 0 : this._pageSize;
 		}
 
@@ -344,7 +344,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 
 	get _pageUpcoming() {
 		let page = typeof this._page === 'number' ? Math.max(1, this._page - this._pageOverdue) : 1;
-		if (!this._lastOverduePageHasMoreThanHalf() && !this._isOverdueOnLastPage() && this._page !== 1) {
+		if (!this.collapsed && !this._lastOverduePageHasMoreThanHalf() && !this._isOverdueOnLastPage() && this._page !== 1) {
 			page++;
 		}
 		return page;
