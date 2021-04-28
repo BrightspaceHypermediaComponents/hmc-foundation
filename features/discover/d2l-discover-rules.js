@@ -65,11 +65,14 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 				label="${this.localize('label-checkbox')}"
 				description="${this.localize('text-checkbox-description')}"
 				class="d2l-skeletize">
-			${this.rules && this.rules.length ? html`
+			${this._rules && this._rules.length ? html`
 			<div class="d2l-body-small d2l-enrollment-rules">
 				<h5 class="d2l-body-small"><strong>${this.localize('text-rules')}</strong></h5>
 				<p>${this.localize('text-rules-description')}</p>
 				<!-- rules cards -->
+				${this._rules.map(rule => html`
+					<div>rule</div>
+				`)}
 			</div>
 			` : null}
 			<d2l-button-subtle

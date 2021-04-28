@@ -1,0 +1,29 @@
+{
+  "class": ["entitlement", "collection"],
+  "actions": [
+    { "name": "create", "method": "POST", "href": "../demo/entitlement-create.json" }
+  ],
+  "entities": [
+    {
+      "class": ["rule", "collection"],
+      "rel": ["https://discovery.brightspace.com/rels/rule"],
+      "entities": [
+        {
+          "class": ["condition"],
+          "rel": ["https://discovery.brightspace.com/rels/condition"],
+          "properties": {
+            "type": "Department",
+            "values": ["Clandestine Operations"]
+          }
+        }
+      ]
+    }
+  ],
+  "properties": {
+    "id": 12345
+  },
+  "links": [
+    { "rel": ["self"], "href": "../demo/course-entitlement-rules.json" },
+    { "rel": [ "https://discovery.brightspace.com/rels/condition-types" ], "href": "../demo/condition-types.json" }
+  ]
+}
