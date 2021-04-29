@@ -5,7 +5,7 @@ class W2DAttributeList extends SkeletonMixin(LitElement) {
 	static get styles() {
 		return [ super.styles, css`
 			:host {
-				display: inline-flex;
+				display: flex;
 				flex-flow: row wrap;
 				height: 1rem;
 				overflow-y: hidden;
@@ -38,10 +38,7 @@ class W2DAttributeList extends SkeletonMixin(LitElement) {
 		return this.skeleton
 			? html`
 				<div class="d2l-w2d-block">
-					<div class="d2l-skeletize">random</div>
-				</div>
-				<div class="d2l-w2d-block">
-					<div class="d2l-skeletize">random</div>
+					<div class="d2l-skeletize">Due date - Subject</div>
 				</div>`
 			: html`<slot></slot>`;
 	}
