@@ -15,5 +15,5 @@ export default {
 	"text-newDialogSaveTitle": "Le chemin d'apprentissage n'a pu enregistrer", // Error when a new learning path could not be saved
 	"text-newDialogSaveContent": "Ce chemin d'apprentissage n'a pu être enregistré. Vous pouvez réessayer après avoir appuyé sur OK.", // // Message telling user a new learning path could not be saved. Informs user they can try to save again after pressing ok to close dialog box
 	"text-saveComplete": "Enregistrement terminé", // Saving is complete and was successful,
-	"title-identification": "Additional Identification" // Title for side bar that contains supplementary information
+	"title-identification": "Identifications supplémentaires" // Title for side bar that contains supplementary information
 };

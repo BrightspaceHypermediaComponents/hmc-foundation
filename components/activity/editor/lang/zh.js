@@ -15,5 +15,5 @@ export default {
 	"text-newDialogSaveTitle": "无法保存学习路径", // Error when a new learning path could not be saved
 	"text-newDialogSaveContent": "无法保存该学习路径。您可以在按“确定”后重试。", // // Message telling user a new learning path could not be saved. Informs user they can try to save again after pressing ok to close dialog box
 	"text-saveComplete": "保存完成", // Saving is complete and was successful,
-	"title-identification": "Additional Identification" // Title for side bar that contains supplementary information
+	"title-identification": "其他标识" // Title for side bar that contains supplementary information
 };
