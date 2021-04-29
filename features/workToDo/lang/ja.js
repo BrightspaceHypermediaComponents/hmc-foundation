@@ -1,4 +1,4 @@
-export const val = {
+export default {
 	activitiesAvailable: '2 週間以内に期限を迎えるまたは終了するアクティビティは完了しました。［すべての学習の表示］をチェックして、次のアクティビティを確認してください', // 'Empty View' - When widget has no activities to display within the next two weeks, but there are more activities further into the future that can be shown on the full screen view
 	allClear: '今はすべて完了！', // Displayed as header line in widget text when there are no activities
 	assignment: '課題',  // Meta-data descriptor that informs which type of activity is being displayed on a line item

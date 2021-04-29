@@ -1,4 +1,4 @@
-export const val = {
+export default {
 	activitiesAvailable: '2주 내에 완료되거나 끝나는 활동이 완료되었습니다! 모든 작업 보기 를 선택하여 나중에 어떤 작업을 할 수 있는지 확인합니다.', // 'Empty View' - When widget has no activities to display within the next two weeks, but there are more activities further into the future that can be shown on the full screen view
 	allClear: '지금 모두 지우기!', // Displayed as header line in widget text when there are no activities
 	assignment: '과제',  // Meta-data descriptor that informs which type of activity is being displayed on a line item

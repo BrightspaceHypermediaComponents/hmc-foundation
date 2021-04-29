@@ -1,4 +1,4 @@
-export const val = {
+export default {
 	activitiesAvailable: 'Aktiviteter, der er forfaldne eller slutter om to uger, er fuldført! Kontrollér Se alle opgaver for at se, hvad der er på vej.', // 'Empty View' - When widget has no activities to display within the next two weeks, but there are more activities further into the future that can be shown on the full screen view
 	allClear: 'Alt er ryddet nu!', // Displayed as header line in widget text when there are no activities
 	assignment: 'Opgave',  // Meta-data descriptor that informs which type of activity is being displayed on a line item

@@ -1,4 +1,4 @@
-export const val = {
+export default {
 	activitiesAvailable: 'اكتملت الأنشطة المستحقة أو التي تنتهي بعد أسبوعين! حدد عرض كل العمل للاطّلاع على الأنشطة المقبلة.', // 'Empty View' - When widget has no activities to display within the next two weeks, but there are more activities further into the future that can be shown on the full screen view
 	allClear: 'ما من أنشطة متوفرة في الوقت الحالي!', // Displayed as header line in widget text when there are no activities
 	assignment: 'الفرض',  // Meta-data descriptor that informs which type of activity is being displayed on a line item

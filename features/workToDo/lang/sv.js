@@ -1,4 +1,4 @@
-export const val = {
+export default {
 	activitiesAvailable: 'Aktiviteter som förfaller eller slutar inom två veckor är slutförda! Markera Visa alla jobb om du vill se vad som kommer längre fram.', // 'Empty View' - When widget has no activities to display within the next two weeks, but there are more activities further into the future that can be shown on the full screen view
 	allClear: 'Allt klart nu!', // Displayed as header line in widget text when there are no activities
 	assignment: 'Uppgift',  // Meta-data descriptor that informs which type of activity is being displayed on a line item

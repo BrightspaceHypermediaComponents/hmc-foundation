@@ -1,4 +1,4 @@
-export const val = {
+export default {
 	activitiesAvailable: 'Activiteiten die de komende twee weken moeten worden uitgevoerd of beëindigd, zijn voltooid! Bekijk Al het werk weergeven om te zien wat er op komst is.', // 'Empty View' - When widget has no activities to display within the next two weeks, but there are more activities further into the future that can be shown on the full screen view
 	allClear: 'Alles is nu klaar!', // Displayed as header line in widget text when there are no activities
 	assignment: 'Opdracht',  // Meta-data descriptor that informs which type of activity is being displayed on a line item

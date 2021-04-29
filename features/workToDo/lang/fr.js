@@ -1,4 +1,4 @@
-export const val = {
+export default {
 	activitiesAvailable: 'Les activités qui viennent à échéance ou se terminent dans deux semaines ont été effectuées! Consultez Afficher tous les travaux pour voir ce qui vient ensuite.', // 'Empty View' - When widget has no activities to display within the next two weeks, but there are more activities further into the future that can be shown on the full screen view
 	allClear: "Rien de plus pour l'instant!", // Displayed as header line in widget text when there are no activities
 	assignment: 'Travail',  // Meta-data descriptor that informs which type of activity is being displayed on a line item

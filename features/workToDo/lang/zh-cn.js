@@ -1,4 +1,4 @@
-export const val = {
+export default {
 	activitiesAvailable: '两周内到期或结束的活动已完成！选中“查看所有工作”以查看即将发布的工作。', // 'Empty View' - When widget has no activities to display within the next two weeks, but there are more activities further into the future that can be shown on the full screen view
 	allClear: '现在已经全部清楚！', // Displayed as header line in widget text when there are no activities
 	assignment: '作业',  // Meta-data descriptor that informs which type of activity is being displayed on a line item
