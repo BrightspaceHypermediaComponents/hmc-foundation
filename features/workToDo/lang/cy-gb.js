@@ -5,7 +5,7 @@ export default {
 	assignment: 'Aseiniad',  // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	backToD2L: 'Yn ôl i’r Hafan', // Displayed in the immersive navbar to escape out of fullscreen view
 	checklist: 'Rhestr wirio', // Meta-data descriptor that informs which type of activity is being displayed on a line item
-	comeBackNoFutureActivities: 'Dewch yn ôl yn nes ymlaen i weld os oes gennych waith i'w wneud.', // 'Empty state' - When there are no activities in full page view
+	comeBackNoFutureActivities: "Dewch yn ôl yn nes ymlaen i weld os oes gennych waith i'w wneud.", // 'Empty state' - When there are no activities in full page view
 	content: 'Cynnwys', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	course: 'Cwrs', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	dateHeader: '{dayOfWeek}, {month} {dayOfMonth}', // Indicates that the below list of activities are due
@@ -17,7 +17,7 @@ export default {
 	workToDo: 'Gwaith i’w Wneud', // Widget title
 	noActivities: 'Nid oes gennych unrhyw weithgareddau gyda dyddiadau dyledus neu ddyddiadau gorffen ar gael.', // 'Empty state' - When widget has no activities in full page view
 	noActivitiesFutureActivities: "Nid oes gennych unrhyw weithgareddau dyledus neu sy'n dod i ben yn fuan. Dewch yn ôl yn nes ymlaen neu Gweld Pob Darn o Waith i weld beth sy'n dod nesaf.",  // 'Empty View' - When widget has no activities to display within the next few weeks & there are activities in the future
-	noActivitiesNoFutureActivities: 'Nid oes gennych unrhyw weithgareddau gyda dyddiadau dyledus neu ddyddiadau gorffen ar gael. Dewch yn ôl yn nes ymlaen i weld os oes gennych waith i'w wneud.', // 'Empty View' - When widget has no activities to display within the next few weeks & there are no more activities in the future
+	noActivitiesNoFutureActivities: "Nid oes gennych unrhyw weithgareddau gyda dyddiadau dyledus neu ddyddiadau gorffen ar gael. Dewch yn ôl yn nes ymlaen i weld os oes gennych waith i'w wneud.", // 'Empty View' - When widget has no activities to display within the next few weeks & there are no more activities in the future
 	nothingHere: "Does dim byd yma...", // Displayed as header line in widget text when there are no activities within the provided time period
 	overdue: 'Yn hwyr', // Indicates that the below list of activities are overdue (have a due date that is in the past)
 	quiz: 'Cwis', // Meta-data descriptor that informs which type of activity is being displayed on a line item
