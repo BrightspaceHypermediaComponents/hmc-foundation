@@ -7,6 +7,7 @@ export default {
 	"label-condition-value": "Condition value", // label for screen readers for the condition value input
 	"text-add-another-condition": "Add Another Condition", // Button test for adding another condition to the rule
 	"text-add-enrollment-rule": "Add Enrollment Rule", // Button test for adding an enrollment rule to self-enrollable courses
+	"text-addmore-enrollment-rule": "Add Another Rule", // Button text for adding another enrollment rule
 	"text-and": "AND", // word used for combining multiple conditions
 	"text-checkbox-description": "Inactive courses will not be included in Discover", // extra info for discover checkbox
 	"text-condition-is": "is", // condition 'is' this and that

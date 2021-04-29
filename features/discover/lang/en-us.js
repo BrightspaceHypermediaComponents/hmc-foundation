@@ -5,8 +5,9 @@ export default {
 	"label-checkbox": "Make this course available in Discover so Learners can self-enroll", // label for the discover checkbox
 	"label-condition-type": "Condition type", // label for screen readers for the condition type select box
 	"label-condition-value": "Condition value", // label for screen readers for the condition value input
-	"text-add-another-condition": "Add Another Condition", // Button test for adding another condition to the rule
-	"text-add-enrollment-rule": "Add Enrollment Rule", // Button test for adding an enrollment rule to self-enrollable courses
+	"text-add-another-condition": "Add Another Condition", // Button text for adding another condition to the rule
+	"text-add-enrollment-rule": "Add Enrollment Rule", // Button text for adding an enrollment rule to self-enrollable courses
+	"text-addmore-enrollment-rule": "Add Another Rule", // Button text for adding another enrollment rule
 	"text-and": "AND", // word used for combining multiple conditions
 	"text-checkbox-description": "Inactive courses will not be included in Discover", // extra info for discover checkbox
 	"text-condition-is": "is", // condition 'is' this and that

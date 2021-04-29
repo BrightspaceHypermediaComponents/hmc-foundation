@@ -73,11 +73,11 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 				}
 			}
 		];
-
+		console.log('top-level', this._rules);
 		return html`
 			<d2l-labs-checkbox-drawer
 				@d2l-checkbox-drawer-checked-change="${this._onCheckboxChange}"
-				?checked="${this.isSelfEnrollable || (this.rules && this.rules.length)}"
+				?checked="${this.isSelfEnrollable || (this._rules && this._rules.length)}"
 				label="${this.localize('label-checkbox')}"
 				description="${this.localize('text-checkbox-description')}"
 				class="d2l-skeletize">
@@ -86,17 +86,16 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 				<h5 class="d2l-body-small"><strong>${this.localize('text-rules')}</strong></h5>
 				<p>${this.localize('text-rules-description')}</p>
 				<!-- rules cards -->
-				${this._rules.map(rule => html`
-					<div>rule</div>
+				${this._rules.map((_, index) => html`
+					<d2l-discover-rule-card href="${this._entitlementsHref}" .token="${this.token}" rule-index="${index}"></d2l-discover-rule-card>
 				`)}
 			</div>
 			` : null}
-			<d2l-discover-rule-card .conditions="${conditions}"></d2l-discover-rule-card>
 			<d2l-button-subtle
 				@click=${this._onButtonClick}
 				id="add-enrollment-rule-button"
-				text="${this.localize('text-add-enrollment-rule')}"
-				icon="tier1:lock-locked"></d2l-button-subtle>
+				text="${this._rules && this._rules.length ? this.localize('text-addmore-enrollment-rule') : this.localize('text-add-enrollment-rule')}"
+				icon="${this._rules && this._rules.length ? 'tier1:plus-large-thick' : 'tier1:lock-locked'}"></d2l-button-subtle>
 			<d2l-discover-rule-picker-dialog
 				@d2l-dialog-close="${this._onDialogClose}"
 				href="${this._entitlementsHref}"
@@ -110,9 +109,9 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 	updated(changedProperties) {
 		super.updated(changedProperties);
 
-		if (this._loaded && changedProperties.has('_rules') && changedProperties.get('_rules') !== undefined) {
-			this._onRulesChanged();
-		}
+		// if (this._loaded && changedProperties.has('_rules') && changedProperties.get('_rules') !== undefined) {
+		// 	this._onRulesChanged();
+		// }
 	}
 
 	get _loaded() {

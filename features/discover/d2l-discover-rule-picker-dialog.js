@@ -106,10 +106,10 @@ class RulePickerDialog extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixi
 				type: Array,
 				observable: observableTypes.subEntities,
 				rel: rels.rule,
-				value: this._rules,
-				verbose: true
+				value: this._rules
 			}
 		});
+		console.log('dialog', this._rules);
 	}
 }
 
