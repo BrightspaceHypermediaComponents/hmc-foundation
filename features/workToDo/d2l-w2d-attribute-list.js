@@ -38,10 +38,7 @@ class W2DAttributeList extends SkeletonMixin(LitElement) {
 		return this.skeleton
 			? html`
 				<div class="d2l-w2d-block">
-					<div class="d2l-skeletize">random</div>
-				</div>
-				<div class="d2l-w2d-block">
-					<div class="d2l-skeletize">random</div>
+					<div class="d2l-skeletize">Due date - Subject</div>
 				</div>`
 			: html`<slot></slot>`;
 	}
