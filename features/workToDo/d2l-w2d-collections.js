@@ -415,10 +415,14 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 	}
 
 	_renderPagination() {
+		let totalPages = Math.ceil(this._pagingTotalResultsUpcomming / this._pageSize) + Math.ceil(this._pagingTotalResultsOverdue / this._pageSize);
+		if (!this._lastOverduePageHasMoreThanHalf()) {
+			totalPages -= 1;
+		}
 		return this._loaded && !this.collapsed  ? html`
 			<d2l-labs-pagination
 				page-number="${this._page}"
-				max-page-number="${Math.ceil((this._pagingTotalResultsUpcomming + this._pagingTotalResultsOverdue) / this._pageSize)}"
+				max-page-number="${totalPages}"
 				@pagination-page-change="${this._onPageChange}"></d2l-labs-pagination>
 		` : null;
 	}
