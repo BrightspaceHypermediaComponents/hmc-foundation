@@ -85,13 +85,13 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 			d2l-status-indicator {
 				text-transform: none;
 			}
-			.d2l-w2d-list-item-attributes div::before {
+			.d2l-w2d-list-item-attributes *::before {
 				content: url("data:image/svg+xml; utf8, <svg xmlns='http://www.w3.org/2000/svg' width='18px' height='18px' viewBox='0 0 18 18'><circle cx='9' cy='9' r='3' fill='%236E7376' fill-rule='evenodd'/></svg>");
 				display: inline-block;
 				height:18px;
 				width:18px;
 			}
-			.d2l-w2d-list-item-attributes div:first-child::before {
+			.d2l-w2d-list-item-attributes *:first-child::before {
 				content: "";
 				height: 0;
 				width: 0;
