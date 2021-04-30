@@ -70,7 +70,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 					pageSize: '_pageSize',
 					page: '_pageOverdue'
 				}],
-				method: (categories) => Object.values(categories)
+				method: (categories) => Object.keys(categories).sort().map(key => categories[key])
 			},
 			_totalActivities: {
 				type: Number,
