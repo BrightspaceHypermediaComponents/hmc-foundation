@@ -136,7 +136,7 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 
 		const startDate = (!this.actionHref && this._dates.start)
 			? html`
-				<d2l-status-indicator slot="${ ifDefined(this.collapsed ? 'supporting-info' : undefined) }" state="none" text="Starts ${formatDate(this._dates.start, {format: 'shortMonthDay'})}"></d2l-status-indicator>
+				<d2l-status-indicator slot="${ ifDefined(this.collapsed ? 'supporting-info' : undefined) }" state="none" text="${this.localize('dueWithDate', 'dueDate', formatDate(this._dates.start, {format: 'shortMonthDay'})}"></d2l-status-indicator>
 			`
 			: null;
 
