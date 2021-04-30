@@ -32,6 +32,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 			collapsed: { type: Boolean },
 			groupByDays: { type: Number, attribute: 'group-by-days' },
 			overdueGroupByDays: { type: Number, attribute: 'overdue-group-by-days' },
+			overdueDayLimit: { type: Number, attribute: 'overdue-day-limit' },
 			startDate: { type: String, attribute: 'start-date' },
 			endDate: { type: String, attribute: 'end-date' },
 			dataFullPagePath: { type: String, attribute: 'data-full-page-path' },
@@ -60,6 +61,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 				observableObject: W2dDateCategory,
 				groupByDays: 'overdueGroupByDays',
 				startDate: 'currentTime',
+				dayLimit: 'overdueDayLimit',
 				rel: rel.userActivity,
 				route: [{
 					observable: observableTypes.custom,
@@ -220,6 +222,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 		this.requiredPropertyForState('collapsed');
 		this.requiredPropertyForState('_page');
 		this.requiredPropertyForState('_pageSize');
+		this.requiredPropertyForState('overdueDayLimit');
 	}
 
 	get collapsed() {
