@@ -146,7 +146,7 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 				<d2l-list-item-content>
 					<d2l-activity-name class="d2l-w2d-list-item-name" href="${this.href}" .token="${this.token}"></d2l-activity-name>
 					<d2l-w2d-attribute-list slot="secondary" class="d2l-w2d-list-item-attributes">
-						${ !this.collapsed ? startDate : nothing }
+						${ !this.collapsed ? startDate : null }
 						${this._renderAttributeListCollapsed()}
 					</d2l-w2d-attribute-list>
 					${ !this.collapsed ? html`<d2l-activity-description slot="supporting-info" href="${this.href}" .token="${this.token}"></d2l-activity-description>` : startDate}
