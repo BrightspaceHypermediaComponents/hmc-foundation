@@ -5,7 +5,7 @@
     "method": "GET"
   }],
   "properties": {
-    "type": "conditionTypeA"
+    "type": "Role"
   },
   "links": [
     { "rel": ["self"], "href": "../demo/condition-type-a.json" }
