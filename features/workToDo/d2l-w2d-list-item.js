@@ -147,10 +147,10 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 	_renderAttributeListCollapsed() {
 		let dueDate;
 		if (this._dates.due || this._dates.end) {
-			dueDate = html`<div>${this._dates.due ? this.localize('dueWithDate', 'dueDate', formatDate(this._dates.due, {format: 'shortMonthDay'})) : this.localize('endWithDate', 'endDate', formatDate(this._dates.end, {format: 'shortMonthDay'}))}</div>`;
+			dueDate = lithtml`<div>${this._dates.due ? this.localize('dueWithDate', 'dueDate', formatDate(this._dates.due, {format: 'shortMonthDay'})) : this.localize('endWithDate', 'endDate', formatDate(this._dates.end, {format: 'shortMonthDay'}))}</div>`;
 		}
-		const type = !this._isCourse ? html`<div><d2l-activity-type href="${this.href}" .token="${this.token}"></d2l-activity-type></div>` : null;
-		const courseName = this._isCourse ? html`<div>${this.localize('course')}</div>` : html`<div>${this._parentName}</div>`;
+		const type = !this._isCourse ? lithtml`<d2l-activity-type href="${this.href}" .token="${this.token}"></d2l-activity-type>` : null;
+		const courseName = this._isCourse ? lithtml`<div>${this.localize('course')}</div>` : lithtml`<div>${this._parentName}</div>`;
 		return html`
 			${this.collapsed ? dueDate : type}
 			${courseName}
