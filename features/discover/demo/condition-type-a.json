@@ -1,7 +1,7 @@
 {
   "actions": [{
     "name": "possible-values",
-    "href": "../features/discover/demo/condition-typea-values.json",
+    "href": "../demo/condition-typea-values.json",
     "method": "GET"
   }],
   "properties": {

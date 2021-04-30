@@ -73,10 +73,8 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 				}
 			}
 		];
-		console.log('top-level', this._rules);
 		return html`
 			<d2l-labs-checkbox-drawer
-				@d2l-checkbox-drawer-checked-change="${this._onCheckboxChange}"
 				?checked="${this.isSelfEnrollable || (this._rules && this._rules.length)}"
 				label="${this.localize('label-checkbox')}"
 				description="${this.localize('text-checkbox-description')}"
@@ -86,8 +84,14 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 				<h5 class="d2l-body-small"><strong>${this.localize('text-rules')}</strong></h5>
 				<p>${this.localize('text-rules-description')}</p>
 				<!-- rules cards -->
-				${this._rules.map((_, index) => html`
-					<d2l-discover-rule-card href="${this._entitlementsHref}" .token="${this.token}" rule-index="${index}"></d2l-discover-rule-card>
+				${this._rules.map((rule, index) => html`
+					<d2l-discover-rule-card
+						href="${this._entitlementsHref}"
+						.token="${this.token}"
+						.rule="${rule}"
+						.ruleIndex="${index}"
+						@d2l-rule-deleted="${this._onRuleDeleted}"
+						@d2l-dialog-close="${this._onDialogClose}"></d2l-discover-rule-card>
 				`)}
 			</div>
 			` : null}
@@ -109,9 +113,9 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 	updated(changedProperties) {
 		super.updated(changedProperties);
 
-		// if (this._loaded && changedProperties.has('_rules') && changedProperties.get('_rules') !== undefined) {
-		// 	this._onRulesChanged();
-		// }
+		if (this._loaded && changedProperties.has('_rules') && changedProperties.get('_rules') !== undefined) {
+			this._onRulesChanged();
+		}
 	}
 
 	get _loaded() {
@@ -126,25 +130,28 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 		this._dialogOpened = true;
 	}
 
-	_onCheckboxChange(e) {
-		if (e.detail.checked) {
-			// todo: commit action to make discoverable
-		} else {
-			// todo: commit action to make not discoverable
-		}
-	}
-
 	_onDialogClose() {
 		this._dialogOpened = false;
 	}
 
+	_onRuleDeleted(e) {
+		this._rules.splice(e.target.ruleIndex, 1);
+		this._state.updateProperties({
+			_rules: { observable: observableTypes.subEntities, rel: rels.rule, route: [
+				{ observable: observableTypes.link, rel: rels.entitlementRules }
+			], value: this._rules }
+		});
+	}
+
 	_onRulesChanged() {
 		if (!this._hasAction('_createEntitlement')) return;
+		console.log('commit');
 		const message = this._rules.map(rule => {
 			const ruleObj = {};
 			rule.entities.forEach(condition => ruleObj[condition.properties.type] = condition.properties.values);
 			return ruleObj;
 		});
+		console.log(this._rules);
 		this._createEntitlement.commit({
 			rules: message
 		});

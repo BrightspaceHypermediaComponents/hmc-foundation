@@ -24,7 +24,7 @@ const conditionStates = Object.freeze({
 	remove: 'remove',
 	removed: 'removed'
 });
-// todo: edit an existing rule
+
 class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitElement))) {
 
 	static get properties() {
@@ -127,9 +127,9 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 		if (changedProperties.has('conditions') && this.conditions.length === 0) {
 			this._addCondition(conditionStates.existing);
 		}
-		// if (changedProperties.has('ruleIndex')) {
-		// 	this._setExistingConditions();
-		// }
+		if (changedProperties.has('ruleIndex')) {
+			this._setExistingConditions();
+		}
 	}
 
 	reload(newConditions) {

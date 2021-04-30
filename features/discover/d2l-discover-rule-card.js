@@ -4,20 +4,20 @@ import '@brightspace-ui/core/components/dropdown/dropdown-context-menu.js';
 import '@brightspace-ui/core/components/dropdown/dropdown-menu.js';
 import '@brightspace-ui/core/components/menu/menu.js';
 import '@brightspace-ui/core/components/menu/menu-item.js';
+import './d2l-discover-rule-picker-dialog.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
-import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 
-const rels = Object.freeze({
-	rule: 'https://discovery.brightspace.com/rels/rule'
-});
-
-class RuleCard extends HypermediaStateMixin(RtlMixin(LitElement)) {
+// there is a bug in the engine so this is a dumb component instead of a hypermedia one
+class RuleCard extends RtlMixin(LitElement) {
 	static get properties() {
 		return {
-			ruleIndex: { type: Number, attribute: 'rule-index' },
-			_rules: { type: Array, observable: observableTypes.subEntities, rel: rels.rule },
-			_conditions: { type: Array }
+			rule: { type: Object },
+			ruleIndex: { type: Number },
+			_title: { type: String },
+			_dialogOpen: { type: Boolean },
+			token: { type: Object },
+			href: { type: String }
 		};
 	}
 
@@ -57,79 +57,72 @@ class RuleCard extends HypermediaStateMixin(RtlMixin(LitElement)) {
 
 	updated(changedProperties) {
 		super.updated(changedProperties);
-		// if (changedProperties.has('_rules')) {
-		// 	if (!this._rules || !this._rules.length || this.ruleIndex === undefined) {
-		// 		this._conditions = undefined;
-		// 		return;
-		// 	}
-		// 	console.log('set conditions');
-		// 	this._setConditions();
-		// }
+		if (changedProperties.has('rule')) {
+			this._setTitle();
+		}
 	}
 
 	render() {
-		console.log('card', this.ruleIndex, this._rules);
-		// let title = '';
-		// if (this.conditions) {
-		// 	for (let i = 0; i < this.conditions.length; i++) {
-		// 		const condition = this.conditions[i];
-		// 		title += `${condition.properties.type}: `;
-		// 		const attrList = condition.properties.values;
-		// 		for (let j = 0; j < attrList.length; j++) {
-		// 			const attr = attrList[j];
-		// 			title += attr;
-		// 			if (j != attrList.length - 1) {
-		// 				title += ', '
-		// 			}
-		// 		}
-		// 		if (i != this.conditions.length - 1) {
-		// 			title += ' & '
-		// 		}
-		// 	}
-		// }
-		return html`<div>Rule</div>`;
-		// return html`
-		// 	<d2l-card class="d2l-rule-card">
-		// 		<div slot="content">
-		// 			<div>
-		// 				<div class="d2l-rule-card-title">${title}</div>
-		// 				<div class="d2l-rule-card-profiles">Fancy Pictures</div>
-		// 				<div class="d2l-rule-card-match-users">Matches X users</div>
-		// 			</div>
-		// 		</div>
-		// 		<d2l-dropdown-context-menu text="options" slot="actions">
-		// 			<d2l-dropdown-menu id="dropdown">
-		// 				<d2l-menu label="options">
-		// 					<d2l-menu-item text="Edit" @click="${this._onEditClick}"></d2l-menu-item>
-		// 					<d2l-menu-item text="Delete" @click="${this._onDeleteClick}"></d2l-menu-item>
-		// 				</d2l-menu>
-		// 			</d2l-dropdown-menu>
-		// 		</d2l-dropdown-context-menu>
-		// 	</d2l-card>
-		// `;
+		return html`
+			<d2l-card class="d2l-rule-card">
+				<div slot="content">
+					<div>
+						<div class="d2l-rule-card-title">${this._title}</div>
+						<div class="d2l-rule-card-profiles">Fancy Pictures</div>
+						<div class="d2l-rule-card-match-users">Matches X users</div>
+					</div>
+				</div>
+				<d2l-dropdown-context-menu text="options" slot="actions">
+					<d2l-dropdown-menu id="dropdown">
+						<d2l-menu label="options">
+							<d2l-menu-item text="Edit" @click="${this._onEditClick}"></d2l-menu-item>
+							<d2l-menu-item text="Delete" @click="${this._onDeleteClick}"></d2l-menu-item>
+						</d2l-menu>
+					</d2l-dropdown-menu>
+				</d2l-dropdown-context-menu>
+			</d2l-card>
+			<d2l-discover-rule-picker-dialog href="${this.href}" .token="${this.token}"
+				.ruleIndex="${this.ruleIndex}"
+				?opened="${this._dialogOpen}"
+				@d2l-dialog-close="${this._onDialogClose}"></d2l-discover-rule-picker-dialog>
+		`;
 	}
 
-	// _onDeleteClick() {
-	// 	console.log('delete');
-	// 	//this._rules.splice(this.ruleIndex, 1);
-	// 	this._state.updateProperties({
-	// 		_rules: { type: Array, observable: observableTypes.subEntities, rel: rels.rule, value: this._rules }
-	// 	});
-	// }
+	_onDeleteClick() {
+		const event = new CustomEvent('d2l-rule-deleted', {
+			bubbles: true
+		});
+		this.dispatchEvent(event);
+	}
 
-	// _onEditClick() {
+	_onDialogClose() {
+		this._dialogOpen = false;
+	}
 
-	// }
+	_onEditClick() {
+		this._dialogOpen = true;
+	}
 
-	// _setConditions() {
-	// 	console.log('card', this._rules, this.ruleIndex, this._rules.length);
-	// 	if (this.ruleIndex < 0 || this.ruleIndex > this._rules.length - 1) {
-	// 		this.conditions = undefined;
-	// 		return;
-	// 	}
-
-	// 	this.conditions = this._rules[this.ruleIndex].entities;
-	// }
+	_setTitle() {
+		const conditions = this.rule.entities;
+		let title = '';
+		for (let i = 0; i < conditions.length; i++) {
+			const condition = conditions[i];
+			title += `${condition.properties.type}: `;
+			const attrList = condition.properties.values;
+			for (let j = 0; j < attrList.length; j++) {
+				const attr = attrList[j];
+				title += attr;
+				if (j != attrList.length - 1) {
+					title += ', '
+				}
+			}
+			if (i != conditions.length - 1) {
+				title += ' & '
+			}
+		}
+		this._title = title;
+	}
 }
 
 customElements.define('d2l-discover-rule-card', RuleCard);

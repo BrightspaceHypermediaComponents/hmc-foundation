@@ -16,7 +16,7 @@ const rels = Object.freeze({
 class RulePickerDialog extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitElement))) {
 	static get properties() {
 		return {
-			ruleIndex: { type: Number, attribute: 'rule-index' },
+			ruleIndex: { type: Number },
 			_rules: { type: Array, observable: observableTypes.subEntities, rel: rels.rule, verbose: true },
 			opened: { type: Boolean }
 		};
@@ -48,7 +48,7 @@ class RulePickerDialog extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixi
 			<d2l-dialog
 				width="845"
 				?opened="${this.opened}"
-				title-text="${!this.ruleIndex ? this.localize('text-add-enrollment-rule') : this.localize('text-edit-enrollment-rule')}">
+				title-text="${this.ruleIndex === undefined ? this.localize('text-add-enrollment-rule') : this.localize('text-edit-enrollment-rule')}">
 				<div class="d2l-rule-picker-area">${this.localize('text-select-conditions')}</div>
 				<d2l-discover-rule-picker
 					href="${this.href}"
@@ -109,7 +109,6 @@ class RulePickerDialog extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixi
 				value: this._rules
 			}
 		});
-		console.log('dialog', this._rules);
 	}
 }
 
