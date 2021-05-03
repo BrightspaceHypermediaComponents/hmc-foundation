@@ -7,6 +7,7 @@ import './d2l-activity-collection-item-quiz.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
+import { fetch } from '@brightspace-hmc/foundation-engine/state/fetch.js';
 import { repeat } from 'lit-html/directives/repeat';
 
 const rels = Object.freeze({
@@ -59,6 +60,7 @@ class ActivityEditorMainCollection extends HypermediaStateMixin(LitElement) {
 	constructor() {
 		super();
 		this.items = [];
+		this.addEventListener('d2l-question-updated', this._handleQuestionUpdate);
 	}
 
 	render() {
@@ -77,6 +79,10 @@ class ActivityEditorMainCollection extends HypermediaStateMixin(LitElement) {
 				</div>
 			</div>
 		`;
+	}
+
+	_handleQuestionUpdate() {
+		fetch(this._state, true);
 	}
 
 	_moveItems(e) {

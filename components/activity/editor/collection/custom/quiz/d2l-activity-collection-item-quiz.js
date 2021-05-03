@@ -1,5 +1,6 @@
 import '../../../../list/custom/quiz/d2l-activity-list-item-question.js';
 import '../../../../list/custom/quiz/d2l-activity-list-item-section.js';
+import '../../../../list/custom/quiz/d2l-activity-list-item-questionpool.js';
 
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
@@ -24,25 +25,36 @@ const componentClass = class extends HypermediaStateMixin(ListItemLinkMixin(LitE
 				observable: observableTypes.property,
 				id: 'points'
 			},
-			_activityHref: { type: String, observable: observableTypes.link, rel: rels.activityUsage }
+			_activityHref: { type: String, observable: observableTypes.link, rel: rels.activityUsage },
+			_refreshCounter: {
+				type: Number,
+			}
 		};
 	}
 
 	static get styles() {
-		return [ super.styles, css `` ];
+		return [
+			super.styles,
+			css `
+				input[type="checkbox"].d2l-input-checkbox {
+							margin-top: 0.7rem;
+				}
+			` ];
 	}
 
 	constructor() {
 		super();
 		this.actionHref = '#';
+		this._refreshCounter = 0;
+		this.selectable = true;
 	}
 
 	render() {
 		return this._renderListItem({
 			//${guard([this._activityHref, this.token], () => html`<d2l-activity-list-item-content href="${this._activityHref}" .token="${this.token}"></d2l-activity-list-item-content>`)}`
-			content: html`${guard([this._activityHref, this.token, this._points], () => html`
+			content: html`${guard([this._activityHref, this.token, this._points, this._refreshCounter], () => html`
 			<d2l-activity-list-item-quiz number="${this.number}" href="${this._activityHref}"
-				.token="${this.token}" points="${this._points}">
+				.token="${this.token}" points="${this._points}" refresh-counter="${this._refreshCounter}">
 
 			</d2l-activity-list-item-quiz>`)}`,
 			// actions: html`actions here`
@@ -58,12 +70,11 @@ const componentClass = class extends HypermediaStateMixin(ListItemLinkMixin(LitE
 
 		// Save or Cancel button Handler
 		delayedResult.AddListener((/*result*/) => {
+			// Trigger Section child to refresh name
+			++this._refreshCounter;
 			fetch(this._state, true).then(() => {
-				// refresh collection
-				fetch(Array.from(this._state._parents.keys())[0], true).then(() => {
-					// refresh Quiz total points
-					this.dispatchEvent(new CustomEvent('d2l-question-updated', {bubbles: true, composed: true}));
-				});
+				// refresh Total Quiz Points
+				this.dispatchEvent(new CustomEvent('d2l-question-updated', {bubbles: true, composed: true}));
 			});
 		});
 	}
@@ -74,7 +85,6 @@ const componentClass = class extends HypermediaStateMixin(ListItemLinkMixin(LitE
 			`/d2l/lms/question/edit/${this.key}`);
 		return open(url, 'SrcCallBack', 'result', [], false, '');
 	}
-
 	_renderPrimaryAction(contentId) {
 		return html `<a aria-labelledby="${contentId}" href="#" @click="${this._handleLinkClick}"></a>`;
 	}

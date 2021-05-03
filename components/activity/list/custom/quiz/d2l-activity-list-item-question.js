@@ -3,7 +3,7 @@ import '@brightspace-ui/core/components/inputs/input-checkbox-spacer.js';
 import '@brightspace-ui/core/components/inputs/input-styles.js';
 import '@brightspace-ui/core/components/colors/colors';
 
-import { bodyCompactStyles, bodySmallStyles, bodyStandardStyles, heading3Styles, labelStyles  } from '@brightspace-ui/core/components/typography/styles.js';
+import { bodyCompactStyles, bodySmallStyles, bodyStandardStyles } from '@brightspace-ui/core/components/typography/styles.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
@@ -59,9 +59,8 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 	static get styles() {
 		return [
 			super.styles,
-			heading3Styles,
 			bodyStandardStyles, bodyCompactStyles,
-			bodySmallStyles, labelStyles,
+			bodySmallStyles,
 			css `
 				:host {
 					display: block;
@@ -84,8 +83,9 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 					margin-block-end: 0;
 					margin-inline-start: 0.4rem;
 					margin-inline-end: 0.3rem;
-					flex-basis: 1.9rem;
+					flex-basis: 3rem;
 					flex-shrink: 0;
+					word-break: break-all;
 				}
 				.points {
 					flex-basis: 4rem;
@@ -94,8 +94,8 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 				}
 				.question-type {
 					color: var(--d2l-color-tungsten);
-					margin-inline-start: 4.3rem;
 					max-width: 10rem;
+					margin: 0;
 				}
 			`];
 	}
@@ -108,12 +108,13 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 	render() {
 		return html`
 			<div class="question-item d2l-skeletize">
-				<div class="checkbox"><d2l-input-checkbox></d2l-input-checkbox></div>
-				<div class="d2l-heading-3 question-number">${this.number}</div>
-				<div class="question"><span class="d2l-label-text">${this.name || this.questionText} </span></div>
-				<div class="points d2l-body-compact">${this.localize('points', { count: this.points })}</div>
+				<div class="d2l-body-standard question-number d2l-skeletize">${this.number}</div>
+				<div class="question d2l-skeletize">
+					<span class="d2l-body-compact d2l-skeletize">${this.name || this.questionText}</span>
+					<div class="d2l-body-small question-type d2l-skeletize">${this.typeText}</div>
+				</div>
+				<div class="points d2l-body-compact d2l-skeletize">${this.localize('points', { count: this.points })}</div>
 			</div>
-			<div class="d2l-body-small question-type d2l-skeletize">${this.typeText}</div>
 		`;
 	}
 

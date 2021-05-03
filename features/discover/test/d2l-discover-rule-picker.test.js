@@ -5,45 +5,27 @@ import { createComponentAndWait } from '../../../test/test-util.js';
 import { default as fetchMock } from 'fetch-mock/esm/client.js';
 import { runConstructor } from '@brightspace-ui/core/tools/constructor-test-helper.js';
 
-const selfHref = 'http://rule-1';
-const conditionTypesHref = 'http://condition-types';
-const entity = {
-	entities: [
-		{
-			rel: ['condition'],
-			properties: { type: 'Fruit', values: ['Banana'] }
-		},
-		{
-			rel: ['condition'],
-			properties: { type: 'Fruit', values: ['Orange'] }
-		},
-		{
-			rel: ['condition'],
-			properties: { type: 'Entree', values: ['Cake'] }
-		}
+const rels = Object.freeze({
+	condition: 'https://discovery.brightspace.com/rels/condition',
+	rule: 'https://discovery.brightspace.com/rels/rule',
+	conditionTypes: 'https://discovery.brightspace.com/rels/condition-types',
+	conditionType: 'https://discovery.brightspace.com/rels/condition-type'
+});
+const selfHref = 'http://entitlement-rules/picker';
+const conditionTypesHref = 'http://condition-types/picker';
+const entitlementEntity = {
+	actions: [
+		{ name: 'create', method: 'POST', href: '../demo/entitlement-create.json' }
 	],
 	links: [
 		{ rel: ['self'], href: selfHref },
-		{ rel: [ 'available-condition-types' ], 'href': conditionTypesHref }
-	]
-};
-const emptyEntityHref = 'http://rule-empty';
-const emptyEntity = {
-	links: [
-		{ rel: ['self'], href: emptyEntityHref },
-		{ rel: [ 'available-condition-types' ], 'href': conditionTypesHref }
+		{ rel: [rels.conditionTypes], href: conditionTypesHref }
 	]
 };
 const conditionTypesEntity = {
 	entities: [
-		{
-			rel: ['condition-type'],
-			properties: { type: 'Fruit' }
-		},
-		{
-			rel: ['condition-type'],
-			properties: { type: 'Entree' }
-		}
+		{ rel: [rels.conditionType], properties: { type: 'Fruit' } },
+		{ rel: [rels.conditionType], properties: { type: 'Entree' } }
 	],
 	links: [
 		{ rel: ['self'], href: conditionTypesHref }
@@ -52,8 +34,7 @@ const conditionTypesEntity = {
 
 describe('d2l-discover-rule-picker', () => {
 	before(() => {
-		fetchMock.mock(selfHref, JSON.stringify(entity))
-			.mock(emptyEntityHref, JSON.stringify(emptyEntity))
+		fetchMock.mock(selfHref, JSON.stringify(entitlementEntity))
 			.mock(conditionTypesHref, JSON.stringify(conditionTypesEntity));
 	});
 
@@ -94,27 +75,27 @@ describe('d2l-discover-rule-picker', () => {
 			expect(Array.from(conditionDropdown.options).map(option => option.value))
 				.to.deep.equal(conditionTypesEntity.entities.map(type => type.properties.type));
 		});
-
-		it('renders the initialized conditions', async() => {
+		// todo: add when rule list is available
+		it.skip('renders the initialized conditions', async() => {
 			const el = await createComponentAndWait(html`
 				<d2l-discover-rule-picker href="${selfHref}" token="cake"></d2l-discover-rule-picker>
 			`);
 			const conditionDropdownList = el.shadowRoot.querySelectorAll('select');
 			const conditionPickerList = el.shadowRoot.querySelectorAll('d2l-discover-attribute-picker');
 
-			expect(conditionDropdownList.length).to.equal(entity.entities.length);
-			expect(conditionPickerList.length).to.equal(entity.entities.length);
+			expect(conditionDropdownList.length).to.equal(entitlementEntity.entities.length);
+			expect(conditionPickerList.length).to.equal(entitlementEntity.entities.length);
 
 			//Ensure the data in the fields lines up with the passed data
 			for (let i = 0 ; i < conditionDropdownList.options; i++) {
-				expect(conditionDropdownList[i].value).to.equal(entity.entities[i].properties.type);
-				expect(conditionPickerList[i].value).to.equal(entity.entities[i].properties.value);
+				expect(conditionDropdownList[i].value).to.equal(entitlementEntity.entities[i].properties.type);
+				expect(conditionPickerList[i].value).to.equal(entitlementEntity.entities[i].properties.value);
 			}
 		});
 
 		it('displays one empty condition by default', async() => {
 			const el = await createComponentAndWait(html`
-				<d2l-discover-rule-picker href="${emptyEntityHref}" token="cake"></d2l-discover-rule-picker>
+				<d2l-discover-rule-picker href="${selfHref}" token="cake"></d2l-discover-rule-picker>
 			`);
 
 			const conditionDropdownList = el.shadowRoot.querySelectorAll('select');
@@ -138,11 +119,15 @@ describe('d2l-discover-rule-picker', () => {
 
 			const conditionDropdownList = el.shadowRoot.querySelectorAll('select');
 			const conditionPickerList = el.shadowRoot.querySelectorAll('d2l-discover-attribute-picker');
-			expect(conditionDropdownList.length).to.equal(4);
-			expect(conditionPickerList.length).to.equal(4);
+			expect(conditionDropdownList.length).to.equal(2);
+			expect(conditionPickerList.length).to.equal(2);
 		});
 
 		it('updates the condition information when a new attribute is added', async() => {
+			el.conditions = [
+				{ properties: { type: 'Fruit', values: ['Banana'] } }
+			];
+			await el.updateComplete;
 			const discoverPicker = el.shadowRoot.querySelector('d2l-discover-attribute-picker');
 			await waitUntil(() => discoverPicker.attributeList && discoverPicker.attributeList.length > 0, 'attributeList not initialized');
 
@@ -155,7 +140,7 @@ describe('d2l-discover-rule-picker', () => {
 
 		it('updates the condition information when the dropdown field is modified', async() => {
 			el = await createComponentAndWait(html`
-				<d2l-discover-rule-picker href="${emptyEntityHref}" token="cake"></d2l-discover-rule-picker>
+				<d2l-discover-rule-picker href="${selfHref}" token="cake"></d2l-discover-rule-picker>
 			`);
 
 			const conditionSelect = el.shadowRoot.querySelector('select');
@@ -173,53 +158,70 @@ describe('d2l-discover-rule-picker', () => {
 		});
 
 		it('displays the condition deletion button only if there is greater than one condition', async() => {
-			const emptyEl = await createComponentAndWait(html`
-				<d2l-discover-rule-picker href="${emptyEntityHref}" token="cake"></d2l-discover-rule-picker>
-			`);
-			const deleteButtonListEmpty = emptyEl.shadowRoot.querySelectorAll('.delete-condition-button');
-			expect(deleteButtonListEmpty.length).to.be.equal(1);
-			expect(deleteButtonListEmpty[0].hasAttribute('hidden')).to.be.true;
+			let deleteButtonList = el.shadowRoot.querySelectorAll('.delete-condition-button');
+			expect(deleteButtonList.length).to.be.equal(1);
+			expect(deleteButtonList[0].hasAttribute('hidden')).to.be.true;
+			// add new conditions
+			const newConditions = [
+				{ properties: { type: 'entree', values: ['spaghetti'] } },
+				{ properties: { type: 'dessert', values: ['cake', 'pie'] } }
+			];
+			el.reload(newConditions);
+			await el.updateComplete;
 
-			const deleteButtonList = el.shadowRoot.querySelectorAll('.delete-condition-button');
-			expect(deleteButtonList.length).to.be.equal(3);
+			deleteButtonList = el.shadowRoot.querySelectorAll('.delete-condition-button');
+			expect(deleteButtonList.length).to.be.equal(2);
 			expect(deleteButtonList[0].hasAttribute('hidden')).to.be.false;
 		});
 
-		const deletionTests = [
-			{
-				description: 'displays the condition information when the first condition has been deleted.',
-				index: 0
-			},
-			{
-				description: 'displays the condition information when the last condition has been deleted.',
-				index: 2
-			},
-			{
-				description: 'displays the condition information when the middle condition has been deleted.',
-				index: 1
-			}
-		];
-		for (const test of deletionTests) {
-			it(test.description, async() => {
-				const deleteButtonList = el.shadowRoot.querySelectorAll('.delete-condition-button');
-				const newConditions = [...el.conditions];
-				newConditions.splice(test.index, 1);
-
-				deleteButtonList[test.index].click();
+		describe('deletion', () => {
+			beforeEach(async() => {
+				el.conditions = [
+					{ properties: { type: 'Entree', values: ['spaghetti'] } },
+					{ properties: { type: 'Fruit', values: ['cake', 'pie'] } },
+					{ properties: { type: 'Fruit', values: ['lemonade'] } }
+				];
 				await el.updateComplete;
-				const conditionDropdownList = el.shadowRoot.querySelectorAll('select');
-				const conditionPickerList = el.shadowRoot.querySelectorAll('d2l-discover-attribute-picker');
-				await conditionPickerList.updateComplete;
-
-				expect(el.conditions.length).to.equal(newConditions.length);
-				expect(el.conditions).to.deep.equal(newConditions);
-				for (let i = 0 ; i < el.conditions.length; i++) {
-					//Ensure user facing data matches expected results
-					expect(conditionDropdownList[i].value).to.equal(newConditions[i].properties.type);
-					expect(conditionPickerList[i].attributeList).to.equal(newConditions[i].properties.values);
-				}
 			});
-		}
+
+			const deletionTests = [
+				{
+					description: 'displays the condition information when the first condition has been deleted.',
+					index: 0
+				},
+				{
+					description: 'displays the condition information when the last condition has been deleted.',
+					index: 2
+				},
+				{
+					description: 'displays the condition information when the middle condition has been deleted.',
+					index: 1
+				}
+			];
+			for (const test of deletionTests) {
+				it(test.description, async() => {
+					const deleteButtonList = el.shadowRoot.querySelectorAll('.delete-condition-button');
+					const newConditions = [...el.conditions];
+					newConditions.splice(test.index, 1);
+
+					deleteButtonList[test.index].click();
+					await el.updateComplete;
+					const conditionDropdownList = el.shadowRoot.querySelectorAll('select');
+					const conditionPickerList = el.shadowRoot.querySelectorAll('d2l-discover-attribute-picker');
+					await conditionPickerList.updateComplete;
+					await oneEvent(el, 'd2l-rule-condition-removed');
+
+					expect(el.conditions.length).to.equal(newConditions.length);
+					expect(el.conditions).to.deep.equal(newConditions);
+					for (let i = 0 ; i < el.conditions.length; i++) {
+						//Ensure user facing data matches expected results
+						expect(conditionDropdownList[i].value).to.equal(newConditions[i].properties.type);
+						expect(conditionPickerList[i].attributeList).to.equal(newConditions[i].properties.values);
+					}
+				});
+			}
+
+		});
 
 	});
 });

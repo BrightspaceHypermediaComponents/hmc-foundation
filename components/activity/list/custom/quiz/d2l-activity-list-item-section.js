@@ -4,7 +4,7 @@ import '@brightspace-ui/core/components/inputs/input-styles.js';
 import '@brightspace-ui/core/components/colors/colors';
 import '../../../editor/collection/custom/quiz/d2l-activity-collection-item-quiz.js';
 
-import { bodyCompactStyles, bodySmallStyles, bodyStandardStyles, heading2Styles, heading3Styles  } from '@brightspace-ui/core/components/typography/styles.js';
+import { bodySmallStyles, heading2Styles  } from '@brightspace-ui/core/components/typography/styles.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
@@ -45,6 +45,15 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 				observable: observableTypes.subEntities,
 				rel: rels.item,
 				route: [route.collection]
+			},
+			refreshCounter: {
+				type: Number,
+				attribute: 'refresh-counter'
+			},
+			_refreshState: {
+				type: Object,
+				observable: observableTypes.refreshState,
+				route: [route.specialization]
 			}
 		};
 	}
@@ -52,8 +61,7 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 	static get styles() {
 		return [
 			super.styles,
-			heading2Styles, heading3Styles,
-			bodyStandardStyles, bodyCompactStyles,
+			heading2Styles,
 			bodySmallStyles,
 			css `
 				:host {
@@ -76,11 +84,12 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 				}
 				.section-type {
 					color: var(--d2l-color-tungsten);
-					margin-inline-start: 2rem;
 					max-width: 10rem;
+					margin: 0;
 				}
 				.section-nested-items {
-					margin-left: 2rem
+					margin-left: 2rem;
+					margin-top: 1rem;
 				}
 			`];
 	}
@@ -90,22 +99,27 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 		this.skeleton = true;
 		this.items = [];
 	}
-
 	render() {
 		// It is just a temporary solution to add nested list here. Waiting for the decision/discusson on how
 		// to do nested lists properly
 		return html`
 			<div class="section-item d2l-skeletize">
-				<div class="checkbox"><d2l-input-checkbox></d2l-input-checkbox></div>
-				<div class="section"><span class="d2l-heading-2">${this.name}</span></div>
+				<div class="section d2l-skeletize">
+					<span class="d2l-heading-2 d2l-skeletize">${this.name}</span>
+					<div class="d2l-body-small section-type d2l-skeletize">${this.typeText}</div>
+				</div>
 			</div>
-			<div class="d2l-body-small section-type d2l-skeletize">${this.typeText}</div>
 			<d2l-list separators="none" class="section-nested-items" @d2l-list-item-position-change="${this._moveItems}">
 				${repeat(this.items, item => item.href, (item, idx) => html`
 					<d2l-activity-collection-item-quiz number="${idx + 1}" href="${item.href}" .token="${this.token}" key="${item.properties.id}"></d2l-activity-collection-item-quiz>
 				`)}
 			</d2l-list>
 		`;
+	}
+	updated(changedProperties) {
+		if (changedProperties.has('refreshCounter') && this.refreshCounter > 0) {
+			this._refreshState();
+		}
 	}
 
 	get _loaded() {

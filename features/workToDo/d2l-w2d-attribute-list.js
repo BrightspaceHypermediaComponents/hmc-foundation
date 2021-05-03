@@ -1,0 +1,34 @@
+import { css, html, LitElement } from 'lit-element/lit-element.js';
+import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton-mixin.js';
+
+class W2DAttributeList extends SkeletonMixin(LitElement) {
+	static get styles() {
+		return [ super.styles, css`
+			:host {
+				display: flex;
+				flex-flow: row wrap;
+				height: 1rem;
+				overflow-y: hidden;
+			}
+			*,
+			::slotted(*) {
+				align-items: center;
+				display: flex;
+				flex-flow: row nowrap;
+				overflow: hidden;
+				white-space: nowrap;
+			}
+		`];
+	}
+
+	render() {
+		return this.skeleton
+			? html`
+				<div class="d2l-w2d-block">
+					<div class="d2l-skeletize">Due date - Subject</div>
+				</div>`
+			: html`<slot></slot>`;
+	}
+
+}
+customElements.define('d2l-w2d-attribute-list', W2DAttributeList);
