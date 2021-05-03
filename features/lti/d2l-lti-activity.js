@@ -63,8 +63,8 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(HypermediaStateMixi
 			width: 100%;
 		  }
 		  .skeleton-placeholder {
-			  width: 5rem;
-			  height: 1rem;
+			  width: 10rem;
+			  height: 5rem;
 		  }
 		` ];
 	}
@@ -105,7 +105,7 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(HypermediaStateMixi
 
 				html`${this._showOpenInNewWindowButton ? 
 					html`<d2l-button class="spanning-button" primary @click="${this._onOpenInNewWindowClick}">${this.localize('open-in-new-window')}</d2l-button>` :
-					html`<iframe width="${this.iFrameWidth}" height="${this.iFrameHeight}" src="${this.launchUrl}"></iframe>
+					html`<iframe allow="microphone *; camera *; autoplay *" width="${this.iFrameWidth}" height="${this.iFrameHeight}" src="${this.launchUrl}"></iframe>
 						<div>
 							<d2l-button-subtle text="${this.localize('not-working-button')}" icon="tier1:smallscreen" icon-right @click="${this._onNotWorkingButtonClick}"></d2l-button-subtle>
 						</div>`

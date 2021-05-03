@@ -15,6 +15,6 @@ Displays an LTI Activity where a basic launch can be performed to the LTI tool.
 ### Example
 
 ```html
-<d2l-lti-activity href="${activity usage href}" .token="${token}"></d2l-discover-rules>
-<d2l-lti-activity href="${activity usage href}" .token="${token}" open-as-external></d2l-discover-rules>
+<d2l-lti-activity href="${activity usage href}" .token="${token}"></d2l-lti-activity>
+<d2l-lti-activity href="${activity usage href}" .token="${token}" open-as-external></d2l-lti-activity>
 ```
