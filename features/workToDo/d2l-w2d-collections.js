@@ -22,7 +22,7 @@ const rel = Object.freeze({
 
 const pageSize = Object.freeze({
 	collapsed: 6,
-	fullScreen: 20
+	fullScreen: 3
 });
 
 class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement)) {
@@ -89,8 +89,6 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 				}]
 			},
 			_pageSize: { type: Number },
-			_pageUpcoming: { type: Number },
-			_pageOverdue: { type: Number },
 			_page: { type: Number },
 			_currentPageUpcomming: {
 				type: Number,
@@ -310,7 +308,6 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 		if (typeof page !== 'number') return;
 		const oldValue = this.__currentPageOverdue;
 		this.__currentPageOverdue = page;
-		this._pageUpcoming = Math.max(1, this._page - page + 1);
 		this.requestUpdate('_currentPageOverdue', oldValue);
 	}
 
@@ -321,17 +318,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 	set _page(page) {
 		const oldValue = this._page;
 		this.__page = page;
-		this._pageOverdue = page;
 		this.requestUpdate('_page', oldValue);
-	}
-
-	get _pageOverdue() {
-		return (this._pageSize && typeof this._page === 'number' && this._pagingTotalResultsOverdue) ? Math.min(this._page, Math.ceil(this._pagingTotalResultsOverdue / this._pageSize)) : 1;
-	}
-
-	set _pageOverdue(page) {
-		this._pageUpcoming = page;
-		this.requestUpdate('_pageOverdue', 0);
 	}
 
 	get _pageSize() {
@@ -341,20 +328,8 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 	set _pageSize(pageSize) {
 		const oldValue = this._pageSize;
 		this.__pageSize = pageSize;
-		this._pageOverdue = this._page;
+		//this._pageOverdue = this._page;
 		this.requestUpdate('_pageSize', oldValue);
-	}
-
-	get _pageUpcoming() {
-		let page = typeof this._page === 'number' ? Math.max(1, this._page - this._pageOverdue) : 1;
-		if (!this.collapsed && !this._lastOverduePageHasMoreThanHalf() && !this._isOverdueOnLastPage() && this._page !== 1) {
-			page++;
-		}
-		return page;
-	}
-
-	set _pageUpcoming(_) {
-		this.requestUpdate('_pageUpcoming', 0);
 	}
 
 	get _pagingTotalResultsOverdue() {
@@ -362,8 +337,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 	}
 
 	set _pagingTotalResultsOverdue(totalCount) {
-		const oldValue = this._page;
-		this._pageOverdue = this._page;
+		const oldValue = this.__pagingTotalResultsOverdue;
 		this.__pagingTotalResultsOverdue = totalCount;
 		this.requestUpdate('_pagingTotalResultsOverdue', oldValue);
 	}
@@ -378,6 +352,18 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 
 	async _onPageChange(e) {
 		this._page = e.detail.page;
+	}
+
+	get _pageOverdue() {
+		return (this.__pageSize && typeof this.__page === 'number' && this.__pagingTotalResultsOverdue) ? Math.min(this._page, Math.ceil(this.__pagingTotalResultsOverdue / this.__pageSize)) : 1;
+	}
+
+	get _pageUpcoming() {
+		let page = typeof this.__page === 'number' ? Math.max(1, this.__page - this._pageOverdue) : 1;
+		if (!this.collapsed && !this._lastOverduePageHasMoreThanHalf() && !this._isOverdueOnLastPage() && this.__page !== 1) {
+			page++;
+		}
+		return page;
 	}
 
 	_renderDate(startDate, endDate, collapsed) {
