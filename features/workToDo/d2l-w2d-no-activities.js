@@ -116,6 +116,10 @@ class w2dNoActivities extends LocalizeDynamicMixin(LitElement) {
 		return this.activities && this.complete && this.collapse;
 	}
 
+	_doesTextUseFirstName() {
+		return !this._areActivitiesAvailable() && this.firstName;
+	}
+
 	_getComeBackNoFutureActivitiesText() {
 		if (this.firstName) {
 			return this.localize('comeBackNoFutureActivitiesName', this.firstName);
@@ -127,7 +131,7 @@ class w2dNoActivities extends LocalizeDynamicMixin(LitElement) {
 	_getEmptyViewText() {
 		let result;
 
-		if (!this._areActivitiesAvailable() && this.firstName) {
+		if (this._doesTextUseFirstName()) {
 			result = this.localize(this._getEmptyViewTextLabel(), this.firstName);
 		} else {
 			result = this.localize(this._getEmptyViewTextLabel());
@@ -144,6 +148,10 @@ class w2dNoActivities extends LocalizeDynamicMixin(LitElement) {
 			emptyViewTextLabel = 'noActivitiesFutureActivities';
 		} else if (!this.collapse) {
 			emptyViewTextLabel = 'noActivities';
+		}
+
+		if (this._doesTextUseFirstName()) {
+			emptyViewTextLabel += 'Name';
 		}
 
 		return emptyViewTextLabel;
