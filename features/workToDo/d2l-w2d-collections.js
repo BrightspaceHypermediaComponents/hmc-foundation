@@ -213,6 +213,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 		this.collapsed = false;
 		this._totalActivities = 0;
 		this.__currentPageOverdue = 1;
+		this._pagingTotalResultsOverdue = 0;
 		this._page = 1;
 		this.requiredPropertyForState('currentTime');
 		this.requiredPropertyForState('groupByDays');
@@ -293,7 +294,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 		}
 
 		return html`
-			${overdue ? this._renderHeader2(this.localize('overdue'), this._pagingTotalResultsOverdue) : null}
+			${overdue && overdue.length !== 0 ? this._renderHeader2(this.localize('overdue'), this._pagingTotalResultsOverdue) : null}
 			${overdue}
 			${categories ? this._renderHeader2(this.localize('upcoming'), this._pagingTotalResultsUpcomming) : null}
 			${categories}
@@ -419,7 +420,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 
 	_renderPagination() {
 		let totalPages = Math.ceil(this._pagingTotalResultsUpcomming / this._pageSize) + Math.ceil(this._pagingTotalResultsOverdue / this._pageSize);
-		if (!this._lastOverduePageHasMoreThanHalf()) {
+		if (this._pagingTotalResultsOverdue && !this._lastOverduePageHasMoreThanHalf()) {
 			totalPages -= 1;
 		}
 		return this._loaded && !this.collapsed  ? html`
