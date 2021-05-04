@@ -12,7 +12,8 @@ class w2dNoActivities extends LocalizeDynamicMixin(LitElement) {
 			activities: { type: Boolean },
 			complete: { type: Boolean },
 			dataFullPagePath: { type: String, attribute: 'data-full-page-path' },
-			collapse: { type: Boolean }
+			collapse: { type: Boolean },
+			firstName: { type: String, attribute: 'first-name' }
 		};
 	}
 
@@ -111,6 +112,30 @@ class w2dNoActivities extends LocalizeDynamicMixin(LitElement) {
 		</div>`;
 	}
 
+	// TODO consider creating _getEmptyViewTextLabel() function and maybe _getNeedsFirstName() function
+	_getEmptyViewText() {
+		let emptyViewTextLabel = 'noActivitiesNoFutureActivities';
+		let result;
+
+		if (this.activities && this.complete && this.collapse) {
+			result = this.localize('activitiesAvailable');
+		} else {
+			if (this.activities && this.collapse) {
+				emptyViewTextLabel = 'noActivitiesFutureActivities';
+			} else if (!this.collapse) {
+				emptyViewTextLabel = 'noActivities';
+			}
+
+			if (this.firstName) {
+				result = this.localize(emptyViewTextLabel, this.firstName);
+			} else {
+				result = this.localize(emptyViewTextLabel);
+			}
+		}
+
+		return result;
+	}
+
 	_renderEmptyViewButton() {
 		if (!this.activities) {
 			return undefined;
@@ -136,22 +161,14 @@ class w2dNoActivities extends LocalizeDynamicMixin(LitElement) {
 	}
 
 	_renderEmptyViewText() {
-
-		let emptyViewTextLabel = 'noActivitiesNoFutureActivities';
-		if (this.activities && this.complete && this.collapse) {
-			emptyViewTextLabel = 'activitiesAvailable';
-		} else if (this.activities && this.collapse) {
-			emptyViewTextLabel = 'noActivitiesFutureActivities';
-		} else if (!this.collapse) {
-			emptyViewTextLabel = 'noActivities';
-		}
+		// TODO test if this.localize('comeBackNoFutureActivities', this.firstName) works when this.firstName is undefined and not
 
 		return html`
 			<div class="d2l-body-standard d2l-empty-body-text-container">
-				${this.localize(emptyViewTextLabel)}
+				${this._getEmptyViewText()}
 			</div>
 			${!this.collapse ? html`<div class="d2l-body-standard d2l-empty-body-text-container">
-			${this.localize('comeBackNoFutureActivities')}</div>` : html``}
+			${this.localize('comeBackNoFutureActivities', this.firstName)}</div>` : html``}
 			`;
 	}
 

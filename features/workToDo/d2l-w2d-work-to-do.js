@@ -25,6 +25,7 @@ class w2dWorkToDo extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement))
 			collapsed: { type: Boolean },
 			dataFullPagePath: { type: String, attribute: 'data-full-page-path' },
 			groupByDays: { type: Number, attribute: 'group-by-days' },
+			firstName: { type: String, attribute: 'first-name' },
 			startDate: { type: String, attribute: 'start-date' },
 			endDate: { type: String, attribute: 'end-date' },
 			_myActivitiesHref: { type: String, observable: observableTypes.link, rel: rel.myActivities, prime: true },
@@ -121,7 +122,8 @@ class w2dWorkToDo extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement))
 				start-date="${this.startDate}"
 				end-date="${this.endDate}"
 				data-full-page-path="${this.dataFullPagePath}"
-				?skeleton="${!this._loaded}"></d2l-w2d-collections>
+				?skeleton="${!this._loaded}"
+				first-name=${this.firstName}></d2l-w2d-collections>
 		`;
 	}
 
