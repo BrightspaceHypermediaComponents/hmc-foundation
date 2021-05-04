@@ -129,15 +129,11 @@ class w2dNoActivities extends LocalizeDynamicMixin(LitElement) {
 	}
 
 	_getEmptyViewText() {
-		let result;
-
 		if (this._doesTextUseFirstName()) {
-			result = this.localize(this._getEmptyViewTextLabel(), this.firstName);
+			return this.localize(this._getEmptyViewTextLabel(), this.firstName);
 		} else {
-			result = this.localize(this._getEmptyViewTextLabel());
+			return this.localize(this._getEmptyViewTextLabel());
 		}
-
-		return result;
 	}
 
 	_getEmptyViewTextLabel() {
