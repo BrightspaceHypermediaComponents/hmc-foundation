@@ -116,6 +116,14 @@ class w2dNoActivities extends LocalizeDynamicMixin(LitElement) {
 		return this.activities && this.complete && this.collapse;
 	}
 
+	_getComeBackNoFutureActivitiesText() {
+		if (this.firstName) {
+			return this.localize('comeBackNoFutureActivitiesName', this.firstName);
+		} else {
+			return this.localize('comeBackNoFutureActivities');
+		}
+	}
+
 	_getEmptyViewText() {
 		let result;
 
@@ -166,14 +174,12 @@ class w2dNoActivities extends LocalizeDynamicMixin(LitElement) {
 	}
 
 	_renderEmptyViewText() {
-		// TODO test if this.localize('comeBackNoFutureActivities', this.firstName) works when this.firstName is undefined and not
-
 		return html`
 			<div class="d2l-body-standard d2l-empty-body-text-container">
 				${this._getEmptyViewText()}
 			</div>
 			${!this.collapse ? html`<div class="d2l-body-standard d2l-empty-body-text-container">
-			${this.localize('comeBackNoFutureActivities', this.firstName)}</div>` : html``}
+			${this._getComeBackNoFutureActivitiesText()}</div>` : html``}
 			`;
 	}
 
