@@ -286,18 +286,21 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 				const header = this._renderDate(category.startDate, category.endDate, this.collapsed);
 				if (limit === 0) return;
 				const list = html`
-					${this._renderHeader3(header, category.count)}
+					${this._renderHeader3(header, this._pagingTotalResultsOverdue)}
 					<d2l-w2d-list href="${category.href}" .token="${this.token}" category="${category.index}" ?collapsed="${this.collapsed}" limit="${ifDefined(limit)}"></d2l-w2d-list>
 				`;
 				limit = limit === undefined ? limit : Math.max(limit - category.count, 0);
 				return list;
 			});
 		}
+		if (categories) {
+			categories = categories.filter(activity => activity !== undefined);
+		}
 
 		return html`
 			${overdue && overdue.length !== 0 ? this._renderHeader2(this.localize('overdue'), this._pagingTotalResultsOverdue) : null}
 			${overdue}
-			${categories && categories.length !== 0 ? this._renderHeader2(this.localize('upcoming'), this._pagingTotalResultsUpcoming) : null}
+			${categories && categories.length > 0 ? this._renderHeader2(this.localize('upcoming'), this._pagingTotalResultsUpcoming) : null}
 			${categories}
 			${this.dataFullPagePath && this._loaded && this.collapsed ? html`<d2l-link href="${this.dataFullPagePath}">${this.localize('fullViewLink')}</d2l-link>` : null}
 			${this._renderPagination()}
