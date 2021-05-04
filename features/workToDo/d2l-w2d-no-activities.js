@@ -112,28 +112,35 @@ class w2dNoActivities extends LocalizeDynamicMixin(LitElement) {
 		</div>`;
 	}
 
-	// TODO consider creating _getEmptyViewTextLabel() function and maybe _getNeedsFirstName() function
+	_areActivitiesAvailable() {
+		return this.activities && this.complete && this.collapse;
+	}
+
 	_getEmptyViewText() {
-		let emptyViewTextLabel = 'noActivitiesNoFutureActivities';
 		let result;
 
-		if (this.activities && this.complete && this.collapse) {
-			result = this.localize('activitiesAvailable');
+		if (!this._areActivitiesAvailable() && this.firstName) {
+			result = this.localize(this._getEmptyViewTextLabel(), this.firstName);
+		} else {
+			result = this.localize(this._getEmptyViewTextLabel());
+		}
+
+		return result;
+	}
+
+	_getEmptyViewTextLabel() {
+		let emptyViewTextLabel = 'noActivitiesNoFutureActivities';
+		if (this._areActivitiesAvailable()) {
+			emptyViewTextLabel = 'activitiesAvailable';
 		} else {
 			if (this.activities && this.collapse) {
 				emptyViewTextLabel = 'noActivitiesFutureActivities';
 			} else if (!this.collapse) {
 				emptyViewTextLabel = 'noActivities';
 			}
-
-			if (this.firstName) {
-				result = this.localize(emptyViewTextLabel, this.firstName);
-			} else {
-				result = this.localize(emptyViewTextLabel);
-			}
 		}
 
-		return result;
+		return emptyViewTextLabel;
 	}
 
 	_renderEmptyViewButton() {
