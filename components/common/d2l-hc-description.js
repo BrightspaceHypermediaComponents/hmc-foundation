@@ -7,7 +7,7 @@ import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton
 class HmDescription extends SkeletonMixin(HypermediaStateMixin(LitElement)) {
 	static get properties() {
 		return {
-			description: { type: String, observable: observableTypes.property }
+			_description: { type: String, observable: observableTypes.property }
 		};
 	}
 
@@ -26,8 +26,8 @@ class HmDescription extends SkeletonMixin(HypermediaStateMixin(LitElement)) {
 	}
 
 	render() {
-		return html`${this.description ? html`<span class="d2l-skeletize">${this.description}</span>` : 
-				html`${this.skeleton ? html`<div class="d2l-skeletize skeleton-placeholder"></div>` : html``}`}`;
+		return html`${this._description ? html`<span class="d2l-skeletize">${this._description}</span>` :
+			html`${this.skeleton ? html`<div class="d2l-skeletize skeleton-placeholder"></div>` : html``}`}`;
 	}
 
 	get _loaded() {

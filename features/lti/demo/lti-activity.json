@@ -4,19 +4,19 @@
         "activity-usage"
     ],
     "links": [
-        { 
-            "rel": [ 
+        {
+            "rel": [
                 "self",
                 "https://activities.api.brightspace.com/rels/activity-usage"
             ],
-             "href": "../demo/lti-activity.json" 
+             "href": "../demo/lti-activity.json"
         },
-        { 
-            "rel": [ 
+        {
+            "rel": [
                 "lti-link",
                 "https://lti.api.brightspace.com/rels/link-placement"
-            ], 
-            "href": "../demo/lti-link.json" 
+            ],
+            "href": "../demo/lti-link.json"
         }
       ]
 }

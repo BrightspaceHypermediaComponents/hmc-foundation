@@ -13,13 +13,12 @@
       "iFrameHeight": "400px"
     },
     "links": [
-        { 
+        {
             "rel": [
                 "self",
                 "https://api.brightspace.com/lti-link"
-            ], 
+            ],
             "href": "../demo/lti-link.json"
         }
     ]
   }
-  
