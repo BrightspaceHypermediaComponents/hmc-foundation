@@ -132,12 +132,10 @@ class w2dNoActivities extends LocalizeDynamicMixin(LitElement) {
 		let emptyViewTextLabel = 'noActivitiesNoFutureActivities';
 		if (this._areActivitiesAvailable()) {
 			emptyViewTextLabel = 'activitiesAvailable';
-		} else {
-			if (this.activities && this.collapse) {
-				emptyViewTextLabel = 'noActivitiesFutureActivities';
-			} else if (!this.collapse) {
-				emptyViewTextLabel = 'noActivities';
-			}
+		} else if (this.activities && this.collapse) {
+			emptyViewTextLabel = 'noActivitiesFutureActivities';
+		} else if (!this.collapse) {
+			emptyViewTextLabel = 'noActivities';
 		}
 
 		return emptyViewTextLabel;
