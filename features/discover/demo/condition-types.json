@@ -7,7 +7,7 @@
         "method": "GET"
       }],
       "properties": {
-        "type": "conditionTypeA"
+        "type": "Role"
       },
       "links": [
         { "rel": ["self"], "href": "../demo/condition-type-a.json" }
@@ -21,7 +21,7 @@
         "method": "GET"
       }],
       "properties": {
-        "type": "conditionTypeB"
+        "type": "Dessert"
       },
       "links": [
         { "rel": ["self"], "href": "../demo/condition-type-b.json" }

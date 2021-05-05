@@ -39,8 +39,6 @@ class RulePickerDialog extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixi
 	constructor() {
 		super();
 		this._rules = [];
-		this.conditions = [];
-		this._copiedConditions = [];
 	}
 
 	render() {
@@ -64,27 +62,13 @@ class RulePickerDialog extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixi
 		`;
 	}
 
-	async updated(changedProperties) {
-		super.updated(changedProperties);
-		if (changedProperties.has('opened') && this.opened) {
-			if (!this._loaded) {
-				await this._state.allFetchesComplete();
-			}
-			this._copyConditions();
-		}
-	}
-
-	_copyConditions() {
-		const picker = this.shadowRoot.querySelector('d2l-discover-rule-picker');
-		this._copiedConditions = picker.conditions.map(condition => {
-			return {...condition};
-		});
-	}
-
 	async _onCancelClick() {
 		await this.updateComplete;
-		const picker = this.shadowRoot.querySelector('d2l-discover-rule-picker');
-		picker.reload(this._copiedConditions);
+
+		if (this.ruleIndex === undefined) {
+			const picker = this.shadowRoot.querySelector('d2l-discover-rule-picker');
+			picker.reload([]);
+		}
 	}
 
 	_onConditionAddRemove() {
@@ -94,12 +78,18 @@ class RulePickerDialog extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixi
 
 	_onDoneClick() {
 		const picker = this.shadowRoot.querySelector('d2l-discover-rule-picker');
-		if (!this.ruleIndex) {
+		if (this.ruleIndex === undefined) {
+			// create
 			this._rules.push({
 				entities: [...picker.conditions],
 				rel: [rels.rule]
 			});
-			picker.reload([]);
+		} else {
+			// edit
+			this._rules[this.ruleIndex] = {
+				entities: [...picker.conditions],
+				rel: [rels.rule]
+			};
 		}
 		this._state.updateProperties({
 			_rules: {

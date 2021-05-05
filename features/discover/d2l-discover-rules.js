@@ -23,6 +23,7 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 			_rules: { type: Array, observable: observableTypes.subEntities, rel: rels.rule, route: [
 				{ observable: observableTypes.link, rel: rels.entitlementRules }
 			] },
+			_ruleIndex: { type: Number },
 			_dialogOpened: { type: Boolean },
 			_entitlementsHref: { observable: observableTypes.link, rel: rels.entitlementRules },
 			_createEntitlement: { observable: observableTypes.action, name: 'create', route: [
@@ -59,26 +60,13 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 	}
 
 	render() {
-		let conditions = [
-			{
-				properties: {
-					type: 'Role',
-					values: ['one', 'two', 'three']
-				}
-			},
-			{
-				properties: {
-					type: 'Department',
-					values: ['four', 'five', 'six']
-				}
-			}
-		];
 		return html`
 			<d2l-labs-checkbox-drawer
 				?checked="${this.isSelfEnrollable || (this._rules && this._rules.length)}"
 				label="${this.localize('label-checkbox')}"
 				description="${this.localize('text-checkbox-description')}"
-				class="d2l-skeletize">
+				class="d2l-skeletize"
+				@d2l-checkbox-drawer-checked-change="${this._onCheckboxChange}">
 			${this._rules && this._rules.length ? html`
 			<div class="d2l-body-small d2l-enrollment-rules">
 				<h5 class="d2l-body-small"><strong>${this.localize('text-rules')}</strong></h5>
@@ -90,8 +78,8 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 						.token="${this.token}"
 						.rule="${rule}"
 						.ruleIndex="${index}"
-						@d2l-rule-deleted="${this._onRuleDeleted}"
-						@d2l-dialog-close="${this._onDialogClose}"></d2l-discover-rule-card>
+						@d2l-rule-delete-click="${this._onRuleDeleted}"
+						@d2l-rule-edit-click="${this._onRuleEdit}"></d2l-discover-rule-card>
 				`)}
 			</div>
 			` : null}
@@ -101,10 +89,11 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 				text="${this._rules && this._rules.length ? this.localize('text-addmore-enrollment-rule') : this.localize('text-add-enrollment-rule')}"
 				icon="${this._rules && this._rules.length ? 'tier1:plus-large-thick' : 'tier1:lock-locked'}"></d2l-button-subtle>
 			<d2l-discover-rule-picker-dialog
-				@d2l-dialog-close="${this._onDialogClose}"
 				href="${this._entitlementsHref}"
 				.token="${this.token}"
 				?opened="${this._dialogOpened}"
+				.ruleIndex="${this._ruleIndex}"
+				@d2l-dialog-close="${this._onDialogClose}"
 			></d2l-discover-rule-picker-dialog>
 			</d2l-labs-checkbox-drawer>
 		`;
@@ -127,11 +116,27 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 	}
 
 	_onButtonClick() {
+		this._ruleIndex = undefined;
 		this._dialogOpened = true;
+	}
+
+	_onCheckboxChange(e) {
+		const checked = e.detail.checked;
+		if (checked && this._rules.length) {
+			// when the user re-checks the box, re-commit the entitlement
+			this._onRulesChanged();
+		} else {
+			if (!this._hasAction('_createEntitlement')) return;
+			// when the user unchecks the box, delete the entitlement, but don't update the rules
+			this._createEntitlement.commit({
+				rules: []
+			});
+		}
 	}
 
 	_onDialogClose() {
 		this._dialogOpened = false;
+		this._ruleIndex = undefined;
 	}
 
 	_onRuleDeleted(e) {
@@ -143,15 +148,20 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 		});
 	}
 
+	_onRuleEdit(e) {
+		this._ruleIndex = e.target.ruleIndex;
+		this._dialogOpened = true;
+	}
+
 	_onRulesChanged() {
 		if (!this._hasAction('_createEntitlement')) return;
-		console.log('commit');
+
 		const message = this._rules.map(rule => {
 			const ruleObj = {};
 			rule.entities.forEach(condition => ruleObj[condition.properties.type] = condition.properties.values);
 			return ruleObj;
 		});
-		console.log(this._rules);
+
 		this._createEntitlement.commit({
 			rules: message
 		});

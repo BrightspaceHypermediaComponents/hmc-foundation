@@ -15,7 +15,6 @@ class RuleCard extends RtlMixin(LitElement) {
 			rule: { type: Object },
 			ruleIndex: { type: Number },
 			_title: { type: String },
-			_dialogOpen: { type: Boolean },
 			token: { type: Object },
 			href: { type: String }
 		};
@@ -55,13 +54,6 @@ class RuleCard extends RtlMixin(LitElement) {
 		`;
 	}
 
-	updated(changedProperties) {
-		super.updated(changedProperties);
-		if (changedProperties.has('rule')) {
-			this._setTitle();
-		}
-	}
-
 	render() {
 		return html`
 			<d2l-card class="d2l-rule-card">
@@ -81,26 +73,28 @@ class RuleCard extends RtlMixin(LitElement) {
 					</d2l-dropdown-menu>
 				</d2l-dropdown-context-menu>
 			</d2l-card>
-			<d2l-discover-rule-picker-dialog href="${this.href}" .token="${this.token}"
-				.ruleIndex="${this.ruleIndex}"
-				?opened="${this._dialogOpen}"
-				@d2l-dialog-close="${this._onDialogClose}"></d2l-discover-rule-picker-dialog>
 		`;
 	}
 
+	updated(changedProperties) {
+		super.updated(changedProperties);
+		if (changedProperties.has('rule')) {
+			this._setTitle();
+		}
+	}
+
 	_onDeleteClick() {
-		const event = new CustomEvent('d2l-rule-deleted', {
+		const event = new CustomEvent('d2l-rule-delete-click', {
 			bubbles: true
 		});
 		this.dispatchEvent(event);
 	}
 
-	_onDialogClose() {
-		this._dialogOpen = false;
-	}
-
 	_onEditClick() {
-		this._dialogOpen = true;
+		const event = new CustomEvent('d2l-rule-edit-click', {
+			bubbles: true
+		});
+		this.dispatchEvent(event);
 	}
 
 	_setTitle() {
@@ -113,12 +107,12 @@ class RuleCard extends RtlMixin(LitElement) {
 			for (let j = 0; j < attrList.length; j++) {
 				const attr = attrList[j];
 				title += attr;
-				if (j != attrList.length - 1) {
-					title += ', '
+				if (j !== attrList.length - 1) {
+					title += ', ';
 				}
 			}
-			if (i != conditions.length - 1) {
-				title += ' & '
+			if (i !== conditions.length - 1) {
+				title += ' & ';
 			}
 		}
 		this._title = title;

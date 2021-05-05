@@ -13,6 +13,7 @@ const rels = Object.freeze({
 });
 
 const selfHref = 'http://entitlement-new';
+const selfWithRulesHref = 'http://entitlement-existing';
 const conditionTypesHref = 'http://condition-types-href/dialog';
 const entity = {
 	actions: [
@@ -20,6 +21,24 @@ const entity = {
 	],
 	links: [
 		{ rel: ['self'], href: selfHref },
+		{ rel: [rels.conditionTypes], href: conditionTypesHref }
+	]
+};
+const entityWithRules = {
+	actions: [
+		{ name: 'create', method: 'POST', href: '../demo/entitlement-create.json' }
+	],
+	entities: [
+		{
+			entities: [
+				{ properties: { type: 'Fruit', values: ['apple', 'orange']}, rel: [rels.condition] },
+				{ properties: { type: 'Entree', values: ['spaghetti']}, rel: [rels.condition] }
+			],
+			rel: [rels.rule]
+		}
+	],
+	links: [
+		{ rel: ['self'], href: selfWithRulesHref },
 		{ rel: [rels.conditionTypes], href: conditionTypesHref }
 	]
 };
@@ -37,6 +56,7 @@ describe('d2l-discover-rule-picker-dialog', () => {
 
 	before(() => {
 		fetchMock.mock(selfHref, JSON.stringify(entity))
+			.mock(selfWithRulesHref, JSON.stringify(entityWithRules))
 			.mock(conditionTypesHref, JSON.stringify(conditionTypesEntity));
 	});
 
@@ -70,7 +90,6 @@ describe('d2l-discover-rule-picker-dialog', () => {
 		it('resets the conditions back to empty when cancel is pressed', async() => {
 			el.opened = true;
 			await el.updateComplete;
-			expect(el.conditions).to.be.empty;
 			// simulate changing conditions
 			const rulePicker = el.shadowRoot.querySelector('d2l-discover-rule-picker');
 			rulePicker.conditions = [
@@ -84,7 +103,6 @@ describe('d2l-discover-rule-picker-dialog', () => {
 			// click cancel
 			el.shadowRoot.querySelectorAll('d2l-button')[1].click();
 			await el.updateComplete;
-			expect(el.conditions).to.be.empty;
 			expect(rulePicker.conditions).to.be.have.lengthOf(1);
 		});
 
