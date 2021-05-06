@@ -5,7 +5,7 @@
     "type": "git",
     "url": "https://github.com/BrightspaceHypermediaComponents/foundation-components.git"
   },
-  "version": "0.35.2",
+  "version": "0.39.0",
   "scripts": {
     "lint": "npm run lint:eslint && npm run lint:lit",
     "lint:eslint": "eslint . --ext .js,.html",
@@ -24,7 +24,7 @@
     "@webcomponents/webcomponentsjs": "^2",
     "deepmerge": "^3",
     "es-dev-server": "^1",
-    "eslint": "^6",
+    "eslint": "^7",
     "eslint-config-brightspace": "^0.13",
     "eslint-plugin-html": "^6",
     "eslint-plugin-lit": "^1",
@@ -41,6 +41,7 @@
     "@brightspace-ui-labs/caketray": "^1",
     "@brightspace-ui-labs/checkbox-drawer": "github:BrightspaceUILabs/checkbox-drawer#semver:^1",
     "@brightspace-ui-labs/list-item-accumulator": "^1",
+    "@brightspace-ui-labs/pagination": "^1.0.2",
     "@brightspace-ui/core": "^1.126.4",
     "@brightspace-ui/intl": "^3.4.0",
     "d2l-course-image": "github:Brightspace/course-image#semver:^3",

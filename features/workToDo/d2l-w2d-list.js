@@ -49,7 +49,7 @@ class W2dList extends HypermediaStateMixin(LitElement) {
 			return null;
 		}
 		let activities = this._activities;
-		if (this.limit) {
+		if (this.limit !== undefined) {
 			activities = activities.slice(0, this.limit);
 		}
 		return html`

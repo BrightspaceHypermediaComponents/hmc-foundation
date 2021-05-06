@@ -120,14 +120,6 @@ class w2dNoActivities extends LocalizeDynamicMixin(LitElement) {
 		return !this._areActivitiesAvailable() && this.firstName;
 	}
 
-	_getComeBackNoFutureActivitiesText() {
-		if (this.firstName) {
-			return this.localize('comeBackNoFutureActivitiesName', this.firstName);
-		} else {
-			return this.localize('comeBackNoFutureActivities');
-		}
-	}
-
 	_getEmptyViewText() {
 		if (this._doesTextUseFirstName()) {
 			return this.localize(this._getEmptyViewTextLabel(), this.firstName);
@@ -182,8 +174,6 @@ class w2dNoActivities extends LocalizeDynamicMixin(LitElement) {
 			<div class="d2l-body-standard d2l-empty-body-text-container">
 				${this._getEmptyViewText()}
 			</div>
-			${!this.collapse ? html`<div class="d2l-body-standard d2l-empty-body-text-container">
-			${this._getComeBackNoFutureActivitiesText()}</div>` : html``}
 			`;
 	}
 

@@ -28,6 +28,7 @@ class w2dWorkToDo extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement))
 			firstName: { type: String, attribute: 'first-name' },
 			startDate: { type: String, attribute: 'start-date' },
 			endDate: { type: String, attribute: 'end-date' },
+			overdueWeekLimit: { type: Number, attribute: 'data-overdue-week-limit' },
 			_myActivitiesHref: { type: String, observable: observableTypes.link, rel: rel.myActivities, prime: true },
 			_myOrganizationActivitiesHref: { type: String, observable: observableTypes.link, rel: rel.myOrganizationActivities, prime: true },
 			_organizationHompage: { type: String, observable: observableTypes.link, rel: rel.organizationHomepage },
@@ -98,9 +99,7 @@ class w2dWorkToDo extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement))
 		const immersiveNav = this.collapsed
 			? null
 			: html`
-				<d2l-navigation-immersive back-link-href="${this._getHomeHref()}" back-link-text="${this.localize('backToD2L')}" width-type="normal">
-					<div slot="middle" class="d2l-w2d-flex d2l-body-standard">${this.localize('myWorkToDo')}</div>
-				</d2l-navigation-immersive>
+				<d2l-navigation-immersive back-link-href="${this._getHomeHref()}" back-link-text="${this.localize('backToD2L')}" width-type="normal"></d2l-navigation-immersive>
 			`;
 		const workToDoHeader = this.collapsed
 			? null
@@ -122,8 +121,9 @@ class w2dWorkToDo extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement))
 				start-date="${this.startDate}"
 				end-date="${this.endDate}"
 				data-full-page-path="${this.dataFullPagePath}"
-				?skeleton="${!this._loaded}"
-				first-name=${this.firstName}></d2l-w2d-collections>
+				first-name=${this.firstName}
+				overdue-day-limit="${this.overdueWeekLimit * 7}"
+				?skeleton="${!this._loaded}"></d2l-w2d-collections>
 		`;
 	}
 

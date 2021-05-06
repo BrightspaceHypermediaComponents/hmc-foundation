@@ -15,5 +15,5 @@ export default {
 	"text-newDialogSaveTitle": "Impossible de sauvegarder le parcours d’apprentissage", // Error when a new learning path could not be saved
 	"text-newDialogSaveContent": "Ce parcours d’apprentissage n’a pas pu être sauvegardé. Vous pouvez réessayer après avoir appuyé sur OK.", // // Message telling user a new learning path could not be saved. Informs user they can try to save again after pressing ok to close dialog box
 	"text-saveComplete": "Sauvegarde terminée", // Saving is complete and was successful,
-	"title-identification": "Additional Identification" // Title for side bar that contains supplementary information
+	"title-identification": "Identification supplémentaire" // Title for side bar that contains supplementary information
 };
