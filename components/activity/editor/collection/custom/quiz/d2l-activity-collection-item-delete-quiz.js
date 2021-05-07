@@ -10,7 +10,8 @@ class ActivityCollectionItemDeleteQuiz extends RtlMixin(HypermediaStateMixin(Loc
 	static get properties() {
 		return {
 			_dialogOpened: { type: Boolean },
-			_selectionCount: { type: Number, attribute: 'selection-count' }
+			_selectionCount: { type: Number, attribute: 'selection-count' },
+			_canRemoveItems: { type: Boolean, attribute: 'can-remove-items'},
 		};
 	}
 	constructor() {
@@ -23,7 +24,7 @@ class ActivityCollectionItemDeleteQuiz extends RtlMixin(HypermediaStateMixin(Loc
             <d2l-button-subtle
                 text="${this.localize('button-quizEditorDelete')}"
                 icon="tier1:delete"
-                ?disabled="${this._selectionCount ? false : true}"
+                ?disabled="${this._canRemoveItems && this._selectionCount > 0 ? false : true}"
                 @click="${this._handleDialogOpen}">
             </d2l-button-subtle>
             <div class="dialog-div">
