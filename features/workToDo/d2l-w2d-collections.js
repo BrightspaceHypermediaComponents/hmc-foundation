@@ -427,6 +427,9 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 		if (this._pagingTotalResultsOverdue && !this._lastOverduePageHasMoreThanHalf()) {
 			totalPages -= 1;
 		}
+		if (totalPages < 1) {
+			totalPages = 1;
+		}
 		return this._loaded && !this.collapsed  ? html`
 			<d2l-labs-pagination
 				page-number="${this._page}"
