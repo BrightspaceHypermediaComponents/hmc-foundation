@@ -71,12 +71,13 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin((L
 	}
 
 	render() {
+		const canRemoveItems = this.items && this.items[0] && this.items[0].actions.includes('remove-activity');
 		return html`
 			<div class="d2l-activity-collection-body">
 				<div class="d2l-activity-collection-body-content">
 				${this.items.length ? html`
 					<div class="d2l-activity-collection-list-actions d2l-skeletize">
-						<d2l-activity-collection-item-delete-quiz selection-count="${this._selectionCount}"></d2l-activity-collection-item-delete-quiz>
+						<d2l-activity-collection-item-delete-quiz ?can-remove-items=${canRemoveItems} selection-count="${this._selectionCount}"></d2l-activity-collection-item-delete-quiz>
 					</div>
 				` : null}
 				</div>
