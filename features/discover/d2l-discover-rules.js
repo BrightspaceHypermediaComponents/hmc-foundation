@@ -102,7 +102,8 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 	updated(changedProperties) {
 		super.updated(changedProperties);
 
-		if (this._loaded && changedProperties.has('_rules') && changedProperties.get('_rules') !== undefined) {
+		if (this._loaded && changedProperties.has('_rules') && changedProperties.get('_rules') !== undefined
+			&& this._rulesHaveChanged(changedProperties.get('_rules'), this._rules)) {
 			this._onRulesChanged();
 		}
 	}
@@ -146,6 +147,8 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 				{ observable: observableTypes.link, rel: rels.entitlementRules }
 			], value: this._rules }
 		});
+		// call it manually
+		this._onRulesChanged();
 	}
 
 	_onRuleEdit(e) {
@@ -161,10 +164,33 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 			rule.entities.forEach(condition => ruleObj[condition.properties.type] = condition.properties.values);
 			return ruleObj;
 		});
-
 		this._createEntitlement.commit({
 			rules: message
 		});
+	}
+
+	/**
+	 * @param { Array } oldRules
+	 * @param { Array } newRules
+	 * @returns { Boolean } true if changed, false if not
+	 */
+	_rulesHaveChanged(oldRules, newRules) {
+		if (oldRules.length !== newRules.length) return true;
+		// check each rule
+		for (let i = 0; i < oldRules.length; ++i) {
+			if (oldRules[i].entities.length !== newRules[i].entities.length) return true;
+			// check each condition
+			for (let j = 0; j < oldRules[i].entities.length; ++j) {
+				const oldCondition = oldRules[i].entities[j];
+				const newCondition = newRules[i].entities[j];
+				if (oldCondition.properties.type !== newCondition.properties.type ||
+					JSON.stringify(oldCondition.properties.values) !== JSON.stringify(newCondition.properties.values)
+				) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 }

@@ -6,10 +6,11 @@ import '@brightspace-ui/core/components/menu/menu.js';
 import '@brightspace-ui/core/components/menu/menu-item.js';
 import './d2l-discover-rule-picker-dialog.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
+import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 
 // there is a bug in the engine so this is a dumb component instead of a hypermedia one
-class RuleCard extends RtlMixin(LitElement) {
+class RuleCard extends LocalizeDynamicMixin(RtlMixin(LitElement)) {
 	static get properties() {
 		return {
 			rule: { type: Object },
@@ -54,6 +55,12 @@ class RuleCard extends RtlMixin(LitElement) {
 		`;
 	}
 
+	static get localizeConfig() {
+		return {
+			importFunc: async lang => (await import(`./lang/${lang}.js`)).default
+		};
+	}
+
 	render() {
 		return html`
 			<d2l-card class="d2l-rule-card">
@@ -67,8 +74,8 @@ class RuleCard extends RtlMixin(LitElement) {
 				<d2l-dropdown-context-menu text="options" slot="actions">
 					<d2l-dropdown-menu id="dropdown">
 						<d2l-menu label="options">
-							<d2l-menu-item text="Edit" @click="${this._onEditClick}"></d2l-menu-item>
-							<d2l-menu-item text="Delete" @click="${this._onDeleteClick}"></d2l-menu-item>
+							<d2l-menu-item text="${this.localize('text-edit')}" @click="${this._onEditClick}"></d2l-menu-item>
+							<d2l-menu-item text="${this.localize('text-delete')}" @click="${this._onDeleteClick}"></d2l-menu-item>
 						</d2l-menu>
 					</d2l-dropdown-menu>
 				</d2l-dropdown-context-menu>

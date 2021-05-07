@@ -17,6 +17,15 @@ const entitlementEntity = {
 	actions: [
 		{ name: 'create', method: 'POST', href: '../demo/entitlement-create.json' }
 	],
+	entities: [
+		{
+			entities: [
+				{ properties: { type: 'Fruit', values: ['apple', 'orange'] }, rel: [rels.condition] },
+				{ properties: { type: 'Entree', values: ['spaghetti'] }, rel: [rels.condition] }
+			],
+			rel: [rels.rule]
+		}
+	],
 	links: [
 		{ rel: ['self'], href: selfHref },
 		{ rel: [rels.conditionTypes], href: conditionTypesHref }
@@ -60,7 +69,6 @@ describe('d2l-discover-rule-picker', () => {
 		afterEach(() => fetchMock.resetHistory());
 
 		it('renders the conditionTypes dropdown data', async() => {
-
 			const el = await createComponentAndWait(html`
 				<d2l-discover-rule-picker href="${selfHref}" token="cake"></d2l-discover-rule-picker>
 			`);
@@ -75,21 +83,25 @@ describe('d2l-discover-rule-picker', () => {
 			expect(Array.from(conditionDropdown.options).map(option => option.value))
 				.to.deep.equal(conditionTypesEntity.entities.map(type => type.properties.type));
 		});
-		// todo: add when rule list is available
-		it.skip('renders the initialized conditions', async() => {
+
+		it('renders the initialized conditions', async() => {
 			const el = await createComponentAndWait(html`
 				<d2l-discover-rule-picker href="${selfHref}" token="cake"></d2l-discover-rule-picker>
 			`);
+			const ruleIndex = 0;
+			el.ruleIndex = 0;
+			await el.updateComplete;
 			const conditionDropdownList = el.shadowRoot.querySelectorAll('select');
 			const conditionPickerList = el.shadowRoot.querySelectorAll('d2l-discover-attribute-picker');
+			const rule = entitlementEntity.entities[ruleIndex];
 
-			expect(conditionDropdownList.length).to.equal(entitlementEntity.entities.length);
-			expect(conditionPickerList.length).to.equal(entitlementEntity.entities.length);
+			expect(conditionDropdownList.length).to.equal(rule.entities.length);
+			expect(conditionPickerList.length).to.equal(rule.entities.length);
 
 			//Ensure the data in the fields lines up with the passed data
 			for (let i = 0 ; i < conditionDropdownList.options; i++) {
-				expect(conditionDropdownList[i].value).to.equal(entitlementEntity.entities[i].properties.type);
-				expect(conditionPickerList[i].value).to.equal(entitlementEntity.entities[i].properties.value);
+				expect(conditionDropdownList[i].value).to.equal(rule.entities[i].properties.type);
+				expect(conditionPickerList[i].value).to.equal(rule.entities[i].properties.value);
 			}
 		});
 
