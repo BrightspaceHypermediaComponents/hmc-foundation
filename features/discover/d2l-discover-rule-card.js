@@ -52,6 +52,9 @@ class RuleCard extends LocalizeDynamicMixin(RtlMixin(LitElement)) {
 			d2l-dropdown-context-menu {
 				margin: -0.3rem -0.3rem 0 0;
 			}
+			d2l-dropdown-menu {
+				margin-top: -0.3rem;
+			}
 		`;
 	}
 
@@ -72,7 +75,7 @@ class RuleCard extends LocalizeDynamicMixin(RtlMixin(LitElement)) {
 					</div>
 				</div>
 				<d2l-dropdown-context-menu text="options" slot="actions">
-					<d2l-dropdown-menu id="dropdown">
+					<d2l-dropdown-menu>
 						<d2l-menu label="options">
 							<d2l-menu-item text="${this.localize('text-edit')}" @click="${this._onEditClick}"></d2l-menu-item>
 							<d2l-menu-item text="${this.localize('text-delete')}" @click="${this._onDeleteClick}"></d2l-menu-item>
