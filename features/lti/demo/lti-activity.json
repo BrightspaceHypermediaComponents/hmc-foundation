@@ -1,0 +1,22 @@
+{
+    "class": [
+        "lti-activity-usage",
+        "activity-usage"
+    ],
+    "links": [
+        {
+            "rel": [
+                "self",
+                "https://activities.api.brightspace.com/rels/activity-usage"
+            ],
+             "href": "../demo/lti-activity.json"
+        },
+        {
+            "rel": [
+                "lti-link",
+                "https://lti.api.brightspace.com/rels/link-placement"
+            ],
+            "href": "../demo/lti-link.json"
+        }
+      ]
+}

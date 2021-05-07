@@ -85,6 +85,17 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 			d2l-status-indicator {
 				text-transform: none;
 			}
+			.d2l-w2d-list-item-attributes *::before {
+				content: url("data:image/svg+xml; utf8, <svg xmlns='http://www.w3.org/2000/svg' width='18px' height='18px' viewBox='0 0 18 18'><circle cx='9' cy='9' r='3' fill='%236E7376' fill-rule='evenodd'/></svg>");
+				display: inline-block;
+				height:18px;
+				width:18px;
+			}
+			.d2l-w2d-list-item-attributes *:first-child::before {
+				content: "";
+				height: 0;
+				width: 0;
+			}
 		`];
 
 		super.styles && styles.unshift(super.styles);
@@ -125,7 +136,7 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 
 		const startDate = (!this.actionHref && this._dates.start)
 			? html`
-				<d2l-status-indicator slot="${ ifDefined(this.collapsed ? 'supporting-info' : undefined) }" state="none" text="Starts ${formatDate(this._dates.start, {format: 'shortMonthDay'})}"></d2l-status-indicator>
+				<d2l-status-indicator slot="${ ifDefined(this.collapsed ? 'supporting-info' : undefined) }" state="none" text="${this.localize('StartsWithDate', 'startDate', formatDate(this._dates.start, {format: 'shortMonthDay'}))}"></d2l-status-indicator>
 			`
 			: null;
 
@@ -134,8 +145,8 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 			content: html`${guard([this.href, this.token], () => html`
 				<d2l-list-item-content>
 					<d2l-activity-name class="d2l-w2d-list-item-name" href="${this.href}" .token="${this.token}"></d2l-activity-name>
-					<d2l-w2d-attribute-list slot="secondary">
-						${ !this.collapsed ? startDate : nothing }
+					<d2l-w2d-attribute-list slot="secondary" class="d2l-w2d-list-item-attributes">
+						${ !this.collapsed ? startDate : null }
 						${this._renderAttributeListCollapsed()}
 					</d2l-w2d-attribute-list>
 					${ !this.collapsed ? html`<d2l-activity-description slot="supporting-info" href="${this.href}" .token="${this.token}"></d2l-activity-description>` : startDate}
@@ -147,10 +158,10 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 	_renderAttributeListCollapsed() {
 		let dueDate;
 		if (this._dates.due || this._dates.end) {
-			dueDate = html`<div>${this._dates.due ? this.localize('dueWithDate', 'dueDate', formatDate(this._dates.due, {format: 'shortMonthDay'})) : this.localize('endWithDate', 'endDate', formatDate(this._dates.end, {format: 'shortMonthDay'}))}</div>`;
+			dueDate = lithtml`<div>${this._dates.due ? this.localize('dueWithDate', 'dueDate', formatDate(this._dates.due, {format: 'shortMonthDay'})) : this.localize('endWithDate', 'endDate', formatDate(this._dates.end, {format: 'shortMonthDay'}))}</div>`;
 		}
-		const type = !this._isCourse ? html`<d2l-activity-type href="${this.href}" .token="${this.token}"></d2l-activity-type>` : null;
-		const courseName = this._isCourse ? html`<div>${this.localize('course')}</div>` : html`<div>${this._parentName}</div>`;
+		const type = !this._isCourse ? lithtml`<d2l-activity-type href="${this.href}" .token="${this.token}"></d2l-activity-type>` : null;
+		const courseName = this._isCourse ? lithtml`<div>${this.localize('course')}</div>` : lithtml`<div>${this._parentName}</div>`;
 		return html`
 			${this.collapsed ? dueDate : type}
 			${courseName}

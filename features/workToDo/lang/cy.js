@@ -1,4 +1,4 @@
-export const val = {
+export default {
 	activitiesAvailable: "Mae gweithgareddau sy'n ddyledus neu'n dod i ben mewn pythefnos wedi’u cwblhau! Gwiriwch Gweld Pob Darn o Waith i weld beth sy'n dod yn nes ymlaen.", // 'Empty View' - When widget has no activities to display within the next two weeks, but there are more activities further into the future that can be shown on the full screen view
 	allClear: 'Dim Byd Am y Tro!', // Displayed as header line in widget text when there are no activities
 	assignment: 'Aseiniad',  // Meta-data descriptor that informs which type of activity is being displayed on a line item
