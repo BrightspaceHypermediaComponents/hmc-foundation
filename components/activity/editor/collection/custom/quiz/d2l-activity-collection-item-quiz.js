@@ -7,14 +7,13 @@ import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundati
 import { fetch } from '@brightspace-hmc/foundation-engine/state/fetch.js';
 import { guard } from 'lit-html/directives/guard';
 import { html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
-
-import { ListItemLinkMixin } from '@brightspace-ui/core/components/list/list-item-link-mixin.js';
+import { ListItemButtonMixin } from '@brightspace-ui/core/components/list/list-item-button-mixin.js';
 
 const rels = Object.freeze({
 	activityUsage: 'https://activities.api.brightspace.com/rels/activity-usage'
 });
 
-const componentClass = class extends HypermediaStateMixin(ListItemLinkMixin(LitElement)) {
+const componentClass = class extends HypermediaStateMixin(ListItemButtonMixin(LitElement)) {
 	static get properties() {
 		return {
 			number: {
@@ -28,6 +27,11 @@ const componentClass = class extends HypermediaStateMixin(ListItemLinkMixin(LitE
 			_activityHref: { type: String, observable: observableTypes.link, rel: rels.activityUsage },
 			_refreshCounter: {
 				type: Number,
+			},
+			deleteAction: {
+				type: Object,
+				observable: observableTypes.action,
+				name: 'remove-activity'
 			}
 		};
 	}
@@ -61,7 +65,7 @@ const componentClass = class extends HypermediaStateMixin(ListItemLinkMixin(LitE
 		});
 	}
 
-	_handleLinkClick(e) {
+	_onButtonClick(e) {
 		e.preventDefault();
 		const delayedResult = this._openDialog();
 
@@ -84,9 +88,6 @@ const componentClass = class extends HypermediaStateMixin(ListItemLinkMixin(LitE
 		const url = new D2L.LP.Web.Http.UrlLocation(
 			`/d2l/lms/question/edit/${this.key}`);
 		return open(url, 'SrcCallBack', 'result', [], false, '');
-	}
-	_renderPrimaryAction(contentId) {
-		return html `<a aria-labelledby="${contentId}" href="#" @click="${this._handleLinkClick}"></a>`;
 	}
 
 };

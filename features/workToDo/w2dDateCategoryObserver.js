@@ -4,8 +4,8 @@ const msInADay = 86400000;
 
 export class W2dDateCategory extends SirenSubEntities {
 
-	static definedProperty({ token, groupByDays, startDate, category, verbose }) {
-		return { token, groupByDays, startDate, category, verbose };
+	static definedProperty({ token, groupByDays, startDate, category, verbose, dayLimit }) {
+		return { token, groupByDays, startDate, category, verbose, dayLimit };
 	}
 
 	/**
@@ -28,7 +28,7 @@ export class W2dDateCategory extends SirenSubEntities {
 		const categoryInfo = {};
 		sirenFacades.forEach(sirenFacade => {
 			const daysTillDueDate = numOfDaysTillDueDate(sirenFacade, this._startDate);
-			if (daysTillDueDate === false) return;
+			if (daysTillDueDate === false || Math.abs(daysTillDueDate) > this._dayLimit) return;
 			const index = this._groupByDays === 0 ? 0 : Math.floor(daysTillDueDate / this._groupByDays);
 			if (!categoryInfo[index]) {
 				const startDate = new Date(this._startDate.getTime() + index * msInADay * this._groupByDays);
@@ -48,10 +48,11 @@ export class W2dDateCategory extends SirenSubEntities {
 		this._observers.setProperty({categoryInfo, sirenFacadesByCategory});
 	}
 
-	addObserver(observer, property, { method, category, startDate, groupByDays } = {}) {
+	addObserver(observer, property, { method, category, startDate, groupByDays, dayLimit } = {}) {
 		if (!category) {
 			this._startDate = new Date(observer[startDate]);
 			this._groupByDays = observer[groupByDays];
+			this._dayLimit = observer[dayLimit];
 			if (this._sirenFacades) this.entities = this._sirenFacades;
 		}
 

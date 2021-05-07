@@ -3,13 +3,19 @@ import { SirenSummonAction } from '@brightspace-hmc/foundation-engine/state/obse
 
 export class W2dSummonAction extends SirenSummonAction {
 
-	static definedProperty({ name: id, token, verbose, startDate, endDate, collapsed }) {
-		return { id, token, verbose, startDate, endDate, collapsed };
+	static definedProperty({ name: id, token, verbose, startDate, page, pageSize, endDate }) {
+		return { id, token, verbose, startDate, endDate, page, pageSize };
 	}
 
-	addObserver(observer, property, { method, route, startDate, endDate } = {}) {
+	async addObserver(observer, property, { method, route, startDate, page, pageSize, endDate } = {}) {
 		if (startDate && endDate) {
-			this.setQueryParams({ start: observer[startDate], end: observer[endDate], embed: false });
+			this.setQueryParams({
+				start: observer[startDate],
+				end: observer[endDate],
+				embed: false,
+				pageSize: observer[pageSize],
+				page: observer[page]
+			});
 		}
 		super.addObserver(observer, property, { method, route });
 	}
@@ -41,6 +47,5 @@ export class W2dSummonAction extends SirenSummonAction {
 			});
 			fetch(this.routedState);
 		}
-		this._updateAction();
 	}
 }
