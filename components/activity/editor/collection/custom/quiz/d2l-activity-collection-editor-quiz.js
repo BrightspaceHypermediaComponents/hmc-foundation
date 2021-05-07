@@ -71,6 +71,8 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin((L
 	}
 
 	render() {
+		// TODO: Maybe check a different action once other actions are supported to determine whether or not a quiz collection item can be selected
+		const isSelectable = this.items && this.items[0] && this.items[0].actions.includes('remove-activity');
 		return html`
 			<div class="d2l-activity-collection-body">
 				<div class="d2l-activity-collection-body-content">
@@ -83,7 +85,7 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin((L
 				<div class="d2l-activity-collection-activities">
 					<d2l-list separators="none" @d2l-list-item-position-change="${this._moveItems}" @d2l-list-selection-change="${this._onSelectionChange}">
 						${repeat(this.items, item => item.href, (item, idx) => html`
-							<d2l-activity-collection-item-quiz number="${idx + 1}" href="${item.href}" .token="${this.token}" key="${item.properties.id}"></d2l-activity-collection-item-quiz>
+							<d2l-activity-collection-item-quiz ?disabled=${!isSelectable} number="${idx + 1}" href="${item.href}" .token="${this.token}" key="${item.properties.id}"></d2l-activity-collection-item-quiz>
 						`)}
 					</d2l-list>
 				</div>
