@@ -128,6 +128,7 @@ describe('d2l-discover-rules', () => {
 			expect(dialog.opened).to.be.true;
 
 			const picker = dialog.shadowRoot.querySelector('d2l-discover-rule-picker');
+			await picker.updateComplete;
 			expect(picker.ruleIndex).to.equal(0);
 			await waitUntil(() => picker.conditions[0].properties.values.length > 0, 'conditions never initialized');
 
