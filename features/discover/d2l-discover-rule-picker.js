@@ -8,6 +8,7 @@ import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundati
 import { bodyCompactStyles } from '@brightspace-ui/core/components/typography/styles.js';
 import { classMap } from 'lit-html/directives/class-map';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
+import { MatchCountMixin } from './mixins/match-count-mixin.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { selectStyles } from '@brightspace-ui/core/components/inputs/input-select-styles.js';
 
@@ -24,9 +25,8 @@ const conditionStates = Object.freeze({
 	remove: 'remove',
 	removed: 'removed'
 });
-
-class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitElement))) {
-
+// todo: edit an existing rule
+class RulePicker extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitElement)))) {
 	static get properties() {
 		return {
 			conditions: { type: Array },
@@ -322,34 +322,8 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 
 	async _updateMatchCount() {
 		this._matchCount = null;
-		this.conditions;
-		const conditionFilter = this.createConditionFilter();
-		if(conditionFilter.match.length === 0) {
-			return;
-		}
-
-		const sirenReponse = await this._getMatchCount.summon(conditionFilter);
-		if(sirenReponse) {
-			this._matchCount = sirenReponse.properties.count;
-		}
-	}
-
-	createConditionFilter(includeUsers, userCount) {
-		const matchArray = [];
-		this.conditions.forEach(condition => {
-			if(condition.properties.values.length > 0) {
-				matchArray.push({
-					attr: condition.properties.id,
-					op: condition.properties.values.length > 1 ? '$in' : '$eq',
-					value: condition.properties.values.length > 1 ? condition.properties.values : condition.properties.values[0]
-				});
-			}
-		});
-		return {
-			match: matchArray,
-			...(includeUsers === true && { includeUsers: includeUsers } ),
-			...(userCount && { userCount: userCount } ),
-		}
+		const matchData = await this.getMatchData(this._getMatchCount, this.conditions);
+		this._matchCount = matchData !== undefined && matchData.count;
 	}
 }
 
