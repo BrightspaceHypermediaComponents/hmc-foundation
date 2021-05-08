@@ -1,0 +1,9 @@
+{
+  "class": ["condition-match-count"],
+  "properties": {
+    "count": 2
+  },
+  "links": [
+    { "rel": ["self"], "href": "../demo/match-count.json" }
+  ]
+}

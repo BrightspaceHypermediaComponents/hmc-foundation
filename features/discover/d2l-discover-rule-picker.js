@@ -36,6 +36,8 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 			] },
 			_rules: { type: Array, observable: observableTypes.subEntities, rel: rels.rule },
 			_defaultType: { type: String },
+			_matchCount: { type: Number, rel: rels.matchCount },
+			_getMatchCount: { observable: observableTypes.summonAction, name: 'match-count' }
 		};
 	}
 
@@ -97,6 +99,7 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 		this.conditions = [];
 		this._conditionTypesHash = {};
 		this._cleaningAnimState = false;
+		this._matchCount = null;
 	}
 
 	render() {
@@ -109,7 +112,9 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 					@click="${this._addDefaultCondition}"></d2l-button-subtle>
 				<div class="d2l-picker-hr-match-separator">
 					<div class="d2l-picker-hr"></div>
-					<div class="d2l-body-compact">${this.localize('text-rule-matches', 'count', 'xxx')}</div>
+					${this._matchCount ? html`
+						<div class="d2l-body-compact">${this.localize('text-rule-matches', 'count', this._matchCount)}</div>` : null
+					}
 				</div>
 			</div>
 		`;
@@ -122,6 +127,7 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 			// set the default condition type even if this resolves second
 			if (this.conditions && this.conditions.length && !this.conditions[0].properties.type) {
 				this.conditions[0].properties.type = this.defaultType = this._conditionTypes[0].properties.type;
+				this.conditions[0].properties.id = this._getConditionTypeId(this.conditions[0]);
 			}
 		}
 		if (changedProperties.has('conditions') && this.conditions.length === 0) {
@@ -130,11 +136,15 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 		if (changedProperties.has('ruleIndex')) {
 			this._setExistingConditions();
 		}
+		if (changedProperties.has('_getMatchCount')) {
+			this._updateMatchCount();
+		}
 	}
 
 	reload(newConditions) {
 		this.ruleIndex = undefined;
 		this.conditions = newConditions;
+		this._matchCount = null;
 		if (!this.conditions || this.conditions.length === 0) {
 			this._addDefaultCondition();
 		}
@@ -144,6 +154,7 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 		this.conditions.push({
 			properties: {
 				type: this.defaultType || (this.conditionTypes && this.conditionTypes[0].properties.type),
+				id: this._conditionTypesHash[this.defaultType] || (this.conditionTypes && this.conditionTypes[0].properties.id),
 				values: [],
 				state: state
 			}
@@ -168,11 +179,11 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 	}
 
 	_getConditionTypeHref(condition) {
+		return this._conditionTypesHash[condition.properties.type] ? this._conditionTypesHash[condition.properties.type].href : '';
+	}
 
-		if (this._conditionTypesHash[condition.properties.type]) {
-			return this._conditionTypesHash[condition.properties.type].href;
-		}
-		return '';
+	_getConditionTypeId(condition) {
+		return this._conditionTypesHash[condition.properties.type] ? this._conditionTypesHash[condition.properties.type].id : '';
 	}
 
 	_isFirstCondition(condition) {
@@ -211,7 +222,9 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 		if (condition.properties.type !== e.target.value) {
 			condition.properties.type = e.target.value;
 			condition.properties.values = [];
+			condition.properties.id = this._conditionTypesHash[condition.properties.type].properties.id;
 			e.target.parentElement.querySelector('d2l-discover-attribute-picker').focus();
+			this._updateMatchCount();
 		}
 		this.requestUpdate();
 	}
@@ -219,6 +232,7 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 	_onConditionValueChange(e) {
 		const condition = e.target.condition;
 		condition.properties.values = e.detail.attributeList;
+		this._updateMatchCount();
 	}
 
 	_removeCondition(e) {
@@ -228,6 +242,7 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 			this.requestUpdate();
 			condition.properties.state = conditionStates.remove;
 		}
+		this._updateMatchCount();
 	}
 
 	_renderPickerConditions() {
@@ -303,6 +318,38 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 				}
 			};
 		});
+	}
+
+	async _updateMatchCount() {
+		this._matchCount = null;
+		this.conditions;
+		const conditionFilter = this.createConditionFilter();
+		if(conditionFilter.match.length === 0) {
+			return;
+		}
+
+		const sirenReponse = await this._getMatchCount.summon(conditionFilter);
+		if(sirenReponse) {
+			this._matchCount = sirenReponse.properties.count;
+		}
+	}
+
+	createConditionFilter(includeUsers, userCount) {
+		const matchArray = [];
+		this.conditions.forEach(condition => {
+			if(condition.properties.values.length > 0) {
+				matchArray.push({
+					attr: condition.properties.id,
+					op: condition.properties.values.length > 1 ? '$in' : '$eq',
+					value: condition.properties.values.length > 1 ? condition.properties.values : condition.properties.values[0]
+				});
+			}
+		});
+		return {
+			match: matchArray,
+			...(includeUsers === true && { includeUsers: includeUsers } ),
+			...(userCount && { userCount: userCount } ),
+		}
 	}
 }
 
