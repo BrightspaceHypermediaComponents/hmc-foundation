@@ -214,7 +214,6 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 			e.target.parentElement.querySelector('d2l-discover-attribute-picker').focus();
 		}
 		this.requestUpdate();
-		//.requestUpdate();
 	}
 
 	_onConditionValueChange(e) {

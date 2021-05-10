@@ -158,6 +158,11 @@ describe('d2l-discover-rule-picker', () => {
 			const newType = 'Entree';
 			expect(el.conditions[0].properties.type).does.not.equal(newType);
 
+			await waitUntil(() => {
+				const attributePicker = el.shadowRoot.querySelector('d2l-discover-attribute-picker');
+				return attributePicker !== null && attributePicker.shadowRoot.querySelector('d2l-labs-attribute-picker') !== null;
+			});
+
 			const listener = oneEvent(conditionSelect, 'change');
 			conditionSelect.value = newType;
 			setTimeout(() => {
@@ -165,7 +170,6 @@ describe('d2l-discover-rule-picker', () => {
 				event.initEvent('change', true, true);
 				conditionSelect.dispatchEvent(event);
 			});
-
 			await listener;
 
 			expect(el.conditions[0].properties.type).to.equal(newType);
@@ -190,6 +194,10 @@ describe('d2l-discover-rule-picker', () => {
 
 		describe('deletion', () => {
 			beforeEach(async() => {
+				clearStore();
+				el = await createComponentAndWait(html`
+					<d2l-discover-rule-picker href="${selfHref}" token="cake"></d2l-discover-rule-picker>
+				`);
 				el.conditions = [
 					{ properties: { type: 'Entree', values: ['spaghetti'] } },
 					{ properties: { type: 'Fruit', values: ['cake', 'pie'] } },
