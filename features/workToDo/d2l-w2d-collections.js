@@ -286,7 +286,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 				const header = this._renderDate(category.startDate, category.endDate, this.collapsed);
 				if (limit === 0) return;
 				const list = html`
-					${this._renderHeader3(header, category.count)}
+					${this._renderHeader3(header, this._pagingTotalResultsUpcoming)}
 					<d2l-w2d-list href="${category.href}" .token="${this.token}" category="${category.index}" ?collapsed="${this.collapsed}" limit="${ifDefined(limit)}"></d2l-w2d-list>
 				`;
 				limit = limit === undefined ? limit : Math.max(limit - category.count, 0);
