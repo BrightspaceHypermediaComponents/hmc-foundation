@@ -210,9 +210,11 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 
 		if (condition.properties.type !== e.target.value) {
 			condition.properties.type = e.target.value;
+			condition.properties.values = [];
+			e.target.parentElement.querySelector('d2l-discover-attribute-picker').focus();
 		}
-
 		this.requestUpdate();
+		//.requestUpdate();
 	}
 
 	_onConditionValueChange(e) {
@@ -256,7 +258,7 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 						aria-label="${this.localize('label-condition-type')}"
 						.condition="${condition}"
 						value="${condition.properties.type}"
-						@blur="${this._onConditionSelectChange}">
+						@change="${this._onConditionSelectChange}">
 						${this._conditionTypes ? this._conditionTypes.map(conditionType => html`
 							<option value="${conditionType.properties.type}" ?selected="${condition.properties.type === conditionType.properties.type}">${conditionType.properties.type}</option>
 						`) : null}

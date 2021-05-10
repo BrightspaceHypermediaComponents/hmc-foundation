@@ -62,6 +62,11 @@ class AttributePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin
 		await innerPicker.addAttribute(value);
 	}
 
+	focus() {
+		this.shadowRoot.querySelector('d2l-labs-attribute-picker')
+			.shadowRoot.querySelector('input').focus();
+	}
+
 	_onAttributesChanged(e) {
 		this.attributeList = e.detail.attributeList;
 

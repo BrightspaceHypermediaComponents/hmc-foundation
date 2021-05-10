@@ -120,9 +120,12 @@ describe('d2l-discover-rule-picker', () => {
 
 	describe('interaction', () => {
 		let el;
-		beforeEach(async() => el = await createComponentAndWait(html`
-			<d2l-discover-rule-picker href="${selfHref}" token="cake"></d2l-discover-rule-picker>
-		`));
+		beforeEach(async() => {
+			clearStore();
+			el = await createComponentAndWait(html`
+				<d2l-discover-rule-picker href="${selfHref}" token="cake"></d2l-discover-rule-picker>
+			`);
+		});
 
 		it('should add a new condition when the Add Condition button is pressed', async() => {
 			const addButton = el.shadowRoot.querySelector('#add-another-condition-button');
@@ -151,18 +154,17 @@ describe('d2l-discover-rule-picker', () => {
 		});
 
 		it('updates the condition information when the dropdown field is modified', async() => {
-			el = await createComponentAndWait(html`
-				<d2l-discover-rule-picker href="${selfHref}" token="cake"></d2l-discover-rule-picker>
-			`);
-
 			const conditionSelect = el.shadowRoot.querySelector('select');
 			const newType = 'Entree';
 			expect(el.conditions[0].properties.type).does.not.equal(newType);
 
-			const listener = oneEvent(conditionSelect, 'blur');
-			conditionSelect.focus();
+			const listener = oneEvent(conditionSelect, 'change');
 			conditionSelect.value = newType;
-			conditionSelect.blur();
+			setTimeout(() => {
+				const event = document.createEvent('Events');
+				event.initEvent('change', true, true);
+				conditionSelect.dispatchEvent(event);
+			});
 
 			await listener;
 
