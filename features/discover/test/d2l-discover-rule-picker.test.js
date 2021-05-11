@@ -159,7 +159,7 @@ describe('d2l-discover-rule-picker', () => {
 			expect(el.conditions[0].properties.type).does.not.equal(newType);
 
 			// safari is rude
-			await aTimeout(100);
+			await aTimeout(500);
 
 			const listener = oneEvent(conditionSelect, 'change');
 			conditionSelect.value = newType;
