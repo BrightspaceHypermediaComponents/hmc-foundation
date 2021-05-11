@@ -1,14 +1,14 @@
 {
   "actions": [{
     "name": "possible-values",
-    "href": "../features/discover/demo/condition-typeb-values.json",
+    "href": "http://localhost:8000/features/discover/demo/condition-typeb-values.json",
     "method": "GET"
   }],
   "properties": {
-    "type": "conditionTypeB"
+    "type": "Dessert"
   },
   "links": [
-    { "rel": ["self"], "href": "../demo/condition-type-b.json" }
+    { "rel": ["self"], "href": "http://localhost:8000/features/discover/demo/condition-type-b.json" }
   ],
   "rel": ["condition-type"]
 }

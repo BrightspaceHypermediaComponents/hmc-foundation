@@ -1,5 +1,5 @@
 import '../d2l-discover-rule-picker-dialog.js';
-import { expect, fixture, html } from '@open-wc/testing';
+import { expect, fixture, html, waitUntil } from '@open-wc/testing';
 import { clearStore } from '@brightspace-hmc/foundation-engine/state/HypermediaState.js';
 import { createComponentAndWait } from '../../../test/test-util.js';
 import { default as fetchMock } from 'fetch-mock/esm/client.js';
@@ -17,6 +17,15 @@ const conditionTypesHref = 'http://condition-types-href/dialog';
 const entity = {
 	actions: [
 		{ name: 'create', method: 'POST', href: '../demo/entitlement-create.json' }
+	],
+	entities: [
+		{
+			entities: [
+				{ properties: { type: 'Fruit', values: ['apple', 'orange'] }, rel: [rels.condition] },
+				{ properties: { type: 'Entree', values: ['spaghetti'] }, rel: [rels.condition] }
+			],
+			rel: [rels.rule]
+		}
 	],
 	links: [
 		{ rel: ['self'], href: selfHref },
@@ -57,20 +66,40 @@ describe('d2l-discover-rule-picker-dialog', () => {
 		});
 	});
 
-	describe('new rule dialog functionality', () => {
+	describe('functionality', () => {
 		let el;
 		beforeEach(async() => {
+			clearStore();
 			el = await createComponentAndWait(html`
 				<d2l-discover-rule-picker-dialog href="${selfHref}" token="cake"></d2l-discover-rule-picker-dialog>
 			`);
-			clearStore();
 		});
 		afterEach(() => fetchMock.resetHistory());
+
+		it('updates the state for an existing rule when done is pressed', async() => {
+			el.ruleIndex = 0;
+			el.opened = true;
+			// simulate removal
+			const rulePicker = el.shadowRoot.querySelector('d2l-discover-rule-picker');
+			await rulePicker.updateComplete;
+			expect(rulePicker.ruleIndex).to.equal(0);
+			expect(rulePicker._rules, 'Rules do not have length 1').to.have.lengthOf(1);
+			expect(rulePicker._rules[0].entities, 'Rule conditions do not have length 2').to.have.lengthOf(2);
+			await waitUntil(() => rulePicker.conditions.length === 2, 'Conditions never initialized');
+			rulePicker.conditions.splice(0, 1);
+
+			await rulePicker.updateComplete;
+			expect(rulePicker.conditions).to.have.lengthOf(1);
+
+			// click done
+			el.shadowRoot.querySelector('d2l-button[primary]').click();
+			await el.updateComplete;
+			expect(el._rules[0]).to.deep.equal(rulePicker._rules[0]);
+		});
 
 		it('resets the conditions back to empty when cancel is pressed', async() => {
 			el.opened = true;
 			await el.updateComplete;
-			expect(el.conditions).to.be.empty;
 			// simulate changing conditions
 			const rulePicker = el.shadowRoot.querySelector('d2l-discover-rule-picker');
 			rulePicker.conditions = [
@@ -84,11 +113,11 @@ describe('d2l-discover-rule-picker-dialog', () => {
 			// click cancel
 			el.shadowRoot.querySelectorAll('d2l-button')[1].click();
 			await el.updateComplete;
-			expect(el.conditions).to.be.empty;
 			expect(rulePicker.conditions).to.be.have.lengthOf(1);
 		});
 
 		it('updates the state for a new rule when done is pressed', async() => {
+			expect(el._rules).to.have.lengthOf(1);
 			el.opened = true;
 			await el.updateComplete;
 			// simulate adding a new rule
@@ -100,37 +129,14 @@ describe('d2l-discover-rule-picker-dialog', () => {
 			rulePicker.conditions = newConditions;
 
 			await rulePicker.updateComplete;
-			expect(rulePicker.conditions).to.have.lengthOf(2);
+			expect(rulePicker.conditions, 'Rule picker does not have two conditions').to.have.lengthOf(2);
 
 			// click done
 			el.shadowRoot.querySelector('d2l-button[primary]').click();
 			await el.updateComplete;
-			//console.log(JSON.stringify(el.conditions, null, -2));
-			expect(el._rules).to.deep.equal([{
-				entities: newConditions,
-				rel: [rels.rule]
-			}]);
+			expect(el._rules).to.have.lengthOf(2);
+			expect(el._rules[1].entities).to.deep.equal(newConditions);
 		});
 	});
-
-	// describe('edit rule dialog functionality', () => {
-	// todo
-	// it.skip('updates the state for an existing rule when done is pressed', async() => {
-	// 	el.opened = true;
-	// 	await el.updateComplete;
-	// 	// simulate removal
-	// 	const rulePicker = el.shadowRoot.querySelector('d2l-discover-rule-picker');
-	// 	rulePicker.conditions.splice(0, 1);
-
-	// 	await rulePicker.updateComplete;
-	// 	expect(rulePicker.conditions).to.have.lengthOf(2);
-
-	// 	// click done
-	// 	el.shadowRoot.querySelector('d2l-button[primary]').click();
-	// 	await el.updateComplete;
-	// 	//console.log(JSON.stringify(el.conditions, null, -2));
-	// 	expect(el.conditions).to.deep.equal(rulePicker.conditions);
-	// });
-	// });
 
 });

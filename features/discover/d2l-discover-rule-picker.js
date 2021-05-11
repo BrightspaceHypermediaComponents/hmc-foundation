@@ -24,7 +24,7 @@ const conditionStates = Object.freeze({
 	remove: 'remove',
 	removed: 'removed'
 });
-// todo: edit an existing rule
+
 class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitElement))) {
 
 	static get properties() {
@@ -133,6 +133,7 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 	}
 
 	reload(newConditions) {
+		this.ruleIndex = undefined;
 		this.conditions = newConditions;
 		if (!this.conditions || this.conditions.length === 0) {
 			this._addDefaultCondition();
@@ -167,6 +168,7 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 	}
 
 	_getConditionTypeHref(condition) {
+
 		if (this._conditionTypesHash[condition.properties.type]) {
 			return this._conditionTypesHash[condition.properties.type].href;
 		}
@@ -208,8 +210,9 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 
 		if (condition.properties.type !== e.target.value) {
 			condition.properties.type = e.target.value;
+			condition.properties.values = [];
+			e.target.parentElement.querySelector('d2l-discover-attribute-picker').focus();
 		}
-
 		this.requestUpdate();
 	}
 
@@ -254,7 +257,7 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 						aria-label="${this.localize('label-condition-type')}"
 						.condition="${condition}"
 						value="${condition.properties.type}"
-						@blur="${this._onConditionSelectChange}">
+						@change="${this._onConditionSelectChange}">
 						${this._conditionTypes ? this._conditionTypes.map(conditionType => html`
 							<option value="${conditionType.properties.type}" ?selected="${condition.properties.type === conditionType.properties.type}">${conditionType.properties.type}</option>
 						`) : null}
@@ -287,10 +290,19 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 		if (!this._loaded) await this._state.allFetchesComplete();
 
 		if (this.ruleIndex === undefined || this.ruleIndex + 1 > this._rules.length || this.ruleIndex < 0) {
-			this.conditions = undefined;
+			this.conditions = [];
+			return;
 		}
 		const rule = this._rules[this.ruleIndex];
-		this.conditions = rule.entities;
+		this.conditions = rule.entities.map(condition => {
+			return {
+				properties: {
+					type: condition.properties.type,
+					state: conditionStates.existing,
+					values: [...condition.properties.values]
+				}
+			};
+		});
 	}
 }
 
