@@ -158,9 +158,13 @@ describe('d2l-discover-rule-picker', () => {
 			const newType = 'Entree';
 			expect(el.conditions[0].properties.type).does.not.equal(newType);
 
+			// safari is rude
 			await waitUntil(() => {
 				const attributePicker = el.shadowRoot.querySelector('d2l-discover-attribute-picker');
-				return attributePicker !== null && attributePicker.shadowRoot.querySelector('d2l-labs-attribute-picker') !== null;
+				return attributePicker !== null &&
+					attributePicker.shadowRoot.querySelector('d2l-labs-attribute-picker') !== null &&
+					attributePicker.shadowRoot.querySelector('d2l-labs-attribute-picker')
+						.shadowRoot.querySelector('input') !== null;;
 			});
 
 			const listener = oneEvent(conditionSelect, 'change');
