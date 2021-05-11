@@ -146,7 +146,7 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 				type: this.defaultType || (this.conditionTypes && this.conditionTypes[0].properties.type),
 				values: [],
 				state: state
-			},
+			}
 		});
 		this.requestUpdate();
 

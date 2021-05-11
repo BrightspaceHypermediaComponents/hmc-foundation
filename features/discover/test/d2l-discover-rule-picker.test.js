@@ -164,7 +164,7 @@ describe('d2l-discover-rule-picker', () => {
 				return attributePicker !== null &&
 					attributePicker.shadowRoot.querySelector('d2l-labs-attribute-picker') !== null &&
 					attributePicker.shadowRoot.querySelector('d2l-labs-attribute-picker')
-						.shadowRoot.querySelector('input') !== null;;
+						.shadowRoot.querySelector('input') !== null;
 			});
 
 			const listener = oneEvent(conditionSelect, 'change');
