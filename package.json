@@ -11,6 +11,7 @@
     "lint:eslint": "eslint . --ext .js,.html",
     "lint:lit": "lit-analyzer  \"{components,demo,features,test}/**/*.js\" --strict --rules.no-unknown-tag-name off --rules.no-incompatible-type-binding off --rules.no-unknown-attribute off --rules.no-unknown-property off",
     "start": "es-dev-server --node-resolve --dedupe --open --watch",
+    "startWeb": "web-dev-server --node-resolve --dedupe --watch --open",
     "test": "npm run lint && npm run test:headless",
     "test:headless": "karma start --coverage",
     "test:sauce": "karma start karma.sauce.conf.js"
@@ -21,6 +22,7 @@
     "@babel/eslint-parser": "^7.13.14",
     "@open-wc/testing": "^2.5.33",
     "@open-wc/testing-karma": "^3",
+    "@web/dev-server": "^0.1.17",
     "@webcomponents/webcomponentsjs": "^2",
     "deepmerge": "^3",
     "es-dev-server": "^1",
@@ -31,6 +33,7 @@
     "eslint-plugin-sort-class-members": "^1.11.0",
     "fetch-mock": "^9.11.0",
     "karma-sauce-launcher": "^2",
+    "koa-proxies": "^0.12.1",
     "lit-analyzer": "^1",
     "sinon": "^9.2.1"
   },

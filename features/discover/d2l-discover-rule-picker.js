@@ -112,9 +112,11 @@ class RulePicker extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMix
 					@click="${this._addDefaultCondition}"></d2l-button-subtle>
 				<div class="d2l-picker-hr-match-separator">
 					<div class="d2l-picker-hr"></div>
-					${this._matchCount ? html`
-						<div class="d2l-body-compact">${this.localize('text-rule-matches', 'count', this._matchCount)}</div>` : null
-					}
+					${this._matchCount !== null ? html`
+						<div id="match-count" class="d2l-body-compact">
+							${this.localize('text-rule-matches', 'count', this._matchCount)}
+						</div>
+					` : null}
 				</div>
 			</div>
 		`;
@@ -241,8 +243,8 @@ class RulePicker extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMix
 		if (index > -1) {
 			this.requestUpdate();
 			condition.properties.state = conditionStates.remove;
+			this._updateMatchCount();
 		}
-		this._updateMatchCount();
 	}
 
 	_renderPickerConditions() {
@@ -323,7 +325,7 @@ class RulePicker extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMix
 	async _updateMatchCount() {
 		this._matchCount = null;
 		const matchData = await this.getMatchData(this._getMatchCount, this.conditions);
-		this._matchCount = matchData !== undefined && matchData.count;
+		this._matchCount = matchData !== null ? matchData.count : null;
 	}
 }
 

@@ -4,6 +4,6 @@
     "count": 2
   },
   "links": [
-    { "rel": ["self"], "href": "../demo/match-count.json" }
+    { "rel": ["self"], "href": "/api/match-count" }
   ]
 }

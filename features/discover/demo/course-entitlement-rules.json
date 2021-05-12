@@ -2,7 +2,7 @@
   "class": ["entitlement", "collection"],
   "actions": [
     { "name": "create", "method": "POST", "href": "../demo/entitlement-create.json" },
-    { "name": "match-count", "method": "POST", "href": "../demo/match-count.json", "type":"json" }
+    { "name": "match-count", "method": "POST", "href": "/api/match-count", "type":"json" }
   ],
   "properties": {
     "id": 12345
