@@ -3,7 +3,7 @@ export const MatchCountMixin = superclass => class extends superclass {
 	createConditionFilter(conditions, includeUsers, userLimit) {
 		const matchArray = [];
 		conditions.forEach(condition => {
-			if(condition.properties.state !== 'existing') {
+			if (condition.properties.state !== 'existing') {
 				return;
 			}
 
