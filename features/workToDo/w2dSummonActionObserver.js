@@ -46,7 +46,7 @@ export class W2dSummonAction extends SirenSummonAction {
 			this._routes.forEach((route, observer) => {
 				this.routedState.addObservables(observer, route);
 			});
-			fetch(this.routedState);
+			await fetch(this.routedState);
 		}
 	}
 
@@ -58,7 +58,7 @@ export class W2dSummonAction extends SirenSummonAction {
 			this._routes.forEach((route, observer) => {
 				this.routedState.addObservables(observer, route);
 			});
-			fetch(this.routedState);
+			await fetch(this.routedState);
 		}
 	}
 }

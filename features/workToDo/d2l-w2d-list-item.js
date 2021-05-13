@@ -110,7 +110,7 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 
 	constructor() {
 		super();
-		this._dates = {};
+		this._dates = false;
 		this._isCourse = false;
 		this.collapsed = false;
 	}
@@ -128,7 +128,7 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 	}
 
 	render() {
-		if (this.skeleton) return this._renderSkeleton();
+		if (this.skeleton || !this._dates || !this._actionHref) return this._renderSkeleton();
 		const iconClasses = {
 			'd2l-hovering': this._hoveringPrimaryAction,
 			'd2l-focusing': this._focusingPrimaryAction,
