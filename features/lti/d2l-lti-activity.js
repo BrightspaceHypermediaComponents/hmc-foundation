@@ -110,14 +110,7 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(HypermediaStateMixi
 		const left = (screen.width / 2) - (width / 2);
 		const top = (screen.height / 2) - (height / 2);
 
-		const newWindow = window.open(url, title, `resizable=yes, width=${  width	 }, height=${  height  }, top=${ top  }, left=${  left}`);
-		if (newWindow) {
-			newWindow.moveTo(top, left);
-			if (window.focus) {
-				newWindow.focus();
-			}
-		}
-
+		window.open(url, title, `resizable=yes, width=${ width }, height=${ height  }, top=${ top }, left=${ left}`);
 	}
 	get _loaded() {
 		return !this.skeleton;
