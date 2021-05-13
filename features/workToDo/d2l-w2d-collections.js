@@ -5,6 +5,7 @@ import '@brightspace-ui/core/components/link/link.js';
 import '@brightspace-ui-labs/pagination/pagination.js';
 import 'd2l-navigation/d2l-navigation-immersive';
 import { bodyStandardStyles, heading2Styles, heading3Styles } from '@brightspace-ui/core/components/typography/styles.js';
+import { clearLoading, myLoadingPromise } from '@brightspace-hmc/foundation-engine/state/loader.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { classMap } from 'lit-html/directives/class-map.js';
@@ -37,7 +38,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 			startDate: { type: String, attribute: 'start-date' },
 			endDate: { type: String, attribute: 'end-date' },
 			dataFullPagePath: { type: String, attribute: 'data-full-page-path' },
-			skeleton: { type: Boolean },
+			skeleton: { type: Boolean, reflect: true },
 			_categories: {
 				type: Array,
 				observable: observableTypes.custom,
@@ -326,6 +327,14 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 		this.requestUpdate('_currentPageOverdue', oldValue);
 	}
 
+	get _loaded() {
+		return !this.skeleton;
+	}
+
+	set _loaded(loaded) {
+		this.skeleton = !loaded;
+	}
+
 	get _page() {
 		return this.__page;
 	}
@@ -343,7 +352,6 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 	set _pageSize(pageSize) {
 		const oldValue = this._pageSize;
 		this.__pageSize = pageSize;
-		//this._pageOverdue = this._page;
 		this.requestUpdate('_pageSize', oldValue);
 	}
 
@@ -366,6 +374,9 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 	}
 
 	async _onPageChange(e) {
+		this._loaded = false;
+		await this.updateComplete;
+		clearLoading();
 		this._page = e.detail.page;
 	}
 
@@ -426,7 +437,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 		if (totalPages < 1) {
 			totalPages = 1;
 		}
-		return this._loaded && !this.collapsed  ? html`
+		return !this.skeleton && !this.collapsed  ? html`
 			<d2l-labs-pagination
 				page-number="${this._page}"
 				max-page-number="${totalPages}"
