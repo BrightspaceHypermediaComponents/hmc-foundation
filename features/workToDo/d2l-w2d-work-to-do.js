@@ -47,6 +47,7 @@ class w2dWorkToDo extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement))
 		return [bodyStandardStyles, heading1Styles, css`
 			:host {
 				display: block;
+				position: relative;
 			}
 			:host([hidden]) {
 				display: none;

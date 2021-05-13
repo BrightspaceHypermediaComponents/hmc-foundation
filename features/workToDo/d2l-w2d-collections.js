@@ -7,6 +7,7 @@ import 'd2l-navigation/d2l-navigation-immersive';
 import { bodyStandardStyles, heading2Styles, heading3Styles } from '@brightspace-ui/core/components/typography/styles.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
+import { classMap } from 'lit-html/directives/class-map.js';
 import { formatDate } from '@brightspace-ui/intl/lib/dateTime.js';
 import { ifDefined } from 'lit-html/directives/if-defined';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
@@ -195,6 +196,18 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 			.d2l-skeletize {
 				max-width: 40%;
 			}
+			.d2l-w2d-collection-fixed {
+				position: absolute;
+				height: 100%;
+				width: 100%;
+				background: white;
+				z-index: 100000000;
+			}
+			.d2l-w2d-collection-overflow {
+				overflow: hidden;
+				width: 1rem;
+				height: 10rem;
+			}
 		`];
 	}
 
@@ -237,24 +250,6 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 	}
 
 	render() {
-		if (this.skeleton) {
-			return html`
-				${!this.collapsed ? html`<h2 class="d2l-skeletize d2l-heading-2">${this.localize('overdue')}</h2>` : null}
-				<h3 class="d2l-skeletize d2l-w2d-heading-3 d2l-heading-3">May 14 - May 23</h3>
-				<d2l-w2d-list skeleton ?collapsed="${this.collapsed}"></d2l-w2d-list>
-			`;
-		}
-
-		if (this._overdue.length === 0 && this._categories.length === 0) {
-			return html`
-				<d2l-w2d-no-activities
-					?activities="${this._totalActivities !== 0}"
-					?collapsed="${this.collapsed}"
-					?complete="${!this.collapsed}"
-					data-full-page-path=${this.dataFullPagePath}></d2l-w2d-no-activities>
-			`;
-		}
-
 		let limit = this._pageSize;
 		let overdue = null;
 		if (this._page <= this._currentPageOverdue) {
@@ -295,13 +290,28 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 			categories = categories.filter(activity => activity !== undefined);
 		}
 
+		const lists = html`
+			<div class="${classMap({ 'd2l-w2d-collection-overflow': this.skeleton })}">
+				${overdue && overdue.length !== 0 ? this._renderHeader2(this.localize('overdue'), this._pagingTotalResultsOverdue) : null}
+				${overdue}
+				${categories && categories.length > 0 ? this._renderHeader2(this.localize('upcoming'), this._pagingTotalResultsUpcoming) : null}
+				${categories}
+				${this.dataFullPagePath && this._loaded && this.collapsed ? html`<d2l-link href="${this.dataFullPagePath}">${this.localize('fullViewLink')}</d2l-link>` : null}
+				${this._renderPagination()}
+			</div>
+		`;
+		const emptyList = html`
+				<d2l-w2d-no-activities
+					class="${classMap({ 'd2l-w2d-collection-overflow': this.skeleton })}"
+					?activities="${this._totalActivities !== 0}"
+					?collapsed="${this.collapsed}"
+					?complete="${!this.collapsed}"
+					data-full-page-path=${this.dataFullPagePath}></d2l-w2d-no-activities>
+			`;
+
 		return html`
-			${overdue && overdue.length !== 0 ? this._renderHeader2(this.localize('overdue'), this._pagingTotalResultsOverdue) : null}
-			${overdue}
-			${categories && categories.length > 0 ? this._renderHeader2(this.localize('upcoming'), this._pagingTotalResultsUpcoming) : null}
-			${categories}
-			${this.dataFullPagePath && this._loaded && this.collapsed ? html`<d2l-link href="${this.dataFullPagePath}">${this.localize('fullViewLink')}</d2l-link>` : null}
-			${this._renderPagination()}
+			${this._renderSkeleton()}
+			${this._overdue.length === 0 && this._categories.length === 0 ? emptyList : lists}
 		`;
 	}
 
@@ -422,6 +432,17 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 				max-page-number="${totalPages}"
 				@pagination-page-change="${this._onPageChange}"></d2l-labs-pagination>
 		` : null;
+	}
+
+	_renderSkeleton() {
+		if (!this.skeleton) return null;
+		return html`
+			<div class="d2l-w2d-collection-fixed">
+				${!this.collapsed ? html`<h2 class="d2l-skeletize d2l-heading-2">${this.localize('overdue')}</h2>` : null}
+				<h3 class="d2l-skeletize d2l-w2d-heading-3 d2l-heading-3">May 14 - May 23</h3>
+				<d2l-w2d-list skeleton ?collapsed="${this.collapsed}"></d2l-w2d-list>
+			</div>
+		`;
 	}
 }
 

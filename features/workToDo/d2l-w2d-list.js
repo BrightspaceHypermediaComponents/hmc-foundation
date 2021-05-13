@@ -36,17 +36,9 @@ class W2dList extends HypermediaStateMixin(LitElement) {
 	}
 
 	render() {
-		if (this.skeleton || !this._loaded) {
-			return lithtml`
-				<d2l-list separators="${this.collapsed ? 'none' : 'all'}">
-					<d2l-w2d-list-item skeleton ?collapsed="${this.collapsed}"></d2l-w2d-list-item>
-					<d2l-w2d-list-item skeleton ?collapsed="${this.collapsed}"></d2l-w2d-list-item>
-					<d2l-w2d-list-item skeleton ?collapsed="${this.collapsed}"></d2l-w2d-list-item>
-				</d2l-list>
-			`;
-		}
+		if (this.skeleton) return this._renderSkeleton();
 		if (!this._activities) {
-			return null;
+			return this._renderSkeleton();
 		}
 		let activities = this._activities;
 		if (this.limit !== undefined) {
@@ -57,6 +49,17 @@ class W2dList extends HypermediaStateMixin(LitElement) {
 				${activities.map(activity => html`
 					<d2l-w2d-list-item href="${activity.href}" .token="${this.token}" ?collapsed="${this.collapsed}"></d2l-w2d-list-item>
 				`)}
+			</d2l-list>
+		`;
+	}
+
+	_renderSkeleton() {
+		if (!this.skeleton && this._loaded)  return null;
+		return lithtml`
+			<d2l-list separators="${this.collapsed ? 'none' : 'all'}">
+				<d2l-w2d-list-item skeleton ?collapsed="${this.collapsed}"></d2l-w2d-list-item>
+				<d2l-w2d-list-item skeleton ?collapsed="${this.collapsed}"></d2l-w2d-list-item>
+				<d2l-w2d-list-item skeleton ?collapsed="${this.collapsed}"></d2l-w2d-list-item>
 			</d2l-list>
 		`;
 	}
