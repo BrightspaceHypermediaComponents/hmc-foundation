@@ -140,7 +140,7 @@ class RulePicker extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMix
 		if (changedProperties.has('ruleIndex')) {
 			this._setExistingConditions();
 			this._updateMatchCount();
-			this._onConditionValueChange();
+			this._sizeChanged();
 		}
 	}
 
