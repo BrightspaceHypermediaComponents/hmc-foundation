@@ -15,7 +15,8 @@ const selfHref = 'http://entitlement-rules/picker';
 const conditionTypesHref = 'http://condition-types/picker';
 const entitlementEntity = {
 	actions: [
-		{ name: 'create', method: 'POST', href: '../demo/entitlement-create.json' }
+		{ name: 'create', method: 'POST', href: '../demo/entitlement-create.json' },
+		{ name: 'match-count', method: 'POST', href: '../demo/match-count.json', type: 'json' }
 	],
 	entities: [
 		{
@@ -168,6 +169,24 @@ describe('d2l-discover-rule-picker', () => {
 			await listener;
 
 			expect(el.conditions[0].properties.type).to.equal(newType);
+		});
+
+		it('renders the match count only when at least one attribute is set', async() => {
+			el.conditions = [
+				{ properties: { type: 'Fruit', values: ['Banana'] } }
+			];
+			await el.updateComplete;
+			const discoverPicker = el.shadowRoot.querySelector('d2l-discover-attribute-picker');
+			await waitUntil(() => discoverPicker.attributeList && discoverPicker.attributeList.length > 0, 'attributeList not initialized');
+
+			discoverPicker.attributeList.push('Zebra');
+			await el.updateComplete;
+
+			const matchCountDiv = el.shadowRoot.querySelector('#match-count');
+			expect(matchCountDiv).to.not.be.null;
+		});
+
+		it('updates the match count when condition information changes', async() => {
 		});
 
 		it('displays the condition deletion button only if there is greater than one condition', async() => {

@@ -54,6 +54,9 @@ class RulePicker extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMix
 					margin-bottom: 1rem;
 					margin-top: 1rem;
 				}
+				.d2l-picker-rule-match-count {
+					height:1rem;
+				}
 				#add-another-condition-button {
 					margin-top: 6rem;
 				}
@@ -112,11 +115,10 @@ class RulePicker extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMix
 					@click="${this._addDefaultCondition}"></d2l-button-subtle>
 				<div class="d2l-picker-hr-match-separator">
 					<div class="d2l-picker-hr"></div>
-					${this._matchCount !== null ? html`
-						<div id="match-count" class="d2l-body-compact">
-							${this.localize('text-rule-matches', 'count', this._matchCount)}
+						<div id="match-count" class="d2l-picker-rule-match-count d2l-body-compact">
+							${this._matchCount !== null ? html`${this.localize('text-rule-matches', 'count', this._matchCount)}` : null}
 						</div>
-					` : null}
+					</div>
 				</div>
 			</div>
 		`;
@@ -138,6 +140,7 @@ class RulePicker extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMix
 		if (changedProperties.has('ruleIndex')) {
 			this._setExistingConditions();
 			this._updateMatchCount();
+			this._onConditionValueChange();
 		}
 	}
 
@@ -232,7 +235,15 @@ class RulePicker extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMix
 	_onConditionValueChange(e) {
 		const condition = e.target.condition;
 		condition.properties.values = e.detail.attributeList;
+		this._sizeChanged();
 		this._updateMatchCount();
+	}
+
+	_sizeChanged() {
+		this.dispatchEvent(new CustomEvent('d2l-rule-condition-size-change', {
+			bubbles: true,
+			composed: true
+		}));
 	}
 
 	_removeCondition(e) {
@@ -312,12 +323,15 @@ class RulePicker extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMix
 		this.conditions = rule.entities.map(condition => {
 			return {
 				properties: {
+					id: condition.properties.id,
 					type: condition.properties.type,
 					state: conditionStates.existing,
 					values: [...condition.properties.values]
 				}
 			};
 		});
+		await this.requestUpdate();
+		this._sizeChanged();
 	}
 
 	async _updateMatchCount() {

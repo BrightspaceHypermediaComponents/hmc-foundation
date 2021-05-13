@@ -24,16 +24,16 @@ export const MatchCountMixin = superclass => class extends superclass {
 
 	async getMatchData(summonAction, conditions, includeUsers, userLimit) {
 		const conditionFilter = this.createConditionFilter(conditions, includeUsers, userLimit);
-		if (conditionFilter.match.length === 0) {
-			return null;
-		}
+		if (conditionFilter.match.length > 0) {
+			const sirenReponse = await summonAction.summon(conditionFilter);
+			if (sirenReponse) {
+				return {
+					count: sirenReponse.properties.count,
+					...(includeUsers && { users: sirenReponse.entities })
+				};
+			}
 
-		const sirenReponse = await summonAction.summon(conditionFilter);
-		if (sirenReponse) {
-			return {
-				count: sirenReponse.properties.count,
-				...(includeUsers && { users: sirenReponse.entities })
-			};
 		}
+		return null;
 	}
 };
