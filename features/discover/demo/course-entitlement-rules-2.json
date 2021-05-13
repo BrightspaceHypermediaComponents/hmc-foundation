@@ -1,7 +1,8 @@
 {
   "class": ["entitlement", "collection"],
   "actions": [
-    { "name": "create", "method": "POST", "href": "../demo/entitlement-create.json" }
+    { "name": "create", "method": "POST", "href": "../demo/entitlement-create.json" },
+    { "name": "match-count", "method": "POST", "href": "/api/match-count", "type":"json" }
   ],
   "entities": [
     {
@@ -13,6 +14,7 @@
           "rel": ["https://discovery.brightspace.com/rels/condition"],
           "properties": {
             "type": "Dessert",
+            "id": "_dessert",
             "values": ["pie"]
           }
         }

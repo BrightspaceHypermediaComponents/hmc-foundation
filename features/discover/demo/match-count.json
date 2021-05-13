@@ -1,7 +1,7 @@
 {
   "class": ["condition-match-count"],
   "properties": {
-    "count": 2
+    "count": "_countValue"
   },
   "links": [
     { "rel": ["self"], "href": "/api/match-count" }

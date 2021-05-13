@@ -5,7 +5,8 @@
     "method": "GET"
   }],
   "properties": {
-    "type": "Dessert"
+    "type": "Dessert",
+    "id": "_dessert"
   },
   "links": [
     { "rel": ["self"], "href": "http://localhost:8000/features/discover/demo/condition-type-b.json" }

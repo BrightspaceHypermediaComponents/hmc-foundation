@@ -239,13 +239,6 @@ class RulePicker extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMix
 		this._updateMatchCount();
 	}
 
-	_sizeChanged() {
-		this.dispatchEvent(new CustomEvent('d2l-rule-condition-size-change', {
-			bubbles: true,
-			composed: true
-		}));
-	}
-
 	_removeCondition(e) {
 		const condition = e.target.condition;
 		const index = this.conditions.indexOf(condition);
@@ -332,6 +325,13 @@ class RulePicker extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMix
 		});
 		await this.requestUpdate();
 		this._sizeChanged();
+	}
+
+	_sizeChanged() {
+		this.dispatchEvent(new CustomEvent('d2l-rule-condition-size-change', {
+			bubbles: true,
+			composed: true
+		}));
 	}
 
 	async _updateMatchCount() {
