@@ -1,5 +1,12 @@
+import http from 'http';
 import proxy from 'koa-proxies';
-import './api-server.mjs';
+import { handleRequest as handleDiscoverRequests} from './features/discover/demo/discover-api.js';
+
+const server = http.createServer((request, response) => {
+	handleDiscoverRequests(request, response);
+});
+
+server.listen(9000);
 
 export default {
   port: 8000,
