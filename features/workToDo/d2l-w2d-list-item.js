@@ -128,7 +128,7 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 	}
 
 	render() {
-		if (this.skeleton || !this._dates || !this._actionHref) return this._renderSkeleton();
+		if (this.skeleton || !this._dates || !this._actionHref || !this._parentName) return this._renderSkeleton();
 		const iconClasses = {
 			'd2l-hovering': this._hoveringPrimaryAction,
 			'd2l-focusing': this._focusingPrimaryAction,
@@ -177,9 +177,9 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 			illustration: html`<d2l-activity-icon skeleton></d2l-activity-icon>`,
 			content: html`
 				<d2l-list-item-content>
-					<d2l-activity-name class="d2l-w2d-list-item-name" skeleton ></d2l-activity-name>
+					<d2l-activity-name class="d2l-w2d-list-item-name" skeleton href="${this.href}" .token="${this.token}"></d2l-activity-name>
 					<d2l-w2d-attribute-list slot="secondary" skeleton></d2l-w2d-attribute-list>
-					${ !this.collapsed ? lithtml`<d2l-activity-description slot="supporting-info"></d2l-activity-description>` : nothing}
+					${ !this.collapsed ? lithtml`<d2l-activity-description slot="supporting-info" href="${this.href}" .token="${this.token}"></d2l-activity-description>` : nothing}
 				</d2l-list-item-content>
 			`
 		});
