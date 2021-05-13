@@ -31,7 +31,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 			currentTime: { type: String, attribute: 'current-time' },
 			collapsed: { type: Boolean },
 			groupByDays: { type: Number, attribute: 'group-by-days' },
-			firstName: { type: String, attribute: 'first-name' },
+			useFirstName: { type: Boolean, attribute: 'use-first-name' },
 			overdueGroupByDays: { type: Number, attribute: 'overdue-group-by-days' },
 			overdueDayLimit: { type: Number, attribute: 'overdue-day-limit' },
 			startDate: { type: String, attribute: 'start-date' },
@@ -255,7 +255,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 					?collapsed="${this.collapsed}"
 					?complete="${!this.collapsed}"
 					data-full-page-path=${this.dataFullPagePath}
-					first-name=${this.firstName}></d2l-w2d-no-activities>
+					?use-first-name=${this.useFirstName}></d2l-w2d-no-activities>
 			`;
 		}
 

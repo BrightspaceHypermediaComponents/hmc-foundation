@@ -13,7 +13,7 @@ class w2dNoActivities extends LocalizeDynamicMixin(LitElement) {
 			complete: { type: Boolean },
 			dataFullPagePath: { type: String, attribute: 'data-full-page-path' },
 			collapse: { type: Boolean },
-			firstName: { type: String, attribute: 'first-name' }
+			useFirstName: { type: Boolean, attribute: 'use-first-name' }
 		};
 	}
 
@@ -117,12 +117,12 @@ class w2dNoActivities extends LocalizeDynamicMixin(LitElement) {
 	}
 
 	_doesTextUseFirstName() {
-		return !this._areActivitiesAvailable() && this.firstName;
+		return this.useFirstName && !this._areActivitiesAvailable();
 	}
 
 	_getEmptyViewText() {
 		if (this._doesTextUseFirstName()) {
-			return this.localize(this._getEmptyViewTextLabel(), this.firstName);
+			return this.localize(this._getEmptyViewTextLabel(), this.useFirstName);
 		} else {
 			return this.localize(this._getEmptyViewTextLabel());
 		}

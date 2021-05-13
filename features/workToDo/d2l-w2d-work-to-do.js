@@ -25,7 +25,7 @@ class w2dWorkToDo extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement))
 			collapsed: { type: Boolean },
 			dataFullPagePath: { type: String, attribute: 'data-full-page-path' },
 			groupByDays: { type: Number, attribute: 'group-by-days' },
-			firstName: { type: String, attribute: 'first-name' },
+			useFirstName: { type: Boolean, attribute: 'use-first-name' },
 			startDate: { type: String, attribute: 'start-date' },
 			endDate: { type: String, attribute: 'end-date' },
 			overdueWeekLimit: { type: Number, attribute: 'data-overdue-week-limit' },
@@ -121,7 +121,7 @@ class w2dWorkToDo extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement))
 				start-date="${this.startDate}"
 				end-date="${this.endDate}"
 				data-full-page-path="${this.dataFullPagePath}"
-				first-name=${this.firstName}
+				use-first-name=${this.useFirstName}
 				overdue-day-limit="${this.overdueWeekLimit * 7}"
 				?skeleton="${!this._loaded}"></d2l-w2d-collections>
 		`;
