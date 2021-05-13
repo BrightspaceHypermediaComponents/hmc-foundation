@@ -4,6 +4,7 @@ import { clearStore } from '@brightspace-hmc/foundation-engine/state/HypermediaS
 import { createComponentAndWait } from '../../../test/test-util.js';
 import { default as fetchMock } from 'fetch-mock/esm/client.js';
 import { runConstructor } from '@brightspace-ui/core/tools/constructor-test-helper.js';
+import sinon from 'sinon/pkg/sinon-esm.js';
 
 const rels = Object.freeze({
 	condition: 'https://discovery.brightspace.com/rels/condition',
@@ -171,24 +172,6 @@ describe('d2l-discover-rule-picker', () => {
 			expect(el.conditions[0].properties.type).to.equal(newType);
 		});
 
-		it('renders the match count only when at least one attribute is set', async() => {
-			el.conditions = [
-				{ properties: { type: 'Fruit', values: ['Banana'] } }
-			];
-			await el.updateComplete;
-			const discoverPicker = el.shadowRoot.querySelector('d2l-discover-attribute-picker');
-			await waitUntil(() => discoverPicker.attributeList && discoverPicker.attributeList.length > 0, 'attributeList not initialized');
-
-			discoverPicker.attributeList.push('Zebra');
-			await el.updateComplete;
-
-			const matchCountDiv = el.shadowRoot.querySelector('#match-count');
-			expect(matchCountDiv).to.not.be.null;
-		});
-
-		it('updates the match count when condition information changes', async() => {
-		});
-
 		it('displays the condition deletion button only if there is greater than one condition', async() => {
 			let deleteButtonList = el.shadowRoot.querySelectorAll('.delete-condition-button');
 			expect(deleteButtonList.length).to.be.equal(1);
@@ -204,6 +187,55 @@ describe('d2l-discover-rule-picker', () => {
 			deleteButtonList = el.shadowRoot.querySelectorAll('.delete-condition-button');
 			expect(deleteButtonList.length).to.be.equal(2);
 			expect(deleteButtonList[0].hasAttribute('hidden')).to.be.false;
+		});
+
+		it('Updates the match count based on rule load', async() => {
+			el._rules = [];
+			el._rules[0]  = { entities: [
+				{ properties: { id:'_fruit', state: 'existing', type: 'Fruit', values: [] } }
+			] };
+			el._rules[1]  = { entities: [
+				{ properties: { id:'_fruit', state: 'existing', type: 'Fruit', values: ['apple'] } }
+			] };
+			el._rules[2]  = { entities: [
+				{ properties: { id:'_fruit', state: 'existing', type: 'Fruit', values: ['apple', 'orange'] } }
+			] };
+			el._rules[3]  = { entities: [
+				{ properties: { id:'_fruit', state: 'existing', type: 'Fruit', values: [] } },
+				{ properties: { id:'_entree', state: 'existing', type: 'Entree', values: ['Spaghetti'] } }
+			] };
+			el._rules[4]  = { entities: [
+				{ properties: { id:'_fruit', state: 'existing', type: 'Fruit', values: [] } },
+				{ properties: { id:'_entree', state: 'existing', type: 'Entree', values: [] } }
+			] };
+
+			const matchCountDiv = el.shadowRoot.querySelector('#match-count');
+			expect(matchCountDiv.textContent.trim()).to.equal('');
+
+			el.ruleIndex = 0; //Invalid rule with no attributes selected
+			await el.requestUpdate();
+			expect(matchCountDiv.textContent.trim()).to.equal('');
+
+			let counter = 0;
+			el._getMatchCount.summon = sinon.stub().resolves({ properties: { count : ++counter } });
+			el.ruleIndex = 1; //Valid rule with single attributes selected
+			await waitUntil(() => el._matchCount === counter, '_matchCount did not update on rule change');
+			expect(matchCountDiv.textContent.trim()).to.include((counter).toString());
+
+			el._getMatchCount.summon = sinon.stub().resolves({ properties: { count : ++counter } });
+			el.ruleIndex = 2; //Valid rule with multiple attributes selected
+			await waitUntil(() => el._matchCount === counter, '_matchCount did not update on rule change');
+			expect(matchCountDiv.textContent.trim()).to.include((counter).toString());
+
+			el._getMatchCount.summon = sinon.stub().resolves({ properties: { count : ++counter } });
+			el.ruleIndex = 3; //Valid rule with multiple conditions, one not populated
+			await waitUntil(() => el._matchCount === counter, '_matchCount did not update on rule change');
+			expect(matchCountDiv.textContent.trim()).to.include((counter).toString());
+
+			el._getMatchCount.summon = sinon.stub().resolves({ properties: { count : ++counter } });
+			el.ruleIndex = 4; //Valid rule with multiple conditions, one not populated
+			await waitUntil(() => el._matchCount === null, '_matchCount did not update on rule change');
+			expect(matchCountDiv.textContent.trim()).to.equal('');
 		});
 
 		describe('deletion', () => {
