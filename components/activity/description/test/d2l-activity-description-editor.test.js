@@ -105,7 +105,7 @@ describe('d2l-activity-description-editor', () => {
 				assert.equal(textarea.value, updatedDescriptionText, 'textarea value should be updated');
 			});
 
-			it('reset state should revert description and textarea', async() => {
+			it.skip('reset state should revert description and textarea', async() => {
 				await _fireTextareaInputEvent(element, updatedDescriptionText);
 
 				assert.equal(element.description, updatedDescriptionText, 'description should be updated');
