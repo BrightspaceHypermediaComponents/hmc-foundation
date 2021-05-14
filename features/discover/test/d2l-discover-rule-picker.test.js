@@ -17,7 +17,6 @@ const conditionTypesHref = 'http://condition-types/picker';
 const entitlementEntity = {
 	actions: [
 		{ name: 'create', method: 'POST', href: '../demo/entitlement-create.json' },
-		{ name: 'match-count', method: 'POST', href: '../demo/match-count.json', type: 'json' }
 	],
 	entities: [
 		{
