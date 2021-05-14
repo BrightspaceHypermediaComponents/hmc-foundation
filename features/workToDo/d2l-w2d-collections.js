@@ -7,6 +7,8 @@ import 'd2l-navigation/d2l-navigation-immersive';
 import { bodyStandardStyles, heading2Styles, heading3Styles } from '@brightspace-ui/core/components/typography/styles.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
+import { classMap } from 'lit-html/directives/class-map.js';
+import { clearLoading } from '@brightspace-hmc/foundation-engine/state/loader.js';
 import { formatDate } from '@brightspace-ui/intl/lib/dateTime.js';
 import { ifDefined } from 'lit-html/directives/if-defined';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
@@ -36,7 +38,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 			startDate: { type: String, attribute: 'start-date' },
 			endDate: { type: String, attribute: 'end-date' },
 			dataFullPagePath: { type: String, attribute: 'data-full-page-path' },
-			skeleton: { type: Boolean },
+			skeleton: { type: Boolean, reflect: true },
 			_categories: {
 				type: Array,
 				observable: observableTypes.custom,
@@ -89,8 +91,6 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 				}]
 			},
 			_pageSize: { type: Number },
-			_pageUpcoming: { type: Number },
-			_pageOverdue: { type: Number },
 			_page: { type: Number },
 			_currentPageUpcoming: {
 				type: Number,
@@ -197,6 +197,18 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 			.d2l-skeletize {
 				max-width: 40%;
 			}
+			.d2l-w2d-collection-fixed {
+				position: absolute;
+				height: 100%;
+				width: 100%;
+				background: white;
+				z-index: 100000000;
+			}
+			.d2l-w2d-collection-overflow {
+				overflow: hidden;
+				width: 1rem;
+				height: 10rem;
+			}
 		`];
 	}
 
@@ -239,24 +251,6 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 	}
 
 	render() {
-		if (this.skeleton) {
-			return html`
-				${!this.collapsed ? html`<h2 class="d2l-skeletize d2l-heading-2">${this.localize('overdue')}</h2>` : null}
-				<h3 class="d2l-skeletize d2l-w2d-heading-3 d2l-heading-3">May 14 - May 23</h3>
-				<d2l-w2d-list skeleton ?collapsed="${this.collapsed}"></d2l-w2d-list>
-			`;
-		}
-
-		if (this._overdue.length === 0 && this._categories.length === 0) {
-			return html`
-				<d2l-w2d-no-activities
-					?activities="${this._totalActivities !== 0}"
-					?collapsed="${this.collapsed}"
-					?complete="${!this.collapsed}"
-					data-full-page-path=${this.dataFullPagePath}></d2l-w2d-no-activities>
-			`;
-		}
-
 		let limit = this._pageSize;
 		let overdue = null;
 		if (this._page <= this._currentPageOverdue) {
@@ -297,13 +291,28 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 			categories = categories.filter(activity => activity !== undefined);
 		}
 
+		const lists = html`
+			<div class="${classMap({ 'd2l-w2d-collection-overflow': this.skeleton })}">
+				${overdue && overdue.length !== 0 ? this._renderHeader2(this.localize('overdue'), this._pagingTotalResultsOverdue) : null}
+				${overdue}
+				${categories && categories.length > 0 ? this._renderHeader2(this.localize('upcoming'), this._pagingTotalResultsUpcoming) : null}
+				${categories}
+				${this.dataFullPagePath && this._loaded && this.collapsed ? html`<d2l-link href="${this.dataFullPagePath}">${this.localize('fullViewLink')}</d2l-link>` : null}
+				${this._renderPagination()}
+			</div>
+		`;
+		const emptyList = html`
+				<d2l-w2d-no-activities
+					class="${classMap({ 'd2l-w2d-collection-overflow': this.skeleton })}"
+					?activities="${this._totalActivities !== 0}"
+					?collapsed="${this.collapsed}"
+					?complete="${!this.collapsed}"
+					data-full-page-path=${this.dataFullPagePath}></d2l-w2d-no-activities>
+			`;
+
 		return html`
-			${overdue && overdue.length !== 0 ? this._renderHeader2(this.localize('overdue'), this._pagingTotalResultsOverdue) : null}
-			${overdue}
-			${categories && categories.length > 0 ? this._renderHeader2(this.localize('upcoming'), this._pagingTotalResultsUpcoming) : null}
-			${categories}
-			${this.dataFullPagePath && this._loaded && this.collapsed ? html`<d2l-link href="${this.dataFullPagePath}">${this.localize('fullViewLink')}</d2l-link>` : null}
-			${this._renderPagination()}
+			${this._renderSkeleton()}
+			${this._overdue.length === 0 && this._categories.length === 0 ? emptyList : lists}
 		`;
 	}
 
@@ -315,8 +324,15 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 		if (typeof page !== 'number') return;
 		const oldValue = this.__currentPageOverdue;
 		this.__currentPageOverdue = page;
-		this._pageUpcoming = Math.max(1, this._page - page + 1);
 		this.requestUpdate('_currentPageOverdue', oldValue);
+	}
+
+	get _loaded() {
+		return !this.skeleton;
+	}
+
+	set _loaded(loaded) {
+		this.skeleton = !loaded;
 	}
 
 	get _page() {
@@ -326,17 +342,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 	set _page(page) {
 		const oldValue = this._page;
 		this.__page = page;
-		this._pageOverdue = page;
 		this.requestUpdate('_page', oldValue);
-	}
-
-	get _pageOverdue() {
-		return (this._pageSize && typeof this._page === 'number' && this._pagingTotalResultsOverdue) ? Math.min(this._page, Math.ceil(this._pagingTotalResultsOverdue / this._pageSize)) : 1;
-	}
-
-	set _pageOverdue(page) {
-		this._pageUpcoming = page;
-		this.requestUpdate('_pageOverdue', 0);
 	}
 
 	get _pageSize() {
@@ -346,20 +352,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 	set _pageSize(pageSize) {
 		const oldValue = this._pageSize;
 		this.__pageSize = pageSize;
-		this._pageOverdue = this._page;
 		this.requestUpdate('_pageSize', oldValue);
-	}
-
-	get _pageUpcoming() {
-		let page = typeof this._page === 'number' ? Math.max(1, this._page - this._pageOverdue) : 1;
-		if (!this.collapsed && !this._lastOverduePageHasMoreThanHalf() && !this._isOverdueOnLastPage() && this._page !== 1) {
-			page++;
-		}
-		return page;
-	}
-
-	set _pageUpcoming(_) {
-		this.requestUpdate('_pageUpcoming', 0);
 	}
 
 	get _pagingTotalResultsOverdue() {
@@ -367,8 +360,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 	}
 
 	set _pagingTotalResultsOverdue(totalCount) {
-		const oldValue = this._page;
-		this._pageOverdue = this._page;
+		const oldValue = this.__pagingTotalResultsOverdue;
 		this.__pagingTotalResultsOverdue = totalCount;
 		this.requestUpdate('_pagingTotalResultsOverdue', oldValue);
 	}
@@ -382,7 +374,22 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 	}
 
 	async _onPageChange(e) {
+		this._loaded = false;
+		await this.updateComplete;
+		clearLoading();
 		this._page = e.detail.page;
+	}
+
+	get _pageOverdue() {
+		return (this.__pageSize && typeof this.__page === 'number' && this.__pagingTotalResultsOverdue) ? Math.min(this._page, Math.ceil(this.__pagingTotalResultsOverdue / this.__pageSize)) : 1;
+	}
+
+	get _pageUpcoming() {
+		let page = typeof this.__page === 'number' ? Math.max(1, this.__page - this._pageOverdue) : 1;
+		if (!this.collapsed && !this._lastOverduePageHasMoreThanHalf() && !this._isOverdueOnLastPage() && this.__page !== 1) {
+			page++;
+		}
+		return page;
 	}
 
 	_renderDate(startDate, endDate, collapsed) {
@@ -430,12 +437,23 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 		if (totalPages < 1) {
 			totalPages = 1;
 		}
-		return this._loaded && !this.collapsed  ? html`
+		return !this.skeleton && !this.collapsed  ? html`
 			<d2l-labs-pagination
 				page-number="${this._page}"
 				max-page-number="${totalPages}"
 				@pagination-page-change="${this._onPageChange}"></d2l-labs-pagination>
 		` : null;
+	}
+
+	_renderSkeleton() {
+		if (!this.skeleton) return null;
+		return html`
+			<div class="d2l-w2d-collection-fixed">
+				${!this.collapsed ? html`<h2 class="d2l-skeletize d2l-heading-2">${this.localize('overdue')}</h2>` : null}
+				<h3 class="d2l-skeletize d2l-w2d-heading-3 d2l-heading-3">May 14 - May 23</h3>
+				<d2l-w2d-list skeleton ?collapsed="${this.collapsed}"></d2l-w2d-list>
+			</div>
+		`;
 	}
 }
 
