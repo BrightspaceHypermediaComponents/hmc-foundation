@@ -5,10 +5,10 @@ import '@brightspace-ui/core/components/link/link.js';
 import '@brightspace-ui-labs/pagination/pagination.js';
 import 'd2l-navigation/d2l-navigation-immersive';
 import { bodyStandardStyles, heading2Styles, heading3Styles } from '@brightspace-ui/core/components/typography/styles.js';
-import { clearLoading, myLoadingPromise } from '@brightspace-hmc/foundation-engine/state/loader.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { classMap } from 'lit-html/directives/class-map.js';
+import { clearLoading } from '@brightspace-hmc/foundation-engine/state/loader.js';
 import { formatDate } from '@brightspace-ui/intl/lib/dateTime.js';
 import { ifDefined } from 'lit-html/directives/if-defined';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
@@ -24,7 +24,7 @@ const rel = Object.freeze({
 
 const pageSize = Object.freeze({
 	collapsed: 6,
-	fullScreen: 3
+	fullScreen: 20
 });
 
 class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement)) {

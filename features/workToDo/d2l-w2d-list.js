@@ -36,10 +36,7 @@ class W2dList extends HypermediaStateMixin(LitElement) {
 	}
 
 	render() {
-		if (this.skeleton) return this._renderSkeleton();
-		if (!this._activities) {
-			return this._renderSkeleton();
-		}
+		if (this.skeleton || !this._activities) return this._renderSkeleton();
 		let activities = this._activities;
 		if (this.limit !== undefined) {
 			activities = activities.slice(0, this.limit);
