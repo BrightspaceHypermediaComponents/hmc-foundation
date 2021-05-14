@@ -51,7 +51,7 @@ export class W2dSummonAction extends SirenSummonAction {
 	}
 
 	async _setPage(page) {
-		if (this._page === page) return;
+		if (!page || this._page === page) return;
 		this._page = page;
 		if (this._routes.size > 0 && this._href && this._token) {
 			this.routedState = await this.createRoutedState(this.href, this._token.rawToken);
