@@ -25,7 +25,6 @@ const conditionStates = Object.freeze({
 	remove: 'remove',
 	removed: 'removed'
 });
-// todo: edit an existing rule
 class RulePicker extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitElement)))) {
 	static get properties() {
 		return {
@@ -36,7 +35,7 @@ class RulePicker extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMix
 			] },
 			_rules: { type: Array, observable: observableTypes.subEntities, rel: rels.rule },
 			_defaultType: { type: String },
-			_matchCount: { type: Number, rel: rels.matchCount },
+			_matchCount: { type: Number },
 			_getMatchCount: { observable: observableTypes.summonAction, name: 'match-count' }
 		};
 	}
@@ -115,7 +114,7 @@ class RulePicker extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMix
 					@click="${this._addDefaultCondition}"></d2l-button-subtle>
 				<div class="d2l-picker-hr-match-separator">
 					<div class="d2l-picker-hr"></div>
-						<div id="match-count" class="d2l-picker-rule-match-count d2l-body-compact">
+						<div class="d2l-picker-rule-match-count d2l-body-compact">
 							${this._matchCount !== null ? html`${this.localize('text-rule-matches', 'count', this._matchCount)}` : null}
 						</div>
 					</div>
@@ -163,11 +162,7 @@ class RulePicker extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMix
 			}
 		});
 		this.requestUpdate();
-
-		this.dispatchEvent(new CustomEvent('d2l-rule-condition-added', {
-			bubbles: true,
-			composed: true
-		}));
+		this._sizeChanged();
 	}
 
 	_addDefaultCondition() {
@@ -211,11 +206,7 @@ class RulePicker extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMix
 				this.conditions[index].properties.state = conditionStates.new;
 				this.requestUpdate();
 			}
-
-			this.dispatchEvent(new CustomEvent('d2l-rule-condition-removed', {
-				bubbles: true,
-				composed: true
-			}));
+			this._sizeChanged();
 		}
 	}
 
@@ -323,12 +314,12 @@ class RulePicker extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMix
 				}
 			};
 		});
-		await this.requestUpdate();
+		await this.updateComplete;
 		this._sizeChanged();
 	}
 
 	_sizeChanged() {
-		this.dispatchEvent(new CustomEvent('d2l-rule-condition-size-change', {
+		this.dispatchEvent(new CustomEvent('d2l-rule-condition-size-changed', {
 			bubbles: true,
 			composed: true
 		}));

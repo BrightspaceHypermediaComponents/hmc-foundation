@@ -208,7 +208,7 @@ describe('d2l-discover-rule-picker', () => {
 				{ properties: { id:'_entree', state: 'existing', type: 'Entree', values: [] } }
 			] };
 
-			const matchCountDiv = el.shadowRoot.querySelector('#match-count');
+			const matchCountDiv = el.shadowRoot.querySelector('.d2l-picker-rule-match-count');
 			expect(matchCountDiv.textContent.trim()).to.equal('');
 
 			el.ruleIndex = 0; //Invalid rule with no attributes selected
@@ -276,7 +276,7 @@ describe('d2l-discover-rule-picker', () => {
 					const conditionDropdownList = el.shadowRoot.querySelectorAll('select');
 					const conditionPickerList = el.shadowRoot.querySelectorAll('d2l-discover-attribute-picker');
 					await conditionPickerList.updateComplete;
-					await oneEvent(el, 'd2l-rule-condition-removed');
+					await oneEvent(el, 'd2l-rule-condition-size-changed');
 
 					expect(el.conditions.length).to.equal(newConditions.length);
 					expect(el.conditions).to.deep.equal(newConditions);
