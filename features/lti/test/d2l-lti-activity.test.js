@@ -33,8 +33,8 @@ const ltiPlacementEntity = {
 		'description': 'Multiple Choice',
 		'providerName': 'H5P',
 		'launchUrl': 'http://example.com/',
-		'iFrameWidth': '700px',
-		'iFrameHeight': '400px'
+		'iFrameWidth': '700',
+		'iFrameHeight': '400'
 	},
 	links: [
 		{ rel: ['self'], href: ltiPlacementHref }

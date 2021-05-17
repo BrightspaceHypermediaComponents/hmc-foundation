@@ -97,7 +97,7 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(HypermediaStateMixi
 
 		html`${this._showOpenInNewWindowButton ?
 			html`<d2l-button class="spanning-button" primary @click="${this._onOpenInNewWindowClick}">${this.localize('open-in-new-window')}</d2l-button>` :
-			html`<iframe allow="microphone *; camera *; autoplay *" width="${this.iFrameWidth}" height="${this.iFrameHeight}" src="${this.launchUrl}"></iframe>
+			html`<iframe allow="microphone *; camera *; autoplay *" width="${this.iFrameWidth}px" height="${this.iFrameHeight}px" src="${this.launchUrl}"></iframe>
 						<div>
 							<d2l-button-subtle text="${this.localize('open-in-new-window')}" icon="tier1:new-window" @click="${this._onOpenInNewWindowClick}"></d2l-button-subtle>
 						</div>`
@@ -109,7 +109,6 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(HypermediaStateMixi
 	openWindow(url, title, width, height) {
 		const left = (screen.width / 2) - (width / 2);
 		const top = (screen.height / 2) - (height / 2);
-
 		window.open(url, title, `resizable=yes, width=${ width }, height=${ height  }, top=${ top }, left=${ left}`);
 	}
 	get _loaded() {
