@@ -7,7 +7,8 @@
         "method": "GET"
       }],
       "properties": {
-        "type": "Role"
+        "type": "Role",
+        "id": "_role"
       },
       "links": [
         { "rel": ["self"], "href": "http://localhost:8000/features/discover/demo/condition-type-a.json" }
@@ -21,7 +22,8 @@
         "method": "GET"
       }],
       "properties": {
-        "type": "Dessert"
+        "type": "Dessert",
+        "id": "_dessert"
       },
       "links": [
         { "rel": ["self"], "href": "http://localhost:8000/features/discover/demo/condition-type-b.json" }

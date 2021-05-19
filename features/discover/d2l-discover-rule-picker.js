@@ -8,6 +8,7 @@ import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundati
 import { bodyCompactStyles } from '@brightspace-ui/core/components/typography/styles.js';
 import { classMap } from 'lit-html/directives/class-map';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
+import { MatchCountMixin } from './mixins/match-count-mixin.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { selectStyles } from '@brightspace-ui/core/components/inputs/input-select-styles.js';
 
@@ -24,9 +25,7 @@ const conditionStates = Object.freeze({
 	remove: 'remove',
 	removed: 'removed'
 });
-
-class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitElement))) {
-
+class RulePicker extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitElement)))) {
 	static get properties() {
 		return {
 			conditions: { type: Array },
@@ -36,6 +35,8 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 			] },
 			_rules: { type: Array, observable: observableTypes.subEntities, rel: rels.rule },
 			_defaultType: { type: String },
+			_matchCount: { type: Number },
+			_getMatchCount: { observable: observableTypes.summonAction, name: 'match-count' }
 		};
 	}
 
@@ -51,6 +52,9 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 					justify-content: center;
 					margin-bottom: 1rem;
 					margin-top: 1rem;
+				}
+				.d2l-picker-rule-match-count {
+					height:1rem;
 				}
 				#add-another-condition-button {
 					margin-top: 6rem;
@@ -97,6 +101,7 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 		this.conditions = [];
 		this._conditionTypesHash = {};
 		this._cleaningAnimState = false;
+		this._matchCount = null;
 	}
 
 	render() {
@@ -109,7 +114,10 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 					@click="${this._addDefaultCondition}"></d2l-button-subtle>
 				<div class="d2l-picker-hr-match-separator">
 					<div class="d2l-picker-hr"></div>
-					<div class="d2l-body-compact">${this.localize('text-rule-matches', 'count', 'xxx')}</div>
+						<div class="d2l-picker-rule-match-count d2l-body-compact">
+							${this._matchCount !== null ? html`${this.localize('text-rule-matches', 'count', this._matchCount)}` : null}
+						</div>
+					</div>
 				</div>
 			</div>
 		`;
@@ -122,6 +130,7 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 			// set the default condition type even if this resolves second
 			if (this.conditions && this.conditions.length && !this.conditions[0].properties.type) {
 				this.conditions[0].properties.type = this.defaultType = this._conditionTypes[0].properties.type;
+				this.conditions[0].properties.id = this._getConditionTypeId(this.conditions[0]);
 			}
 		}
 		if (changedProperties.has('conditions') && this.conditions.length === 0) {
@@ -129,12 +138,15 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 		}
 		if (changedProperties.has('ruleIndex')) {
 			this._setExistingConditions();
+			this._updateMatchCount();
+			this._sizeChanged();
 		}
 	}
 
 	reload(newConditions) {
 		this.ruleIndex = undefined;
 		this.conditions = newConditions;
+		this._matchCount = null;
 		if (!this.conditions || this.conditions.length === 0) {
 			this._addDefaultCondition();
 		}
@@ -144,16 +156,13 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 		this.conditions.push({
 			properties: {
 				type: this.defaultType || (this.conditionTypes && this.conditionTypes[0].properties.type),
+				id: this._conditionTypesHash[this.defaultType] || (this.conditionTypes && this.conditionTypes[0].properties.id),
 				values: [],
 				state: state
 			}
 		});
 		this.requestUpdate();
-
-		this.dispatchEvent(new CustomEvent('d2l-rule-condition-added', {
-			bubbles: true,
-			composed: true
-		}));
+		this._sizeChanged();
 	}
 
 	_addDefaultCondition() {
@@ -168,11 +177,11 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 	}
 
 	_getConditionTypeHref(condition) {
+		return this._conditionTypesHash[condition.properties.type] ? this._conditionTypesHash[condition.properties.type].href : '';
+	}
 
-		if (this._conditionTypesHash[condition.properties.type]) {
-			return this._conditionTypesHash[condition.properties.type].href;
-		}
-		return '';
+	_getConditionTypeId(condition) {
+		return this._conditionTypesHash[condition.properties.type] ? this._conditionTypesHash[condition.properties.type].id : '';
 	}
 
 	_isFirstCondition(condition) {
@@ -197,11 +206,7 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 				this.conditions[index].properties.state = conditionStates.new;
 				this.requestUpdate();
 			}
-
-			this.dispatchEvent(new CustomEvent('d2l-rule-condition-removed', {
-				bubbles: true,
-				composed: true
-			}));
+			this._sizeChanged();
 		}
 	}
 
@@ -211,7 +216,9 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 		if (condition.properties.type !== e.target.value) {
 			condition.properties.type = e.target.value;
 			condition.properties.values = [];
+			condition.properties.id = this._conditionTypesHash[condition.properties.type].properties.id;
 			e.target.parentElement.querySelector('d2l-discover-attribute-picker').focus();
+			this._updateMatchCount();
 		}
 		this.requestUpdate();
 	}
@@ -219,6 +226,8 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 	_onConditionValueChange(e) {
 		const condition = e.target.condition;
 		condition.properties.values = e.detail.attributeList;
+		this._sizeChanged();
+		this._updateMatchCount();
 	}
 
 	_removeCondition(e) {
@@ -227,6 +236,7 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 		if (index > -1) {
 			this.requestUpdate();
 			condition.properties.state = conditionStates.remove;
+			this._updateMatchCount();
 		}
 	}
 
@@ -297,12 +307,28 @@ class RulePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitE
 		this.conditions = rule.entities.map(condition => {
 			return {
 				properties: {
+					id: condition.properties.id,
 					type: condition.properties.type,
 					state: conditionStates.existing,
 					values: [...condition.properties.values]
 				}
 			};
 		});
+		await this.updateComplete;
+		this._sizeChanged();
+	}
+
+	_sizeChanged() {
+		this.dispatchEvent(new CustomEvent('d2l-rule-condition-size-changed', {
+			bubbles: true,
+			composed: true
+		}));
+	}
+
+	async _updateMatchCount() {
+		this._matchCount = null;
+		const matchData = await this.getMatchData(this._getMatchCount, this.conditions);
+		this._matchCount = matchData !== null ? matchData.count : null;
 	}
 }
 
