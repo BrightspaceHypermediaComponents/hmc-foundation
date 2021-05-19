@@ -431,7 +431,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 
 	_renderPagination() {
 		let totalPages = Math.ceil(this._pagingTotalResultsUpcoming / this._pageSize) + Math.ceil(this._pagingTotalResultsOverdue / this._pageSize);
-		if (this._pagingTotalResultsOverdue && !this._lastOverduePageHasMoreThanHalf()) {
+		if (this._pagingTotalResultsOverdue && this._pagingTotalResultsUpcoming && !this._lastOverduePageHasMoreThanHalf()) {
 			totalPages -= 1;
 		}
 		if (totalPages < 1) {
