@@ -2,7 +2,7 @@ import { html } from 'lit-element/lit-element.js';
 
 export const img = html`
 			<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-			viewBox="0 0 294 152.1" style="enable-background:new 0 0 294 152.1;" xml:space="preserve">
+			viewBox="0 0 294 152.1" style="enable-background:new 0 0 294 152.1; width:100%" xml:space="preserve">
 				<style type="text/css">
 					.st0{fill:#F8FAFD;}
 					.st1{clip-path:url(#SVGID_2_);}
