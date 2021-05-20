@@ -1,9 +1,9 @@
-import handleRequestDiscover from './features/discover/demo/discover-api.js';
+import handleDiscoverRequests from './features/discover/demo/discover-api.js';
 import http from 'http';
 import proxy from 'koa-proxies';
 
 const server = http.createServer((request, response) => {
-	handleRequestDiscover(request, response);
+	handleDiscoverRequests(request, response);
 });
 
 server.listen(9000);
