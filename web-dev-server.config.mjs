@@ -1,4 +1,4 @@
-import handleDiscoverRequests from './features/discover/demo/discover-api.js';
+import { handleDiscoverRequests } from './features/discover/demo/discover-api.mjs';
 import http from 'http';
 import proxy from 'koa-proxies';
 

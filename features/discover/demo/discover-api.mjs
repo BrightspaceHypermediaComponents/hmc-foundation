@@ -1,7 +1,6 @@
-/* eslint-env node */
-const fs = require('fs');
+import fs from 'fs';
 
-module.exports.handleDiscoverRequests = function(request, response) {
+export const handleDiscoverRequests = function(request, response) {
 
 	// Emulates the discover-search match count changing via basing it on the length of the request body.
 	// This isn't a perfect 1:1 as conditions would decrease, not increase, when added, but simulates the user experience.
