@@ -59,6 +59,14 @@ For details on observable properties, see [observables](https://github.com/Brigh
 
 After cloning the repo, run `npm install` to install dependencies.
 
+### Localization
+If you have language terms that should be translated, we recommend the following.
+
+1. Use the [LocalizeDynamicMixin](https://github.com/BrightspaceUI/core/blob/master/mixins/localize-dynamic-mixin.js).
+2. If one doesn't exist, create a lang folder in the directory for your component.
+3. Add the component to the [serge](https://github.com/BrightspaceHypermediaComponents/foundation-components/blob/master/foundation-components.serge.json). If you don't do this, your files will not be sent for translation.
+4. Watch for a pull request for translations for your terms. This typically takes about a sprint to occur.
+
 ### Running the demos
 
 To start an [es-dev-server](https://open-wc.org/developing/es-dev-server.html) that hosts the demo page and tests:

@@ -16,8 +16,8 @@ const rels = Object.freeze({
 class RulePickerDialog extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitElement))) {
 	static get properties() {
 		return {
-			ruleIndex: { type: Number, attribute: 'rule-index' },
-			_rules: { type: Array, observable: observableTypes.subEntities, rel: rels.rule, verbose: true },
+			ruleIndex: { type: Number },
+			_rules: { type: Array, observable: observableTypes.subEntities, rel: rels.rule },
 			opened: { type: Boolean }
 		};
 	}
@@ -39,8 +39,6 @@ class RulePickerDialog extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixi
 	constructor() {
 		super();
 		this._rules = [];
-		this.conditions = [];
-		this._copiedConditions = [];
 	}
 
 	render() {
@@ -48,15 +46,13 @@ class RulePickerDialog extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixi
 			<d2l-dialog
 				width="845"
 				?opened="${this.opened}"
-				title-text="${!this.ruleIndex ? this.localize('text-add-enrollment-rule') : this.localize('text-edit-enrollment-rule')}">
+				title-text="${this.ruleIndex === undefined ? this.localize('text-add-enrollment-rule') : this.localize('text-edit-enrollment-rule')}">
 				<div class="d2l-rule-picker-area">${this.localize('text-select-conditions')}</div>
 				<d2l-discover-rule-picker
 					href="${this.href}"
 					.token="${this.token}"
 					.ruleIndex="${this.ruleIndex}"
-					@d2l-rule-condition-added="${this._onConditionAddRemove}"
-					@d2l-rule-condition-removed="${this._onConditionAddRemove}"
-					>
+					@d2l-rule-condition-size-changed="${this._onConditionModified}">
 				</d2l-discover-rule-picker>
 				<d2l-button @click="${this._onDoneClick}" slot="footer" primary data-dialog-action="done">${this.localize('button-done')}</d2l-button>
 				<d2l-button @click="${this._onCancelClick}" slot="footer" data-dialog-action>${this.localize('button-cancel')}</d2l-button>
@@ -64,50 +60,42 @@ class RulePickerDialog extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixi
 		`;
 	}
 
-	async updated(changedProperties) {
-		super.updated(changedProperties);
-		if (changedProperties.has('opened') && this.opened) {
-			if (!this._loaded) {
-				await this._state.allFetchesComplete();
-			}
-			this._copyConditions();
+	async _onCancelClick() {
+		await this.updateComplete;
+
+		if (this.ruleIndex === undefined) {
+			const picker = this.shadowRoot.querySelector('d2l-discover-rule-picker');
+			picker.reload([]);
 		}
 	}
 
-	_copyConditions() {
-		const picker = this.shadowRoot.querySelector('d2l-discover-rule-picker');
-		this._copiedConditions = picker.conditions.map(condition => {
-			return {...condition};
-		});
-	}
-
-	async _onCancelClick() {
-		await this.updateComplete;
-		const picker = this.shadowRoot.querySelector('d2l-discover-rule-picker');
-		picker.reload(this._copiedConditions);
-	}
-
-	_onConditionAddRemove() {
+	_onConditionModified() {
 		const dialog = this.shadowRoot.querySelector('d2l-dialog');
 		dialog.resize();
 	}
 
 	_onDoneClick() {
 		const picker = this.shadowRoot.querySelector('d2l-discover-rule-picker');
-		if (!this.ruleIndex) {
+		if (this.ruleIndex === undefined) {
+			// create
 			this._rules.push({
 				entities: [...picker.conditions],
 				rel: [rels.rule]
 			});
 			picker.reload([]);
+		} else {
+			// edit
+			this._rules[this.ruleIndex] = {
+				entities: [...picker.conditions],
+				rel: [rels.rule]
+			};
 		}
 		this._state.updateProperties({
 			_rules: {
 				type: Array,
 				observable: observableTypes.subEntities,
 				rel: rels.rule,
-				value: this._rules,
-				verbose: true
+				value: this._rules
 			}
 		});
 	}
