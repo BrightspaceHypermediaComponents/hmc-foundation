@@ -281,7 +281,6 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 		if (categories) {
 			categories = categories.filter(activity => activity !== undefined);
 		}
-		console.log(this._currentPageOverdue, this._overdue, overdue);
 		const lists = html`
 			<div class="${classMap({ 'd2l-w2d-collection-overflow': this.skeleton })}">
 				${overdue && overdue.length !== 0 ? this._renderHeader2(this.localize('overdue'), this._pagingTotalResultsOverdue) : null}
