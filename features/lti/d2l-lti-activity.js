@@ -4,8 +4,8 @@ import '@brightspace-ui/core/components/button/button.js';
 import '@brightspace-ui/core/components/button/button-subtle.js';
 import { bodyCompactStyles, bodySmallStyles, heading3Styles } from '@brightspace-ui/core/components/typography/styles.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
-import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
+import { html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
 import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton-mixin.js';
 
@@ -97,22 +97,19 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(HypermediaStateMixi
 
 		html`${this._showOpenInNewWindowButton ?
 			html`<d2l-button class="spanning-button" primary @click="${this._onOpenInNewWindowClick}">${this.localize('open-in-new-window')}</d2l-button>` :
-			html`<iframe allow="microphone *; camera *; autoplay *" width="${this.iFrameWidth}" height="${this.iFrameHeight}" src="${this.launchUrl}"></iframe>
+			html`<iframe allow="microphone *; camera *; autoplay *" width="${this.iFrameWidth}px" height="${this.iFrameHeight}px" src="${this.launchUrl}"></iframe>
 						<div>
-							<d2l-button-subtle text="${this.localize('not-working-button')}" icon="tier1:smallscreen" icon-right @click="${this._onNotWorkingButtonClick}"></d2l-button-subtle>
+							<d2l-button-subtle text="${this.localize('open-in-new-window')}" icon="tier1:new-window" @click="${this._onOpenInNewWindowClick}"></d2l-button-subtle>
 						</div>`
 
 		}`
-}								
+}
 	  	`;
 	}
 	openWindow(url, title, width, height) {
 		const left = (screen.width / 2) - (width / 2);
 		const top = (screen.height / 2) - (height / 2);
-
-		const newWindow = window.open(url, title, `resizable=yes, width=${  width	 }, height=${  height  }, top=${ top  }, left=${  left}`);
-		newWindow.moveTo(top, left);
-		if (window.focus) newWindow.focus();
+		window.open(url, title, `resizable=yes, width=${ width }, height=${ height  }, top=${ top }, left=${ left}`);
 	}
 	get _loaded() {
 		return !this.skeleton;
@@ -122,19 +119,9 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(HypermediaStateMixi
 		this.skeleton = !loaded;
 	}
 
-	_onNotWorkingButtonClick() {
-		this._showOpenInNewWindowButton = true;
-	}
-
 	_onOpenInNewWindowClick() {
 		this.openWindow(this.launchUrl, this.localize('external-activity'), this.iFrameWidth, this.iFrameHeight);
 	}
-
 }
 
-customHypermediaElement(
-	'd2l-lti-activity',
-	LtiActivity,
-	'd2l-activity-editor-main',
-	[['activity-usage', 'lti-activity-usage']]
-);
+customElements.define('d2l-lti-activity', LtiActivity);

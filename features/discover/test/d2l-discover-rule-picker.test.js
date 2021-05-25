@@ -4,6 +4,7 @@ import { clearStore } from '@brightspace-hmc/foundation-engine/state/HypermediaS
 import { createComponentAndWait } from '../../../test/test-util.js';
 import { default as fetchMock } from 'fetch-mock/esm/client.js';
 import { runConstructor } from '@brightspace-ui/core/tools/constructor-test-helper.js';
+import sinon from 'sinon/pkg/sinon-esm.js';
 
 const rels = Object.freeze({
 	condition: 'https://discovery.brightspace.com/rels/condition',
@@ -15,7 +16,16 @@ const selfHref = 'http://entitlement-rules/picker';
 const conditionTypesHref = 'http://condition-types/picker';
 const entitlementEntity = {
 	actions: [
-		{ name: 'create', method: 'POST', href: '../demo/entitlement-create.json' }
+		{ name: 'create', method: 'POST', href: '../demo/entitlement-create.json' },
+	],
+	entities: [
+		{
+			entities: [
+				{ properties: { type: 'Fruit', values: ['apple', 'orange'] }, rel: [rels.condition] },
+				{ properties: { type: 'Entree', values: ['spaghetti'] }, rel: [rels.condition] }
+			],
+			rel: [rels.rule]
+		}
 	],
 	links: [
 		{ rel: ['self'], href: selfHref },
@@ -60,7 +70,6 @@ describe('d2l-discover-rule-picker', () => {
 		afterEach(() => fetchMock.resetHistory());
 
 		it('renders the conditionTypes dropdown data', async() => {
-
 			const el = await createComponentAndWait(html`
 				<d2l-discover-rule-picker href="${selfHref}" token="cake"></d2l-discover-rule-picker>
 			`);
@@ -75,21 +84,25 @@ describe('d2l-discover-rule-picker', () => {
 			expect(Array.from(conditionDropdown.options).map(option => option.value))
 				.to.deep.equal(conditionTypesEntity.entities.map(type => type.properties.type));
 		});
-		// todo: add when rule list is available
-		it.skip('renders the initialized conditions', async() => {
+
+		it('renders the initialized conditions', async() => {
 			const el = await createComponentAndWait(html`
 				<d2l-discover-rule-picker href="${selfHref}" token="cake"></d2l-discover-rule-picker>
 			`);
+			const ruleIndex = 0;
+			el.ruleIndex = 0;
+			await el.updateComplete;
 			const conditionDropdownList = el.shadowRoot.querySelectorAll('select');
 			const conditionPickerList = el.shadowRoot.querySelectorAll('d2l-discover-attribute-picker');
+			const rule = entitlementEntity.entities[ruleIndex];
 
-			expect(conditionDropdownList.length).to.equal(entitlementEntity.entities.length);
-			expect(conditionPickerList.length).to.equal(entitlementEntity.entities.length);
+			expect(conditionDropdownList.length).to.equal(rule.entities.length);
+			expect(conditionPickerList.length).to.equal(rule.entities.length);
 
 			//Ensure the data in the fields lines up with the passed data
 			for (let i = 0 ; i < conditionDropdownList.options; i++) {
-				expect(conditionDropdownList[i].value).to.equal(entitlementEntity.entities[i].properties.type);
-				expect(conditionPickerList[i].value).to.equal(entitlementEntity.entities[i].properties.value);
+				expect(conditionDropdownList[i].value).to.equal(rule.entities[i].properties.type);
+				expect(conditionPickerList[i].value).to.equal(rule.entities[i].properties.value);
 			}
 		});
 
@@ -108,9 +121,12 @@ describe('d2l-discover-rule-picker', () => {
 
 	describe('interaction', () => {
 		let el;
-		beforeEach(async() => el = await createComponentAndWait(html`
-			<d2l-discover-rule-picker href="${selfHref}" token="cake"></d2l-discover-rule-picker>
-		`));
+		beforeEach(async() => {
+			clearStore();
+			el = await createComponentAndWait(html`
+				<d2l-discover-rule-picker href="${selfHref}" token="cake"></d2l-discover-rule-picker>
+			`);
+		});
 
 		it('should add a new condition when the Add Condition button is pressed', async() => {
 			const addButton = el.shadowRoot.querySelector('#add-another-condition-button');
@@ -139,19 +155,17 @@ describe('d2l-discover-rule-picker', () => {
 		});
 
 		it('updates the condition information when the dropdown field is modified', async() => {
-			el = await createComponentAndWait(html`
-				<d2l-discover-rule-picker href="${selfHref}" token="cake"></d2l-discover-rule-picker>
-			`);
-
 			const conditionSelect = el.shadowRoot.querySelector('select');
 			const newType = 'Entree';
 			expect(el.conditions[0].properties.type).does.not.equal(newType);
 
-			const listener = oneEvent(conditionSelect, 'blur');
-			conditionSelect.focus();
+			const listener = oneEvent(conditionSelect, 'change');
 			conditionSelect.value = newType;
-			conditionSelect.blur();
-
+			setTimeout(() => {
+				const event = document.createEvent('Events');
+				event.initEvent('change', true, true);
+				conditionSelect.dispatchEvent(event);
+			});
 			await listener;
 
 			expect(el.conditions[0].properties.type).to.equal(newType);
@@ -174,8 +188,61 @@ describe('d2l-discover-rule-picker', () => {
 			expect(deleteButtonList[0].hasAttribute('hidden')).to.be.false;
 		});
 
+		it('Updates the match count based on rule load', async() => {
+			el._rules = [];
+			el._rules[0]  = { entities: [
+				{ properties: { id:'_fruit', state: 'existing', type: 'Fruit', values: [] } }
+			] };
+			el._rules[1]  = { entities: [
+				{ properties: { id:'_fruit', state: 'existing', type: 'Fruit', values: ['apple'] } }
+			] };
+			el._rules[2]  = { entities: [
+				{ properties: { id:'_fruit', state: 'existing', type: 'Fruit', values: ['apple', 'orange'] } }
+			] };
+			el._rules[3]  = { entities: [
+				{ properties: { id:'_fruit', state: 'existing', type: 'Fruit', values: [] } },
+				{ properties: { id:'_entree', state: 'existing', type: 'Entree', values: ['Spaghetti'] } }
+			] };
+			el._rules[4]  = { entities: [
+				{ properties: { id:'_fruit', state: 'existing', type: 'Fruit', values: [] } },
+				{ properties: { id:'_entree', state: 'existing', type: 'Entree', values: [] } }
+			] };
+
+			const matchCountDiv = el.shadowRoot.querySelector('.d2l-picker-rule-match-count');
+			expect(matchCountDiv.textContent.trim()).to.equal('');
+
+			el.ruleIndex = 0; //Invalid rule with no attributes selected
+			await el.requestUpdate();
+			expect(matchCountDiv.textContent.trim()).to.equal('');
+
+			let counter = 0;
+			el._getMatchCount.summon = sinon.stub().resolves({ properties: { count : ++counter } });
+			el.ruleIndex = 1; //Valid rule with single attributes selected
+			await waitUntil(() => el._matchCount === counter, '_matchCount did not update on rule change');
+			expect(matchCountDiv.textContent.trim()).to.include((counter).toString());
+
+			el._getMatchCount.summon = sinon.stub().resolves({ properties: { count : ++counter } });
+			el.ruleIndex = 2; //Valid rule with multiple attributes selected
+			await waitUntil(() => el._matchCount === counter, '_matchCount did not update on rule change');
+			expect(matchCountDiv.textContent.trim()).to.include((counter).toString());
+
+			el._getMatchCount.summon = sinon.stub().resolves({ properties: { count : ++counter } });
+			el.ruleIndex = 3; //Valid rule with multiple conditions, one not populated
+			await waitUntil(() => el._matchCount === counter, '_matchCount did not update on rule change');
+			expect(matchCountDiv.textContent.trim()).to.include((counter).toString());
+
+			el._getMatchCount.summon = sinon.stub().resolves({ properties: { count : ++counter } });
+			el.ruleIndex = 4; //Valid rule with multiple conditions, one not populated
+			await waitUntil(() => el._matchCount === null, '_matchCount did not update on rule change');
+			expect(matchCountDiv.textContent.trim()).to.equal('');
+		});
+
 		describe('deletion', () => {
 			beforeEach(async() => {
+				clearStore();
+				el = await createComponentAndWait(html`
+					<d2l-discover-rule-picker href="${selfHref}" token="cake"></d2l-discover-rule-picker>
+				`);
 				el.conditions = [
 					{ properties: { type: 'Entree', values: ['spaghetti'] } },
 					{ properties: { type: 'Fruit', values: ['cake', 'pie'] } },
@@ -209,7 +276,7 @@ describe('d2l-discover-rule-picker', () => {
 					const conditionDropdownList = el.shadowRoot.querySelectorAll('select');
 					const conditionPickerList = el.shadowRoot.querySelectorAll('d2l-discover-attribute-picker');
 					await conditionPickerList.updateComplete;
-					await oneEvent(el, 'd2l-rule-condition-removed');
+					await oneEvent(el, 'd2l-rule-condition-size-changed');
 
 					expect(el.conditions.length).to.equal(newConditions.length);
 					expect(el.conditions).to.deep.equal(newConditions);

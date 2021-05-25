@@ -18,6 +18,7 @@ export class W2dSummonAction extends SirenSummonAction {
 			});
 		}
 		super.addObserver(observer, property, { method, route });
+		this._setPage(observer[page]);
 	}
 
 	get method() {
@@ -45,7 +46,19 @@ export class W2dSummonAction extends SirenSummonAction {
 			this._routes.forEach((route, observer) => {
 				this.routedState.addObservables(observer, route);
 			});
-			fetch(this.routedState);
+			await fetch(this.routedState);
+		}
+	}
+
+	async _setPage(page) {
+		if (!page || this._page === page) return;
+		this._page = page;
+		if (this._routes.size > 0 && this._href && this._token) {
+			this.routedState = await this.createRoutedState(this.href, this._token.rawToken);
+			this._routes.forEach((route, observer) => {
+				this.routedState.addObservables(observer, route);
+			});
+			await fetch(this.routedState);
 		}
 	}
 }
