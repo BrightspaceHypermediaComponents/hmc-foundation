@@ -112,16 +112,8 @@ class w2dNoActivities extends LocalizeDynamicMixin(LitElement) {
 		</div>`;
 	}
 
-	_areActivitiesAvailable() {
-		return this.activities && this.complete && this.collapse;
-	}
-
-	_doesTextUseFirstName() {
-		return this.useFirstName && !this._areActivitiesAvailable();
-	}
-
 	_getEmptyViewText() {
-		if (this._doesTextUseFirstName()) {
+		if (this.useFirstName) {
 			return this.localize(this._getEmptyViewTextLabel(), 'firstName', 'test');// TODO should get first name from HM
 		} else {
 			return this.localize(this._getEmptyViewTextLabel());
@@ -130,15 +122,13 @@ class w2dNoActivities extends LocalizeDynamicMixin(LitElement) {
 
 	_getEmptyViewTextLabel() {
 		let emptyViewTextLabel = 'noActivitiesNoFutureActivities';
-		if (this._areActivitiesAvailable()) {
-			emptyViewTextLabel = 'activitiesAvailable';
-		} else if (this.activities && this.collapse) {
+		if (this.activities && this.collapse) {
 			emptyViewTextLabel = 'noActivitiesFutureActivities';
 		} else if (!this.collapse) {
 			emptyViewTextLabel = 'noActivities';
 		}
 
-		if (this._doesTextUseFirstName()) {
+		if (this.useFirstName) {
 			emptyViewTextLabel += 'Name';
 		}
 
