@@ -12,4 +12,8 @@ export default  {
 	"list-noActivitiesFound": "検索語句に一致するアクティビティがありませんでした。", // Displayed when the learning path has no activities while in the screen that allows you to add them.
 	"listitem-alreadyAdded": "すでに追加済み", // When seeing a list of activities that can be added to the learning path, these activities have already in the list.
 	"text-loadMoreError": "アクティビティの読み込みに失敗しました", // When adding activities to the learning path, this is text will appear when the load more button results in an error.
+	"button-quizEditorDelete": "削除", // Text for quiz editor Delete button
+	"button-deleteConfirmationDialogDelete": "削除", // Copy on the delete question/section/question pool confirmation dialog
+	"button-deleteConfirmationDialogCancel": "キャンセル", // Copy on the delete question/section/question pool confirmation dialog
+	"text-deleteConfirmationDialog": "クイズから選択したコンテンツを削除しますか？" // Delete question/section/question pool confirmation dialog text
 };

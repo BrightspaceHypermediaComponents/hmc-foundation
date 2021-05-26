@@ -12,4 +12,8 @@ export default  {
 	"list-noActivitiesFound": "Der blev ikke fundet nogen aktiviteter for dit søgeord.", // Displayed when the learning path has no activities while in the screen that allows you to add them.
 	"listitem-alreadyAdded": "Allerede tilføjet", // When seeing a list of activities that can be added to the learning path, these activities have already in the list.
 	"text-loadMoreError": "Kunne ikke indlæse aktiviteter", // When adding activities to the learning path, this is text will appear when the load more button results in an error.
+	"button-quizEditorDelete": "Slet", // Text for quiz editor Delete button
+	"button-deleteConfirmationDialogDelete": "Slet", // Copy on the delete question/section/question pool confirmation dialog
+	"button-deleteConfirmationDialogCancel": "Annuller", // Copy on the delete question/section/question pool confirmation dialog
+	"text-deleteConfirmationDialog": "Vil du slette valgt indhold fra eksaminationen?" // Delete question/section/question pool confirmation dialog text
 };
