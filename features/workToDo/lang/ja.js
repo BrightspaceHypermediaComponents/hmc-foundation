@@ -6,6 +6,7 @@ export default {
 	backToD2L: 'ホームに戻る', // Displayed in the immersive navbar to escape out of fullscreen view
 	checklist: 'チェックリスト', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	comeBackNoFutureActivities: '後でまた、アクティビティがあるか確認してください。', // 'Empty state' - When there are no activities in full page view
+	comeBackNoFutureActivitiesName: 'Come back later to see if {firstName} has work to do.', // 'Empty state' - When there are no activities in full page view, when we want to show the user's name instead of referring to them as "you"
 	content: 'コンテンツ', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	course: 'コース', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	dateHeader: '{month} {dayOfMonth}、{dayOfWeek}', // Indicates that the below list of activities are due
@@ -16,8 +17,11 @@ export default {
 	loadMoreDescription: '割り当てられたその他のアクティビティを表示します', // Additional description text to accompany the load more button for additional clarity for the user
 	workToDo: '取り組むこと', // Widget title
 	noActivities: '期限または終了日が設定されたアクティビティはありません。', // 'Empty state' - When widget has no activities in full page view
+	noActivitiesName: '{firstName} has no activities with due or end dates available.', // 'Empty state' - When widget has no activities in full page view, when we want to show the user's name instead of referring to them as "you"
 	noActivitiesFutureActivities: "期限または終了日が近いアクティビティはありません。後でまた確認するか、［すべての学習の表示］をクリックして次のアクティビティを確認してください。",  // 'Empty View' - When widget has no activities to display within the next few weeks & there are activities in the future
+	noActivitiesFutureActivitiesName: "{firstName} has no activities due or ending soon. Come back later or View All Work to see what's coming next.", // Shown under the same conditions as noActivitiesFutureActivities, when we want to show the user's name instead of referring to them as "you"
 	noActivitiesNoFutureActivities: '期限または終了日が設定されたアクティビティはありません。後でまた、アクティビティがあるか確認してください。', // 'Empty View' - When widget has no activities to display within the next few weeks & there are no more activities in the future
+	noActivitiesNoFutureActivitiesName: '{firstName} has no activities with due or end dates available. Come back later to see if {firstname} has work to do.', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to show the user's name instead of referring to them as "you"
 	nothingHere: "何もありません ...", // Displayed as header line in widget text when there are no activities within the provided time period
 	overdue: '期限切れ', // Indicates that the below list of activities are overdue (have a due date that is in the past)
 	quiz: 'クイズ', // Meta-data descriptor that informs which type of activity is being displayed on a line item

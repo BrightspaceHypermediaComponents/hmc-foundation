@@ -6,6 +6,7 @@ export default {
 	backToD2L: 'العودة إلى الصفحة الرئيسية', // Displayed in the immersive navbar to escape out of fullscreen view
 	checklist: 'قائمة التحقق', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	comeBackNoFutureActivities: 'تحقق من الصفحة في وقت لاحق لمعرفة ما إذا كان ثمة عمل يجب إنجازه.', // 'Empty state' - When there are no activities in full page view
+	comeBackNoFutureActivitiesName: 'Come back later to see if {firstName} has work to do.', // 'Empty state' - When there are no activities in full page view, when we want to show the user's name instead of referring to them as "you"
 	content: 'المحتوى', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	course: 'المقرر التعليمي', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	dateHeader: '{dayOfWeek}‏، {month} {dayOfMonth}', // Indicates that the below list of activities are due
@@ -16,8 +17,11 @@ export default {
 	loadMoreDescription: 'عرض المزيد من الأنشطة المعيّنة', // Additional description text to accompany the load more button for additional clarity for the user
 	workToDo: 'العمل الذي يجب إنجازه', // Widget title
 	noActivities: 'ليس لديك أي أنشطة تتوفر تواريخ استحقاقها أو انتهائها.', // 'Empty state' - When widget has no activities in full page view
+	noActivitiesName: '{firstName} has no activities with due or end dates available.', // 'Empty state' - When widget has no activities in full page view, when we want to show the user's name instead of referring to them as "you"
 	noActivitiesFutureActivities: "ليس لديك أي أنشطة مستحقة أو تنتهي قريبًا. تحقق من الصفحة في وقت لاحق أو حدد عرض كل العمل للاطّلاع على الأنشطة المقبلة.",  // 'Empty View' - When widget has no activities to display within the next few weeks & there are activities in the future
+	noActivitiesFutureActivitiesName: "{firstName} has no activities due or ending soon. Come back later or View All Work to see what's coming next.", // Shown under the same conditions as noActivitiesFutureActivities, when we want to show the user's name instead of referring to them as "you"
 	noActivitiesNoFutureActivities: 'ليس لديك أي أنشطة تتوفر تواريخ استحقاقها أو انتهائها. تحقق من الصفحة في وقت لاحق لمعرفة ما إذا كان ثمة عمل يجب إنجازه.', // 'Empty View' - When widget has no activities to display within the next few weeks & there are no more activities in the future
+	noActivitiesNoFutureActivitiesName: '{firstName} has no activities with due or end dates available. Come back later to see if {firstname} has work to do.', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to show the user's name instead of referring to them as "you"
 	nothingHere: "ما من أنشطة هنا...", // Displayed as header line in widget text when there are no activities within the provided time period
 	overdue: 'الأنشطة التي تجاوزت تاريخ الاستحقاق', // Indicates that the below list of activities are overdue (have a due date that is in the past)
 	quiz: 'الاختبار', // Meta-data descriptor that informs which type of activity is being displayed on a line item

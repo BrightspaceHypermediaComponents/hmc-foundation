@@ -308,6 +308,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 					?activities="${this._totalActivities !== 0}"
 					?collapsed="${this.collapsed}"
 					?complete="${!this.collapsed}"
+					?use-first-name="${this.useFirstName}"
 					data-full-page-path=${this.dataFullPagePath}></d2l-w2d-no-activities>
 			`;
 

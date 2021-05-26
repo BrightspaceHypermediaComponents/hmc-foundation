@@ -122,7 +122,7 @@ class w2dNoActivities extends LocalizeDynamicMixin(LitElement) {
 
 	_getEmptyViewText() {
 		if (this._doesTextUseFirstName()) {
-			return this.localize(this._getEmptyViewTextLabel(), this.useFirstName);
+			return this.localize(this._getEmptyViewTextLabel(), 'firstName', 'test');// this.useFirstName);// TODO shouldn't be useFirstName
 		} else {
 			return this.localize(this._getEmptyViewTextLabel());
 		}

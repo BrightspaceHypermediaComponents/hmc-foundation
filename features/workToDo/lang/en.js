@@ -17,11 +17,11 @@ export default {
 	loadMoreDescription: 'Display more assigned activities', // Additional description text to accompany the load more button for additional clarity for the user
 	workToDo: 'Work To Do', // Widget title
 	noActivities: 'You have no activities with due or end dates available.', // 'Empty state' - When widget has no activities in full page view
-	noActivitiesName: '{firstname} has have no activities with due or end dates available.', // 'Empty state' - When widget has no activities in full page view, when we want to show the user's name instead of referring to them as "you"
+	noActivitiesName: '{firstName} has no activities with due or end dates available.', // 'Empty state' - When widget has no activities in full page view, when we want to show the user's name instead of referring to them as "you"
 	noActivitiesFutureActivities: "You have no activities due or ending soon. Come back later or View All Work to see what's coming next.",  // 'Empty View' - When widget has no activities to display within the next few weeks & there are activities in the future
 	noActivitiesFutureActivitiesName: "{firstName} has no activities due or ending soon. Come back later or View All Work to see what's coming next.", // Shown under the same conditions as noActivitiesFutureActivities, when we want to show the user's name instead of referring to them as "you"
 	noActivitiesNoFutureActivities: 'You have no activities with due or end dates available. Come back later to see if you have work to do.', // 'Empty View' - When widget has no activities to display within the next few weeks & there are no more activities in the future
-	noActivitiesNoFutureActivitiesName: '{firstname} has no activities with due or end dates available. Come back later to see if {firstname} has work to do.', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to show the user's name instead of referring to them as "you"
+	noActivitiesNoFutureActivitiesName: '{firstName} has no activities with due or end dates available. Come back later to see if {firstname} has work to do.', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to show the user's name instead of referring to them as "you"
 	nothingHere: "There's nothing here...", // Displayed as header line in widget text when there are no activities within the provided time period
 	overdue: 'Overdue', // Indicates that the below list of activities are overdue (have a due date that is in the past)
 	quiz: 'Quiz', // Meta-data descriptor that informs which type of activity is being displayed on a line item

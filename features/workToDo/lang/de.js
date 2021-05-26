@@ -6,6 +6,7 @@ export default {
 	backToD2L: 'Zurück zur Startseite', // Displayed in the immersive navbar to escape out of fullscreen view
 	checklist: 'Checkliste', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	comeBackNoFutureActivities: 'Sehen Sie später erneut nach, ob Sie unerledigte Arbeit haben.', // 'Empty state' - When there are no activities in full page view
+	comeBackNoFutureActivitiesName: 'Come back later to see if {firstName} has work to do.', // 'Empty state' - When there are no activities in full page view, when we want to show the user's name instead of referring to them as "you"
 	content: 'Inhalt', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	course: 'Kurs', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	dateHeader: '{dayOfWeek}, {month} {dayOfMonth}', // Indicates that the below list of activities are due
@@ -16,8 +17,11 @@ export default {
 	loadMoreDescription: 'Weitere zugewiesene Aktivitäten anzeigen', // Additional description text to accompany the load more button for additional clarity for the user
 	workToDo: 'Ausstehende Aufgaben', // Widget title
 	noActivities: 'Sie haben keine Aktivitäten mit verfügbarem Fälligkeits- oder Enddatum.', // 'Empty state' - When widget has no activities in full page view
+	noActivitiesName: '{firstName} has no activities with due or end dates available.', // 'Empty state' - When widget has no activities in full page view, when we want to show the user's name instead of referring to them as "you"
 	noActivitiesFutureActivities: "Es sind keine Aktivitäten vorhanden, die in Kürze fällig sind oder enden. Kommen Sie später zurück oder sehen Sie sich alle Arbeiten an, um zu sehen, was als Nächstes kommt.",  // 'Empty View' - When widget has no activities to display within the next few weeks & there are activities in the future
+	noActivitiesFutureActivitiesName: "{firstName} has no activities due or ending soon. Come back later or View All Work to see what's coming next.", // Shown under the same conditions as noActivitiesFutureActivities, when we want to show the user's name instead of referring to them as "you"
 	noActivitiesNoFutureActivities: 'Sie haben keine Aktivitäten mit verfügbarem Fälligkeits- oder Enddatum. Sehen Sie später erneut nach, ob Sie unerledigte Arbeit haben.', // 'Empty View' - When widget has no activities to display within the next few weeks & there are no more activities in the future
+	noActivitiesNoFutureActivitiesName: '{firstName} has no activities with due or end dates available. Come back later to see if {firstname} has work to do.', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to show the user's name instead of referring to them as "you"
 	nothingHere: "Hier gibt es nichts...", // Displayed as header line in widget text when there are no activities within the provided time period
 	overdue: 'Überfällig', // Indicates that the below list of activities are overdue (have a due date that is in the past)
 	quiz: 'Test', // Meta-data descriptor that informs which type of activity is being displayed on a line item
