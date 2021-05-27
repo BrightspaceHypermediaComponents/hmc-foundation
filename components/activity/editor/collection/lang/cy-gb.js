@@ -12,4 +12,8 @@ export default  {
 	"list-noActivitiesFound": "Ni chanfuwyd unrhyw weithgareddau gan ddefnyddio’ch term chwilio.", // Displayed when the learning path has no activities while in the screen that allows you to add them.
 	"listitem-alreadyAdded": "Eisoes wedi ychwanegu", // When seeing a list of activities that can be added to the learning path, these activities have already in the list.
 	"text-loadMoreError": "Wedi methu llwytho gweithgareddau", // When adding activities to the learning path, this is text will appear when the load more button results in an error.
+	"button-quizEditorDelete": "Dileu", // Text for quiz editor Delete button
+	"button-deleteConfirmationDialogDelete": "Dileu", // Copy on the delete question/section/question pool confirmation dialog
+	"button-deleteConfirmationDialogCancel": "Canslo", // Copy on the delete question/section/question pool confirmation dialog
+	"text-deleteConfirmationDialog": "Dileu’r cynnwys dan sylw o’r cwis?" // Delete question/section/question pool confirmation dialog text
 };

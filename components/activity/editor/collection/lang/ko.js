@@ -12,4 +12,8 @@ export default  {
 	"list-noActivitiesFound": "검색어로 찾은 활동이 없습니다.", // Displayed when the learning path has no activities while in the screen that allows you to add them.
 	"listitem-alreadyAdded": "이미 추가됨", // When seeing a list of activities that can be added to the learning path, these activities have already in the list.
 	"text-loadMoreError": "활동을 로드하지 못함", // When adding activities to the learning path, this is text will appear when the load more button results in an error.
+	"button-quizEditorDelete": "삭제", // Text for quiz editor Delete button
+	"button-deleteConfirmationDialogDelete": "삭제", // Copy on the delete question/section/question pool confirmation dialog
+	"button-deleteConfirmationDialogCancel": "취소", // Copy on the delete question/section/question pool confirmation dialog
+	"text-deleteConfirmationDialog": "퀴즈에서 선택한 콘텐츠를 삭제하시겠습니까?" // Delete question/section/question pool confirmation dialog text
 };

@@ -12,4 +12,8 @@ export default  {
 	"list-noActivitiesFound": "Arama teriminizi kullanan etkinlik bulunamadı.", // Displayed when the learning path has no activities while in the screen that allows you to add them.
 	"listitem-alreadyAdded": "Zaten eklenmiş", // When seeing a list of activities that can be added to the learning path, these activities have already in the list.
 	"text-loadMoreError": "Etkinlikler yüklenemedi", // When adding activities to the learning path, this is text will appear when the load more button results in an error.
+	"button-quizEditorDelete": "Sil", // Text for quiz editor Delete button
+	"button-deleteConfirmationDialogDelete": "Sil", // Copy on the delete question/section/question pool confirmation dialog
+	"button-deleteConfirmationDialogCancel": "İptal", // Copy on the delete question/section/question pool confirmation dialog
+	"text-deleteConfirmationDialog": "Seçilen içerik sınavdan silinsin mi?" // Delete question/section/question pool confirmation dialog text
 };

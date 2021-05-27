@@ -12,4 +12,8 @@ export default  {
 	"list-noActivitiesFound": "لم يتم العثور على أي أنشطة باستخدام مصطلح البحث.", // Displayed when the learning path has no activities while in the screen that allows you to add them.
 	"listitem-alreadyAdded": "تمت الإضافة مسبقًا", // When seeing a list of activities that can be added to the learning path, these activities have already in the list.
 	"text-loadMoreError": "فشل تحميل الأنشطة", // When adding activities to the learning path, this is text will appear when the load more button results in an error.
+	"button-quizEditorDelete": "حذف", // Text for quiz editor Delete button
+	"button-deleteConfirmationDialogDelete": "حذف", // Copy on the delete question/section/question pool confirmation dialog
+	"button-deleteConfirmationDialogCancel": "إلغاء", // Copy on the delete question/section/question pool confirmation dialog
+	"text-deleteConfirmationDialog": "هل تريد حذف المحتوى الذي تم تحديده من الاختبار؟" // Delete question/section/question pool confirmation dialog text
 };
