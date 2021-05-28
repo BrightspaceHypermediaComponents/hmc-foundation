@@ -3,19 +3,19 @@ import { SirenSummonAction } from '@brightspace-hmc/foundation-engine/state/obse
 
 export class W2dSummonAction extends SirenSummonAction {
 
-	static definedProperty({ name: id, token, verbose, startDate, page, pageSize, endDate }) {
-		return { id, token, verbose, startDate, endDate, page, pageSize };
+	static definedProperty({ name: id, token, verbose, start, page, pageSize, end }) {
+		return { id, token, verbose, start, end, page, pageSize };
 	}
 
-	async addObserver(observer, property, { method, route, startDate, page, pageSize, endDate } = {}) {
-		if (startDate && endDate) {
-			this.setQueryParams({
-				start: observer[startDate],
-				end: observer[endDate],
-				embed: false,
-				pageSize: observer[pageSize],
-				page: observer[page]
-			});
+	async addObserver(observer, property, { method, route, start, page, pageSize, end } = {}) {
+		const queryParams = {};
+		start && observer[start] && (queryParams['start'] = observer[start]);
+		end && observer[end] && (queryParams['end'] = observer[end]);
+		pageSize && observer[pageSize] && (queryParams['pageSize'] = observer[pageSize]);
+		page && observer[page] && (queryParams['page'] = observer[page]);
+		if (queryParams['start'] || queryParams['end'] || queryParams['pageSize'] || queryParams['page']) {
+			queryParams['embed'] = false;
+			this.setQueryParams(queryParams);
 		}
 		super.addObserver(observer, property, { method, route });
 		this._setPage(observer[page]);
