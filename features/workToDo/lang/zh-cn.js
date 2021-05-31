@@ -5,7 +5,6 @@ export default {
 	backToD2L: '返回主页', // Displayed in the immersive navbar to escape out of fullscreen view
 	checklist: '清单', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	comeBackNoFutureActivities: '稍后回来查看您是否有工作要完成。', // 'Empty state' - When there are no activities in full page view
-	comeBackNoFutureActivitiesName: 'Come back later to see if {firstName} has work to do.', // 'Empty state' - When there are no activities in full page view, when we want to show the user's name instead of referring to them as "you"
 	content: '内容', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	course: '课程', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	dateHeader: '{startMonth} {startDay} - {endMonth} {endDay}', // Indicates that the below list of activities are due/end within the listed date range
@@ -17,10 +16,13 @@ export default {
 	workToDo: '待办事项', // Widget title
 	noActivities: '您没有具有到期或结束日期的未完成活动。', // 'Empty state' - When widget has no activities in full page view
 	noActivitiesName: '{firstName} has no activities with due or end dates available.', // 'Empty state' - When widget has no activities in full page view, when we want to show the user's name instead of referring to them as "you"
+	noActivitiesNameless: 'There are no activities with due or end dates available.', // 'Empty state' - When widget has no activities in full page view, when we want to refer to the user in the third person but don't know their name
 	noActivitiesFutureActivities: '您没有到期或即将结束的未完成活动。稍后回来或查看所有工作以查看即将发布的工作。',  // 'Empty View' - When widget has no activities to display within the next few weeks & there are activities in the future
 	noActivitiesFutureActivitiesName: "{firstName} has no activities due or ending soon. Come back later or View All Work to see what's coming next.", // Shown under the same conditions as noActivitiesFutureActivities, when we want to show the user's name instead of referring to them as "you"
+	noActivitiesFutureActivitiesNameless: "There are no activities due or ending soon. Come back later or View All Work to see what's coming next.", // Shown under the same conditions as noActivitiesFutureActivities, when we want to refer to the user in the third person but don't know their name
 	noActivitiesNoFutureActivities: '您没有具有到期或结束日期的未完成活动。稍后回来查看您是否有工作要完成。', // 'Empty View' - When widget has no activities to display within the next few weeks & there are no more activities in the future
 	noActivitiesNoFutureActivitiesName: '{firstName} has no activities with due or end dates available. Come back later to see if {firstname} has work to do.', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to show the user's name instead of referring to them as "you"
+	noActivitiesNoFutureActivitiesNameless: 'There are no activities with due or end dates available. Come back later to see if there is work to do.', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to refer to the user in the third person but don't know their name
 	nothingHere: '没有任何工作...', // Displayed as header line in widget text when there are no activities within the provided time period
 	overdue: '过期', // Indicates that the below list of activities are overdue (have a due date that is in the past)
 	quiz: '测验', // Meta-data descriptor that informs which type of activity is being displayed on a line item

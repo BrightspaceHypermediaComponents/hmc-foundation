@@ -5,7 +5,6 @@ export default {
 	backToD2L: 'Tilbage til startsiden', // Displayed in the immersive navbar to escape out of fullscreen view
 	checklist: 'Tjekliste', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	comeBackNoFutureActivities: 'Kom tilbage senere for at se, om du har opgaver, der skal udføres.', // 'Empty state' - When there are no activities in full page view
-	comeBackNoFutureActivitiesName: 'Come back later to see if {firstName} has work to do.', // 'Empty state' - When there are no activities in full page view, when we want to show the user's name instead of referring to them as "you"
 	content: 'Indhold', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	course: 'Kursus', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	dateHeader: '{startMonth} {startDay} - {endMonth} {endDay}', // Indicates that the below list of activities are due/end within the listed date range
@@ -17,10 +16,13 @@ export default {
 	workToDo: 'Opgaver, der skal udføres', // Widget title
 	noActivities: 'Du har ingen ikke-gennemførte aktiviteter, hvor forfalds- eller slutdatoer er tilgængelige.', // 'Empty state' - When widget has no activities in full page view
 	noActivitiesName: '{firstName} has no activities with due or end dates available.', // 'Empty state' - When widget has no activities in full page view, when we want to show the user's name instead of referring to them as "you"
+	noActivitiesNameless: 'There are no activities with due or end dates available.', // 'Empty state' - When widget has no activities in full page view, when we want to refer to the user in the third person but don't know their name
 	noActivitiesFutureActivities: 'Du har ingen ikke-gennemførte aktiviteter, der forfalder eller slutter snart. Kom tilbage senere eller Se alle opgaver for at se, hvad der er på vej.',  // 'Empty View' - When widget has no activities to display within the next few weeks & there are activities in the future
 	noActivitiesFutureActivitiesName: "{firstName} has no activities due or ending soon. Come back later or View All Work to see what's coming next.", // Shown under the same conditions as noActivitiesFutureActivities, when we want to show the user's name instead of referring to them as "you"
+	noActivitiesFutureActivitiesNameless: "There are no activities due or ending soon. Come back later or View All Work to see what's coming next.", // Shown under the same conditions as noActivitiesFutureActivities, when we want to refer to the user in the third person but don't know their name
 	noActivitiesNoFutureActivities: 'Du har ingen ikke-gennemførte aktiviteter, hvor forfalds- eller slutdatoer er tilgængelige. Kom tilbage senere for at se, om du har opgaver, der skal udføres.', // 'Empty View' - When widget has no activities to display within the next few weeks & there are no more activities in the future
 	noActivitiesNoFutureActivitiesName: '{firstName} has no activities with due or end dates available. Come back later to see if {firstname} has work to do.', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to show the user's name instead of referring to them as "you"
+	noActivitiesNoFutureActivitiesNameless: 'There are no activities with due or end dates available. Come back later to see if there is work to do.', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to refer to the user in the third person but don't know their name
 	nothingHere: 'Der er intet her...', // Displayed as header line in widget text when there are no activities within the provided time period
 	overdue: 'Forfalden', // Indicates that the below list of activities are overdue (have a due date that is in the past)
 	quiz: 'Eksamination', // Meta-data descriptor that informs which type of activity is being displayed on a line item

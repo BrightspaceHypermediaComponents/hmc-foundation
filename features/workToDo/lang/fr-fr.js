@@ -6,7 +6,6 @@ export default {
 	backToD2L: 'Retourner à la page d’accueil', // Displayed in the immersive navbar to escape out of fullscreen view
 	checklist: 'Liste de contrôle', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	comeBackNoFutureActivities: 'Revenez plus tard pour vérifier si vous avez du travail à faire.', // 'Empty state' - When there are no activities in full page view
-	comeBackNoFutureActivitiesName: 'Come back later to see if {firstName} has work to do.', // 'Empty state' - When there are no activities in full page view, when we want to show the user's name instead of referring to them as "you"
 	content: 'Contenu', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	course: 'Cours', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	dateHeader: '{dayOfWeek} {dayOfMonth} {month}', // Indicates that the below list of activities are due
@@ -18,10 +17,13 @@ export default {
 	workToDo: 'Travail à faire', // Widget title
 	noActivities: 'Vous n’avez aucune activité avec des dates d’échéance ou de fin disponibles.', // 'Empty state' - When widget has no activities in full page view
 	noActivitiesName: '{firstName} has no activities with due or end dates available.', // 'Empty state' - When widget has no activities in full page view, when we want to show the user's name instead of referring to them as "you"
+	noActivitiesNameless: 'There are no activities with due or end dates available.', // 'Empty state' - When widget has no activities in full page view, when we want to refer to the user in the third person but don't know their name
 	noActivitiesFutureActivities: "Vous n’avez aucune activité à remettre ou se terminant bientôt. Revenez plus tard ou cliquez sur Afficher tout le travail pour voir les activités à venir.",  // 'Empty View' - When widget has no activities to display within the next few weeks & there are activities in the future
 	noActivitiesFutureActivitiesName: "{firstName} has no activities due or ending soon. Come back later or View All Work to see what's coming next.", // Shown under the same conditions as noActivitiesFutureActivities, when we want to show the user's name instead of referring to them as "you"
+	noActivitiesFutureActivitiesNameless: "There are no activities due or ending soon. Come back later or View All Work to see what's coming next.", // Shown under the same conditions as noActivitiesFutureActivities, when we want to refer to the user in the third person but don't know their name
 	noActivitiesNoFutureActivities: 'Vous n’avez aucune activité avec des dates d’échéance ou de fin disponibles. Revenez plus tard pour vérifier si vous avez du travail à faire.', // 'Empty View' - When widget has no activities to display within the next few weeks & there are no more activities in the future
 	noActivitiesNoFutureActivitiesName: '{firstName} has no activities with due or end dates available. Come back later to see if {firstname} has work to do.', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to show the user's name instead of referring to them as "you"
+	noActivitiesNoFutureActivitiesNameless: 'There are no activities with due or end dates available. Come back later to see if there is work to do.', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to refer to the user in the third person but don't know their name
 	nothingHere: "Il n’y a rien ici...", // Displayed as header line in widget text when there are no activities within the provided time period
 	overdue: 'En retard', // Indicates that the below list of activities are overdue (have a due date that is in the past)
 	quiz: 'Questionnaire', // Meta-data descriptor that informs which type of activity is being displayed on a line item
