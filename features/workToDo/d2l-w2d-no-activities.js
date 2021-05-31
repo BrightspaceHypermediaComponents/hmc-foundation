@@ -125,7 +125,7 @@ class w2dNoActivities extends LocalizeDynamicMixin(HypermediaStateMixin(LitEleme
 	}
 
 	_getEmptyViewText() {
-		if (this.useFirstName) {
+		if (this.useFirstName && this._firstName) {
 			return this.localize(this._getEmptyViewTextLabel(), 'firstName', this._firstName);
 		} else {
 			return this.localize(this._getEmptyViewTextLabel());
@@ -141,7 +141,11 @@ class w2dNoActivities extends LocalizeDynamicMixin(HypermediaStateMixin(LitEleme
 		}
 
 		if (this.useFirstName) {
-			emptyViewTextLabel += 'Name';
+			if (this._firstName) {
+				emptyViewTextLabel += 'Name';
+			} else {
+				emptyViewTextLabel += 'Nameless';
+			}
 		}
 
 		return emptyViewTextLabel;
