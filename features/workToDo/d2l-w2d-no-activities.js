@@ -23,7 +23,6 @@ class w2dNoActivities extends LocalizeDynamicMixin(HypermediaStateMixin(LitEleme
 				observable: observableTypes.subEntities,
 				rel: rels.firstName,
 				method: (firstName) => {
-					console.log('method param firstName =', firstName?.[0]?.properties.name);
 					return firstName?.[0]?.properties.name;
 				}
 			}
