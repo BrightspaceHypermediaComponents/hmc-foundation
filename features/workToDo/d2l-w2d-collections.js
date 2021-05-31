@@ -39,6 +39,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 			endDate: { type: String, attribute: 'end-date' },
 			dataFullPagePath: { type: String, attribute: 'data-full-page-path' },
 			skeleton: { type: Boolean, reflect: true },
+			userUrl: { type: String, attribute: 'user-url' },
 			_categories: {
 				type: Array,
 				observable: observableTypes.custom,
@@ -195,7 +196,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 				height: 100%;
 				width: 100%;
 				background: white;
-				z-index: 100000000;
+				z-index: 500;
 			}
 			.d2l-w2d-collection-overflow {
 				overflow: hidden;
@@ -299,7 +300,9 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 					?collapsed="${this.collapsed}"
 					?complete="${!this.collapsed}"
 					?use-first-name="${this.useFirstName}"
-					data-full-page-path=${this.dataFullPagePath}></d2l-w2d-no-activities>
+					data-full-page-path=${this.dataFullPagePath}
+					.token="${this.token}"
+					href=${this.userUrl}></d2l-w2d-no-activities>
 			`;
 
 		return html`

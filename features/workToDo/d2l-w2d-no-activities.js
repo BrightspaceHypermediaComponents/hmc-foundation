@@ -1,19 +1,32 @@
 import '@brightspace-ui/core/components/link/link.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
+import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { img } from './d2l-w2d-empty-state-image.js';
 import { labelStyles } from '@brightspace-ui/core/components/typography/styles.js';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
 
 const weekCount = 2;
+const rels = Object.freeze({
+	firstName: 'https://api.brightspace.com/rels/first-name'
+});
 
-class w2dNoActivities extends LocalizeDynamicMixin(LitElement) {
+class w2dNoActivities extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement)) {
 	static get properties() {
 		return {
 			activities: { type: Boolean },
 			complete: { type: Boolean },
 			dataFullPagePath: { type: String, attribute: 'data-full-page-path' },
 			collapse: { type: Boolean },
-			useFirstName: { type: Boolean, attribute: 'use-first-name' }
+			useFirstName: { type: Boolean, attribute: 'use-first-name' },
+			_firstName: {
+				type: String,
+				observable: observableTypes.subEntities,
+				rel: rels.firstName,
+				method: (firstName) => {
+					console.log('method param firstName =', firstName?.[0]?.properties.name);
+					return firstName?.[0]?.properties.name;
+				}
+			}
 		};
 	}
 
@@ -114,7 +127,7 @@ class w2dNoActivities extends LocalizeDynamicMixin(LitElement) {
 
 	_getEmptyViewText() {
 		if (this.useFirstName) {
-			return this.localize(this._getEmptyViewTextLabel(), 'firstName', 'test');// TODO should get first name from HM
+			return this.localize(this._getEmptyViewTextLabel(), 'firstName', this._firstName);
 		} else {
 			return this.localize(this._getEmptyViewTextLabel());
 		}

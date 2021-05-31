@@ -124,7 +124,8 @@ class w2dWorkToDo extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement))
 				data-full-page-path="${this.dataFullPagePath}"
 				?use-first-name=${this.useFirstName}
 				overdue-day-limit="${this.overdueWeekLimit * 7}"
-				?skeleton="${!this._loaded}"></d2l-w2d-collections>
+				?skeleton="${!this._loaded}"
+				user-url="${this.href}"></d2l-w2d-collections>
 		`;
 	}
 
