@@ -30,6 +30,7 @@ const pageSize = Object.freeze({
 class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement)) {
 	static get properties() {
 		return {
+			allowUnclickableActivities: { type: Boolean, attribute: 'allow-unclickable-activities' },
 			currentTime: { type: String, attribute: 'current-time' },
 			collapsed: { type: Boolean },
 			groupByDays: { type: Number, attribute: 'group-by-days' },
@@ -255,7 +256,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 				if (limit === 0) return;
 				const list = html`
 					${this._renderHeader3(header, this._pagingTotalResultsOverdue)}
-					<d2l-w2d-list href="${category.href}" .token="${this.token}" category="${category.index}" ?collapsed="${this.collapsed}" limit="${ifDefined(limit)}"></d2l-w2d-list>
+					<d2l-w2d-list href="${category.href}" .token="${this.token}" category="${category.index}" ?collapsed="${this.collapsed}" limit="${ifDefined(limit)}" ?allow-unclickable-activities="${this.allowUnclickableActivities}"></d2l-w2d-list>
 				`;
 				limit = limit === undefined ? limit : Math.max(limit - category.count, 0);
 				return list;

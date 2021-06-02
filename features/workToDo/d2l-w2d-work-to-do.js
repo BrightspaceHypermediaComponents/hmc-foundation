@@ -21,6 +21,7 @@ const rel = Object.freeze({
 class w2dWorkToDo extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement)) {
 	static get properties() {
 		return {
+			allowUnclickableActivities: { type: Boolean, attribute: 'allow-unclickable-activities' },
 			currentTime: { type: String, attribute: 'current-time' },
 			collapsed: { type: Boolean },
 			dataFullPagePath: { type: String, attribute: 'data-full-page-path' },
@@ -125,7 +126,8 @@ class w2dWorkToDo extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement))
 				?use-first-name=${this.useFirstName}
 				overdue-day-limit="${this.overdueWeekLimit * 7}"
 				?skeleton="${!this._loaded}"
-				user-url="${this.href}"></d2l-w2d-collections>
+				user-url="${this.href}"
+				?allow-unclickable-activities="${this.allowUnclickableActivities}"></d2l-w2d-collections>
 		`;
 	}
 
