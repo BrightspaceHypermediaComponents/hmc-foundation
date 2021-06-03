@@ -1,0 +1,19 @@
+{
+  "class": [
+      "user"
+  ],
+  "rel": [
+      "https://discovery.brightspace.com/rels/user"
+  ],
+  "properties": {
+      "id": "30232"
+  },
+  "links": [
+      {
+          "rel": [
+              "https://api.brightspace.com/rels/user"
+          ],
+          "href": "/usersApiDevBrightspace.com/user2.json"
+      }
+  ]
+}
