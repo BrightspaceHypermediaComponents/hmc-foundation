@@ -21,10 +21,12 @@ const rel = Object.freeze({
 class w2dWorkToDo extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement)) {
 	static get properties() {
 		return {
+			allowUnclickableActivities: { type: Boolean, attribute: 'allow-unclickable-activities' },
 			currentTime: { type: String, attribute: 'current-time' },
 			collapsed: { type: Boolean },
 			dataFullPagePath: { type: String, attribute: 'data-full-page-path' },
 			groupByDays: { type: Number, attribute: 'group-by-days' },
+			useFirstName: { type: Boolean, attribute: 'use-first-name' },
 			startDate: { type: String, attribute: 'start-date' },
 			endDate: { type: String, attribute: 'end-date' },
 			overdueWeekLimit: { type: Number, attribute: 'data-overdue-week-limit' },
@@ -120,8 +122,12 @@ class w2dWorkToDo extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement))
 				current-time="${this.currentTime}"
 				start-date="${this.startDate}"
 				end-date="${this.endDate}"
-				data-full-page-path="${this.dataFullPagePath}"
-				overdue-day-limit="${this.overdueWeekLimit * 7}"></d2l-w2d-collections>
+				data-full-page-path=${ifDefined(this.dataFullPagePath)}
+				?use-first-name=${this.useFirstName}
+				overdue-day-limit="${this.overdueWeekLimit * 7}"
+				?skeleton="${!this._loaded}"
+				user-url="${this.href}"
+				?allow-unclickable-activities="${this.allowUnclickableActivities}"></d2l-w2d-collections>
 		`;
 	}
 

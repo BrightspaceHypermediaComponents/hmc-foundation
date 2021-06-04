@@ -39,6 +39,7 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 
 	static get properties() {
 		return {
+			allowUnclickableActivities: { type: Boolean, attribute: 'allow-unclickable-activities' },
 			collapsed: { type: Boolean },
 			skeleton: { type: Boolean },
 			_hasStarted: { type: Boolean, observable: observableTypes.classes, method: (classes) => classes.includes('started') },
@@ -128,7 +129,7 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 	}
 
 	render() {
-		if (this.skeleton || !this._dates || !this._actionHref || !this._parentName) return this._renderSkeleton();
+		if (this.skeleton || !this._dates || (!this.allowUnclickableActivities && !this._actionHref) || !this._parentName) return this._renderSkeleton();
 		const iconClasses = {
 			'd2l-hovering': this._hoveringPrimaryAction,
 			'd2l-focusing': this._focusingPrimaryAction,
