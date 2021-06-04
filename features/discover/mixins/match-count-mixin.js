@@ -25,7 +25,7 @@ export const MatchCountMixin = superclass => class extends superclass {
 	async getMatchData(summonAction, conditions, includeUsers, userLimit) {
 		const conditionFilter = this.createConditionFilter(conditions, includeUsers, userLimit);
 		if (conditionFilter.match.length > 0) {
-			const sirenReponse = await summonAction.summon(conditionFilter);
+			const sirenReponse = await summonAction.summon(conditionFilter, true);
 			if (sirenReponse) {
 				return {
 					count: sirenReponse.properties.count,
