@@ -2,7 +2,6 @@ import '../../components/common/d2l-hc-description.js';
 import '../../components/common/d2l-hc-name.js';
 import '@brightspace-ui/core/components/button/button.js';
 import '@brightspace-ui/core/components/button/button-subtle.js';
-import '@brightspace-ui/core/components/card/card.js';
 import '@brightspace-ui/core/components/icons/icon.js';
 import { bodyCompactStyles, bodySmallStyles, heading3Styles } from '@brightspace-ui/core/components/typography/styles.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
