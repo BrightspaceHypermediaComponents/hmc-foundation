@@ -133,6 +133,16 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 				rules: []
 			});
 		}
+		// create a composed event so that we can catch it in the LMS
+		// we use this method until there is a hypermedia action for changing discoverability on a course
+		const event = new CustomEvent('d2l-rules-checkbox-change', {
+			bubbles: true,
+			composed: true,
+			detail: {
+				checked: e.detail.checked
+			}
+		});
+		this.dispatchEvent(event);
 	}
 
 	_onDialogClose() {
