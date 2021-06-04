@@ -4,3 +4,4 @@ test/screenshots/current/
 test/screenshots/golden/
 .nyc_output
 coverage/
+.vscode/

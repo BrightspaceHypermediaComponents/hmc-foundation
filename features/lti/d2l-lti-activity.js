@@ -49,6 +49,18 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(HypermediaStateMixi
 			_showOpenInNewWindowButton: {
 				type: Boolean,
 				attribute: 'open-as-external'
+			},
+			_grading: {
+				type: Boolean,
+				attribute: 'grading'
+			},
+			_preview: {
+				type: Boolean,
+				attribute: 'preview'
+			},
+			_assignedActivityHref: {
+				type: String,
+				attribute: 'assigned-activity-href'
 			}
 		};
 	}
@@ -78,6 +90,9 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(HypermediaStateMixi
 	constructor() {
 		super();
 		this._showOpenInNewWindowButton = false;
+		this._preview = false;
+		this._grading = false;
+		this._assignedActivityHref = null;
 		this.skeleton = true;
 	}
 
@@ -97,7 +112,7 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(HypermediaStateMixi
 
 		html`${this._showOpenInNewWindowButton ?
 			html`<d2l-button class="spanning-button" primary @click="${this._onOpenInNewWindowClick}">${this.localize('open-in-new-window')}</d2l-button>` :
-			html`<iframe allow="microphone *; camera *; autoplay *" width="${this.iFrameWidth}px" height="${this.iFrameHeight}px" src="${this.launchUrl}"></iframe>
+			html`<iframe allow="microphone *; camera *; autoplay *" width="${this.iFrameWidth}px" height="${this.iFrameHeight}px" src="${this._launchUrl}"></iframe>
 						<div>
 							<d2l-button-subtle text="${this.localize('open-in-new-window')}" icon="tier1:new-window" @click="${this._onOpenInNewWindowClick}"></d2l-button-subtle>
 						</div>`
@@ -106,6 +121,48 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(HypermediaStateMixi
 }
 	  	`;
 	}
+
+	set launchUrl(value) {
+		let newLaunchUrl = value;
+		const oldValue = this.launchUrl;
+		if (this._grading || this._preview || this._assignedActivityHref) {
+			// need to add at least one parameter to the launch url
+			const arr = newLaunchUrl.split('?');
+			const hasQuestionMark = arr.length > 1;
+			if (!hasQuestionMark) {
+				newLaunchUrl += '?';
+			}
+			let hasParams = hasQuestionMark && arr[1] !== '';
+
+			if (this._grading) {
+				if (hasParams) {
+					newLaunchUrl += '&grading=true';
+				} else {
+					newLaunchUrl += 'grading=true';
+					hasParams = true;
+				}
+			}
+			if (this._preview) {
+				if (hasParams) {
+					newLaunchUrl += '&preview=true';
+				} else {
+					newLaunchUrl += 'preview=true';
+					hasParams = true;
+				}
+			}
+			if (this._assignedActivityHref) {
+				if (hasParams) {
+					newLaunchUrl += '&assignedActivityHref=true';
+				} else {
+					newLaunchUrl += 'assignedActivityHref=true';
+					hasParams = true;
+				}
+			}
+		}
+		this._launchUrl = newLaunchUrl;
+		this.requestUpdate('launchUrl', oldValue);
+	}
+
 	openWindow(url, title, width, height) {
 		const left = (screen.width / 2) - (width / 2);
 		const top = (screen.height / 2) - (height / 2);
@@ -120,7 +177,7 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(HypermediaStateMixi
 	}
 
 	_onOpenInNewWindowClick() {
-		this.openWindow(this.launchUrl, this.localize('external-activity'), this.iFrameWidth, this.iFrameHeight);
+		this.openWindow(this._launchUrl, this.localize('external-activity'), this.iFrameWidth, this.iFrameHeight);
 	}
 }
 

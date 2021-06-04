@@ -12,4 +12,8 @@ export default  {
 	"list-noActivitiesFound": "No se encontraron actividades con este término de búsqueda.", // Displayed when the learning path has no activities while in the screen that allows you to add them.
 	"listitem-alreadyAdded": "Ya se agregó", // When seeing a list of activities that can be added to the learning path, these activities have already in the list.
 	"text-loadMoreError": "Se produjo un error al cargar las actividades", // When adding activities to the learning path, this is text will appear when the load more button results in an error.
+	"button-quizEditorDelete": "Eliminar", // Text for quiz editor Delete button
+	"button-deleteConfirmationDialogDelete": "Eliminar", // Copy on the delete question/section/question pool confirmation dialog
+	"button-deleteConfirmationDialogCancel": "Cancelar", // Copy on the delete question/section/question pool confirmation dialog
+	"text-deleteConfirmationDialog": "¿Desea eliminar el contenido seleccionado del cuestionario?" // Delete question/section/question pool confirmation dialog text
 };

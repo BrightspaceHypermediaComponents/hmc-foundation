@@ -16,8 +16,14 @@ export default {
 	loadMoreDescription: '顯示更多已指派的活動', // Additional description text to accompany the load more button for additional clarity for the user
 	workToDo: '待做作業', // Widget title
 	noActivities: '您沒有具有截止日期或結束日期的活動。', // 'Empty state' - When widget has no activities in full page view
+	noActivitiesName: '{firstName} has no activities with due or end dates available.', // 'Empty state' - When widget has no activities in full page view, when we want to show the user's name instead of referring to them as "you"
+	noActivitiesNameless: 'There are no activities with due or end dates available.', // 'Empty state' - When widget has no activities in full page view, when we want to refer to the user in the third person but don't know their name
 	noActivitiesFutureActivities: "您沒有即將截止或結束的活動。請稍後再回來，或透過「檢視所有工作」來瞭解接下來的活動。",  // 'Empty View' - When widget has no activities to display within the next few weeks & there are activities in the future
+	noActivitiesFutureActivitiesName: "{firstName} has no activities due or ending soon. Come back later or View All Work to see what's coming next.", // Shown under the same conditions as noActivitiesFutureActivities, when we want to show the user's name instead of referring to them as "you"
+	noActivitiesFutureActivitiesNameless: "There are no activities due or ending soon. Come back later or View All Work to see what's coming next.", // Shown under the same conditions as noActivitiesFutureActivities, when we want to refer to the user in the third person but don't know their name
 	noActivitiesNoFutureActivities: '您沒有具有截止日期或結束日期的活動。請稍後再回來看看是否有工作要進行。', // 'Empty View' - When widget has no activities to display within the next few weeks & there are no more activities in the future
+	noActivitiesNoFutureActivitiesName: '{firstName} has no activities with due or end dates available. Come back later to see if {firstname} has work to do.', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to show the user's name instead of referring to them as "you"
+	noActivitiesNoFutureActivitiesNameless: 'There are no activities with due or end dates available. Come back later to see if there is work to do.', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to refer to the user in the third person but don't know their name
 	nothingHere: "這裡沒有任何內容...", // Displayed as header line in widget text when there are no activities within the provided time period
 	overdue: '逾期', // Indicates that the below list of activities are overdue (have a due date that is in the past)
 	quiz: '測驗', // Meta-data descriptor that informs which type of activity is being displayed on a line item

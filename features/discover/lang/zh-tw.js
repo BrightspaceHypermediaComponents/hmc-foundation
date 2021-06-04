@@ -7,11 +7,14 @@ export default {
 	"label-condition-value": "條件值", // label for screen readers for the condition value input
 	"text-add-another-condition": "新增其他條件", // Button test for adding another condition to the rule
 	"text-add-enrollment-rule": "新增註冊規則", // Button test for adding an enrollment rule to self-enrollable courses
+	"text-addmore-enrollment-rule": "新增另一個規則", // Button text for adding another enrollment rule
 	"text-and": "和", // word used for combining multiple conditions
 	"text-checkbox-description": "停用的課程將不會包含在「探索」中", // extra info for discover checkbox
 	"text-condition-is": "為", // condition 'is' this and that
 	"text-condition-placeholder": "輸入條件值", // Placeholder text for condition value input
+	"text-delete": "刪除", // Title for delete menu item
 	"text-edit-enrollment-rule": "編輯註冊規則", // Edit an existing rule
+	"text-edit": "編輯", // Title for edit menu item
 	"text-remove-condition": "移除條件 {conditionType}", // Screenreader text when removing a condition from a rule
 	"text-rule-matches": "規則符合 {count} 位使用者", // Information about how many users a rule matches
 	"text-rules-description": "若要自行註冊此課程，使用者必須符合其中一或多個規則。", // description for enrollment rules

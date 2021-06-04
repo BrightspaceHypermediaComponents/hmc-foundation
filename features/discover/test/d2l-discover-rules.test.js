@@ -103,6 +103,24 @@ describe('d2l-discover-rules', () => {
 			el = null;
 		});
 
+		it('throws an event when the checkbox is changed', async() => {
+			const checkboxDrawer = el.shadowRoot.querySelector('d2l-labs-checkbox-drawer');
+			const listener = oneEvent(el, 'd2l-rules-checkbox-change');
+			const event = new CustomEvent('d2l-checkbox-drawer-checked-change', {
+				detail: { checked: false }
+			});
+			checkboxDrawer.dispatchEvent(event);
+			checkboxDrawer.checked = false;
+			await listener;
+			await el.updateComplete;
+			const expectedCommit = {
+				rules: []
+			};
+			expect(commitSpy.calledOnce, 'commit was not called').to.be.true;
+			expect(commitSpy.calledWith(expectedCommit), `commit was not called with: ${expectedCommit}`).to.be.true;
+			expect(el._rules, 'rules should not be removed').to.have.lengthOf(1);
+		});
+
 		it('removes a rule when the delete menu item is clicked', async() => {
 			expect(el._rules).to.have.lengthOf(1);
 			const card = el.shadowRoot.querySelector('d2l-discover-rule-card');

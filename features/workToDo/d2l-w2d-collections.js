@@ -30,15 +30,17 @@ const pageSize = Object.freeze({
 class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement)) {
 	static get properties() {
 		return {
+			allowUnclickableActivities: { type: Boolean, attribute: 'allow-unclickable-activities' },
 			currentTime: { type: String, attribute: 'current-time' },
 			collapsed: { type: Boolean },
 			groupByDays: { type: Number, attribute: 'group-by-days' },
+			useFirstName: { type: Boolean, attribute: 'use-first-name' },
 			overdueGroupByDays: { type: Number, attribute: 'overdue-group-by-days' },
-			overdueDayLimit: { type: Number, attribute: 'overdue-day-limit' },
 			startDate: { type: String, attribute: 'start-date' },
 			endDate: { type: String, attribute: 'end-date' },
 			dataFullPagePath: { type: String, attribute: 'data-full-page-path' },
 			skeleton: { type: Boolean, reflect: true },
+			userUrl: { type: String, attribute: 'user-url' },
 			_categories: {
 				type: Array,
 				observable: observableTypes.custom,
@@ -51,8 +53,8 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 					observable: observableTypes.custom,
 					observableObject: W2dSummonAction,
 					name: 'filter-work-to-do',
-					startDate: 'startDate',
-					endDate: 'endDate',
+					start: 'startDate',
+					end: 'endDate',
 					pageSize: '_pageSize',
 					page: '_pageUpcoming'
 				}]
@@ -63,18 +65,15 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 				observableObject: W2dDateCategory,
 				groupByDays: 'overdueGroupByDays',
 				startDate: 'currentTime',
-				dayLimit: 'overdueDayLimit',
 				rel: rel.userActivity,
 				route: [{
 					observable: observableTypes.custom,
 					observableObject: W2dSummonAction,
 					name: 'filter-overdue-activities',
-					startDate: 'startDate',
-					endDate: 'endDate',
 					pageSize: '_pageSize',
 					page: '_pageOverdue'
 				}],
-				method: (categories) => Object.keys(categories).sort().map(key => categories[key])
+				method: (categories) => Object.keys(categories).sort((a, b) => a - b).map(key => categories[key])
 			},
 			_totalActivities: {
 				type: Number,
@@ -84,8 +83,8 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 					observable: observableTypes.custom,
 					observableObject: W2dSummonAction,
 					name: 'filter-work-to-do',
-					startDate: 'startDate',
-					endDate: 'endDate',
+					start: 'startDate',
+					end: 'endDate',
 					pageSize: '_pageSize',
 					page: '_pageUpcoming'
 				}]
@@ -100,8 +99,8 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 					observable: observableTypes.custom,
 					observableObject: W2dSummonAction,
 					name: 'filter-work-to-do',
-					startDate: 'startDate',
-					endDate: 'endDate',
+					start: 'startDate',
+					end: 'endDate',
 					pageSize: '_pageSize',
 					page: '_pageUpcoming'
 				}]
@@ -114,8 +113,8 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 					observable: observableTypes.custom,
 					observableObject: W2dSummonAction,
 					name: 'filter-work-to-do',
-					startDate: 'startDate',
-					endDate: 'endDate',
+					start: 'startDate',
+					end: 'endDate',
 					pageSize: '_pageSize',
 					page: '_pageUpcoming'
 				}]
@@ -128,8 +127,6 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 					observable: observableTypes.custom,
 					observableObject: W2dSummonAction,
 					name: 'filter-overdue-activities',
-					startDate: 'startDate',
-					endDate: 'endDate',
 					pageSize: '_pageSize',
 					page: '_pageOverdue'
 				}]
@@ -142,8 +139,6 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 					observable: observableTypes.custom,
 					observableObject: W2dSummonAction,
 					name: 'filter-overdue-activities',
-					startDate: 'startDate',
-					endDate: 'endDate',
 					pageSize: '_pageSize',
 					page: '_pageOverdue'
 				}]
@@ -202,7 +197,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 				height: 100%;
 				width: 100%;
 				background: white;
-				z-index: 100000000;
+				z-index: 500;
 			}
 			.d2l-w2d-collection-overflow {
 				overflow: hidden;
@@ -236,7 +231,6 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 		this.requiredPropertyForState('collapsed');
 		this.requiredPropertyForState('_page');
 		this.requiredPropertyForState('_pageSize');
-		this.requiredPropertyForState('overdueDayLimit');
 	}
 
 	get collapsed() {
@@ -253,7 +247,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 	render() {
 		let limit = this._pageSize;
 		let overdue = null;
-		if (this._page <= this._currentPageOverdue) {
+		if (!this._isOverduePastLastPage() || this._isOverdueOnLastPage()) {
 			overdue = this._overdue.map(category => {
 				let header = this.localize('overdue');
 				if (!this.collapsed) {
@@ -262,7 +256,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 				if (limit === 0) return;
 				const list = html`
 					${this._renderHeader3(header, this._pagingTotalResultsOverdue)}
-					<d2l-w2d-list href="${category.href}" .token="${this.token}" category="${category.index}" ?collapsed="${this.collapsed}" limit="${ifDefined(limit)}"></d2l-w2d-list>
+					<d2l-w2d-list href="${category.href}" .token="${this.token}" category="${category.index}" ?collapsed="${this.collapsed}" limit="${ifDefined(limit)}" ?allow-unclickable-activities="${this.allowUnclickableActivities}"></d2l-w2d-list>
 				`;
 				limit = limit === undefined ? limit : Math.max(limit - category.count, 0);
 				return list;
@@ -281,7 +275,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 				if (limit === 0) return;
 				const list = html`
 					${this._renderHeader3(header, this._pagingTotalResultsUpcoming)}
-					<d2l-w2d-list href="${category.href}" .token="${this.token}" category="${category.index}" ?collapsed="${this.collapsed}" limit="${ifDefined(limit)}"></d2l-w2d-list>
+					<d2l-w2d-list href="${category.href}" .token="${this.token}" category="${category.index}" ?collapsed="${this.collapsed}" limit="${ifDefined(limit)}" ?allow-unclickable-activities="${this.allowUnclickableActivities}"></d2l-w2d-list>
 				`;
 				limit = limit === undefined ? limit : Math.max(limit - category.count, 0);
 				return list;
@@ -290,7 +284,6 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 		if (categories) {
 			categories = categories.filter(activity => activity !== undefined);
 		}
-
 		const lists = html`
 			<div class="${classMap({ 'd2l-w2d-collection-overflow': this.skeleton })}">
 				${overdue && overdue.length !== 0 ? this._renderHeader2(this.localize('overdue'), this._pagingTotalResultsOverdue) : null}
@@ -307,7 +300,10 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 					?activities="${this._totalActivities !== 0}"
 					?collapsed="${this.collapsed}"
 					?complete="${!this.collapsed}"
-					data-full-page-path=${this.dataFullPagePath}></d2l-w2d-no-activities>
+					?use-first-name="${this.useFirstName}"
+					data-full-page-path=${this.dataFullPagePath}
+					.token="${this.token}"
+					href=${this.userUrl}></d2l-w2d-no-activities>
 			`;
 
 		return html`
@@ -369,6 +365,10 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 		return this._pagingTotalResultsOverdue && this._pageSize && this._page && Math.ceil(this._pagingTotalResultsOverdue / this._pageSize) === this._page;
 	}
 
+	_isOverduePastLastPage() {
+		return this._pagingTotalResultsOverdue && this._pageSize && this._page && Math.ceil(this._pagingTotalResultsOverdue / this._pageSize) <= this._page;
+	}
+
 	_lastOverduePageHasMoreThanHalf() {
 		return this._pagingTotalResultsOverdue && this._pageSize && (this._pagingTotalResultsOverdue === this._pageSize || (this._pagingTotalResultsOverdue % this._pageSize) > (this._pageSize / 2));
 	}
@@ -385,8 +385,9 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 	}
 
 	get _pageUpcoming() {
+		if (!this._isOverduePastLastPage()) return 1;
 		let page = typeof this.__page === 'number' ? Math.max(1, this.__page - this._pageOverdue) : 1;
-		if (!this.collapsed && !this._lastOverduePageHasMoreThanHalf() && !this._isOverdueOnLastPage() && this.__page !== 1) {
+		if (!this.collapsed && !this._lastOverduePageHasMoreThanHalf() && this.__page !== 1) {
 			page++;
 		}
 		return page;
