@@ -2,6 +2,8 @@ import '../../components/common/d2l-hc-description.js';
 import '../../components/common/d2l-hc-name.js';
 import '@brightspace-ui/core/components/button/button.js';
 import '@brightspace-ui/core/components/button/button-subtle.js';
+import '@brightspace-ui/core/components/card/card.js';
+import '@brightspace-ui/core/components/icons/icon.js';
 import { bodyCompactStyles, bodySmallStyles, heading3Styles } from '@brightspace-ui/core/components/typography/styles.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
@@ -67,17 +69,49 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(HypermediaStateMixi
 
 	static get styles() {
 		return [ super.styles, bodySmallStyles, heading3Styles, bodyCompactStyles, css`
-		  :host {
-			display: inline-block;
+			:host {
+				background-color: #ffffff;
+				border: 1px solid var(--d2l-color-gypsum);
+				border-radius: 6px;
+				box-sizing: border-box;
+				display: inline-block;
+				position: relative;
+				transition: transform 300ms ease-out 50ms, box-shadow 0.2s;
+				z-index: 0;
+				padding: 1.2rem 0.8rem 0 0.8rem;
+			}
+			:host(:hover) {
+				box-shadow: 0 2px 14px 1px rgba(0, 0, 0, 0.06);
+			}
+			@media (prefers-reduced-motion: reduce) {
+				:host {
+					transition: none;
+				}
+			}
 
-		  }
-		  .spanning-button {
-			width: 100%;
-		  }
-		  .skeleton-placeholder {
-			  width: 10rem;
-			  height: 5rem;
-		  }
+			.header {
+				display: flex;
+			}
+			.header-text {
+				flex-grow: 1;
+			}
+			.header-name {
+				margin-bottom: 1.5rem;
+			}
+			.content-frame {
+				margin: 1rem 0rem 0.6rem 0rem;
+			}
+			.spanning-button {
+				width: 100%;
+				margin: 1rem 0rem;
+			}
+			.subtle-button {
+				margin: 0.6rem 0rem;
+			}
+			.skeleton-placeholder {
+				width: 10rem;
+		  		height: 5rem;
+			}
 		` ];
 	}
 
@@ -98,28 +132,34 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(HypermediaStateMixi
 
 	render() {
 		return html`
-			<div>
-				<d2l-hc-name ?skeleton=${this.skeleton} class="d2l-heading-3" href="${this._ltiLinkHref}" .token="${this.token}"></d2l-hc-name>
+			<div class="header">
+				<div class="header-text">
+					<div class="header-name">
+						<d2l-hc-name class="d2l-heading-3" ?skeleton=${this.skeleton} href="${this._ltiLinkHref}" .token="${this.token}"></d2l-hc-name>
+					</div>
+					<div class="d2l-body-compact">
+						<d2l-hc-description class="d2l-body-compact" ?skeleton=${this.skeleton} href="${this._ltiLinkHref}" .token="${this.token}"></d2l-hc-description>
+					</div>
+					<div class="d2l-body-compact">
+						${this.localize('external-activity-check-below')}
+					</div>
+				</div>
+				<d2l-icon icon="tier2:external"></d2l-icon>
 			</div>
-			<div class="d2l-body-compact">
-				<d2l-hc-description  ?skeleton=${this.skeleton} href="${this._ltiLinkHref}" .token="${this.token}"></d2l-hc-description>
-			</div>
-			<div class="d2l-body-compact">
-				${this.localize('external-activity-check-below')}
-			</div>
-
 			${this.skeleton ? html`<div class="d2l-skeletize skeleton-placeholder"></div>` :
 
 		html`${this._showOpenInNewWindowButton ?
 			html`<d2l-button class="spanning-button" primary @click="${this._onOpenInNewWindowClick}">${this.localize('open-in-new-window')}</d2l-button>` :
-			html`<iframe allow="microphone *; camera *; autoplay *" width="${this.iFrameWidth}px" height="${this.iFrameHeight}px" src="${this._launchUrl}"></iframe>
-						<div>
-							<d2l-button-subtle text="${this.localize('open-in-new-window')}" icon="tier1:new-window" @click="${this._onOpenInNewWindowClick}"></d2l-button-subtle>
-						</div>`
+			html`
+				<div class="content-frame">
+					<iframe allow="microphone *; camera *; autoplay *" width="${this.iFrameWidth}px" height="${this.iFrameHeight}px" src="${this._launchUrl}"></iframe>
+				</div>
+				<div class="subtle-button">
+					<d2l-button-subtle text="${this.localize('open-in-new-window')}" icon="tier1:new-window" @click="${this._onOpenInNewWindowClick}"></d2l-button-subtle>
+				</div>`
 
 		}`
-}
-	  	`;
+}`;
 	}
 
 	set launchUrl(value) {
