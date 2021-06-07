@@ -305,17 +305,13 @@ class W2DListItemDiscussion extends W2DListItemMixin {
 				rel: 'alternate',
 				route: [{observable: observableTypes.link, rel: rels.topic}],
 				reflect: true,
-				attribute: 'action-href'
+				attribute: 'action-href',
+				method: (href) =>  {
+					this.allowUnclickableActivities = true;
+					return href;
+				}
 			}
 		};
-	}
-
-	get actionHref() {
-		return super.actionHref;
-	}
-
-	set actionHref(href) {
-		super.actionHref = href;
 	}
 }
 customHypermediaElement('d2l-w2d-list-item-discussion', W2DListItemDiscussion, 'd2l-w2d-list-item', [['user-discussion-activity']]);
