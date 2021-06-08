@@ -39,12 +39,10 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin((L
 			}
 			.d2l-activity-collection-body-content {
 				margin: 0 -1.5rem;
-				max-width: 820px;
 				padding: 0 0.35rem;
 			}
 			.d2l-activity-collection-activities {
 				margin: 0 -1.5rem;
-				max-width: 881px;
 				padding: 0 0.05rem;
 			}
 			.d2l-activity-collection-list-actions {
@@ -52,7 +50,6 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin((L
 				display: flex;
 				justify-content: flex-end;
 				margin: 0.1rem 0;
-				max-width: 820px;
 				padding-bottom: 1rem;
 				position: relative;
 			}
