@@ -11,11 +11,25 @@ module.exports.handleRequest = function(request, response) {
 
 		let requestBody = '';
 		request.on('readable', () => {
-			requestBody += request.read();
+			const body = request.read();
+			if (body != null)  {
+				requestBody += body;
+			}
 		});
 		request.on('end', () => {
-			fs.readFile('features/discover/demo/match-count.json', 'utf8', (err, content) => {
-				content = content.replace('_countValue', requestBody.length.toString());
+			let requestObj = JSON.parse(requestBody.toString());
+			let responseFile;
+			let countValue;
+			if (requestObj.includeUsers) {
+				responseFile = 'features/discover/demo/match-count-users.json'
+				countValue = requestBody.length - 30; //Remove the length variation between the two files
+			} else {
+				responseFile = 'features/discover/demo/match-count.json'
+				countValue = requestBody.length;
+			}
+
+			fs.readFile(responseFile, 'utf8', (err, content) => {
+				content = content.replace('_countValue', countValue.toString());
 				response.write(content);
 				response.end();
 			});

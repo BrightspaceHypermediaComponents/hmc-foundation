@@ -12,7 +12,7 @@
 				"https://api.brightspace.com/rels/display-name"
 			],
 			"properties": {
-				"name": "First"
+				"name": "Justin"
 			}
 		},
 		{
@@ -24,7 +24,7 @@
 				"https://api.brightspace.com/rels/first-name"
 			],
 			"properties": {
-				"name": "Zina"
+				"name": "First"
 			}
 		},
     {
@@ -36,7 +36,7 @@
 				"https://api.brightspace.com/rels/last-name"
 			],
 			"properties": {
-				"name": "Ramirez"
+				"name": "Estacion"
 			}
 		},
 		{
@@ -47,7 +47,7 @@
 					"links": [
 						{
 							"rel": ["alternate"],
-							"href": "http://localhost:8000/features/discover/demo/users/usersApi/userImage1.jpg"
+							"href": "http://localhost:8000/features/discover/demo/users/usersApi/userImage3.jpg"
 						}
 					]
 				}

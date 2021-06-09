@@ -1,0 +1,46 @@
+{
+  "class": ["entitlement", "collection"],
+  "actions": [
+    { "name": "create", "method": "POST", "href": "../demo/entitlement-create.json" },
+    { "name": "match-count", "method": "POST", "href": "/api/match-count", "type":"json" }
+  ],
+  "entities": [
+    {
+      "class": ["rule", "collection"],
+      "rel": ["https://discovery.brightspace.com/rels/rule"],
+      "entities": [
+        {
+          "class": ["condition"],
+          "rel": ["https://discovery.brightspace.com/rels/condition"],
+          "properties": {
+            "type": "Dessert",
+            "id": "_dessert",
+            "values": ["pie"]
+          }
+        }
+      ]
+    },
+    {
+      "class": ["rule", "collection"],
+      "rel": ["https://discovery.brightspace.com/rels/rule"],
+      "entities": [
+        {
+          "class": ["condition"],
+          "rel": ["https://discovery.brightspace.com/rels/condition"],
+          "properties": {
+            "type": "Role",
+            "id": "_role",
+            "values": ["nope, this just isn't going to work"]
+          }
+        }
+      ]
+    }
+  ],
+  "properties": {
+    "id": 12345
+  },
+  "links": [
+    { "rel": ["self"], "href": "../demo/course-entitlement-rules.json" },
+    { "rel": [ "https://discovery.brightspace.com/rels/condition-types" ], "href": "../demo/condition-types.json" }
+  ]
+}
