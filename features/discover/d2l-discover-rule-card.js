@@ -89,7 +89,6 @@ class RuleCard extends LocalizeDynamicMixin(RtlMixin(LitElement)) {
 	updated(changedProperties) {
 		super.updated(changedProperties);
 		if (changedProperties.has('rule')) {
-			console.log("setting" + this.ruleIndex + " " + this._title);
 			this._setTitle();
 		}
 	}

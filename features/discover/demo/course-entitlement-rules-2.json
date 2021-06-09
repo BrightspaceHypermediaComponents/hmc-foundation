@@ -18,7 +18,15 @@
             "values": ["pie"]
           }
         }
-      ]
+      ],
+      "properties": {
+        "matchCount": 2,
+        "userList": [
+          "http://localhost:8000/features/discover/demo/users/usersApi/user3.json",
+          "http://localhost:8000/features/discover/demo/users/usersApi/user3.json",
+          "http://localhost:8000/features/discover/demo/users/usersApi/user3.json"
+        ]
+      }
     }
   ],
   "properties": {

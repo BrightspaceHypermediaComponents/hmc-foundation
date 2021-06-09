@@ -18,7 +18,15 @@
             "values": ["pie"]
           }
         }
-      ]
+      ],
+      "properties": {
+        "matchCount": 200,
+        "userList": [
+          "http://localhost:8000/features/discover/demo/users/usersApi/user1.json",
+          "http://localhost:8000/features/discover/demo/users/usersApi/user2.json",
+          "http://localhost:8000/features/discover/demo/users/usersApi/user3.json"
+        ]
+      }
     },
     {
       "class": ["rule", "collection"],
@@ -33,7 +41,15 @@
             "values": ["nope, this just isn't going to work"]
           }
         }
-      ]
+      ],
+      "properties": {
+        "matchCount": 1337,
+        "userList": [
+          "http://localhost:8000/features/discover/demo/users/usersApi/user1.json",
+          "http://localhost:8000/features/discover/demo/users/usersApi/user1.json",
+          "http://localhost:8000/features/discover/demo/users/usersApi/user2.json"
+        ]
+      }
     }
   ],
   "properties": {
