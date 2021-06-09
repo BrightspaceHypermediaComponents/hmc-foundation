@@ -54,7 +54,7 @@ class RulePicker extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMix
 					margin-top: 1rem;
 				}
 				.d2l-picker-rule-match-count {
-					height:1rem;
+					height: 1rem;
 				}
 				#add-another-condition-button {
 					margin-top: 6rem;

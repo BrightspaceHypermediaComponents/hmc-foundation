@@ -1,101 +1,46 @@
 {
-  "class": [
-      "user"
-  ],
-  "entities": [
-      {
-          "class": [
-              "display",
-              "name"
-          ],
-          "rel": [
-              "https://api.brightspace.com/rels/display-name"
-          ],
-          "properties": {
-              "name": "student12 Justin"
-          }
-      },
-      {
-          "class": [
-              "first",
-              "name"
-          ],
-          "rel": [
-              "https://api.brightspace.com/rels/first-name"
-          ],
-          "properties": {
-              "name": "student12"
-          }
-      },
-      {
-          "class": [
-              "last",
-              "name"
-          ],
-          "rel": [
-              "https://api.brightspace.com/rels/last-name"
-          ],
-          "properties": {
-              "name": "Justin"
-          }
-      },
-      {
-          "class": [
-              "orgDefinedId"
-          ],
-          "rel": [
-              "https://api.brightspace.com/rels/org-defined-id"
-          ],
-          "properties": {
-              "orgDefinedId": "student12.Justin"
-          }
-      },
-      {
-          "class": [
-              "profile"
-          ],
-          "rel": [
-              "https://api.brightspace.com/rels/user-profile"
-          ],
-          "properties": {
-              "path": "/d2l/lp/profile/profile_view.d2l?ou=6606&pid=8cPP6WMPis",
-              "isOnline": false
-          },
-          "entities": [
-              {
-                  "class": [
-                      "file",
-                      "image",
-                      "default-image"
-                  ],
-                  "rel": [
-                      "https://api.brightspace.com/rels/profile-image"
-                  ],
-                  "properties": {},
-                  "links": [
-                      {
-                          "rel": [
-                              "alternate"
-                          ],
-                          "href": "https://artemisdev.devlms.brightspace.com/d2l/img/0/Framework.UserProfileBadge.actProfileDaylight200.png?v=20.21.7.30534"
-                      },
-                      {
-                          "rel": [
-                              "preview",
-                              "https://api.brightspace.com/rels/thumbnail#small"
-                          ],
-                          "href": "https://artemisdev.devlms.brightspace.com/d2l/img/0/Framework.UserProfileBadge.actProfileDaylight22.png?v=20.21.7.30534"
-                      },
-                      {
-                          "rel": [
-                              "preview",
-                              "https://api.brightspace.com/rels/thumbnail#regular"
-                          ],
-                          "href": "https://artemisdev.devlms.brightspace.com/d2l/img/0/Framework.UserProfileBadge.actProfileDaylight50.png?v=20.21.7.30534"
-                      }
-                  ]
-              }
-          ]
-      }
-  ]
+	"class": [
+		"user"
+	],
+	"entities": [
+		{
+			"class": [
+				"display",
+				"name"
+			],
+			"rel": [
+				"https://api.brightspace.com/rels/display-name"
+			],
+			"properties": {
+				"name": "Brad"
+			}
+		},
+		{
+			"class": [
+				"first",
+				"name"
+			],
+			"rel": [
+				"https://api.brightspace.com/rels/first-name"
+			],
+			"properties": {
+				"name": "Brad"
+			}
+		},
+    {
+			"class": [
+				"last",
+				"name"
+			],
+			"rel": [
+				"https://api.brightspace.com/rels/last-name"
+			],
+			"properties": {
+				"name": "Hamelin"
+			}
+		}
+	],
+	"links": [
+		{ "rel": ["self"], "href": "https://tenant.users.api.proddev.d2l/169" }
+	]
 }
