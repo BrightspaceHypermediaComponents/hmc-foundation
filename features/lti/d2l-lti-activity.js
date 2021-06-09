@@ -191,9 +191,9 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(HypermediaStateMixi
 			}
 			if (this._assignedActivityHref) {
 				if (hasParams) {
-					newLaunchUrl += '&assignedActivityHref=true';
+					newLaunchUrl += `&assignedActivityHref=${encodeURIComponent(this._assignedActivityHref)}`;
 				} else {
-					newLaunchUrl += 'assignedActivityHref=true';
+					newLaunchUrl += `assignedActivityHref=${encodeURIComponent(this._assignedActivityHref)}`;
 					hasParams = true;
 				}
 			}
