@@ -91,6 +91,10 @@ class RulePickerDialog extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixi
 			// edit
 			this._rules[this.ruleIndex] = {
 				entities: [...picker.conditions],
+				properties: {
+					matchCount: picker._matchCount,
+					userList: picker._userList,
+				},
 				rel: [rels.rule]
 			};
 		}

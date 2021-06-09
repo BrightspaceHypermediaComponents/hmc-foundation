@@ -18,8 +18,8 @@ class RuleCardMatchInfo extends MatchCountMixin(LocalizeDynamicMixin(HypermediaS
 	static get properties() {
 		return {
 			rule: { type: Object },
-			matchCount: { type: Number },
-			userList: { type: Array },
+			_matchCount: { type: Number },
+			_userList: { type: Array },
 		};
 	}
 
@@ -77,12 +77,12 @@ class RuleCardMatchInfo extends MatchCountMixin(LocalizeDynamicMixin(HypermediaS
 	render() {
 		return html`
 			<div class="d2l-rule-card-match">
-				${this.userList.length > 0 ? html`
+				${this._userList?.length > 0 ? html`
 					<div class="d2l-rule-card-profiles">
-						${this.userList.map((userHref) => html`
+						${this._userList.map((userHref) => html`
 							<d2l-profile-image class="d2l-rule-card-profile-images-image" href="${userHref}" token="${this.token}" small></d2l-profile-image>
 						`)}
-						${this.matchCount > 3 ? html`
+						${this._matchCount > 3 ? html`
 							<div class="d2l-rule-card-profile-images-more">
 							<div class="d2l-rule-card-profile-images-more-background">
 								<d2l-icon class="d2l-rule-card-profile-images-icon d2l-rule-card-profile-more" icon="d2l-tier1:more" class="more-members-icon"></d2l-icon>
@@ -91,7 +91,7 @@ class RuleCardMatchInfo extends MatchCountMixin(LocalizeDynamicMixin(HypermediaS
 					</div>
 				` : null }
 				<div class="d2l-rule-card-match-users-count">
-					${this.matchCount !== null ? html`${this.localize('text-rule-matches-card', 'count', this.matchCount)}` : null}
+					${this._matchCount !== null ? html`${this.localize('text-rule-matches-card', 'count', this._matchCount)}` : null}
 				</div>
 			</div>
 		`;
@@ -105,8 +105,8 @@ class RuleCardMatchInfo extends MatchCountMixin(LocalizeDynamicMixin(HypermediaS
 	}
 
 	async _updateMatchInfo() {
-		this._matchCount = this.rule.matchCount;
-		this._userList =  this.rule.userList;
+		this._matchCount = this.rule.properties.matchCount;
+		this._userList =  this.rule.properties.userList;
 	}
 }
 
