@@ -38,12 +38,12 @@
           "properties": {
             "type": "Role",
             "id": "_role",
-            "values": ["nope, this just isn't going to work"]
+            "values": ["Cat", "Support"]
           }
         }
       ],
       "properties": {
-        "matchCount": 1337,
+        "matchCount": 3,
         "userList": [
           "http://localhost:8000/features/discover/demo/users/usersApi/user1.json",
           "http://localhost:8000/features/discover/demo/users/usersApi/user1.json",
