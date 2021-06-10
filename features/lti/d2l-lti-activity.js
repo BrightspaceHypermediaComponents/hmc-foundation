@@ -129,6 +129,16 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(HypermediaStateMixi
 		this.skeleton = true;
 	}
 
+	connectedCallback() {
+		super.connectedCallback();
+		window.addEventListener('message', this._handleMessage);
+	}
+
+	disconnectedCallback() {
+		window.removeEventListener('message', this._handleMessage);
+		super.disconnectedCallback();
+	}
+
 	render() {
 		return html`
 			<div class="header">
@@ -213,6 +223,39 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(HypermediaStateMixi
 
 	set _loaded(loaded) {
 		this.skeleton = !loaded;
+	}
+
+	_handleMessage(event) {
+		if (!event.data) {
+			return;
+		}
+		let params;
+		try {
+			params = JSON.parse(event.data);
+		}
+		catch (exception) {
+			return;
+		}
+		if (!params.subject || params.subject !== 'lti.frameResize') {
+			return;
+		}
+		const MAX_FRAME_HEIGHT = 1000;
+		if (!params.height || params.height < 1 || params.height > MAX_FRAME_HEIGHT) {
+			console.warn('Invalid height value received, aborting');
+			return;
+		}
+
+		const el = document.getElementsByTagName('iframe');
+		for (let i = 0; i < el.length; i++) {
+			if (el[i].contentWindow === event.source) {
+				el[i].style.height = `${params.height}px`;
+				el[i].style.width = '100%';
+				// eslint-disable-next-line no-console
+				console.info(`Setting iFrame height to ${params.height}`);
+				// eslint-disable-next-line no-console
+				console.info('Setting iFrame width to 100%');
+			}
+		}
 	}
 
 	_onOpenInNewWindowClick() {
