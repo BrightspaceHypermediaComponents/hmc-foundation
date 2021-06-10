@@ -131,6 +131,7 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(HypermediaStateMixi
 
 	connectedCallback() {
 		super.connectedCallback();
+		this._handleMessage = this._handleMessage.bind(this);
 		window.addEventListener('message', this._handleMessage);
 	}
 
@@ -239,13 +240,13 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(HypermediaStateMixi
 		if (!params.subject || params.subject !== 'lti.frameResize') {
 			return;
 		}
-		const MAX_FRAME_HEIGHT = 1000;
+		const MAX_FRAME_HEIGHT = 10000;
 		if (!params.height || params.height < 1 || params.height > MAX_FRAME_HEIGHT) {
 			console.warn('Invalid height value received, aborting');
 			return;
 		}
 
-		const el = document.getElementsByTagName('iframe');
+		const el = this.shadowRoot.querySelectorAll('iframe');
 		for (let i = 0; i < el.length; i++) {
 			if (el[i].contentWindow === event.source) {
 				el[i].style.height = `${params.height}px`;
