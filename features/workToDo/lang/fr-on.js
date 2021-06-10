@@ -2,10 +2,10 @@
 export default {
 	activitiesAvailable: "Les activités arrivées à échéance ou qui se terminent bientôt ont été effectuées! Consultez Afficher tous les travaux pour voir ce qui vient ensuite.", // 'Empty View' - When widget has no activities to display within the next two weeks, but there are more activities further into the future that can be shown on the full screen view
 	allClear: 'Rien de plus pour l’instant!', // Displayed as header line in widget text when there are no activities
-	assignment: 'Travail',  // Meta-data descriptor that informs which type of activity is being displayed on a line item
+	assignment: 'Tâche',  // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	backToD2L: 'Retourner à la page d’accueil', // Displayed in the immersive navbar to escape out of fullscreen view
 	checklist: 'Liste des rappels', // Meta-data descriptor that informs which type of activity is being displayed on a line item
-	comeBackNoFutureActivities: 'Revenez plus tard pour voir si vous avez du travail.', // 'Empty state' - When there are no activities in full page view
+	comeBackNoFutureActivities: 'Revenez plus tard pour voir si vous avez du tâche.', // 'Empty state' - When there are no activities in full page view
 	content: 'Contenu', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	course: 'Cours', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	dateHeader: '{dayOfWeek} {dayOfMonth} {month}', // Indicates that the below list of activities are due
@@ -21,7 +21,7 @@ export default {
 	noActivitiesFutureActivities: "Vous n’avez aucune activité qui vient à échéance ou qui se termine bientôt. Revenez plus tard ou consultez Afficher tous les travaux pour voir ce qui vient ensuite.",  // 'Empty View' - When widget has no activities to display within the next few weeks & there are activities in the future
 	noActivitiesFutureActivitiesName: "{firstName} has no activities due or ending soon. Come back later or View All Work to see what's coming next.", // Shown under the same conditions as noActivitiesFutureActivities, when we want to show the user's name instead of referring to them as "you"
 	noActivitiesFutureActivitiesNameless: "There are no activities due or ending soon. Come back later or View All Work to see what's coming next.", // Shown under the same conditions as noActivitiesFutureActivities, when we want to refer to the user in the third person but don't know their name
-	noActivitiesNoFutureActivities: 'Vous n’avez pas d’activités avec les dates d’échéance ou de fin disponibles. Revenez plus tard pour voir si vous avez du travail.', // 'Empty View' - When widget has no activities to display within the next few weeks & there are no more activities in the future
+	noActivitiesNoFutureActivities: 'Vous n’avez pas d’activités avec les dates d’échéance ou de fin disponibles. Revenez plus tard pour voir si vous avez du tâche.', // 'Empty View' - When widget has no activities to display within the next few weeks & there are no more activities in the future
 	noActivitiesNoFutureActivitiesName: '{firstName} has no activities with due or end dates available. Come back later to see if {firstname} has work to do.', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to show the user's name instead of referring to them as "you"
 	noActivitiesNoFutureActivitiesNameless: 'There are no activities with due or end dates available. Come back later to see if there is work to do.', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to refer to the user in the third person but don't know their name
 	nothingHere: "Il n’y a rien ici…", // Displayed as header line in widget text when there are no activities within the provided time period
