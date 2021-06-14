@@ -16,6 +16,11 @@ const rels = Object.freeze({
 	item: 'item'
 });
 
+const route = {
+	collection:
+		{ observable: observableTypes.link, rel: rels.collection }
+};
+
 class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(LocalizeCollectionAdd(LitElement))) {
 
 	static get properties() {
@@ -24,11 +29,14 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 				type: Array,
 				observable: observableTypes.subEntities,
 				rel: rels.item,
-				route: [
-					{ observable: observableTypes.link, rel: rels.collection }
-				]
+				route: [route.collection]
 			},
-			_selectionCount: { type: Number }
+			_selectionCount: { type: Number },
+			_refreshState: {
+				type: Object,
+				observable: observableTypes.refreshState,
+				route: [route.collection]
+			}
 		};
 	}
 
@@ -50,12 +58,10 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 			}
 			.d2l-activity-collection-body-content {
 				margin: 0 -1.5rem;
-				max-width: 820px;
 				padding: 0 0.35rem;
 			}
 			.d2l-activity-collection-activities {
 				margin: 0 -1.5rem;
-				max-width: 881px;
 				padding: 0 0.05rem;
 			}
 			.d2l-activity-collection-list-actions {
@@ -63,7 +69,6 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 				display: flex;
 				justify-content: flex-end;
 				margin: 0.1rem 0;
-				max-width: 820px;
 				padding-bottom: 1rem;
 				position: relative;
 			}
@@ -77,6 +82,7 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 		this._selectionCount = 0;
 		this.skeleton = true;
 
+		this.addEventListener('d2l-activity-collection-refetch', this._handleRefetch);
 		this.addEventListener('d2l-question-updated', this._handleQuestionUpdate);
 		this.addEventListener('d2l-collection-item-delete-dialog-open', this._handleDeleteDialogOpen);
 		this.addEventListener('d2l-collection-item-delete-dialog-confirm', this._handleDeleteDialogConfirm);
@@ -135,6 +141,9 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 	}
 	_handleQuestionUpdate() {
 		fetch(this._state, true);
+	}
+	_handleRefetch() {
+		this._refreshState();
 	}
 	_moveItems(e) {
 		e.detail.reorder(this.items, { keyFn: (item) => item.properties.id });
