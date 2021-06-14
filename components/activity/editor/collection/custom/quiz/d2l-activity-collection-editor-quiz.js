@@ -90,7 +90,7 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 			<div class="d2l-activity-collection-body">
 				<div class="d2l-activity-collection-body-content">
 				${this.items && this.items.length ? html`
-					<div class="d2l-activity-collection-list-actions">
+					<div class="d2l-activity-collection-list-actions d2l-skeletize">
 						<d2l-activity-collection-item-delete-quiz ?can-remove-items=${canRemoveItems} selection-count="${this._selectionCount}"></d2l-activity-collection-item-delete-quiz>
 					</div>
 				` : html`
