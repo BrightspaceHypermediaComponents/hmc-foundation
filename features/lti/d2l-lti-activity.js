@@ -7,6 +7,7 @@ import { bodyCompactStyles, bodySmallStyles, heading3Styles } from '@brightspace
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
+import { LabelMixin } from '@brightspace-ui/core/mixins/labelled-mixin.js';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
 import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton-mixin.js';
 
@@ -14,7 +15,7 @@ const rels = Object.freeze({
 	linkPlacement: 'https://lti.api.brightspace.com/rels/link-placement'
 });
 
-class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(HypermediaStateMixin(LitElement))) {
+class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(LabelMixin(HypermediaStateMixin(LitElement)))) {
 
 	static get properties() {
 		return {
