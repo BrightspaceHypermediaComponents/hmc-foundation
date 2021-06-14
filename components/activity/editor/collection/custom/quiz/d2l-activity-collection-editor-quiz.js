@@ -76,7 +76,6 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 		this._currentSelection = new Map();
 		this._selectionCount = 0;
 		this.skeleton = true;
-		this.hmcProp = null;
 
 		this.addEventListener('d2l-question-updated', this._handleQuestionUpdate);
 		this.addEventListener('d2l-collection-item-delete-dialog-open', this._handleDeleteDialogOpen);
@@ -86,10 +85,7 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 
 	render() {
 		const canRemoveItems = this.items && this.items[0] && this.items[0].actions.includes('remove-activity');
-		// turn it off at some point in time
-		console.log('**** logged stuff: ');
-		console.log(this.items);
-		console.log(this.skeleton);
+
 		return html`
 			<div class="d2l-activity-collection-body">
 				<div class="d2l-activity-collection-body-content">
@@ -124,11 +120,8 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 	}
 
 	set _loaded(loaded) {
-		// comment out line below and see skeleton working
 		// this method is called too early.
-		//setTimeout(() => {
-			this.skeleton = !loaded;
-		//}, 4000);
+		this.skeleton = !loaded;
 	}
 
 	_handleDeleteDialogCancel() {
