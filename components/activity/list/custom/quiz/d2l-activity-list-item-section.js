@@ -88,7 +88,6 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 					margin: 0;
 				}
 				.section-nested-items {
-					margin-left: 2rem;
 					margin-top: 1rem;
 				}
 			`];
