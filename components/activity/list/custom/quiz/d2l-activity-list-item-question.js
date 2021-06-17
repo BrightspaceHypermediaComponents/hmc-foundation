@@ -50,9 +50,19 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 				id: 'typeText',
 				route: [route.specialization]
 			},
+			usedIn: {
+				type: Array,
+				observable: observableTypes.property,
+				id: 'usedIn',
+				route: [route.specialization]
+			},
 			points: {
 				type: Number
 			},
+			quizName: {
+				type: String,
+				attribute: 'quiz-name'
+			}
 		};
 	}
 
@@ -103,6 +113,7 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 	constructor() {
 		super();
 		this.skeleton = true;
+		this.usedIn = [];
 	}
 
 	render() {
@@ -111,7 +122,15 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 				<div class="d2l-body-standard question-number d2l-skeletize">${this.number}</div>
 				<div class="question d2l-skeletize">
 					<span class="d2l-body-compact d2l-skeletize">${this.name || this.questionText}</span>
-					<div class="d2l-body-small question-type d2l-skeletize">${this.typeText}</div>
+					<div question-type>
+						<span class="d2l-body-small d2l-skeletize">${this.typeText}</span>
+						${this._getAlsoIn().length > 0 ?
+		html`<d2l-icon icon="d2l-tier1:bullet"></d2l-icon>
+								 <span class="d2l-body-small d2l-skeletize">
+								 ${this._getAlsoInString()}
+								 </span>` :
+		html``}
+					</div>
 				</div>
 				<div class="points d2l-body-compact d2l-skeletize">${this.localize('points', { count: this.points })}</div>
 			</div>
@@ -124,6 +143,26 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 
 	set _loaded(loaded) {
 		this.skeleton = !loaded;
+	}
+
+	_getAlsoIn() {
+		const cloned = Array.from(this.usedIn);
+		const idx = cloned.findIndex(elem => elem === this.quizName);
+		cloned.splice(idx, 1);
+		return cloned;
+	}
+
+	_getAlsoInString() {
+		const alsoIn = this._getAlsoIn();
+		let alsoInString = `${this.localize('also-in')} `;
+		for (let i = 0; i < alsoIn.length; i++) {
+			alsoInString = alsoInString + alsoIn[i];
+			if (i < alsoIn.length - 1) {
+				alsoInString = `${alsoInString}, `;
+			}
+		}
+
+		return alsoInString;
 	}
 };
 
