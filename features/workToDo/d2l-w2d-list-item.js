@@ -311,10 +311,11 @@ class W2DListItemDiscussion extends W2DListItemMixin {
 	}
 
 	get actionHref() {
-		return super.actionHref;
+		return this._actionHref !== null ? this._actionHref : undefined;
 	}
 
 	set actionHref(href) {
+		this.allowUnclickableActivities = true;
 		super.actionHref = href;
 	}
 }
