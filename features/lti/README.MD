@@ -19,7 +19,7 @@ Displays an LTI Activity where a basic launch can be performed to the LTI tool.
 | 'grading' | Boolean | Perform the launch in submission review mode |
 | 'assigned-activity-href' | String | An href to the assigned activity attempt for a user |
 
-### Examples
+### Example
 
 ```html
 <d2l-lti-activity href="${activity usage href}" token="${token}"></d2l-lti-activity>
