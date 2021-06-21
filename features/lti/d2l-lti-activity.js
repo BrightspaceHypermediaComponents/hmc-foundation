@@ -79,6 +79,7 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(LabelMixin(Hypermed
 				transition: transform 300ms ease-out 50ms, box-shadow 0.2s;
 				z-index: 0;
 				padding: 1.2rem 0.8rem 0 0.8rem;
+				width: 100%;
 			}
 			:host(:hover) {
 				box-shadow: 0 2px 14px 1px rgba(0, 0, 0, 0.06);
@@ -98,8 +99,15 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(LabelMixin(Hypermed
 			.header-name {
 				margin-bottom: 1.5rem;
 			}
+			.icon {
+				margin-left: 0.8rem;
+				flex-shrink: 0;
+			}
 			.content-frame {
 				margin: 1rem 0rem 0.6rem 0rem;
+			}
+			.content-frame-default-width {
+				width: 100%;
 			}
 			.spanning-button {
 				width: 100%;
@@ -155,7 +163,7 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(LabelMixin(Hypermed
 						${this.localize('external-activity-check-below')}
 					</div>
 				</div>
-				<d2l-icon icon="tier2:external"></d2l-icon>
+				<d2l-icon class="icon" icon="tier2:external"></d2l-icon>
 			</div>
 			${this.skeleton ? html`<div class="d2l-skeletize skeleton-placeholder"></div>` :
 
@@ -163,7 +171,7 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(LabelMixin(Hypermed
 			html`<d2l-button class="spanning-button" primary @click="${this._onOpenInNewWindowClick}">${this.localize('open-in-new-window')}</d2l-button>` :
 			html`
 				<div class="content-frame">
-					<iframe allow="microphone *; camera *; autoplay *" width="${this.iFrameWidth}px" height="${this.iFrameHeight}px" src="${this._launchUrl}"></iframe>
+					<iframe class="${this.iFrameWidth ? '' : 'content-frame-default-width'}" allow="microphone *; camera *; autoplay *" width="${this.iFrameWidth}px" height="${this.iFrameHeight}px" src="${this._launchUrl}"></iframe>
 				</div>
 				<div class="subtle-button">
 					<d2l-button-subtle text="${this.localize('open-in-new-window')}" icon="tier1:new-window" @click="${this._onOpenInNewWindowClick}"></d2l-button-subtle>
@@ -219,6 +227,7 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(LabelMixin(Hypermed
 		const top = (screen.height / 2) - (height / 2);
 		window.open(url, title, `resizable=yes, width=${ width }, height=${ height  }, top=${ top }, left=${ left}`);
 	}
+
 	get _loaded() {
 		return !this.skeleton;
 	}
@@ -250,12 +259,9 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(LabelMixin(Hypermed
 		const el = this.shadowRoot.querySelectorAll('iframe');
 		for (let i = 0; i < el.length; i++) {
 			if (el[i].contentWindow === event.source) {
-				el[i].style.height = `${params.height}px`;
-				el[i].style.width = '100%';
+				this.iFrameHeight = params.height;
 				// eslint-disable-next-line no-console
 				console.info(`Setting iFrame height to ${params.height}`);
-				// eslint-disable-next-line no-console
-				console.info('Setting iFrame width to 100%');
 			}
 		}
 	}
