@@ -9,13 +9,14 @@ import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundati
 import { html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { LabelMixin } from '@brightspace-ui/core/mixins/labelled-mixin.js';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
+import {RtlMixin} from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton-mixin.js';
 
 const rels = Object.freeze({
 	linkPlacement: 'https://lti.api.brightspace.com/rels/link-placement'
 });
 
-class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(LabelMixin(HypermediaStateMixin(LitElement)))) {
+class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(LabelMixin(HypermediaStateMixin(RtlMixin(LitElement))))) {
 
 	static get properties() {
 		return {
@@ -99,9 +100,13 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(LabelMixin(Hypermed
 			.header-name {
 				margin-bottom: 1.5rem;
 			}
-			.icon {
-				margin-left: 0.8rem;
-				flex-shrink: 0;
+			:host([dir="rtl"]) d2l-icon {
+				margin-right: 0.8rem;
+				margin-left: 0;
+			}
+			d2l-icon {
+			  margin-left: 0.8rem;
+			  flex-shrink: 0;
 			}
 			.content-frame {
 				margin: 1rem 0rem 0.6rem 0rem;
@@ -163,7 +168,7 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(LabelMixin(Hypermed
 						${this.localize('external-activity-check-below')}
 					</div>
 				</div>
-				<d2l-icon class="icon" icon="tier2:external"></d2l-icon>
+				<d2l-icon icon="tier2:external"></d2l-icon>
 			</div>
 			${this.skeleton ? html`<div class="d2l-skeletize skeleton-placeholder"></div>` :
 
