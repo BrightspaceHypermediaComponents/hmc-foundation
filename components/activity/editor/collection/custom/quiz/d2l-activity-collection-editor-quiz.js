@@ -2,10 +2,12 @@ import '@brightspace-ui/core/components/list/list.js';
 import '@brightspace-ui/core/components/list/list-item.js';
 import './d2l-activity-collection-item-quiz.js';
 import './d2l-activity-collection-item-delete-quiz.js';
+import { bodyStandardStyles, heading2Styles } from '@brightspace-ui/core/components/typography/styles';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { fetch } from '@brightspace-hmc/foundation-engine/state/fetch.js';
+import { LocalizeCollectionAdd } from '../../lang/localize-collection-add.js';
 import { repeat } from 'lit-html/directives/repeat';
 import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton-mixin.js';
 
@@ -19,7 +21,7 @@ const route = {
 		{ observable: observableTypes.link, rel: rels.collection }
 };
 
-class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin((LitElement))) {
+class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(LocalizeCollectionAdd(LitElement))) {
 
 	static get properties() {
 		return {
@@ -39,7 +41,16 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin((L
 	}
 
 	static get styles() {
-		return [ super.styles, css`
+		return [super.styles, heading2Styles, bodyStandardStyles, css`
+			.d2l-heading-2 {
+				margin-bottom: 1rem;
+				margin-top: 3rem;
+				text-align: center;
+			}
+			.d2l-body-standard {
+				padding-bottom: 3rem;
+				text-align: center;
+			}
 			.d2l-activity-collection-body {
 				margin: auto;
 				max-width: 1230px;
@@ -69,6 +80,8 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin((L
 		this.items = [];
 		this._currentSelection = new Map();
 		this._selectionCount = 0;
+		this.skeleton = true;
+
 		this.addEventListener('d2l-activity-collection-refetch', this._handleRefetch);
 		this.addEventListener('d2l-question-updated', this._handleQuestionUpdate);
 		this.addEventListener('d2l-collection-item-delete-dialog-open', this._handleDeleteDialogOpen);
@@ -78,14 +91,24 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin((L
 
 	render() {
 		const canRemoveItems = this.items && this.items[0] && this.items[0].actions.includes('remove-activity');
+
 		return html`
 			<div class="d2l-activity-collection-body">
 				<div class="d2l-activity-collection-body-content">
-				${this.items.length ? html`
+				${this.items && this.items.length ? html`
 					<div class="d2l-activity-collection-list-actions d2l-skeletize">
 						<d2l-activity-collection-item-delete-quiz ?can-remove-items=${canRemoveItems} selection-count="${this._selectionCount}"></d2l-activity-collection-item-delete-quiz>
 					</div>
-				` : null}
+				` : html`
+					<div>
+						<div class="d2l-heading-2 d2l-skeletize">
+							${this.localize('text-readyToBeginAddingQuizContent')}
+						</div>
+						<div class="d2l-body-standard d2l-skeletize">
+							${this.localize('text-clickAddExistingOrCreateNewToGetStarted')}
+						</div>
+					</div>
+				`}
 				</div>
 				<div class="d2l-activity-collection-activities">
 					<d2l-list separators="none" @d2l-list-item-position-change="${this._moveItems}" @d2l-list-selection-change="${this._onSelectionChange}">
@@ -97,10 +120,13 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin((L
 			</div>
 		`;
 	}
+
 	get _loaded() {
 		return !this.skeleton;
 	}
+
 	set _loaded(loaded) {
+		// this method is called too early.
 		this.skeleton = !loaded;
 	}
 
