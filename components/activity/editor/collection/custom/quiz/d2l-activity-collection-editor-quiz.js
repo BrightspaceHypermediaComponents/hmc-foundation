@@ -112,7 +112,7 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Li
 		`;
 	}
 	async addToCollection(activityHrefs) {
-		if (!this._hasAction('_startAddExisting')) {
+		if (!activityHrefs || !activityHrefs.length || !this._hasAction('_startAddExisting')) {
 			return;
 		}
 
