@@ -32,6 +32,16 @@ class HmName extends SkeletonMixin(HypermediaStateMixin(LocalizeCommon(LitElemen
 		return html`<span class="d2l-skeletize">${this.name ? this.name : html`${this.localize('name')} <div class="d2l-activity-name-skeleton-extend-skeleton-width"></div>`}</span>`;
 	}
 
+	updated(changedProperties) {
+		super.updated(changedProperties);
+		if (!changedProperties.has('name')) return;
+		this.dispatchEvent(new CustomEvent('d2l-label-change', {
+			bubbles: true,
+			composed: true,
+			detail: this.name
+		}));
+	}
+
 	get _loaded() {
 		return !this.skeleton;
 	}
