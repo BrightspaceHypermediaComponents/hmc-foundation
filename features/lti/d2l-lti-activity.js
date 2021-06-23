@@ -3,6 +3,7 @@ import '@brightspace-ui/core/components/button/button-subtle.js';
 import '@brightspace-ui/core/components/icons/icon.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
+import {classMap} from 'lit-html/directives/class-map.js';
 import { heading4Styles } from '@brightspace-ui/core/components/typography/styles.js';
 import { html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { LabelMixin } from '@brightspace-ui/core/mixins/labelled-mixin.js';
@@ -148,6 +149,7 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(LabelMixin(Hypermed
 	}
 
 	render() {
+		const iFrameClasses = { 'content-frame-default-width': !this.iFrameWidth };
 		return html`
 			<div class="header">
 				<div class="d2l-heading-4">${this.localize('external-activity')}</div>
@@ -159,7 +161,7 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(LabelMixin(Hypermed
 			html`<d2l-button class="spanning-button" primary @click="${this._onOpenInNewWindowClick}">${this.localize('open-in-new-window')}</d2l-button>` :
 			html`
 				<div class="content-frame">
-					<iframe class="${this.iFrameWidth ? '' : 'content-frame-default-width'}" allow="microphone *; camera *; autoplay *" width="${this.iFrameWidth}px" height="${this.iFrameHeight}px" src="${this._launchUrl}"></iframe>
+					<iframe class="${classMap(iFrameClasses)}" allow="microphone *; camera *; autoplay *" width="${this.iFrameWidth}px" height="${this.iFrameHeight}px" src="${this._launchUrl}"></iframe>
 				</div>
 				<div class="subtle-button">
 					<d2l-button-subtle text="${this.localize('open-in-new-window')}" icon="tier1:new-window" @click="${this._onOpenInNewWindowClick}"></d2l-button-subtle>
