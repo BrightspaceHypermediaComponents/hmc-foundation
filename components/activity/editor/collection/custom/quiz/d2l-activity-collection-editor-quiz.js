@@ -13,6 +13,7 @@ import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton
 
 const rels = Object.freeze({
 	collection: 'https://activities.api.brightspace.com/rels/activity-collection',
+	activityUsage: 'https://activities.api.brightspace.com/rels/activity-usage',
 	item: 'item'
 });
 
@@ -36,6 +37,19 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 				type: Object,
 				observable: observableTypes.refreshState,
 				route: [route.collection]
+			},
+			_startAddExisting: {
+				observable: observableTypes.summonAction,
+				name: 'start-add-existing-activity',
+				route: [route.collection]
+			},
+			_startAddExistingExecuteMultiple: {
+				observable: observableTypes.summonAction,
+				name: 'execute-multiple',
+				route: [
+					route.collection,
+					{ observable: observableTypes.summonAction, name: 'start-add-existing-activity' }
+				]
 			}
 		};
 	}
@@ -119,6 +133,38 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 				</div>
 			</div>
 		`;
+	}
+
+	async addToCollection(activityHrefs) {
+		if (!activityHrefs || !activityHrefs.length || !this._hasAction('_startAddExisting')) {
+			return;
+		}
+
+		const summoned = await this._startAddExisting.summon({}, true);
+		const candidates = summoned.entities;
+
+		if (!this._hasAction('_startAddExistingExecuteMultiple')) {
+			return;
+		}
+
+		const actionStates = [];
+		const activityUsageLink = item => item.links.find(link => link.rel.includes(rels.activityUsage)).href;
+		for (const activityHref of activityHrefs) {
+			const candidate = candidates.find(e => activityUsageLink(e) === activityHref);
+			if (candidate && candidate.properties && candidate.properties.actionState) {
+				actionStates.push(candidate.properties.actionState);
+			}
+		}
+
+		if (!actionStates.length) {
+			return;
+		}
+
+		await this._startAddExistingExecuteMultiple.summon({
+			actionStates: actionStates.join()
+		});
+
+		this._refreshState();
 	}
 
 	get _loaded() {
