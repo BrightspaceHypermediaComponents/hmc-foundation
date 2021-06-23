@@ -12,14 +12,13 @@ class HmName extends SkeletonMixin(HypermediaStateMixin(LocalizeCommon(LitElemen
 
 	static get styles() {
 		return [ super.styles, css`
-
-			:host([skeleton]) {
-				overflow-y: hidden;
-				white-space: nowrap;
-			}
 			.d2l-activity-name-skeleton-extend-skeleton-width {
 				display: inline-block;
 				min-width: 5rem;
+			}
+			.d2l-skeletize {
+				overflow-y: hidden;
+				white-space: nowrap;
 			}
 		`];
 	}
