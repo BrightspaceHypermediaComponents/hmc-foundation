@@ -1,11 +1,9 @@
-import '../../components/common/d2l-hc-description.js';
-import '../../components/common/d2l-hc-name.js';
 import '@brightspace-ui/core/components/button/button.js';
 import '@brightspace-ui/core/components/button/button-subtle.js';
 import '@brightspace-ui/core/components/icons/icon.js';
-import { bodyCompactStyles, bodySmallStyles, heading3Styles } from '@brightspace-ui/core/components/typography/styles.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
+import { heading4Styles } from '@brightspace-ui/core/components/typography/styles.js';
 import { html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { LabelMixin } from '@brightspace-ui/core/mixins/labelled-mixin.js';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
@@ -44,11 +42,6 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(LabelMixin(Hypermed
 					rel: rels.linkPlacement
 				}]
 			},
-			_ltiLinkHref: {
-				type: String,
-				observable: observableTypes.link,
-				rel: rels.linkPlacement
-			},
 			_showOpenInNewWindowButton: {
 				type: Boolean,
 				attribute: 'open-as-external'
@@ -69,7 +62,7 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(LabelMixin(Hypermed
 	}
 
 	static get styles() {
-		return [ super.styles, bodySmallStyles, heading3Styles, bodyCompactStyles, css`
+		return [ super.styles, heading4Styles, css`
 			:host {
 				background-color: #ffffff;
 				border: 1px solid var(--d2l-color-gypsum);
@@ -79,7 +72,7 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(LabelMixin(Hypermed
 				position: relative;
 				transition: transform 300ms ease-out 50ms, box-shadow 0.2s;
 				z-index: 0;
-				padding: 1.2rem 0.8rem 0 0.8rem;
+				padding: 1.5rem 0.8rem 0 0.8rem;
 				width: 100%;
 			}
 			:host(:hover) {
@@ -93,12 +86,11 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(LabelMixin(Hypermed
 
 			.header {
 				display: flex;
+				margin-bottom: 1rem;
 			}
-			.header-text {
+			.d2l-heading-4 {
 				flex-grow: 1;
-			}
-			.header-name {
-				margin-bottom: 1.5rem;
+				margin:0;
 			}
 			:host([dir="rtl"]) d2l-icon {
 				margin-right: 0.8rem;
@@ -116,14 +108,15 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(LabelMixin(Hypermed
 			}
 			.spanning-button {
 				width: 100%;
-				margin: 1rem 0rem;
+				margin: 1rem 0rem 1.2rem 0rem;
 			}
 			.subtle-button {
 				margin: 0.6rem 0rem;
 			}
 			.skeleton-placeholder {
 				width: 10rem;
-		  		height: 5rem;
+				height: 5rem;
+				margin-bottom: 0.8rem;
 			}
 		` ];
 	}
@@ -157,17 +150,7 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(LabelMixin(Hypermed
 	render() {
 		return html`
 			<div class="header">
-				<div class="header-text">
-					<div class="header-name">
-						<d2l-hc-name class="d2l-heading-3" ?skeleton=${this.skeleton} href="${this._ltiLinkHref}" .token="${this.token}"></d2l-hc-name>
-					</div>
-					<div class="d2l-body-compact">
-						<d2l-hc-description class="d2l-body-compact" ?skeleton=${this.skeleton} href="${this._ltiLinkHref}" .token="${this.token}"></d2l-hc-description>
-					</div>
-					<div class="d2l-body-compact">
-						${this.localize('external-activity-check-below')}
-					</div>
-				</div>
+				<div class="d2l-heading-4">${this.localize('external-activity')}</div>
 				<d2l-icon icon="tier2:external"></d2l-icon>
 			</div>
 			${this.skeleton ? html`<div class="d2l-skeletize skeleton-placeholder"></div>` :
