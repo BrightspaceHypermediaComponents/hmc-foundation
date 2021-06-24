@@ -1,20 +1,20 @@
-import '../../components/common/d2l-hc-description.js';
-import '../../components/common/d2l-hc-name.js';
 import '@brightspace-ui/core/components/button/button.js';
 import '@brightspace-ui/core/components/button/button-subtle.js';
 import '@brightspace-ui/core/components/icons/icon.js';
-import { bodyCompactStyles, bodySmallStyles, heading3Styles } from '@brightspace-ui/core/components/typography/styles.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
+import {classMap} from 'lit-html/directives/class-map.js';
+import { heading4Styles } from '@brightspace-ui/core/components/typography/styles.js';
 import { html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
+import {RtlMixin} from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton-mixin.js';
 
 const rels = Object.freeze({
 	linkPlacement: 'https://lti.api.brightspace.com/rels/link-placement'
 });
 
-class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(HypermediaStateMixin(LitElement))) {
+class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitElement)))) {
 
 	static get properties() {
 		return {
@@ -42,11 +42,6 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(HypermediaStateMixi
 					rel: rels.linkPlacement
 				}]
 			},
-			_ltiLinkHref: {
-				type: String,
-				observable: observableTypes.link,
-				rel: rels.linkPlacement
-			},
 			_showOpenInNewWindowButton: {
 				type: Boolean,
 				attribute: 'open-as-external'
@@ -67,7 +62,7 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(HypermediaStateMixi
 	}
 
 	static get styles() {
-		return [ super.styles, bodySmallStyles, heading3Styles, bodyCompactStyles, css`
+		return [ super.styles, heading4Styles, css`
 			:host {
 				background-color: #ffffff;
 				border: 1px solid var(--d2l-color-gypsum);
@@ -77,7 +72,8 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(HypermediaStateMixi
 				position: relative;
 				transition: transform 300ms ease-out 50ms, box-shadow 0.2s;
 				z-index: 0;
-				padding: 1.2rem 0.8rem 0 0.8rem;
+				padding: 1.5rem 0.8rem 0 0.8rem;
+				width: 100%;
 			}
 			:host(:hover) {
 				box-shadow: 0 2px 14px 1px rgba(0, 0, 0, 0.06);
@@ -90,26 +86,37 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(HypermediaStateMixi
 
 			.header {
 				display: flex;
+				margin-bottom: 1rem;
 			}
-			.header-text {
+			.d2l-heading-4 {
 				flex-grow: 1;
+				margin:0;
 			}
-			.header-name {
-				margin-bottom: 1.5rem;
+			:host([dir="rtl"]) d2l-icon {
+				margin-right: 0.8rem;
+				margin-left: 0;
+			}
+			d2l-icon {
+			  margin-left: 0.8rem;
+			  flex-shrink: 0;
 			}
 			.content-frame {
 				margin: 1rem 0rem 0.6rem 0rem;
 			}
+			.content-frame-default-width {
+				width: 100%;
+			}
 			.spanning-button {
 				width: 100%;
-				margin: 1rem 0rem;
+				margin: 1rem 0rem 1.2rem 0rem;
 			}
 			.subtle-button {
 				margin: 0.6rem 0rem;
 			}
 			.skeleton-placeholder {
 				width: 10rem;
-		  		height: 5rem;
+				height: 5rem;
+				margin-bottom: 0.8rem;
 			}
 		` ];
 	}
@@ -141,19 +148,10 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(HypermediaStateMixi
 	}
 
 	render() {
+		const iFrameClasses = { 'content-frame-default-width': !this.iFrameWidth };
 		return html`
 			<div class="header">
-				<div class="header-text">
-					<div class="header-name">
-						<d2l-hc-name class="d2l-heading-3" ?skeleton=${this.skeleton} href="${this._ltiLinkHref}" .token="${this.token}"></d2l-hc-name>
-					</div>
-					<div class="d2l-body-compact">
-						<d2l-hc-description class="d2l-body-compact" ?skeleton=${this.skeleton} href="${this._ltiLinkHref}" .token="${this.token}"></d2l-hc-description>
-					</div>
-					<div class="d2l-body-compact">
-						${this.localize('external-activity-check-below')}
-					</div>
-				</div>
+				<div class="d2l-heading-4">${this.localize('external-activity')}</div>
 				<d2l-icon icon="tier2:external"></d2l-icon>
 			</div>
 			${this.skeleton ? html`<div class="d2l-skeletize skeleton-placeholder"></div>` :
@@ -162,7 +160,7 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(HypermediaStateMixi
 			html`<d2l-button class="spanning-button" primary @click="${this._onOpenInNewWindowClick}">${this.localize('open-in-new-window')}</d2l-button>` :
 			html`
 				<div class="content-frame">
-					<iframe allow="microphone *; camera *; autoplay *" width="${this.iFrameWidth}px" height="${this.iFrameHeight}px" src="${this._launchUrl}"></iframe>
+					<iframe class="${classMap(iFrameClasses)}" allow="microphone *; camera *; autoplay *" width="${this.iFrameWidth}px" height="${this.iFrameHeight}px" src="${this._launchUrl}"></iframe>
 				</div>
 				<div class="subtle-button">
 					<d2l-button-subtle text="${this.localize('open-in-new-window')}" icon="tier1:new-window" @click="${this._onOpenInNewWindowClick}"></d2l-button-subtle>
@@ -218,6 +216,7 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(HypermediaStateMixi
 		const top = (screen.height / 2) - (height / 2);
 		window.open(url, title, `resizable=yes, width=${ width }, height=${ height  }, top=${ top }, left=${ left}`);
 	}
+
 	get _loaded() {
 		return !this.skeleton;
 	}
@@ -249,12 +248,9 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(HypermediaStateMixi
 		const el = this.shadowRoot.querySelectorAll('iframe');
 		for (let i = 0; i < el.length; i++) {
 			if (el[i].contentWindow === event.source) {
-				el[i].style.height = `${params.height}px`;
-				el[i].style.width = '100%';
+				this.iFrameHeight = params.height;
 				// eslint-disable-next-line no-console
 				console.info(`Setting iFrame height to ${params.height}`);
-				// eslint-disable-next-line no-console
-				console.info('Setting iFrame width to 100%');
 			}
 		}
 	}
