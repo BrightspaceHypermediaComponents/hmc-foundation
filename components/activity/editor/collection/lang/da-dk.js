@@ -15,5 +15,7 @@ export default  {
 	"button-quizEditorDelete": "Slet", // Text for quiz editor Delete button
 	"button-deleteConfirmationDialogDelete": "Slet", // Copy on the delete question/section/question pool confirmation dialog
 	"button-deleteConfirmationDialogCancel": "Annuller", // Copy on the delete question/section/question pool confirmation dialog
-	"text-deleteConfirmationDialog": "Vil du slette valgt indhold fra eksaminationen?" // Delete question/section/question pool confirmation dialog text
+	"text-deleteConfirmationDialog": "Vil du slette valgt indhold fra eksaminationen?", // Delete question/section/question pool confirmation dialog text
+	"text-readyToBeginAddingQuizContent": "Er du klar til at begynde at tilføje eksaminationsindhold?", // Text instructions for quiz with no questions
+	"text-clickAddExistingOrCreateNewToGetStarted": "Click Add Existing or Create New to get started" // Text instructions for quiz with no questions
 };

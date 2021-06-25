@@ -15,5 +15,7 @@ export default  {
 	"button-quizEditorDelete": "削除", // Text for quiz editor Delete button
 	"button-deleteConfirmationDialogDelete": "削除", // Copy on the delete question/section/question pool confirmation dialog
 	"button-deleteConfirmationDialogCancel": "キャンセル", // Copy on the delete question/section/question pool confirmation dialog
-	"text-deleteConfirmationDialog": "クイズから選択したコンテンツを削除しますか？" // Delete question/section/question pool confirmation dialog text
+	"text-deleteConfirmationDialog": "クイズから選択したコンテンツを削除しますか？", // Delete question/section/question pool confirmation dialog text
+	"text-readyToBeginAddingQuizContent": "クイズのコンテンツを追加しますか？", // Text instructions for quiz with no questions
+	"text-clickAddExistingOrCreateNewToGetStarted": "Click Add Existing or Create New to get started" // Text instructions for quiz with no questions
 };
