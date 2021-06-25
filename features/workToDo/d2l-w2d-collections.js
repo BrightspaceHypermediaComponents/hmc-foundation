@@ -412,6 +412,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 
 	_renderHeader2(heading, count) {
 		if (this.collapsed) return;
+		const screenReaderText = this.localize('xActivities', 'count', count);
 		return html`
 			<div class="d2l-w2d-flex">
 				<h2 class="d2l-heading-2">${heading}</h2>
