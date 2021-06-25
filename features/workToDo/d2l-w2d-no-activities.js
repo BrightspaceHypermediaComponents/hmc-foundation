@@ -27,7 +27,7 @@ class w2dNoActivities extends LocalizeDynamicMixin(HypermediaStateMixin(LitEleme
 			},
 			upcomingWeekLimit: {
 				type: Number,
-				attribute: "upcoming-week-limit",
+				attribute: 'upcoming-week-limit',
 			}
 		};
 	}
