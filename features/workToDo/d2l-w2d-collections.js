@@ -415,7 +415,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 		return html`
 			<div class="d2l-w2d-flex">
 				<h2 class="d2l-heading-2">${heading}</h2>
-				<div class="d2l-w2d-count d2l-w2d-heading-2-count">${count}</div>
+				<div class="d2l-w2d-count d2l-w2d-heading-2-count" aria-label="${screenReaderText}"><span aria-hidden="true">${count}</span></div>
 			</div>
 		`;
 	}
