@@ -5,7 +5,6 @@ import { img } from './d2l-w2d-empty-state-image.js';
 import { labelStyles } from '@brightspace-ui/core/components/typography/styles.js';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
 
-const weekCount = 2;
 const rels = Object.freeze({
 	firstName: 'https://api.brightspace.com/rels/first-name'
 });
@@ -25,6 +24,10 @@ class w2dNoActivities extends LocalizeDynamicMixin(HypermediaStateMixin(LitEleme
 				method: (firstName) => {
 					return firstName?.[0]?.properties.name;
 				}
+			},
+			upcomingWeekLimit: {
+				type: Number,
+				attribute: 'upcoming-week-limit',
 			}
 		};
 	}
@@ -167,7 +170,7 @@ class w2dNoActivities extends LocalizeDynamicMixin(HypermediaStateMixin(LitEleme
 
 	_renderEmptyViewHeader()  {
 		const emptyViewHeader = this.activities ?
-			this.localize('xWeeksClear', 'count', weekCount) :
+			this.localize('xWeeksClear', 'count', this.upcomingWeekLimit) :
 			this.localize('allClear');
 
 		return html`

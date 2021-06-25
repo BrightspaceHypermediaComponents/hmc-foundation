@@ -39,6 +39,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 			startDate: { type: String, attribute: 'start-date' },
 			endDate: { type: String, attribute: 'end-date' },
 			dataFullPagePath: { type: String, attribute: 'data-full-page-path' },
+			upcomingWeekLimit: { type: String, attribute: 'upcoming-week-limit' },
 			skeleton: { type: Boolean, reflect: true },
 			userUrl: { type: String, attribute: 'user-url' },
 			_categories: {
@@ -302,6 +303,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 					?complete="${!this.collapsed}"
 					?use-first-name="${this.useFirstName}"
 					data-full-page-path=${this.dataFullPagePath}
+					upcoming-week-limit="${this.upcomingWeekLimit}"
 					.token="${this.token}"
 					href=${this.userUrl}></d2l-w2d-no-activities>
 			`;
