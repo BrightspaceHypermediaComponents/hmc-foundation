@@ -1,19 +1,14 @@
 import '@brightspace-ui/core/components/colors/colors.js';
 import '@brightspace-ui/core/components/icons/icon.js';
-import 'd2l-users/components/d2l-profile-image.js'
+import 'd2l-users/components/d2l-profile-image.js';
 
 import { css, html, LitElement } from 'lit-element/lit-element.js';
-import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
+import { HypermediaStateMixin } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
 import { MatchCountMixin } from './mixins/match-count-mixin.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 
-const rels = Object.freeze({
-	rule: 'https://discovery.brightspace.com/rels/rule'
-});
-
-
-class RuleCardMatchInfo extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin(LitElement)))) {
+class RuleCardMatchInfo extends MatchCountMixin(LocalizeDynamicMixin(RtlMixin(LitElement))) {
 
 	static get properties() {
 		return {
@@ -21,11 +16,6 @@ class RuleCardMatchInfo extends MatchCountMixin(LocalizeDynamicMixin(HypermediaS
 			_matchCount: { type: Number },
 			_userList: { type: Array },
 		};
-	}
-
-	constructor() {
-		super();
-		this._userList = [];
 	}
 
 	static get styles() {
@@ -54,7 +44,7 @@ class RuleCardMatchInfo extends MatchCountMixin(LocalizeDynamicMixin(HypermediaS
 				width: 1.53rem;
 				height: 1.53rem;
 			}
-			.d2l-rule-card-profile-images-icon {
+			.d2l-rule-card-profile-images-more-icon {
 				color: var(--d2l-color-galena);
 			}
 			.d2l-rule-card-match-users-count {
@@ -74,6 +64,12 @@ class RuleCardMatchInfo extends MatchCountMixin(LocalizeDynamicMixin(HypermediaS
 		};
 	}
 
+	constructor() {
+		super();
+		this._userList = [];
+		this._matchCount = null;
+	}
+
 	render() {
 		return html`
 			<div class="d2l-rule-card-match">
@@ -84,8 +80,9 @@ class RuleCardMatchInfo extends MatchCountMixin(LocalizeDynamicMixin(HypermediaS
 						`)}
 						${this._matchCount > 3 ? html`
 							<div class="d2l-rule-card-profile-images-more">
-							<div class="d2l-rule-card-profile-images-more-background">
-								<d2l-icon class="d2l-rule-card-profile-images-icon d2l-rule-card-profile-more" icon="d2l-tier1:more" class="more-members-icon"></d2l-icon>
+								<div class="d2l-rule-card-profile-images-more-background">
+									<d2l-icon class="d2l-rule-card-profile-images-more-icon" icon="d2l-tier1:more"></d2l-icon>
+								</div>
 							</div>
 						` : null}
 					</div>

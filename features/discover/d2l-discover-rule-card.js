@@ -71,7 +71,7 @@ class RuleCard extends LocalizeDynamicMixin(RtlMixin(LitElement)) {
 				<div slot="content">
 					<div>
 						<div class="d2l-rule-card-title">${this._title}</div>
-						<d2l-discover-rule-card-match-info href="${this.href}" token=${this.token} .rule="${this.rule}" ruleIndex="${this.ruleIndex}" ></d2l-discover-rule-card-match-info>
+						<d2l-discover-rule-card-match-info token=${this.token} .rule="${this.rule}" ruleIndex="${this.ruleIndex}" ></d2l-discover-rule-card-match-info>
 					</div>
 				</div>
 				<d2l-dropdown-context-menu text="options" slot="actions">
