@@ -17,7 +17,7 @@ class RulePickerDialog extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixi
 	static get properties() {
 		return {
 			ruleIndex: { type: Number },
-			_rules: { type: Array, observable: observableTypes.subEntities, rel: rels.rule },
+			rules: { type: Object },
 			opened: { type: Boolean }
 		};
 	}
@@ -38,7 +38,7 @@ class RulePickerDialog extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixi
 
 	constructor() {
 		super();
-		this._rules = [];
+		this.rules = [];
 	}
 
 	render() {
@@ -78,7 +78,7 @@ class RulePickerDialog extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixi
 		const picker = this.shadowRoot.querySelector('d2l-discover-rule-picker');
 		if (this.ruleIndex === undefined) {
 			// create
-			this._rules.push({
+			this.rules.push({
 				entities: [...picker.conditions],
 				properties: {
 					matchCount: picker._matchCount,
@@ -89,7 +89,7 @@ class RulePickerDialog extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixi
 			picker.reload([]);
 		} else {
 			// edit
-			this._rules[this.ruleIndex] = {
+			this.rules[this.ruleIndex] = {
 				entities: [...picker.conditions],
 				properties: {
 					matchCount: picker._matchCount,
@@ -99,11 +99,11 @@ class RulePickerDialog extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixi
 			};
 		}
 		this._state.updateProperties({
-			_rules: {
+			rules: {
 				type: Array,
 				observable: observableTypes.subEntities,
 				rel: rels.rule,
-				value: this._rules
+				value: this.rules
 			}
 		});
 	}

@@ -20,15 +20,14 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 			isSelfEnrollable: { type: Boolean, observable: observableTypes.classes,
 				method: (classes) => classes.includes(rels.selfAssignableClass),
 				route: [{observable: observableTypes.link, rel: rels.organization }] },
-			_rules: { type: Array, observable: observableTypes.subEntities, rel: rels.rule, route: [
-				{ observable: observableTypes.link, rel: rels.entitlementRules }
-			] },
+			_rules: { type: Array },
 			_ruleIndex: { type: Number },
 			_dialogOpened: { type: Boolean },
 			_entitlementsHref: { observable: observableTypes.link, rel: rels.entitlementRules },
 			_createEntitlement: { observable: observableTypes.action, name: 'create', route: [
 				{ observable: observableTypes.link, rel: rels.entitlementRules }
-			]}
+			]},
+			_getEntitlement: { observable: observableTypes.summonAction, name: 'entitlement-rules' }
 		};
 	}
 
@@ -74,7 +73,6 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 				<!-- rules cards -->
 				${this._rules.map((rule, index) => html`
 					<d2l-discover-rule-card
-						href="${this._entitlementsHref}"
 						.token="${this.token}"
 						.rule="${rule}"
 						.ruleIndex="${index}"
@@ -93,6 +91,7 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 				.token="${this.token}"
 				?opened="${this._dialogOpened}"
 				.ruleIndex="${this._ruleIndex}"
+				.rules="${this._rules}"
 				@d2l-dialog-close="${this._onDialogClose}"
 			></d2l-discover-rule-picker-dialog>
 			</d2l-labs-checkbox-drawer>
@@ -102,9 +101,8 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 	updated(changedProperties) {
 		super.updated(changedProperties);
 
-		if (this._loaded && changedProperties.has('_rules') && changedProperties.get('_rules') !== undefined
-			&& this._rulesHaveChanged(changedProperties.get('_rules'), this._rules)) {
-			this._onRulesChanged();
+		if(changedProperties.has('_getEntitlement')) {
+			this._summonEntitlement();
 		}
 	}
 
@@ -114,6 +112,30 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 
 	set _loaded(loaded) {
 		this.skeleton = !loaded;
+	}
+
+	async _summonEntitlement() {
+		const sirenReponse = await this._getEntitlement.summon("profileCount=3");
+		if(sirenReponse) {
+			//Build the rules
+			const newRules = sirenReponse?.entities.filter(e => e.rel.includes(rels.rule));
+			if (this._rulesHaveChanged(newRules, this._rules)) {
+				this._rules = newRules;
+				this._onRulesChanged();
+
+				this._state.updateProperties({
+					_rules: {
+						type: Array,
+						observable: observableTypes.subEntities,
+						rel: rels.rule,
+						value: this._rules
+					}
+				});
+			}
+
+			//Get the _entitlementsHref link
+			this._entitlementsHref = sirenReponse?.links.find(l => l.rel.includes('self')).href;
+		}
 	}
 
 	_onButtonClick() {
@@ -157,6 +179,8 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 				{ observable: observableTypes.link, rel: rels.entitlementRules }
 			], value: this._rules }
 		});
+
+		this.requestUpdate();
 		// call it manually
 		this._onRulesChanged();
 	}
