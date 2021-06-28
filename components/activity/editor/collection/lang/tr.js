@@ -15,5 +15,7 @@ export default  {
 	"button-quizEditorDelete": "Sil", // Text for quiz editor Delete button
 	"button-deleteConfirmationDialogDelete": "Sil", // Copy on the delete question/section/question pool confirmation dialog
 	"button-deleteConfirmationDialogCancel": "İptal", // Copy on the delete question/section/question pool confirmation dialog
-	"text-deleteConfirmationDialog": "Seçilen içerik sınavdan silinsin mi?" // Delete question/section/question pool confirmation dialog text
+	"text-deleteConfirmationDialog": "Seçilen içerik sınavdan silinsin mi?", // Delete question/section/question pool confirmation dialog text
+	"text-readyToBeginAddingQuizContent": "Sınav içeriği eklemeye hazır mısınız?", // Text instructions for quiz with no questions
+	"text-clickAddExistingOrCreateNewToGetStarted": "Click Add Existing or Create New to get started" // Text instructions for quiz with no questions
 };
