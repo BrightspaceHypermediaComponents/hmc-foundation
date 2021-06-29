@@ -414,20 +414,22 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 
 	_renderHeader2(heading, count) {
 		if (this.collapsed) return;
+		const screenReaderText = this.localize('xActivities', 'count', count);
 		return html`
 			<div class="d2l-w2d-flex">
 				<h2 class="d2l-heading-2">${heading}</h2>
-				<div class="d2l-w2d-count d2l-w2d-heading-2-count">${count}</div>
+				<div class="d2l-w2d-count d2l-w2d-heading-2-count" aria-label="${screenReaderText}"><span aria-hidden="true">${count}</span></div>
 			</div>
 		`;
 	}
 
 	_renderHeader3(heading, count) {
 		if (!this.collapsed) return html`<div class="d2l-w2d-flex"><h3 class="d2l-w2d-heading-3">${heading}</h3></div>`;
+		const screenReaderText = this.localize('xActivities', 'count', count);
 		return html`
 			<div class="d2l-w2d-flex">
 				<h3 class="d2l-w2d-heading-3 d2l-heading-3">${heading}</h3>
-				<div class="d2l-w2d-count d2l-w2d-heading-3-count">${count}</div>
+				<div class="d2l-w2d-count d2l-w2d-heading-3-count" aria-label="${screenReaderText}"><span aria-hidden="true">${count}</span></div>
 			</div>
 		`;
 	}
