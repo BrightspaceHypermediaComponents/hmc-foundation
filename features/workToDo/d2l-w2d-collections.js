@@ -291,7 +291,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 				${overdue}
 				${categories && categories.length > 0 ? this._renderHeader2(this.localize('upcoming'), this._pagingTotalResultsUpcoming) : null}
 				${categories}
-				${this.dataFullPagePath && this._loaded && this.collapsed && this._pagingTotalResultsOverdue > pageSize.collapsed ? html`<d2l-link href="${this.dataFullPagePath}">${this.localize('fullViewLink')}</d2l-link>` : null}
+				${this.dataFullPagePath && this._loaded && this.collapsed && (this._pagingTotalResultsOverdue + this._pagingTotalResultsUpcoming) > pageSize.collapsed ? html`<d2l-link href="${this.dataFullPagePath}">${this.localize('fullViewLink')}</d2l-link>` : null}
 				${this._renderPagination()}
 			</div>
 		`;
