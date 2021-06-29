@@ -26,6 +26,7 @@ export default {
 	noActivitiesNoFutureActivitiesNameless: '기한 또는 종료일이 있는 활동이 없습니다. 나중에 돌아와 해야 할 일이 있는지 확인합니다.', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to refer to the user in the third person but don't know their name
 	nothingHere: "여기에 아무것도 없습니다...", // Displayed as header line in widget text when there are no activities within the provided time period
 	overdue: '기한 경과', // Indicates that the below list of activities are overdue (have a due date that is in the past)
+	xActivities: '{count, plural, =1 {1 activity} other {{count} activities}}', // Label text for pluralizing activites.
 	quiz: '퀴즈', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	StartsWithDate: '{startDate}에 시작', // show Start Date on status indicator when an activity starts in the future - formatted like "Starts Aug 15"
 	survey: '설문조사', // Meta-data descriptor that informs which type of activity is being displayed on a line item

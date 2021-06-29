@@ -26,6 +26,7 @@ export default {
 	noActivitiesNoFutureActivitiesNameless: '沒有具有截止日期或結束日期的活動。請稍後再回來看看是否有工作要進行。', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to refer to the user in the third person but don't know their name
 	nothingHere: "這裡沒有任何內容...", // Displayed as header line in widget text when there are no activities within the provided time period
 	overdue: '逾期', // Indicates that the below list of activities are overdue (have a due date that is in the past)
+	xActivities: '{count, plural, =1 {1 activity} other {{count} activities}}', // Label text for pluralizing activites.
 	quiz: '測驗', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	StartsWithDate: '開始於 {startDate}', // show Start Date on status indicator when an activity starts in the future - formatted like "Starts Aug 15"
 	survey: '問卷調查', // Meta-data descriptor that informs which type of activity is being displayed on a line item

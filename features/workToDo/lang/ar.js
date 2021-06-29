@@ -26,6 +26,7 @@ export default {
 	noActivitiesNoFutureActivitiesNameless: 'لا تتوفر أي أنشطة لها تواريخ استحقاق أو نهاية. تحقق من الصفحة في وقت لاحق لمعرفة ما إذا كان ثمة عمل يجب إنجازه.', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to refer to the user in the third person but don't know their name
 	nothingHere: "ما من أنشطة هنا...", // Displayed as header line in widget text when there are no activities within the provided time period
 	overdue: 'الأنشطة التي تجاوزت تاريخ الاستحقاق', // Indicates that the below list of activities are overdue (have a due date that is in the past)
+	xActivities: '{count, plural, =1 {1 activity} other {{count} activities}}', // Label text for pluralizing activites.
 	quiz: 'الاختبار', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	StartsWithDate: 'تاريخ البدء {startDate}', // show Start Date on status indicator when an activity starts in the future - formatted like "Starts Aug 15"
 	survey: 'الاستطلاع', // Meta-data descriptor that informs which type of activity is being displayed on a line item

@@ -26,6 +26,7 @@ export default {
 	noActivitiesNoFutureActivitiesNameless: '期限または終了日が設定されたアクティビティはありません。後でまた、アクティビティがあるか確認してください。', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to refer to the user in the third person but don't know their name
 	nothingHere: "何もありません ...", // Displayed as header line in widget text when there are no activities within the provided time period
 	overdue: '期限切れ', // Indicates that the below list of activities are overdue (have a due date that is in the past)
+	xActivities: '{count, plural, =1 {1 activity} other {{count} activities}}', // Label text for pluralizing activites.
 	quiz: 'クイズ', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	StartsWithDate: '開始日 {startDate}', // show Start Date on status indicator when an activity starts in the future - formatted like "Starts Aug 15"
 	survey: '調査', // Meta-data descriptor that informs which type of activity is being displayed on a line item
