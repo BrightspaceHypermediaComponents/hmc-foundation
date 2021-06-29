@@ -302,7 +302,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 					?collapsed="${this.collapsed}"
 					?complete="${!this.collapsed}"
 					?use-first-name="${this.useFirstName}"
-					data-full-page-path=${this.dataFullPagePath}
+					data-full-page-path="${ifDefined(this.dataFullPagePath)}"
 					upcoming-week-limit="${this.upcomingWeekLimit}"
 					.token="${this.token}"
 					href=${this.userUrl}></d2l-w2d-no-activities>
