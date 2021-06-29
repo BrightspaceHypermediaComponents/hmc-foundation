@@ -72,7 +72,7 @@ describe('d2l-w2d-work-to-do', () => {
 			mockLink.mock('path:/w2d-folder4', workToDoFolder);
 		});
 
-		after(() => {
+		afterEach(() => {
 			mockLink.reset();
 		});
 
