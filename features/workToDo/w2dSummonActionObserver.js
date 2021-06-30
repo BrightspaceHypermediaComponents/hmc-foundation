@@ -19,6 +19,8 @@ export class W2dSummonAction extends SirenSummonAction {
 		}
 		super.addObserver(observer, property, { method, route });
 		this._setPage(observer[page]);
+		this._setStartDate(observer[start]);
+		this._setEndDate(observer[end]);
 	}
 
 	get method() {
@@ -41,7 +43,11 @@ export class W2dSummonAction extends SirenSummonAction {
 		this._href = this._rawSirenAction.href;
 		this._fields = this._decodeFields(this._rawSirenAction);
 		this._method = this._rawSirenAction.method;
-		if (this._routes.size > 0) {
+		await this._fetchRoutedState();
+	}
+
+	async _fetchRoutedState() {
+		if (this._routes.size > 0 && this._href && this._token) {
 			this.routedState = await this.createRoutedState(this.href, this._token.rawToken);
 			this._routes.forEach((route, observer) => {
 				this.routedState.addObservables(observer, route);
@@ -50,15 +56,23 @@ export class W2dSummonAction extends SirenSummonAction {
 		}
 	}
 
+	async _setEndDate(endDate) {
+		if (!endDate || this._endDate === endDate) return;
+		this._endDate = endDate;
+		if (!this._startDate) return;
+		await this._fetchRoutedState();
+	}
+
 	async _setPage(page) {
 		if (!page || this._page === page) return;
 		this._page = page;
-		if (this._routes.size > 0 && this._href && this._token) {
-			this.routedState = await this.createRoutedState(this.href, this._token.rawToken);
-			this._routes.forEach((route, observer) => {
-				this.routedState.addObservables(observer, route);
-			});
-			await fetch(this.routedState);
-		}
+		await this._fetchRoutedState();
+	}
+
+	async _setStartDate(startDate) {
+		if (!startDate || this._startDate === startDate) return;
+		this._startDate = startDate;
+		if (!this._endDate) return;
+		await this._fetchRoutedState();
 	}
 }
