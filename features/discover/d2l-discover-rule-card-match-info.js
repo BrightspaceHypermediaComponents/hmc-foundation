@@ -3,7 +3,6 @@ import '@brightspace-ui/core/components/icons/icon.js';
 import 'd2l-users/components/d2l-profile-image.js';
 
 import { css, html, LitElement } from 'lit-element/lit-element.js';
-import { HypermediaStateMixin } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
 import { MatchCountMixin } from './mixins/match-count-mixin.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';

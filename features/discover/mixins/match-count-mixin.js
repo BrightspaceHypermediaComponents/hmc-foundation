@@ -11,7 +11,7 @@ export const MatchCountMixin = superclass => class extends superclass {
 			if (sirenReponse) {
 				return {
 					count: sirenReponse.properties.count,
-					...(includeUsers && { users: sirenReponse.entities.map(user => this._getUserHrefs(user)) })
+					...(includeUsers && { users: sirenReponse.entities?.map(user => this._getUserHrefs(user)) })
 				};
 			}
 		}

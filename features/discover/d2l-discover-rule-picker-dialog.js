@@ -5,7 +5,7 @@ import '@brightspace-ui/core/components/inputs/input-text.js';
 import './d2l-discover-rule-picker.js';
 
 import { css, html, LitElement } from 'lit-element/lit-element.js';
-import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
+import { HypermediaStateMixin, } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 
@@ -52,6 +52,7 @@ class RulePickerDialog extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixi
 					href="${this.href}"
 					.token="${this.token}"
 					.ruleIndex="${this.ruleIndex}"
+					.rules="${this.rules}"
 					@d2l-rule-condition-size-changed="${this._onConditionModified}">
 				</d2l-discover-rule-picker>
 				<d2l-button @click="${this._onDoneClick}" slot="footer" primary data-dialog-action="done">${this.localize('button-done')}</d2l-button>
@@ -98,14 +99,11 @@ class RulePickerDialog extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixi
 				rel: [rels.rule]
 			};
 		}
-		this._state.updateProperties({
-			rules: {
-				type: Array,
-				observable: observableTypes.subEntities,
-				rel: rels.rule,
-				value: this.rules
-			}
-		});
+
+		this.dispatchEvent(new CustomEvent('d2l-rules-changed', {
+			bubbles: true,
+			composed: true
+		}));
 	}
 }
 

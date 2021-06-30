@@ -13,7 +13,6 @@ import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { selectStyles } from '@brightspace-ui/core/components/inputs/input-select-styles.js';
 
 const rels = Object.freeze({
-	rule: 'https://discovery.brightspace.com/rels/rule',
 	condition: 'https://discovery.brightspace.com/rels/condition',
 	conditionType: 'https://discovery.brightspace.com/rels/condition-type',
 	conditionTypes: 'https://discovery.brightspace.com/rels/condition-types'
@@ -33,7 +32,7 @@ class RulePicker extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMix
 			_conditionTypes: { type: Array, observable: observableTypes.subEntities, rel: rels.conditionType, route: [
 				{ observable: observableTypes.link, rel: rels.conditionTypes }
 			] },
-			_rules: { type: Array, observable: observableTypes.subEntities, rel: rels.rule },
+			rules: { type: Object },
 			_defaultType: { type: String },
 			_matchCount: { type: Number },
 			_getMatchCount: { observable: observableTypes.summonAction, name: 'match-count' }
@@ -97,7 +96,7 @@ class RulePicker extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMix
 
 	constructor() {
 		super();
-		this._rules = [];
+		this.rules = [];
 		this.conditions = [];
 		this._conditionTypesHash = {};
 		this._cleaningAnimState = false;
@@ -299,11 +298,11 @@ class RulePicker extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMix
 	async _setExistingConditions() {
 		if (!this._loaded) await this._state.allFetchesComplete();
 
-		if (this.ruleIndex === undefined || this.ruleIndex + 1 > this._rules.length || this.ruleIndex < 0) {
+		if (this.ruleIndex === undefined || this.ruleIndex + 1 > this.rules.length || this.ruleIndex < 0) {
 			this.conditions = [];
 			return;
 		}
-		const rule = this._rules[this.ruleIndex];
+		const rule = this.rules[this.ruleIndex];
 		this.conditions = rule.entities.map(condition => {
 			return {
 				properties: {

@@ -8,6 +8,11 @@
     "name": "entitlement-rules",
     "href": "http://localhost:8000/features/discover/demo/course-entitlement-rules-2.json",
     "method": "GET"
+  },
+  {
+    "name": "create-entitlement-rules",
+    "href": "http://localhost:8000/features/discover/demo/course-entitlement-rules-2.json",
+    "method": "POST"
   }],
   "properties": {
     "title": "Adv Engineering Mathematics",
