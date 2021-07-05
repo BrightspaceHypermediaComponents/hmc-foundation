@@ -35,12 +35,12 @@ Displays an LTI Activity where a basic launch can be performed to the LTI tool.
 
 ## Development
 ### Developing With Web Dev Server (Independant of LMS)
-You can quickly make changes by using the LTI dev tools. You can your changes by running:
+You can quickly make changes by using the lit element dev tools. You can see your changes by running:
 ```shell
 npm run start
 ```
 You should see some output like below, and your browser should automatically open to the page, if not you can
-go to the page manually
+go to the page manually.
 ```shell
   Root dir: C:\BrightspaceGithub\foundation-components
   Local:    http://localhost:8000/
@@ -58,7 +58,7 @@ The BSI packages up a lot of our web components together, and the foundations-co
 To start working with the BSI clone the [repo](https://github.com/Brightspace/brightspace-integration) locally.
 
 #### NPM Linking the lti-activity Component With the BSI
-To get our local changes in foundations-components to work in our local BSI we need to setup a local npm link. This will
+To get our local changes in foundations-components to work in our local BSI we need to set up a local npm link. This will
 have the BSI pull in our local foundations-components folder into its NPM modules folder.
 
 The first step is to npm link the foundations-components repo, from the repo root run
@@ -66,7 +66,7 @@ The first step is to npm link the foundations-components repo, from the repo roo
 npm link
 ```
 This creates a module in our local npm store.
-Next we need to setup the BSI repo to pull this module from our local npm store. Go to the BSI directory and run
+Next we need to set up the BSI repo to pull this module from our local npm store. Go to the BSI directory and run
 ```shell
 npm link @brigthspace-hmc/foundation-components
 ```
@@ -79,7 +79,7 @@ npm run start
 ```
 
 #### Running the BSI With Sitelord
-You can setup a Sitelord site to use your local BSI by running an ngrok tunnel to where your local BSI is running. Then
+You can set up a Sitelord site to use your local BSI by running a ngrok tunnel to where your local BSI is running. Then
 on the sitelord site set the d2l.System.BsiEndpointOverride config variable to your ngrok tunnel. Also set the
 d2l.System.BsiEnvironmentOverride to development.
 ```shell
