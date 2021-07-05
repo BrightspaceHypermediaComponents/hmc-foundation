@@ -79,6 +79,9 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(LabelMixin(Hypermed
 			:host(:hover) {
 				box-shadow: 0 2px 14px 1px rgba(0, 0, 0, 0.06);
 			}
+			:host([open-as-external]) {
+				max-width: 596px;
+			}
 			@media (prefers-reduced-motion: reduce) {
 				:host {
 					transition: none;
