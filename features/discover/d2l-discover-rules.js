@@ -209,15 +209,6 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 			if (this._rulesHaveChanged(newRules, this._rules)) {
 				this._rules = newRules;
 				this._onRulesChanged();
-
-				this._state.updateProperties({
-					_rules: {
-						type: Array,
-						observable: observableTypes.subEntities,
-						rel: rels.rule,
-						value: this._rules
-					}
-				});
 			}
 
 			this._entitlementsHref = sirenReponse?.links.find(l => l.rel.includes('self')).href;
