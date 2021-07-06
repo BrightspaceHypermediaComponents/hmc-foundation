@@ -20,12 +20,7 @@
         }
       ],
       "properties": {
-        "matchCount": 200,
-        "userList": [
-          "http://localhost:8000/features/discover/demo/users/usersApi/user1.json",
-          "http://localhost:8000/features/discover/demo/users/usersApi/user2.json",
-          "http://localhost:8000/features/discover/demo/users/usersApi/user3.json"
-        ]
+        "matchCount": 200
       }
     },
     {
@@ -43,12 +38,7 @@
         }
       ],
       "properties": {
-        "matchCount": 3,
-        "userList": [
-          "http://localhost:8000/features/discover/demo/users/usersApi/user1.json",
-          "http://localhost:8000/features/discover/demo/users/usersApi/user1.json",
-          "http://localhost:8000/features/discover/demo/users/usersApi/user2.json"
-        ]
+        "matchCount": 3
       }
     }
   ],
@@ -56,7 +46,7 @@
     "id": 12345
   },
   "links": [
-    { "rel": ["self"], "href": "../demo/course-entitlement-rules.json" },
+    { "rel": ["self"], "href": "../demo/course-entitlement-rules-3.json" },
     { "rel": [ "https://discovery.brightspace.com/rels/condition-types" ], "href": "../demo/condition-types.json" }
   ]
 }

@@ -17,7 +17,7 @@ class RulePickerDialog extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixi
 	static get properties() {
 		return {
 			ruleIndex: { type: Number },
-			rules: { type: Object },
+			rules: { type: Array },
 			opened: { type: Boolean }
 		};
 	}

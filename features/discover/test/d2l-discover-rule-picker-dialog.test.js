@@ -91,7 +91,6 @@ describe('d2l-discover-rule-picker-dialog', () => {
 			const rulePicker = el.shadowRoot.querySelector('d2l-discover-rule-picker');
 			await rulePicker.updateComplete;
 			expect(rulePicker.ruleIndex).to.equal(0);
-			expect(el.rules, 'Rules do not have length 1 el').to.have.lengthOf(1);
 			expect(rulePicker.rules, 'Rules do not have length 1').to.have.lengthOf(1);
 			expect(rulePicker.rules[0].entities, 'Rule conditions do not have length 2').to.have.lengthOf(2);
 			await waitUntil(() => rulePicker.conditions.length === 2, 'Conditions never initialized');

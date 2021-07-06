@@ -76,7 +76,6 @@ describe('d2l-discover-rules', () => {
 		fetchMock.mock(selfHref, JSON.stringify(entity))
 			.mock(orgHref, JSON.stringify(orgEntity))
 			.mock(entitlementHref, JSON.stringify(entitlementEntity))
-			.mock(`${entitlementHref}?profileCount=3`, JSON.stringify(entitlementEntity))
 			.mock(conditionTypesHref, JSON.stringify(conditionTypesEntity));
 	});
 

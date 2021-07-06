@@ -20,12 +20,7 @@
         }
       ],
       "properties": {
-        "matchCount": 2,
-        "userList": [
-          "http://localhost:8000/features/discover/demo/users/usersApi/user3.json",
-          "http://localhost:8000/features/discover/demo/users/usersApi/user3.json",
-          "http://localhost:8000/features/discover/demo/users/usersApi/user3.json"
-        ]
+        "matchCount": 2
       }
     }
   ],
@@ -33,7 +28,7 @@
     "id": 12345
   },
   "links": [
-    { "rel": ["self"], "href": "../demo/course-entitlement-rules.json" },
+    { "rel": ["self"], "href": "../demo/course-entitlement-rules-2.json" },
     { "rel": [ "https://discovery.brightspace.com/rels/condition-types" ], "href": "../demo/condition-types.json" }
   ]
 }

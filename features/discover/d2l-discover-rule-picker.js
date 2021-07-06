@@ -32,7 +32,7 @@ class RulePicker extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMix
 			_conditionTypes: { type: Array, observable: observableTypes.subEntities, rel: rels.conditionType, route: [
 				{ observable: observableTypes.link, rel: rels.conditionTypes }
 			] },
-			rules: { type: Object },
+			rules: { type: Array },
 			_defaultType: { type: String },
 			_matchCount: { type: Number },
 			_getMatchCount: { observable: observableTypes.summonAction, name: 'match-count' }
@@ -326,9 +326,8 @@ class RulePicker extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMix
 
 	async _updateMatchCount() {
 		this._matchCount = null;
-		const matchData = await this.getMatchData(this._getMatchCount, this.conditions, true, 3);
+		const matchData = await this.getMatchData(this._getMatchCount, this.conditions);
 		this._matchCount = matchData !== null ? matchData.count : null;
-		this._userList = matchData !== null ? matchData.users : null;
 	}
 }
 
