@@ -52,7 +52,7 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 				rel: rels.item,
 				route: [route.parentCollections]
 			},
-			alsoIn: {
+			parentCollectionsName: {
 				type: Array
 			},
 			points: {
@@ -113,7 +113,7 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 		super();
 		this.skeleton = true;
 		this.parentCollections = [];
-		this.alsoIn = [];
+		this.parentCollectionsName = [];
 	}
 
 	render() {
@@ -141,7 +141,7 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 		if (changedProperties.has('parentCollections') &&
 			this.parentCollections.length > 0 &&
 			this.parentCollections.length > changedProperties.get('parentCollections').length) {
-			this._getAlsoIn();
+			this._getParentCollectionsName();
 		}
 	}
 
@@ -159,32 +159,38 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 	}
 
 	_getAlsoIn() {
+		const cloned = Array.from(this.parentCollectionsName);
+		const idx = cloned.findIndex(elem => elem === this.quizName);
+		cloned.splice(idx, 1);
+		return cloned;
+	}
+
+	_getAlsoInString() {
+		const alsoIn = this._getAlsoIn();
+		let alsoInString = `${this.localize('also-in')} `;
+		for (let i = 0; i < alsoIn.length; i++) {
+			alsoInString = alsoInString + alsoIn[i];
+			if (i < alsoIn.length - 1) {
+				alsoInString = `${alsoInString}, `;
+			}
+		}
+
+		return alsoInString;
+	}
+
+	_getParentCollectionsName() {
 		for (let i = 0; i < this.parentCollections.length; i++) {
 			const activityUsageHref = this._getActivityUsageHref(this.parentCollections[i]);
 			window.D2L.Siren.EntityStore.fetch(activityUsageHref, this.token, false).then((activityUsage) => {
 				if (activityUsage) {
 					const specializationLink = activityUsage.entity.links.find(link => link.rel.includes(rels.specialization)).href;
 					window.D2L.Siren.EntityStore.fetch(specializationLink, this.token, false).then((quiz) => {
-						if (this.quizName !== quiz.entity.properties.name) {
-							this.alsoIn.push(quiz.entity.properties.name);
-							this.requestUpdate();
-						}
+						this.parentCollectionsName.push(quiz.entity.properties.name);
+						this.requestUpdate();
 					});
 				}
 			});
 		}
-	}
-
-	_getAlsoInString() {
-		let alsoInString = `${this.localize('also-in')} `;
-		for (let i = 0; i < this.alsoIn.length; i++) {
-			alsoInString = alsoInString + this.alsoIn[i];
-			if (i < this.alsoIn.length - 1) {
-				alsoInString = `${alsoInString}, `;
-			}
-		}
-
-		return alsoInString;
 	}
 };
 
