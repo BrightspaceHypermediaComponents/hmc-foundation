@@ -126,7 +126,6 @@ describe('d2l-discover-rules', () => {
 		});
 
 		it('removes a rule when the delete menu item is clicked', async() => {
-			await waitUntil(() => el._rules?.length > 0, 'rules never initialized');
 			expect(el._rules).to.have.lengthOf(1);
 			const card = el.shadowRoot.querySelector('d2l-discover-rule-card');
 			const deleteItem = card.shadowRoot.querySelector('d2l-menu-item:nth-child(2)');

@@ -82,8 +82,7 @@ class RulePickerDialog extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixi
 			this.rules.push({
 				entities: [...picker.conditions],
 				properties: {
-					matchCount: picker._matchCount,
-					userList: picker._userList,
+					matchCount: picker._matchCount
 				},
 				rel: [rels.rule]
 			});
@@ -93,8 +92,7 @@ class RulePickerDialog extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixi
 			this.rules[this.ruleIndex] = {
 				entities: [...picker.conditions],
 				properties: {
-					matchCount: picker._matchCount,
-					userList: picker._userList,
+					matchCount: picker._matchCount
 				},
 				rel: [rels.rule]
 			};
