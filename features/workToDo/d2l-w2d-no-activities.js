@@ -155,7 +155,7 @@ class w2dNoActivities extends LocalizeDynamicMixin(HypermediaStateMixin(LitEleme
 	}
 
 	_renderEmptyViewButton() {
-		if (!this.activities) {
+		if (!this.activities || !this.dataFullPagePath) {
 			return undefined;
 		}
 		return html`
