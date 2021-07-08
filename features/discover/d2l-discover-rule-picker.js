@@ -326,8 +326,9 @@ class RulePicker extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMix
 
 	async _updateMatchCount() {
 		this._matchCount = null;
-		const matchData = await this.getMatchData(this._getMatchCount, this.conditions);
+		const matchData = await this.getMatchData(this._getMatchCount, this.conditions, true, 3);
 		this._matchCount = matchData !== null ? matchData.count : null;
+		this._userList = matchData !== null ? matchData.users : null;
 	}
 }
 
