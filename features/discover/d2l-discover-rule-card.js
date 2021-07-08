@@ -15,10 +15,8 @@ class RuleCard extends LocalizeDynamicMixin(RtlMixin(LitElement)) {
 	static get properties() {
 		return {
 			rule: { type: Object },
-			ruleIndex: { type: Number },
+			token: { type: String },
 			_title: { type: String },
-			token: { type: Object },
-			href: { type: String }
 		};
 	}
 
@@ -71,7 +69,7 @@ class RuleCard extends LocalizeDynamicMixin(RtlMixin(LitElement)) {
 				<div slot="content">
 					<div>
 						<div class="d2l-rule-card-title">${this._title}</div>
-						<d2l-discover-rule-card-match-info token=${this.token} .rule="${this.rule}" ruleIndex="${this.ruleIndex}" ></d2l-discover-rule-card-match-info>
+						<d2l-discover-rule-card-match-info token="${this.token}" .rule="${this.rule}"></d2l-discover-rule-card-match-info>
 					</div>
 				</div>
 				<d2l-dropdown-context-menu text="options" slot="actions">

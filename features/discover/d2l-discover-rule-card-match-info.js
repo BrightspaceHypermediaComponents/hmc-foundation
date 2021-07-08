@@ -12,6 +12,7 @@ class RuleCardMatchInfo extends MatchCountMixin(LocalizeDynamicMixin(RtlMixin(Li
 	static get properties() {
 		return {
 			rule: { type: Object },
+			token: { type: String },
 			_matchCount: { type: Number },
 			_userList: { type: Array },
 		};
