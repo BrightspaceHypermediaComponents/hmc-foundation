@@ -19,10 +19,13 @@ const orgHref = 'http://org/1';
 const conditionTypesHref = 'http://condition-types/1';
 const entity = {
 	class: ['activity', 'course', 'assigned'],
+	actions: [
+		{ name: 'entitlement-rules', href: entitlementHref, method: 'GET' },
+		{ name: 'create-entitlement-rules', href: entitlementHref, method: 'POST' }
+	],
 	links: [
 		{ rel: ['self'], href: selfHref },
 		{ rel: [ rels.organization ], href: orgHref },
-		{ rel: [ rels.entitlementRules ], href: entitlementHref }
 	]
 };
 const orgEntity = {
@@ -95,6 +98,7 @@ describe('d2l-discover-rules', () => {
 				<d2l-discover-rules href="${selfHref}" token="cake"></d2l-discover-rules>
 			`);
 			expect(el._hasAction('_createEntitlement'), 'does not have the _createEntitlement action').to.be.true;
+			expect(el._hasAction('_getEntitlement'), 'does not have the _getEntitlement action').to.be.true;
 			commitSpy = sinon.spy(el._createEntitlement, 'commit');
 		});
 		afterEach(() => {

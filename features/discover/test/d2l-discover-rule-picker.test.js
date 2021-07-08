@@ -42,6 +42,14 @@ const conditionTypesEntity = {
 	]
 };
 
+const ruleArray =  [{
+	entities: [
+		{ properties: { type: 'Fruit', values: ['apple', 'orange'] }, rel: [rels.condition] },
+		{ properties: { type: 'Entree', values: ['spaghetti'] }, rel: [rels.condition] }
+	],
+	rel: [rels.rule]
+}];
+
 describe('d2l-discover-rule-picker', () => {
 	before(() => {
 		fetchMock.mock(selfHref, JSON.stringify(entitlementEntity))
@@ -71,7 +79,7 @@ describe('d2l-discover-rule-picker', () => {
 
 		it('renders the conditionTypes dropdown data', async() => {
 			const el = await createComponentAndWait(html`
-				<d2l-discover-rule-picker href="${selfHref}" token="cake"></d2l-discover-rule-picker>
+				<d2l-discover-rule-picker href="${selfHref}" token="cake" .rules="${ruleArray}"></d2l-discover-rule-picker>
 			`);
 
 			const conditionDropdown = el.shadowRoot.querySelector('select');
@@ -87,7 +95,7 @@ describe('d2l-discover-rule-picker', () => {
 
 		it('renders the initialized conditions', async() => {
 			const el = await createComponentAndWait(html`
-				<d2l-discover-rule-picker href="${selfHref}" token="cake"></d2l-discover-rule-picker>
+				<d2l-discover-rule-picker href="${selfHref}" token="cake" .rules="${ruleArray}"></d2l-discover-rule-picker>
 			`);
 			const ruleIndex = 0;
 			el.ruleIndex = 0;
@@ -124,7 +132,7 @@ describe('d2l-discover-rule-picker', () => {
 		beforeEach(async() => {
 			clearStore();
 			el = await createComponentAndWait(html`
-				<d2l-discover-rule-picker href="${selfHref}" token="cake"></d2l-discover-rule-picker>
+				<d2l-discover-rule-picker href="${selfHref}" token="cake" .rules="${ruleArray}"></d2l-discover-rule-picker>
 			`);
 		});
 
@@ -189,21 +197,21 @@ describe('d2l-discover-rule-picker', () => {
 		});
 
 		it('Updates the match count based on rule load', async() => {
-			el._rules = [];
-			el._rules[0]  = { entities: [
+			el.rules = [];
+			el.rules[0]  = { entities: [
 				{ properties: { id:'_fruit', state: 'existing', type: 'Fruit', values: [] } }
 			] };
-			el._rules[1]  = { entities: [
+			el.rules[1]  = { entities: [
 				{ properties: { id:'_fruit', state: 'existing', type: 'Fruit', values: ['apple'] } }
 			] };
-			el._rules[2]  = { entities: [
+			el.rules[2]  = { entities: [
 				{ properties: { id:'_fruit', state: 'existing', type: 'Fruit', values: ['apple', 'orange'] } }
 			] };
-			el._rules[3]  = { entities: [
+			el.rules[3]  = { entities: [
 				{ properties: { id:'_fruit', state: 'existing', type: 'Fruit', values: [] } },
 				{ properties: { id:'_entree', state: 'existing', type: 'Entree', values: ['Spaghetti'] } }
 			] };
-			el._rules[4]  = { entities: [
+			el.rules[4]  = { entities: [
 				{ properties: { id:'_fruit', state: 'existing', type: 'Fruit', values: [] } },
 				{ properties: { id:'_entree', state: 'existing', type: 'Entree', values: [] } }
 			] };
