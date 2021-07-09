@@ -1,5 +1,5 @@
 import '../d2l-discover-rule-card.js';
-import { expect, fixture, html } from '@open-wc/testing';
+import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { runConstructor } from '@brightspace-ui/core/tools/constructor-test-helper.js';
 
 const rels = Object.freeze({
@@ -30,6 +30,49 @@ describe('d2l-discover-rule-card', () => {
 			`);
 			await expect(el).to.be.accessible();
 			await expect(elFull).to.be.accessible();
+		});
+	});
+
+	describe('rendering', () => {
+		let el;
+		beforeEach(async() => {
+			el = await fixture(html`
+				<d2l-discover-rule-card .rule="${rule}" token="cake"></d2l-discover-rule-card>
+			`);
+		});
+		afterEach(async() => {
+			el = null;
+		});
+
+		it('renders the title', async() => {
+			const titleElement = el.shadowRoot.querySelector('.d2l-rule-card-title');
+			expect(titleElement.text).to.not.be.null;
+		});
+	});
+
+	describe('eventing', () => {
+		let el;
+		beforeEach(async() => {
+			el = await fixture(html`
+				<d2l-discover-rule-card .rule="${rule}" token="cake"></d2l-discover-rule-card>
+			`);
+		});
+		afterEach(async() => {
+			el = null;
+		});
+
+		it('fires d2l-rule-edit-click', async() => {
+			const titleElement = el.shadowRoot.querySelector('d2l-menu-item:nth-child(1)');
+			const listener = oneEvent(el, 'd2l-rule-edit-click');
+			titleElement.click();
+			await listener;
+		});
+
+		it('fires d2l-rule-delete-click', async() => {
+			const editButton = el.shadowRoot.querySelector('d2l-menu-item:nth-child(2)');
+			const listener = oneEvent(el, 'd2l-rule-delete-click');
+			editButton.click();
+			await listener;
 		});
 	});
 });
