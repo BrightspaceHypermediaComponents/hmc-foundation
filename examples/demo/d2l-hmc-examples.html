@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link rel="stylesheet" href="/node_modules/@brightspace-ui/core/components/demo/styles.css" type="text/css">
+		<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+		<script type="module">
+			import '@brightspace-ui/core/components/demo/demo-page.js';
+			import '../d2l-hmc-actions.js';
+			import '../d2l-hmc-example.js';
+			import '../d2l-hmc-routing.js';
+		</script>
+		<title>d2l-hmc-example</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<meta charset="UTF-8">
+	</head>
+	<body>
+		<d2l-demo-page page-title="d2l-hmc-examples">
+			<h2>Properties and Attributes</h2>
+			<d2l-demo-snippet>
+				<d2l-hmc-example description="passing values by attributes" href="./name.json" token="cake"></d2l-hmc-example>
+			</d2l-demo-snippet>
+
+			<h2>Routing</h2>
+			<d2l-demo-snippet>
+				<d2l-hmc-routing href="./routing.json" token="cake"></d2l-hmc-routing>
+			</d2l-demo-snippet>
+
+			<h2>Actions</h2>
+			<d2l-demo-snippet>
+				<d2l-hmc-actions href="./actions.json" token="cake"></d2l-hmc-routing>
+			</d2l-demo-snippet>
+		</d2l-demo-page>
+
+	</body>
+</html>

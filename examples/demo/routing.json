@@ -1,0 +1,8 @@
+{
+  "links": [
+    {
+      "rel":["namedEntity"],
+      "href":"./name.json"
+    }
+  ]
+}
