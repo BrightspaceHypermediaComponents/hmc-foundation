@@ -7,11 +7,11 @@ import fetchMock from 'fetch-mock/esm/client';
 import { runConstructor } from '@brightspace-ui/core/tools/constructor-test-helper.js';
 import sinon from 'sinon/pkg/sinon-esm.js';
 
-fetchMock.config.overwriteRoutes = true;
-
 const inputText = 'd2l-input-text',
 	activityHref = 'http://activity/',
-	orgHref = 'http://org/';
+	activityHrefNoAction = 'http://activity/no-action',
+	orgHref = 'http://org/',
+	orgHrefNoAction = 'http://org/no-action';
 
 const activity = {
 	class:['activity'],
@@ -22,6 +22,19 @@ const activity = {
 		}, {
 			'rel': ['https://api.brightspace.com/rels/organization'],
 			'href': orgHref
+		}
+	]
+};
+
+const activityNoAction = {
+	class:['activity'],
+	links:[
+		{
+			'rel':['self'],
+			'href':'/components/activity/code/demo/activity.json'
+		}, {
+			'rel': ['https://api.brightspace.com/rels/organization'],
+			'href': orgHrefNoAction
 		}
 	]
 };
@@ -74,67 +87,58 @@ describe('d2l-activity-code-editor', async() => {
 		});
 	});
 
-	describe('Component', () => {
+	describe('Code Component', () => {
 
-		beforeEach(() => {
+		let element;
+		beforeEach(async() => {
 			clearStore();
+			element = await _createCodeEditor(activityHref);
 		});
 
-		describe('Code', () => {
-			let element;
-			beforeEach(async() => {
-				clearStore();
-				element = await _createCodeEditor(activityHref);
-			});
+		it('code should be set when one is present', () => {
+			assert.equal(element.shadowRoot.querySelector(inputText).value,
+				org.properties.code, 'input value does not match');
 
-			it('code should be set when one is present', () => {
-				assert.equal(element.shadowRoot.querySelector(inputText).value,
-					org.properties.code, 'input value does not match');
+			assert.equal(element.code, org.properties.code, 'code property should match');
 
-				assert.equal(element.code, org.properties.code, 'code property should match');
-
-			});
-
-			it('updating should commit state', async() => {
-				const spy = sinon.spy(element.updateCode);
-				await updateCode(element, 'new code');
-
-				assert.equal(element.code, 'new code', 'code was updated to match');
-				assert.isTrue(spy.commit.called, 'onInputCode should be called when input event is triggered');
-			});
-
-			it('extra whitespace is removed', async() => {
-				const spy = sinon.spy(element.updateCode);
-				await updateCode(element, '   new  code     ');
-
-				assert.equal(element.code, 'new  code', 'code was updated to match');
-				assert.isTrue(spy.commit.called, 'commit should be called when input event is triggered');
-			});
-
-			it('can submit empty', async() => {
-				const spy = sinon.spy(element.updateCode);
-				await updateCode(element, '');
-
-				assert.equal(element.code, '', 'code should default to LP');
-				assert.isTrue(spy.commit.called, 'commit should be called when input event is triggered');
-			});
 		});
 
-		describe('Update code action missing', () => {
+		it('updating should commit state', async() => {
+			const spy = sinon.spy(element.updateCode);
+			await updateCode(element, 'new code');
 
-			it('code not updated when action missing', async() => {
-				fetchMock.mock(orgHref, JSON.stringify(orgNoAction));
+			assert.equal(element.code, 'new code', 'code was updated to match');
+			assert.isTrue(spy.commit.called, 'onInputCode should be called when input event is triggered');
+		});
 
-				clearStore();
-				const element = await _createCodeEditor(activityHref);
-				assert.equal(element.code, org.properties.code, 'code should match response');
+		it('extra whitespace is removed', async() => {
+			const spy = sinon.spy(element.updateCode);
+			await updateCode(element, '   new  code     ');
 
-				const spy = sinon.spy(element.updateCode);
-				await updateCode(element, 'new code');
+			assert.equal(element.code, 'new  code', 'code was updated to match');
+			assert.isTrue(spy.commit.called, 'commit should be called when input event is triggered');
+		});
 
-				assert.equal(element.code, org.properties.code, 'code was unaltered');
-				assert.isFalse(spy.commit.called, 'commit should not be called on update failure');
-			});
+		it('can submit empty', async() => {
+			const spy = sinon.spy(element.updateCode);
+			await updateCode(element, '');
+
+			assert.equal(element.code, '', 'code should default to LP');
+			assert.isTrue(spy.commit.called, 'commit should be called when input event is triggered');
+		});
+
+		it('code not updated when action missing', async() => {
+			fetchMock.mock(activityHrefNoAction, JSON.stringify(activityNoAction));
+			fetchMock.mock(orgHrefNoAction, JSON.stringify(orgNoAction));
+
+			const element = await _createCodeEditor(activityHrefNoAction);
+			assert.equal(element.code, org.properties.code, 'code should match response');
+
+			const spy = sinon.spy(element.updateCode);
+			await updateCode(element, 'new code');
+
+			assert.equal(element.code, org.properties.code, 'code was unaltered');
+			assert.isFalse(spy.commit.called, 'commit should not be called on update failure');
 		});
 	});
 });
@@ -158,67 +162,61 @@ describe('d2l-activity-code-editor-learning-path', () => {
 
 	describe('Component', () => {
 
-		beforeEach(() => {
+		let element;
+		beforeEach(async() => {
 			clearStore();
+			element = await _createCodeEditorLearningPath(activityHref);
 		});
 
-		describe('path:/learning-path/existing', () => {
-			let element;
-			beforeEach(async() => {
-				clearStore();
-				element = await _createCodeEditorLearningPath(activityHref);
-			});
+		it('code should be set when one is present', () => {
+			assert.equal(element.shadowRoot.querySelector(inputText).value,
+				org.properties.code, 'input value does not match');
 
-			it('code should be set when one is present', () => {
-				assert.equal(element.shadowRoot.querySelector(inputText).value,
-					org.properties.code, 'input value does not match');
+			assert.equal(element.code, org.properties.code, 'code property should match');
 
-				assert.equal(element.code, org.properties.code, 'code property should match');
-
-			});
-
-			it('updating should commit state', async() => {
-				const spy = sinon.spy(element.updateCode);
-				await updateCode(element, 'new code');
-
-				assert.equal(element.code, 'new code', 'code was updated to match');
-				assert.isTrue(spy.commit.called, 'onInputCode should be called when input event is triggered');
-			});
-
-			it('extra whitespace is removed', async() => {
-				const spy = sinon.spy(element.updateCode);
-				await updateCode(element, '   new  code     ');
-
-				assert.equal(element.code, 'new  code', 'code was updated to match');
-				assert.isTrue(spy.commit.called, 'commit should be called when input event is triggered');
-			});
-
-			/*
-			// this is breaking sinon, because commit() is not passing an object
-			// adding an empty object makes test pass but breaks functionality
-			// not sure how to work around this
-			it('can submit empty', async() => {
-				const spy = sinon.spy(element.updateCode);
-				await updateCode(element, '');
-
-				assert.equal(element.code, '', 'code was updated to match');
-				assert.isTrue(spy.commit.called, 'commit should be called when input event is triggered');
-			});
-			*/
 		});
-		describe('Missing Action ', () => {
-			it('code not updated when action missing', async() => {
-				fetchMock.mock(orgHref, JSON.stringify(orgNoAction));
 
-				const element = await _createCodeEditorLearningPath(activityHref);
-				assert.equal(element.code, org.properties.code, 'code should match response');
+		it('updating should commit state', async() => {
+			const spy = sinon.spy(element.updateCode);
+			await updateCode(element, 'new code');
 
-				const spy = sinon.spy(element.updateCode);
-				await updateCode(element, 'new code');
+			assert.equal(element.code, 'new code', 'code was updated to match');
+			assert.isTrue(spy.commit.called, 'onInputCode should be called when input event is triggered');
+		});
 
-				assert.equal(element.code, org.properties.code, 'code was unaltered');
-				assert.isFalse(spy.commit.called, 'commit should not be called on update failure');
-			});
+		it('extra whitespace is removed', async() => {
+			const spy = sinon.spy(element.updateCode);
+			await updateCode(element, '   new  code     ');
+
+			assert.equal(element.code, 'new  code', 'code was updated to match');
+			assert.isTrue(spy.commit.called, 'commit should be called when input event is triggered');
+		});
+
+		/*
+		// this is breaking sinon, because commit() is not passing an object
+		// adding an empty object makes test pass but breaks functionality
+		// not sure how to work around this
+		it('can submit empty', async() => {
+			const spy = sinon.spy(element.updateCode);
+			await updateCode(element, '');
+
+			assert.equal(element.code, '', 'code was updated to match');
+			assert.isTrue(spy.commit.called, 'commit should be called when input event is triggered');
+		});
+		*/
+
+		it('code not updated when action missing', async() => {
+			fetchMock.mock(activityHrefNoAction, JSON.stringify(activityNoAction));
+			fetchMock.mock(orgHrefNoAction, JSON.stringify(orgNoAction));
+
+			const element = await _createCodeEditorLearningPath(activityHrefNoAction);
+			assert.equal(element.code, org.properties.code, 'code should match response');
+
+			const spy = sinon.spy(element.updateCode);
+			await updateCode(element, 'new code');
+
+			assert.equal(element.code, org.properties.code, 'code was unaltered');
+			assert.isFalse(spy.commit.called, 'commit should not be called on update failure');
 		});
 	});
 });
