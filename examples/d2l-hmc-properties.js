@@ -2,7 +2,7 @@ import { html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { customHypermediaElement } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 
-export class HmcExample extends HypermediaStateMixin(LitElement) {
+export class HmcProperties extends HypermediaStateMixin(LitElement) {
 
 	static get properties() {
 		return {
@@ -21,4 +21,4 @@ export class HmcExample extends HypermediaStateMixin(LitElement) {
 	}
 }
 
-customHypermediaElement('d2l-hmc-example', HmcExample);
+customHypermediaElement('d2l-hmc-properties', HmcProperties);
