@@ -1,8 +1,7 @@
 import { assert, html } from '@open-wc/testing';
-import { addToMock } from './data/fetchMock.js';
 import { clearStore } from '@brightspace-hmc/foundation-engine/state/HypermediaState.js';
 import { createComponentAndWait } from '../../test-util.js';
-import { mockLink } from '../../data/fetchMocks.js';
+import fetchMock from 'fetch-mock/esm/client';
 import { runConstructor } from '@brightspace-ui/core/tools/constructor-test-helper.js';
 
 // to be imported: component implementation file, testing data
@@ -12,16 +11,20 @@ async function _createComponent(path) {
 	return await createComponentAndWait(html`<tag href="${path}" token="test-token"></tag>`);
 }
 
+const apiHref = 'http://api/';
+const responseData = {
+	properties: {
+		name: 'test'
+	}
+};
+
 describe('component-name', () => {
 
 	before(() => {
-		mockLink.reset();
-		// add appropriate data to fetch mock
-		//addToMock('path', jsonResponse);
-		addToMock();
+		fetchMock.mock(apiHref, responseData);
 	});
 	after(() => {
-		mockLink.reset();
+		fetchMock.reset();
 	});
 
 	describe('construction', () => {
@@ -39,11 +42,11 @@ describe('component-name', () => {
 		});
 
 		afterEach(() => {
-			mockLink.resetHistory();
+			fetchMock.resetHistory();
 		});
 
 		it('should initialize using ...', async() => {
-			const element = await _createComponent('ref');
+			const element = await _createComponent(apiHref);
 
 			// assert fields are assigned as desired
 			assert(element);
@@ -58,11 +61,11 @@ describe('component-name', () => {
 		});
 
 		afterEach(() => {
-			mockLink.resetHistory();
+			fetchMock.resetHistory();
 		});
 
 		it('should ...', async() => {
-			await _createComponent('path');
+			await _createComponent(apiHref);
 		});
 	});
 });
