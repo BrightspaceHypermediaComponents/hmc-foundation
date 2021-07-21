@@ -167,7 +167,7 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 
 	_getAlsoInString() {
 		const alsoIn = this._getAlsoIn();
-		let alsoInString = `${this.localize('also-in')} `;
+		let alsoInString = `${this.localize('also_in')} `;
 		for (let i = 0; i < alsoIn.length; i++) {
 			alsoInString = alsoInString + alsoIn[i];
 			if (i < alsoIn.length - 1) {
