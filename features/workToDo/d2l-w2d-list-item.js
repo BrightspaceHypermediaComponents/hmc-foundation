@@ -170,8 +170,8 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 		const courseName = this._isCourse ? lithtml`<span>${this.localize('course')}</span>` : lithtml`<span>${this._parentName}</span>`;
 		return html`
 		<div>
-			${this.collapsed ? dueDate : type}
-			${courseName}
+			${this.collapsed ? dueDate : type}<!--
+			-->${courseName}
 		</div>
 		`;
 	}
