@@ -12,6 +12,7 @@ class W2DAttributeList extends SkeletonMixin(LitElement) {
 			::slotted(*) {
 				overflow: hidden;
 				white-space: nowrap;
+				text-overflow: ellipsis;
 			}
 		`];
 	}
