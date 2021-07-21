@@ -15,5 +15,7 @@ export default  {
 	"button-quizEditorDelete": "Löschen", // Text for quiz editor Delete button
 	"button-deleteConfirmationDialogDelete": "Löschen", // Copy on the delete question/section/question pool confirmation dialog
 	"button-deleteConfirmationDialogCancel": "Abbrechen", // Copy on the delete question/section/question pool confirmation dialog
-	"text-deleteConfirmationDialog": "Ausgewählten Inhalt aus dem Test löschen?" // Delete question/section/question pool confirmation dialog text
+	"text-deleteConfirmationDialog": "Ausgewählten Inhalt aus dem Test löschen?", // Delete question/section/question pool confirmation dialog text
+	"text-readyToBeginAddingQuizContent": "Möchten Sie mit dem Hinzufügen von Testinhalten beginnen?", // Text instructions for quiz with no questions
+	"text-clickAddExistingOrCreateNewToGetStarted": "Click Add Existing or Create New to get started" // Text instructions for quiz with no questions
 };

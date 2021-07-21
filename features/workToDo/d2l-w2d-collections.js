@@ -39,6 +39,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 			startDate: { type: String, attribute: 'start-date' },
 			endDate: { type: String, attribute: 'end-date' },
 			dataFullPagePath: { type: String, attribute: 'data-full-page-path' },
+			upcomingWeekLimit: { type: String, attribute: 'upcoming-week-limit' },
 			skeleton: { type: Boolean, reflect: true },
 			userUrl: { type: String, attribute: 'user-url' },
 			_categories: {
@@ -301,7 +302,8 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 					?collapsed="${this.collapsed}"
 					?complete="${!this.collapsed}"
 					?use-first-name="${this.useFirstName}"
-					data-full-page-path=${this.dataFullPagePath}
+					data-full-page-path="${ifDefined(this.dataFullPagePath)}"
+					upcoming-week-limit="${this.upcomingWeekLimit}"
 					.token="${this.token}"
 					href=${this.userUrl}></d2l-w2d-no-activities>
 			`;
@@ -412,20 +414,22 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 
 	_renderHeader2(heading, count) {
 		if (this.collapsed) return;
+		const screenReaderText = this.localize('xActivities', 'count', count);
 		return html`
 			<div class="d2l-w2d-flex">
 				<h2 class="d2l-heading-2">${heading}</h2>
-				<div class="d2l-w2d-count d2l-w2d-heading-2-count">${count}</div>
+				<div class="d2l-w2d-count d2l-w2d-heading-2-count" aria-label="${screenReaderText}"><span aria-hidden="true">${count}</span></div>
 			</div>
 		`;
 	}
 
 	_renderHeader3(heading, count) {
 		if (!this.collapsed) return html`<div class="d2l-w2d-flex"><h3 class="d2l-w2d-heading-3">${heading}</h3></div>`;
+		const screenReaderText = this.localize('xActivities', 'count', count);
 		return html`
 			<div class="d2l-w2d-flex">
 				<h3 class="d2l-w2d-heading-3 d2l-heading-3">${heading}</h3>
-				<div class="d2l-w2d-count d2l-w2d-heading-3-count">${count}</div>
+				<div class="d2l-w2d-count d2l-w2d-heading-3-count" aria-label="${screenReaderText}"><span aria-hidden="true">${count}</span></div>
 			</div>
 		`;
 	}

@@ -18,14 +18,17 @@
             "values": ["pie"]
           }
         }
-      ]
+      ],
+      "properties": {
+        "matchCount": 2
+      }
     }
   ],
   "properties": {
     "id": 12345
   },
   "links": [
-    { "rel": ["self"], "href": "../demo/course-entitlement-rules.json" },
+    { "rel": ["self"], "href": "../demo/course-entitlement-rules-2.json" },
     { "rel": [ "https://discovery.brightspace.com/rels/condition-types" ], "href": "../demo/condition-types.json" }
   ]
 }

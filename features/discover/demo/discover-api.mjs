@@ -22,4 +22,3 @@ export const handleDiscoverRequests = function(request, response) {
 		});
 	}
 };
-

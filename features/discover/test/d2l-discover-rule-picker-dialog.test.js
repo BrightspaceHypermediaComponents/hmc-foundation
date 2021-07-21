@@ -42,6 +42,14 @@ const conditionTypesEntity = {
 	]
 };
 
+const ruleArray =  [{
+	entities: [
+		{ properties: { type: 'Fruit', values: ['apple', 'orange'] }, rel: [rels.condition] },
+		{ properties: { type: 'Entree', values: ['spaghetti'] }, rel: [rels.condition] }
+	],
+	rel: [rels.rule]
+}];
+
 describe('d2l-discover-rule-picker-dialog', () => {
 
 	before(() => {
@@ -71,7 +79,7 @@ describe('d2l-discover-rule-picker-dialog', () => {
 		beforeEach(async() => {
 			clearStore();
 			el = await createComponentAndWait(html`
-				<d2l-discover-rule-picker-dialog href="${selfHref}" token="cake"></d2l-discover-rule-picker-dialog>
+				<d2l-discover-rule-picker-dialog href="${selfHref}" .rules=${ruleArray} token="cake"></d2l-discover-rule-picker-dialog>
 			`);
 		});
 		afterEach(() => fetchMock.resetHistory());
@@ -83,8 +91,8 @@ describe('d2l-discover-rule-picker-dialog', () => {
 			const rulePicker = el.shadowRoot.querySelector('d2l-discover-rule-picker');
 			await rulePicker.updateComplete;
 			expect(rulePicker.ruleIndex).to.equal(0);
-			expect(rulePicker._rules, 'Rules do not have length 1').to.have.lengthOf(1);
-			expect(rulePicker._rules[0].entities, 'Rule conditions do not have length 2').to.have.lengthOf(2);
+			expect(rulePicker.rules, 'Rules do not have length 1').to.have.lengthOf(1);
+			expect(rulePicker.rules[0].entities, 'Rule conditions do not have length 2').to.have.lengthOf(2);
 			await waitUntil(() => rulePicker.conditions.length === 2, 'Conditions never initialized');
 			rulePicker.conditions.splice(0, 1);
 
@@ -94,7 +102,7 @@ describe('d2l-discover-rule-picker-dialog', () => {
 			// click done
 			el.shadowRoot.querySelector('d2l-button[primary]').click();
 			await el.updateComplete;
-			expect(el._rules[0]).to.deep.equal(rulePicker._rules[0]);
+			expect(el.rules[0]).to.deep.equal(rulePicker.rules[0]);
 		});
 
 		it('resets the conditions back to empty when cancel is pressed', async() => {
@@ -117,7 +125,7 @@ describe('d2l-discover-rule-picker-dialog', () => {
 		});
 
 		it('updates the state for a new rule when done is pressed', async() => {
-			expect(el._rules).to.have.lengthOf(1);
+			expect(el.rules).to.have.lengthOf(1);
 			el.opened = true;
 			await el.updateComplete;
 			// simulate adding a new rule
@@ -134,8 +142,8 @@ describe('d2l-discover-rule-picker-dialog', () => {
 			// click done
 			el.shadowRoot.querySelector('d2l-button[primary]').click();
 			await el.updateComplete;
-			expect(el._rules).to.have.lengthOf(2);
-			expect(el._rules[1].entities).to.deep.equal(newConditions);
+			expect(el.rules).to.have.lengthOf(2);
+			expect(el.rules[1].entities).to.deep.equal(newConditions);
 		});
 	});
 

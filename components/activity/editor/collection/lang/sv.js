@@ -15,5 +15,7 @@ export default  {
 	"button-quizEditorDelete": "Ta bort", // Text for quiz editor Delete button
 	"button-deleteConfirmationDialogDelete": "Ta bort", // Copy on the delete question/section/question pool confirmation dialog
 	"button-deleteConfirmationDialogCancel": "Avbryt", // Copy on the delete question/section/question pool confirmation dialog
-	"text-deleteConfirmationDialog": "Vill du ta bort det markerade innehållet från förhöret?" // Delete question/section/question pool confirmation dialog text
+	"text-deleteConfirmationDialog": "Vill du ta bort det markerade innehållet från förhöret?", // Delete question/section/question pool confirmation dialog text
+	"text-readyToBeginAddingQuizContent": "Vill du börja lägga till innehåll i förhöret?", // Text instructions for quiz with no questions
+	"text-clickAddExistingOrCreateNewToGetStarted": "Click Add Existing or Create New to get started" // Text instructions for quiz with no questions
 };

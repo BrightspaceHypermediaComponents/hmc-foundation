@@ -4,12 +4,13 @@ import { html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { customHypermediaElement } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { ifDefined } from 'lit-html/directives/if-defined';
+import { LabelMixin } from '@brightspace-ui/core/mixins/labelled-mixin.js';
 
 const rels = Object.freeze({
 	specialization: 'https://api.brightspace.com/rels/specialization'
 });
 
-class ActivityNameSpecialization extends HypermediaStateMixin(LitElement) {
+class ActivityNameSpecialization extends LabelMixin(HypermediaStateMixin(LitElement)) {
 	static get properties() {
 		return {
 			_specializationHref: { type: String, observable: observableTypes.link, rel: rels.specialization, prime: true }

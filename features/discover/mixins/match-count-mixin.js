@@ -1,9 +1,27 @@
+const rels = Object.freeze({
+	user: 'https://api.brightspace.com/rels/user'
+});
+
 export const MatchCountMixin = superclass => class extends superclass {
 
-	createConditionFilter(conditions, includeUsers, userLimit) {
+	async getMatchData(summonAction, conditions, includeUsers, userLimit) {
+		const conditionFilter = this._createConditionFilter(conditions, includeUsers, userLimit);
+		if (conditionFilter.match.length > 0) {
+			const sirenReponse = await summonAction.summon(conditionFilter, true);
+			if (sirenReponse) {
+				return {
+					count: sirenReponse.properties.count,
+					...(includeUsers && { users: sirenReponse.entities?.map(user => this._getUserHrefs(user)) })
+				};
+			}
+		}
+		return null;
+	}
+
+	_createConditionFilter(conditions, includeUsers, userLimit) {
 		const matchArray = [];
 		conditions.forEach(condition => {
-			if (condition.properties.state !== 'existing') {
+			if (condition.properties.state ?.includes('remove')) {
 				return;
 			}
 
@@ -22,18 +40,8 @@ export const MatchCountMixin = superclass => class extends superclass {
 		};
 	}
 
-	async getMatchData(summonAction, conditions, includeUsers, userLimit) {
-		const conditionFilter = this.createConditionFilter(conditions, includeUsers, userLimit);
-		if (conditionFilter.match.length > 0) {
-			const sirenReponse = await summonAction.summon(conditionFilter, true);
-			if (sirenReponse) {
-				return {
-					count: sirenReponse.properties.count,
-					...(includeUsers && { users: sirenReponse.entities })
-				};
-			}
-
-		}
-		return null;
+	_getUserHrefs(user) {
+		const userLink =  user.links?.find(l => l.rel.includes(rels.user));
+		return userLink?.href;
 	}
 };

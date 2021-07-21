@@ -16,7 +16,7 @@ export default {
 	"text-edit-enrollment-rule": "Edit Enrollment Rule", // Edit an existing rule
 	"text-edit": "Edit", // Title for edit menu item
 	"text-remove-condition": "Remove condition {conditionType}", // Screenreader text when removing a condition from a rule
-	"text-rule-matches": "Rule matches {count} users", // Information about how many users a rule matches
+	"text-rule-matches": "Rule matches {count} users", // Information about how many users a rule matches in the rule edit dialog
 	"text-rules-description": "To self-enroll in this course, users must match one or more of these rules.", // description for enrollment rules
 	"text-rules": "Enrollment Rules", // title for enrollment rules options
 	"text-select-conditions": "Select Conditions", // header text for selecting the set of conditions for a rule

@@ -4,9 +4,21 @@
     "course",
     "assigned"
   ],
+  "actions": [
+    {
+      "name": "entitlement-rules",
+      "href": "http://localhost:8000/features/discover/demo/course-entitlement-rules.json",
+      "method": "GET"
+    },
+    {
+      "name": "create-entitlement-rules",
+      "href": "http://localhost:8000/features/discover/demo/course-entitlement-rules.json",
+      "method": "POST"
+    }
+  ],
   "properties": {
     "title": "Adv Engineering Mathematics",
-    "description": "This is a course in advanced\r\nmathematicsforEngineers.\r\n\r\nThis is a course in advancedmathematics for Engineers. This is a course in advanced mathematics for Engineers. This is a course in advanced mathematics for Engineers. This is a course in advanced mathematics for Engineers.&#160;"
+    "description": "This is a course in advanced\r\nmathematicsforEngineers.\r\n\r\nThis is a course in advanced mathematics for Engineers. This is a course in advanced mathematics for Engineers. This is a course in advanced mathematics for Engineers. This is a course in advanced mathematics for Engineers.&#160;"
   },
   "links": [
     {
@@ -20,12 +32,6 @@
         "https://api.brightspace.com/rels/organization"
       ],
       "href": "../demo/course.json"
-    },
-    {
-      "rel": [
-        "https://discovery.brightspace.com/rels/entitlement-rules"
-      ],
-      "href": "../demo/course-entitlement-rules.json"
     },
     {
       "rel": [
