@@ -97,6 +97,7 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 				content: "";
 				height: 0;
 				width: 0;
+				display: initial;
 			}
 		`];
 
