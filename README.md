@@ -55,6 +55,8 @@ See [Creating new components](creating-new-components.md).
 
 For details on observable properties, see [observables](https://github.com/BrightspaceHypermediaComponents/foundation-engine/tree/master/state/observable) in the [Foundation Engine](https://github.com/BrightspaceHypermediaComponents/foundation-engine).
 
+For example components using observables, see [examples](https://github.com/BrightspaceHypermediaComponents/foundation-components/tree/master/examples).
+
 ## Developing, Testing and Contributing
 
 After cloning the repo, run `npm install` to install dependencies.
