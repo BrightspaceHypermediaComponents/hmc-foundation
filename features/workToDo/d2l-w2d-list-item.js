@@ -149,8 +149,10 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 				<d2l-list-item-content>
 					<d2l-activity-name class="d2l-w2d-list-item-name" href="${this.href}" .token="${this.token}"></d2l-activity-name>
 					<d2l-w2d-attribute-list slot="secondary" class="d2l-w2d-list-item-attributes">
-						${ !this.collapsed ? startDate : null }
-						${this._renderAttributeListCollapsed()}
+						<div>
+							${ !this.collapsed ? startDate : null }
+							${this._renderAttributeListCollapsed()}
+						</div>
 					</d2l-w2d-attribute-list>
 					${ !this.collapsed ? html`<d2l-activity-description slot="supporting-info" href="${this.href}" .token="${this.token}"></d2l-activity-description>` : startDate}
 				</d2l-list-item-content>
@@ -169,10 +171,7 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 		const type = !this._isCourse ? lithtml`<d2l-activity-type href="${this.href}" .token="${this.token}"></d2l-activity-type>` : null;
 		const courseName = this._isCourse ? lithtml`<span>${this.localize('course')}</span>` : lithtml`<span>${this._parentName}</span>`;
 		return html`
-		<div>
-			${this.collapsed ? dueDate : type}<!--
-			-->${courseName}
-		</div>
+			${this.collapsed ? dueDate : type}${courseName}
 		`;
 	}
 
