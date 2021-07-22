@@ -28,6 +28,11 @@ const customLaunchers = {
 module.exports = config => {
 	config.set(
 		merge(createDefaultConfig(config), {
+			client: {
+				mocha: {
+					timeout : 6000 // 6 seconds - upped from 2 seconds
+				}
+			},
 			files: [
 				// runs all files ending with .test in the test folder,
 				// can be overwritten by passing a --grep flag. examples:
