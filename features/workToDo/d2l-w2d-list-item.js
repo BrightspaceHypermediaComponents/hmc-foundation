@@ -91,11 +91,15 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 				display: inline-block;
 				height:18px;
 				width:18px;
+				vertical-align: top;
+				margin-left: -0.15rem;
 			}
 			.d2l-w2d-list-item-attributes *:first-child::before {
 				content: "";
 				height: 0;
 				width: 0;
+				display: initial;
+				margin-left: 0;
 			}
 		`];
 
@@ -147,8 +151,10 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 				<d2l-list-item-content>
 					<d2l-activity-name class="d2l-w2d-list-item-name" href="${this.href}" .token="${this.token}"></d2l-activity-name>
 					<d2l-w2d-attribute-list slot="secondary" class="d2l-w2d-list-item-attributes">
-						${ !this.collapsed ? startDate : null }
-						${this._renderAttributeListCollapsed()}
+						<div>
+							${ !this.collapsed ? startDate : null }
+							${this._renderAttributeListCollapsed()}
+						</div>
 					</d2l-w2d-attribute-list>
 					${ !this.collapsed ? html`<d2l-activity-description slot="supporting-info" href="${this.href}" .token="${this.token}"></d2l-activity-description>` : startDate}
 				</d2l-list-item-content>
@@ -162,10 +168,10 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 	_renderAttributeListCollapsed() {
 		let dueDate;
 		if (this._dates.due || this._dates.end) {
-			dueDate = lithtml`<div>${this._dates.due ? this.localize('dueWithDate', 'dueDate', formatDate(this._dates.due, {format: 'shortMonthDay'})) : this.localize('endWithDate', 'endDate', formatDate(this._dates.end, {format: 'shortMonthDay'}))}</div>`;
+			dueDate = lithtml`<span>${this._dates.due ? this.localize('dueWithDate', 'dueDate', formatDate(this._dates.due, {format: 'shortMonthDay'})) : this.localize('endWithDate', 'endDate', formatDate(this._dates.end, {format: 'shortMonthDay'}))}</span>`;
 		}
 		const type = !this._isCourse ? lithtml`<d2l-activity-type href="${this.href}" .token="${this.token}"></d2l-activity-type>` : null;
-		const courseName = this._isCourse ? lithtml`<div>${this.localize('course')}</div>` : lithtml`<div>${this._parentName}</div>`;
+		const courseName = this._isCourse ? lithtml`<span>${this.localize('course')}</span>` : lithtml`<span>${this._parentName}</span>`;
 		return html`
 			${this.collapsed ? dueDate : type}
 			${courseName}
