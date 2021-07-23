@@ -54,9 +54,7 @@ class ActivityType extends SkeletonMixin(LocalizeFoundationType(HypermediaStateM
 			type = ActivityType.components[hmClass];
 			return true;
 		});
-		return html`
-			<span class="d2l-skeletize">${this.localize(type)}</span>
-		`;
+		return html`<span class="d2l-skeletize">${this.localize(type)}</span>`;
 	}
 
 	get _loaded() {

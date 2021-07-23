@@ -161,6 +161,7 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 
 	_renderAttributeListCollapsed() {
 		let dueDate;
+		console.log('collapsed due date: ', this._dates.due);
 		if (this._dates.due || this._dates.end) {
 			dueDate = lithtml`<div>${this._dates.due ? this.localize('dueWithDate', 'dueDate', formatDate(this._dates.due, {format: 'shortMonthDay'})) : this.localize('endWithDate', 'endDate', formatDate(this._dates.end, {format: 'shortMonthDay'}))}</div>`;
 		}

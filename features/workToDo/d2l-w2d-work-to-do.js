@@ -82,6 +82,7 @@ class w2dWorkToDo extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement))
 	constructor() {
 		super();
 		this.collapsed = false;
+		console.log('w2d running locally');
 	}
 
 	get collapsed() {
