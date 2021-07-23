@@ -92,14 +92,14 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 				height:18px;
 				width:18px;
 				vertical-align: top;
-				margin-right: 0.15rem;
+				margin-left: -0.15rem;
 			}
 			.d2l-w2d-list-item-attributes *:first-child::before {
 				content: "";
 				height: 0;
 				width: 0;
 				display: initial;
-				margin-right: 0;
+				margin-left: 0;
 			}
 		`];
 
