@@ -173,7 +173,8 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 		const type = !this._isCourse ? lithtml`<d2l-activity-type href="${this.href}" .token="${this.token}"></d2l-activity-type>` : null;
 		const courseName = this._isCourse ? lithtml`<span>${this.localize('course')}</span>` : lithtml`<span>${this._parentName}</span>`;
 		return html`
-			${this.collapsed ? dueDate : type}${courseName}
+			${this.collapsed ? dueDate : type}
+			${courseName}
 		`;
 	}
 
