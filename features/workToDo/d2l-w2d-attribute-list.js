@@ -4,19 +4,11 @@ import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton
 class W2DAttributeList extends SkeletonMixin(LitElement) {
 	static get styles() {
 		return [ super.styles, css`
-			:host {
-				display: flex;
-				flex-flow: row wrap;
-				height: 1rem;
-				overflow-y: hidden;
-			}
 			*,
 			::slotted(*) {
-				align-items: center;
-				display: flex;
-				flex-flow: row nowrap;
 				overflow: hidden;
 				white-space: nowrap;
+				text-overflow: ellipsis;
 			}
 		`];
 	}
