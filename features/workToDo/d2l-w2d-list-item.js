@@ -39,9 +39,10 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 
 	static get properties() {
 		return {
-			allowUnclickableActivities: { type: Boolean, attribute: 'allow-unclickable-activities' },
 			collapsed: { type: Boolean },
 			skeleton: { type: Boolean },
+			allowUnclickableActivities: { type: Boolean, attribute: 'allow-unclickable-activities' },
+			clickableFutureActivities: { type: Boolean, attribute: 'clickable-future-activities' },
 			_hasStarted: { type: Boolean, observable: observableTypes.classes, method: (classes) => classes.includes('started') },
 			_dates: {
 				type: Object,
@@ -121,7 +122,7 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 	}
 
 	get actionHref() {
-		return ((this._dates && !this._dates.start) || this._hasStarted) ? this._actionHref : undefined;
+		return (this.clickableFutureActivities || (this._dates && !this._dates.start) || this._hasStarted) ? this._actionHref : undefined;
 	}
 
 	set actionHref(href) {

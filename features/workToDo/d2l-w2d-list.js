@@ -14,11 +14,12 @@ const rel = Object.freeze({
 class W2dList extends HypermediaStateMixin(LitElement) {
 	static get properties() {
 		return {
-			allowUnclickableActivities: { type: Boolean, attribute: 'allow-unclickable-activities' },
 			category: { type: String },
 			collapsed: { type: Boolean },
 			limit: { type: Number },
 			skeleton: { type: Boolean},
+			allowUnclickableActivities: { type: Boolean, attribute: 'allow-unclickable-activities' },
+			clickableFutureActivities: { type: Boolean, attribute: 'clickable-future-activities' },
 			_activities: {
 				type: Array,
 				observable: observableTypes.custom,
@@ -45,7 +46,13 @@ class W2dList extends HypermediaStateMixin(LitElement) {
 		return html`
 			<d2l-list separators="${this.collapsed ? 'none' : 'all'}">
 				${activities.map(activity => html`
-					<d2l-w2d-list-item href="${activity.href}" .token="${this.token}" ?collapsed="${this.collapsed}" ?allow-unclickable-activities="${this.allowUnclickableActivities}"></d2l-w2d-list-item>
+					<d2l-w2d-list-item
+						href="${activity.href}"
+						.token="${this.token}"
+						?collapsed="${this.collapsed}"
+						?allow-unclickable-activities="${this.allowUnclickableActivities}"
+						?clickable-future-activities="${this.clickableFutureActivities}">
+					</d2l-w2d-list-item>
 				`)}
 			</d2l-list>
 		`;
