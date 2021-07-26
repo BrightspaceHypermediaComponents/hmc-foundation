@@ -46,13 +46,7 @@ class W2dList extends HypermediaStateMixin(LitElement) {
 		return html`
 			<d2l-list separators="${this.collapsed ? 'none' : 'all'}">
 				${activities.map(activity => html`
-					<d2l-w2d-list-item
-						href="${activity.href}"
-						.token="${this.token}"
-						?collapsed="${this.collapsed}"
-						?allow-unclickable-activities="${this.allowUnclickableActivities}"
-						?clickable-future-activities="${this.clickableFutureActivities}">
-					</d2l-w2d-list-item>
+					<d2l-w2d-list-item href="${activity.href}" .token="${this.token}" ?collapsed="${this.collapsed}" ?allow-unclickable-activities="${this.allowUnclickableActivities}" ?clickable-future-activities="${this.clickableFutureActivities}"></d2l-w2d-list-item>
 				`)}
 			</d2l-list>
 		`;
