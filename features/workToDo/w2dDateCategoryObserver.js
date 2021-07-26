@@ -32,9 +32,7 @@ export class W2dDateCategory extends SirenSubEntities {
 			const index = this._groupByDays === 0 ? 0 : Math.floor(daysTillDueDate / this._groupByDays);
 			if (!categoryInfo[index]) {
 				const startDate = new Date(this._startDate.getTime() + index * msInADay * this._groupByDays);
-				console.log('startdate in facade: ', this._startDate);
 				const endDate = new Date(startDate.getTime() +  msInADay * (this._groupByDays - 1));
-				console.log('endDate in facade: ', endDate);
 				categoryInfo[index] = {
 					startDate,
 					endDate,

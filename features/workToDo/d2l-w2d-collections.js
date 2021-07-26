@@ -270,7 +270,6 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 
 		let categories = null;
 		if (limit > 0) {
-			console.log('categories:', this._categories);
 			categories = this._categories.map(category => {
 				if (category.index < 0) return;
 				const header = this._renderDate(category.startDate, category.endDate, this.collapsed);
@@ -405,10 +404,8 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 		return dates
 			.map(date => {
 				let formatedDate = formatDate(date, { format: 'monthDay' });
-				console.log('formatting date from: ', date);
 				if (!collapsed) {
 					formatedDate = this.localize('dateHeader', 'dayOfWeek', formatDate(date, { format: 'longDayOfWeek'}), 'month', formatDate(date, { format: 'longMonth' }), 'dayOfMonth', date.getDate());
-					console.log('formattedDate: ', formatedDate);
 				}
 				return formatedDate;
 			})
