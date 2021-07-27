@@ -2,6 +2,8 @@ import '@brightspace-ui/core/components/list/list.js';
 import '@brightspace-ui/core/components/list/list-item.js';
 import './d2l-activity-collection-item-quiz.js';
 import './d2l-activity-collection-item-delete-quiz.js';
+import './d2l-activity-collection-editor-quiz-empty.js';
+
 import { bodyStandardStyles, heading2Styles } from '@brightspace-ui/core/components/typography/styles';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
@@ -31,6 +33,9 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 				observable: observableTypes.subEntities,
 				rel: rels.item,
 				route: [route.collection]
+			},
+			_collectionHref: {
+				type: String, observable: observableTypes.link, rel: rels.collection
 			},
 			_selectionCount: { type: Number },
 			_refreshState: {
@@ -117,16 +122,7 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 					<div class="d2l-activity-collection-list-actions d2l-skeletize">
 						<d2l-activity-collection-item-delete-quiz ?can-remove-items=${canRemoveItems} selection-count="${this._selectionCount}"></d2l-activity-collection-item-delete-quiz>
 					</div>
-				` : html`
-					<div>
-						<div class="d2l-heading-2 d2l-skeletize">
-							${this.localize('text-readyToBeginAddingQuizContent')}
-						</div>
-						<div class="d2l-body-standard d2l-skeletize">
-							${this.localize('text-clickAddExistingOrCreateNewToGetStarted')}
-						</div>
-					</div>
-				`}
+				` : html`<d2l-activity-collection-editor-quiz-empty href="${this._collectionHref}" .token="${this.token}"></d2l-activity-collection-editor-quiz-empty>`}
 				</div>
 				<div class="d2l-activity-collection-activities">
 					<d2l-list separators="none" @d2l-list-item-position-change="${this._moveItems}" @d2l-list-selection-change="${this._onSelectionChange}">
