@@ -17,5 +17,5 @@ export default  {
 	"button-deleteConfirmationDialogCancel": "취소", // Copy on the delete question/section/question pool confirmation dialog
 	"text-deleteConfirmationDialog": "퀴즈에서 선택한 콘텐츠를 삭제하시겠습니까?", // Delete question/section/question pool confirmation dialog text
 	"text-readyToBeginAddingQuizContent": "퀴즈 콘텐츠를 추가할 준비가 되었습니까?", // Text instructions for quiz with no questions
-	"text-clickAddExistingOrCreateNewToGetStarted": "Click Add Existing or Create New to get started" // Text instructions for quiz with no questions
+	"text-clickAddExistingOrCreateNewToGetStarted": "기존 항목 추가 또는 새 만들기를 클릭하여 시작합니다" // Text instructions for quiz with no questions
 };

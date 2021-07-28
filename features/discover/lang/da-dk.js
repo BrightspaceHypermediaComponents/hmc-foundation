@@ -16,7 +16,7 @@ export default {
 	"text-edit-enrollment-rule": "Rediger tilmeldingsregel", // Edit an existing rule
 	"text-edit": "Rediger", // Title for edit menu item
 	"text-remove-condition": "Fjern betingelse {conditionType}", // Screenreader text when removing a condition from a rule
-	"text-rule-matches": "Reglen matcher {count} brugere", // Information about how many users a rule matches
+	"text-rule-matches": "Reglen matcher {count} brugere", // Information about how many users a rule matches in the rule edit dialog
 	"text-rules-description": "Hvis brugere selv vil tilmelde sig dette kursus, skal de matche en eller flere af disse regler.", // description for enrollment rules
 	"text-rules": "Tilmeldingsregler", // title for enrollment rules options
 	"text-select-conditions": "Vælg betingelser", // header text for selecting the set of conditions for a rule

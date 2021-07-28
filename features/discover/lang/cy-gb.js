@@ -16,7 +16,7 @@ export default {
 	"text-edit-enrollment-rule": "Golygu Rheol Cofrestru", // Edit an existing rule
 	"text-edit": "Golygu", // Title for edit menu item
 	"text-remove-condition": "Tynnu’r amod {conditionType}", // Screenreader text when removing a condition from a rule
-	"text-rule-matches": "Mae'r rheol yn cyfateb i {count} o ddefnyddwyr", // Information about how many users a rule matches
+	"text-rule-matches": "Mae'r rheol yn cyfateb i {count} o ddefnyddwyr", // Information about how many users a rule matches in the rule edit dialog
 	"text-rules-description": "Er mwyn hunangofrestru ar y cwrs hwn, rhaid i ddefnyddwyr gyfateb i un neu fwy o'r rheolau hyn.", // description for enrollment rules
 	"text-rules": "Rheolau Cofrestru", // title for enrollment rules options
 	"text-select-conditions": "Dewis amodau", // header text for selecting the set of conditions for a rule

@@ -17,5 +17,5 @@ export default  {
 	"button-deleteConfirmationDialogCancel": "Annuller", // Copy on the delete question/section/question pool confirmation dialog
 	"text-deleteConfirmationDialog": "Vil du slette valgt indhold fra eksaminationen?", // Delete question/section/question pool confirmation dialog text
 	"text-readyToBeginAddingQuizContent": "Er du klar til at begynde at tilføje eksaminationsindhold?", // Text instructions for quiz with no questions
-	"text-clickAddExistingOrCreateNewToGetStarted": "Click Add Existing or Create New to get started" // Text instructions for quiz with no questions
+	"text-clickAddExistingOrCreateNewToGetStarted": "Klik på Tilføj eksisterende eller Opret ny for at komme i gang" // Text instructions for quiz with no questions
 };

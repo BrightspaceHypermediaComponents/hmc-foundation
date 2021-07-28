@@ -11,7 +11,7 @@ export default {
 	dateHeader: '{dayOfWeek}, {dayOfMonth} {month}', // Indicates that the below list of activities are due
 	discussion: 'Tartışma', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	fullViewLink: 'Tüm İşleri Görüntüle', // Link text displayed in "Activities View", where the user can navigate to the full page view to see all work
-	goToDiscover: 'Keşfet\'e Git', // Button text displayed in 'Empty View' when user can navigate to discover homepage from the widget
+	goToDiscover: 'Keşfet'e Git', // Button text displayed in 'Empty View' when user can navigate to discover homepage from the widget
 	loadMore: 'Daha Fazla Yükle', // Button text displayed in 'Fullscreen View' that allows the user to access the next page of activities which will append to the bottom of the list currently shown
 	loadMoreDescription: 'Daha fazla atanmış etkinlik görüntüle', // Additional description text to accompany the load more button for additional clarity for the user
 	workToDo: 'Yapılacak İşler', // Widget title
@@ -26,6 +26,7 @@ export default {
 	noActivitiesNoFutureActivitiesNameless: 'Teslim veya sona erme tarihi bulunan bir etkinlik yok. Yapılacak iş olup olmadığını görmek için daha sonra tekrar kontrol edin.', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to refer to the user in the third person but don't know their name
 	nothingHere: "Hiçbir şey yok...", // Displayed as header line in widget text when there are no activities within the provided time period
 	overdue: 'Süresi Dolmuş', // Indicates that the below list of activities are overdue (have a due date that is in the past)
+	xActivities: '{count, plural, =1 {1 etkinlik} other {{count} etkinlik}}', // Label text for pluralizing activites.
 	quiz: 'Sınav', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	StartsWithDate: 'Başlama Tarihi: {startDate}', // show Start Date on status indicator when an activity starts in the future - formatted like "Starts Aug 15"
 	survey: 'Anket', // Meta-data descriptor that informs which type of activity is being displayed on a line item
