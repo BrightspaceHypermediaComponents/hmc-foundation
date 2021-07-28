@@ -15,7 +15,8 @@ const rels = Object.freeze({
 	questionText: 'https://questions.api.brightspace.com/rels/questionText',
 	specialization: 'https://api.brightspace.com/rels/specialization',
 	parentCollections: 'https://activities.api.brightspace.com/rels/parent-collections',
-	activityUsage: 'https://activities.api.brightspace.com/rels/activity-usage'
+	activityUsage: 'https://activities.api.brightspace.com/rels/activity-usage',
+	item: 'item'
 });
 const route = {
 	questionText: { observable: observableTypes.subEntity,	rel: rels.questionText },
@@ -27,6 +28,9 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 		return {
 			number: {
 				type: Number
+			},
+			quizActivityUsageHref: {
+				type: String
 			},
 			questionText: {
 				type: String,
@@ -57,10 +61,6 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 			},
 			points: {
 				type: Number
-			},
-			quizName: {
-				type: String,
-				attribute: 'quiz-name'
 			}
 		};
 	}
@@ -114,6 +114,7 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 		this.skeleton = true;
 		this.parentCollections = [];
 		this.parentCollectionsName = [];
+		this.quizActivityUsageHref = '';
 	}
 
 	render() {
@@ -158,19 +159,11 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 		return activityUsageHref;
 	}
 
-	_getAlsoIn() {
-		const cloned = Array.from(this.parentCollectionsName);
-		const idx = cloned.findIndex(elem => elem === this.quizName);
-		cloned.splice(idx, 1);
-		return cloned;
-	}
-
 	_getAlsoInString() {
-		const alsoIn = this._getAlsoIn();
 		let alsoInString = `${this.localize('also_in')} `;
-		for (let i = 0; i < alsoIn.length; i++) {
-			alsoInString = alsoInString + alsoIn[i];
-			if (i < alsoIn.length - 1) {
+		for (let i = 0; i < this.parentCollectionsName.length; i++) {
+			alsoInString = alsoInString + this.parentCollectionsName[i];
+			if (i < this.parentCollectionsName.length - 1) {
 				alsoInString = `${alsoInString}, `;
 			}
 		}
@@ -181,15 +174,17 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 	_getParentCollectionsName() {
 		for (let i = 0; i < this.parentCollections.length; i++) {
 			const activityUsageHref = this._getActivityUsageHref(this.parentCollections[i]);
-			window.D2L.Siren.EntityStore.fetch(activityUsageHref, this.token, false).then((activityUsage) => {
-				if (activityUsage) {
-					const specializationLink = activityUsage.entity.links.find(link => link.rel.includes(rels.specialization)).href;
-					window.D2L.Siren.EntityStore.fetch(specializationLink, this.token, false).then((quiz) => {
-						this.parentCollectionsName.push(quiz.entity.properties.name);
-						this.requestUpdate();
-					});
-				}
-			});
+			if (this.quizActivityUsageHref !== activityUsageHref) {
+				window.D2L.Siren.EntityStore.fetch(activityUsageHref, this.token, false).then((activityUsage) => {
+					if (activityUsage) {
+						const specializationLink = activityUsage.entity.links.find(link => link.rel.includes(rels.specialization)).href;
+						window.D2L.Siren.EntityStore.fetch(specializationLink, this.token, false).then((quiz) => {
+							this.parentCollectionsName.push(quiz.entity.properties.name);
+							this.requestUpdate();
+						});
+					}
+				});
+			}
 		}
 	}
 };
