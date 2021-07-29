@@ -32,6 +32,7 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 				rel: rels.item,
 				route: [route.collection]
 			},
+			newactivityhrefs: { type: Array },
 			_selectionCount: { type: Number },
 			_refreshState: {
 				type: Object,
@@ -135,7 +136,24 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 		`;
 	}
 
-	async addToCollection(activityHrefs) {
+	updated(changedProperties) {
+		super.updated(changedProperties);
+
+		if (changedProperties.has('newactivityhrefs')) {
+			this._addToCollection(this.newactivityhrefs);
+		}
+	}
+
+	get _loaded() {
+		return !this.skeleton;
+	}
+
+	set _loaded(loaded) {
+		// this method is called too early.
+		this.skeleton = !loaded;
+	}
+
+	async _addToCollection(activityHrefs) {
 		if (!activityHrefs || !activityHrefs.length || !this._hasAction('_startAddExisting')) {
 			return;
 		}
@@ -156,24 +174,15 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 			}
 		}
 
-		if (!actionStates.length) {
-			return;
+		if (actionStates.length) {
+			await this._startAddExistingExecuteMultiple.summon({
+				actionStates: actionStates.join()
+			});
+
+			await this._refreshState();
 		}
 
-		await this._startAddExistingExecuteMultiple.summon({
-			actionStates: actionStates.join()
-		});
-
-		this._refreshState();
-	}
-
-	get _loaded() {
-		return !this.skeleton;
-	}
-
-	set _loaded(loaded) {
-		// this method is called too early.
-		this.skeleton = !loaded;
+		this.dispatchEvent(new CustomEvent('d2l-question-activity-add-complete', { bubbles: true, composed: true }));
 	}
 
 	_handleDeleteDialogCancel() {

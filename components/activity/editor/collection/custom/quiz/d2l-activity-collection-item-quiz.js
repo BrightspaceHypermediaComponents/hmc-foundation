@@ -73,12 +73,17 @@ const componentClass = class extends HypermediaStateMixin(ListItemButtonMixin(Li
 		delayedResult.AddReleaseListener(() => {});
 
 		// Save or Cancel button Handler
-		delayedResult.AddListener((/*result*/) => {
+		delayedResult.AddListener((activities) => {
 			// Trigger Section child to refresh name
 			++this._refreshCounter;
+			const activityHrefs = activities.map(activity => activity.href);
 			fetch(this._state, true).then(() => {
 				// refresh Total Quiz Points
-				this.dispatchEvent(new CustomEvent('d2l-question-updated', {bubbles: true, composed: true}));
+				this.dispatchEvent(new CustomEvent('d2l-question-updated', {
+					bubbles: true,
+					composed: true,
+					detail: { activities: activityHrefs }
+				}));
 			});
 		});
 	}
