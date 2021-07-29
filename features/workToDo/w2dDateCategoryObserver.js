@@ -52,7 +52,7 @@ export class W2dDateCategory extends SirenSubEntities {
 		if (!category) {
 			this._startDate = new Date(observer[startDate]);
 			this._groupByDays = observer[groupByDays];
-			if (this._sirenFacades) this.entities = this._sirenFacades;
+			this.entities = this._sirenFacades || [];
 		}
 
 		const filterByCategory = categoryMap => (category ? categoryMap.sirenFacadesByCategory[observer[category]] : categoryMap.categoryInfo);
@@ -68,5 +68,5 @@ function numOfDaysTillDueDate(sirenFacade, relativeTime) {
 	}
 	const entity = entities.pop();
 	const date = new Date(Date.parse(entity.properties.localizedDate));
-	return (Math.floor(date.getTime() / msInADay) - Math.floor(relativeTime.getTime() / msInADay));
+	return Math.floor((date.getTime() - relativeTime.getTime()) / msInADay);
 }

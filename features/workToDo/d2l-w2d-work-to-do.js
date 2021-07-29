@@ -21,7 +21,6 @@ const rel = Object.freeze({
 class w2dWorkToDo extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement)) {
 	static get properties() {
 		return {
-			allowUnclickableActivities: { type: Boolean, attribute: 'allow-unclickable-activities' },
 			currentTime: { type: String, attribute: 'current-time' },
 			collapsed: { type: Boolean },
 			dataFullPagePath: { type: String, attribute: 'data-full-page-path' },
@@ -31,6 +30,8 @@ class w2dWorkToDo extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement))
 			endDate: { type: String, attribute: 'end-date' },
 			overdueWeekLimit: { type: Number, attribute: 'data-overdue-week-limit' },
 			upcomingWeekLimit: { type: String, attribute: 'data-upcoming-week-limit' },
+			allowUnclickableActivities: { type: Boolean, attribute: 'allow-unclickable-activities' },
+			clickableFutureActivities: { type: Boolean, attribute: 'clickable-future-activities' },
 			_myActivitiesHref: { type: String, observable: observableTypes.link, rel: rel.myActivities, prime: true },
 			_myOrganizationActivitiesHref: { type: String, observable: observableTypes.link, rel: rel.myOrganizationActivities, prime: true },
 			_organizationHompage: { type: String, observable: observableTypes.link, rel: rel.organizationHomepage },
@@ -129,7 +130,8 @@ class w2dWorkToDo extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement))
 				upcoming-week-limit="${this.upcomingWeekLimit}"
 				?skeleton="${!this._loaded}"
 				user-url="${this.href}"
-				?allow-unclickable-activities="${this.allowUnclickableActivities}"></d2l-w2d-collections>
+				?allow-unclickable-activities="${this.allowUnclickableActivities}"
+				?clickable-future-activities="${this.clickableFutureActivities}"></d2l-w2d-collections>
 		`;
 	}
 

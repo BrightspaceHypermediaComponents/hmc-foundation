@@ -2,6 +2,7 @@ import '@brightspace-ui/core/components/inputs/input-checkbox.js';
 import '@brightspace-ui/core/components/inputs/input-checkbox-spacer.js';
 import '@brightspace-ui/core/components/inputs/input-styles.js';
 import '@brightspace-ui/core/components/colors/colors';
+import 'd2l-fetch/d2l-fetch.js';
 
 import { bodyCompactStyles, bodySmallStyles, bodyStandardStyles } from '@brightspace-ui/core/components/typography/styles.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
@@ -12,11 +13,15 @@ import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton
 
 const rels = Object.freeze({
 	questionText: 'https://questions.api.brightspace.com/rels/questionText',
-	specialization: 'https://api.brightspace.com/rels/specialization'
+	specialization: 'https://api.brightspace.com/rels/specialization',
+	parentCollections: 'https://activities.api.brightspace.com/rels/parent-collections',
+	activityUsage: 'https://activities.api.brightspace.com/rels/activity-usage',
+	item: 'item'
 });
 const route = {
-	specialization:
-		{ observable: observableTypes.link, rel: rels.specialization }
+	questionText: { observable: observableTypes.subEntity,	rel: rels.questionText },
+	specialization: { observable: observableTypes.link, rel: rels.specialization },
+	parentCollections: { observable: observableTypes.link, rel: rels.parentCollections }
 };
 const componentClass = class extends SkeletonMixin(HypermediaStateMixin(LocalizeQuizEditor(LitElement))) {
 	static get properties() {
@@ -24,13 +29,14 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 			number: {
 				type: Number
 			},
+			quizActivityUsageHref: {
+				type: String
+			},
 			questionText: {
 				type: String,
 				observable: observableTypes.property,
 				id: 'text',
-				route: [route.specialization, {
-					observable: observableTypes.subEntity,	rel: rels.questionText
-				}]
+				route: [route.specialization, route.questionText]
 			},
 			name: {
 				type: String,
@@ -38,21 +44,24 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 				id: 'name',
 				route: [route.specialization]
 			},
-			// type: {
-			// 	type: Number,
-			// 	observable: observableTypes.property,
-			// 	id: 'type',
-			// 	route: [route.specialization]
-			// },
 			typeText: {
 				type: String,
 				observable: observableTypes.property,
 				id: 'typeText',
 				route: [route.specialization]
 			},
+			parentCollections: {
+				type: Array,
+				observable: observableTypes.subEntities,
+				rel: rels.item,
+				route: [route.parentCollections]
+			},
+			parentCollectionsName: {
+				type: Array
+			},
 			points: {
 				type: Number
-			},
+			}
 		};
 	}
 
@@ -103,6 +112,9 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 	constructor() {
 		super();
 		this.skeleton = true;
+		this.parentCollections = [];
+		this.parentCollectionsName = [];
+		this.quizActivityUsageHref = '';
 	}
 
 	render() {
@@ -111,11 +123,27 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 				<div class="d2l-body-standard question-number d2l-skeletize">${this.number}</div>
 				<div class="question d2l-skeletize">
 					<span class="d2l-body-compact d2l-skeletize">${this.name || this.questionText}</span>
-					<div class="d2l-body-small question-type d2l-skeletize">${this.typeText}</div>
+					<div question-type>
+						<span class="d2l-body-small d2l-skeletize">${this.typeText}</span>
+						${this.parentCollections.length > 1 ?
+		html`<d2l-icon icon="d2l-tier1:bullet"></d2l-icon>
+								 <span class="d2l-body-small d2l-skeletize">
+								 	${this._getAlsoInString()}
+								 </span>` :
+		html``}
+					</div>
 				</div>
 				<div class="points d2l-body-compact d2l-skeletize">${this.localize('points', { count: this.points })}</div>
 			</div>
 		`;
+	}
+
+	updated(changedProperties) {
+		if (changedProperties.has('parentCollections') &&
+			this.parentCollections.length > 0 &&
+			this.parentCollections.length > changedProperties.get('parentCollections').length) {
+			this._getParentCollectionsName();
+		}
 	}
 
 	get _loaded() {
@@ -124,6 +152,40 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 
 	set _loaded(loaded) {
 		this.skeleton = !loaded;
+	}
+
+	_getActivityUsageHref(item) {
+		const activityUsageHref = item.links.find(link => link.rel.includes(rels.activityUsage)).href;
+		return activityUsageHref;
+	}
+
+	_getAlsoInString() {
+		let alsoInString = `${this.localize('also_in')} `;
+		for (let i = 0; i < this.parentCollectionsName.length; i++) {
+			alsoInString = alsoInString + this.parentCollectionsName[i];
+			if (i < this.parentCollectionsName.length - 1) {
+				alsoInString = `${alsoInString}, `;
+			}
+		}
+
+		return alsoInString;
+	}
+
+	_getParentCollectionsName() {
+		for (let i = 0; i < this.parentCollections.length; i++) {
+			const activityUsageHref = this._getActivityUsageHref(this.parentCollections[i]);
+			if (this.quizActivityUsageHref !== activityUsageHref) {
+				window.D2L.Siren.EntityStore.fetch(activityUsageHref, this.token, false).then((activityUsage) => {
+					if (activityUsage) {
+						const specializationLink = activityUsage.entity.links.find(link => link.rel.includes(rels.specialization)).href;
+						window.D2L.Siren.EntityStore.fetch(specializationLink, this.token, false).then((quiz) => {
+							this.parentCollectionsName.push(quiz.entity.properties.name);
+							this.requestUpdate();
+						});
+					}
+				});
+			}
+		}
 	}
 };
 

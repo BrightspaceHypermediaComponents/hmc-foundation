@@ -30,7 +30,6 @@ const pageSize = Object.freeze({
 class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement)) {
 	static get properties() {
 		return {
-			allowUnclickableActivities: { type: Boolean, attribute: 'allow-unclickable-activities' },
 			currentTime: { type: String, attribute: 'current-time' },
 			collapsed: { type: Boolean },
 			groupByDays: { type: Number, attribute: 'group-by-days' },
@@ -42,6 +41,8 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 			upcomingWeekLimit: { type: String, attribute: 'upcoming-week-limit' },
 			skeleton: { type: Boolean, reflect: true },
 			userUrl: { type: String, attribute: 'user-url' },
+			allowUnclickableActivities: { type: Boolean, attribute: 'allow-unclickable-activities' },
+			clickableFutureActivities: { type: Boolean, attribute: 'clickable-future-activities' },
 			_categories: {
 				type: Array,
 				observable: observableTypes.custom,
@@ -257,7 +258,15 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 				if (limit === 0) return;
 				const list = html`
 					${this._renderHeader3(header, this._pagingTotalResultsOverdue)}
-					<d2l-w2d-list href="${category.href}" .token="${this.token}" category="${category.index}" ?collapsed="${this.collapsed}" limit="${ifDefined(limit)}" ?allow-unclickable-activities="${this.allowUnclickableActivities}"></d2l-w2d-list>
+					<d2l-w2d-list
+						href="${category.href}"
+						.token="${this.token}"
+						category="${category.index}"
+						?collapsed="${this.collapsed}"
+						limit="${ifDefined(limit)}"
+						?allow-unclickable-activities="${this.allowUnclickableActivities}"
+						?clickable-future-activities="${this.clickableFutureActivities}">
+					</d2l-w2d-list>
 				`;
 				limit = limit === undefined ? limit : Math.max(limit - category.count, 0);
 				return list;
@@ -276,7 +285,15 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 				if (limit === 0) return;
 				const list = html`
 					${this._renderHeader3(header, this._pagingTotalResultsUpcoming)}
-					<d2l-w2d-list href="${category.href}" .token="${this.token}" category="${category.index}" ?collapsed="${this.collapsed}" limit="${ifDefined(limit)}" ?allow-unclickable-activities="${this.allowUnclickableActivities}"></d2l-w2d-list>
+					<d2l-w2d-list
+						href="${category.href}"
+						.token="${this.token}"
+						category="${category.index}"
+						?collapsed="${this.collapsed}"
+						limit="${ifDefined(limit)}"
+						?allow-unclickable-activities="${this.allowUnclickableActivities}"
+						?clickable-future-activities="${this.clickableFutureActivities}">
+					</d2l-w2d-list>
 				`;
 				limit = limit === undefined ? limit : Math.max(limit - category.count, 0);
 				return list;
@@ -291,7 +308,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 				${overdue}
 				${categories && categories.length > 0 ? this._renderHeader2(this.localize('upcoming'), this._pagingTotalResultsUpcoming) : null}
 				${categories}
-				${this.dataFullPagePath && this._loaded && this.collapsed ? html`<d2l-link href="${this.dataFullPagePath}">${this.localize('fullViewLink')}</d2l-link>` : null}
+				${this.dataFullPagePath && this._loaded && this.collapsed && (this._pagingTotalResultsOverdue + this._pagingTotalResultsUpcoming) > pageSize.collapsed ? html`<d2l-link href="${this.dataFullPagePath}">${this.localize('fullViewLink')}</d2l-link>` : null}
 				${this._renderPagination()}
 			</div>
 		`;
@@ -310,7 +327,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 
 		return html`
 			${this._renderSkeleton()}
-			${this._overdue.length === 0 && this._categories.length === 0 ? emptyList : lists}
+			${overdue.length === 0 && categories.length === 0 ? emptyList : lists}
 		`;
 	}
 
