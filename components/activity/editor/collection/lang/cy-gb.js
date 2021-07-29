@@ -16,6 +16,6 @@ export default  {
 	"button-deleteConfirmationDialogDelete": "Dileu", // Copy on the delete question/section/question pool confirmation dialog
 	"button-deleteConfirmationDialogCancel": "Canslo", // Copy on the delete question/section/question pool confirmation dialog
 	"text-deleteConfirmationDialog": "Dileu’r cynnwys dan sylw o’r cwis?", // Delete question/section/question pool confirmation dialog text
-	"text-readyToBeginAddingQuizContent": "Ready to begin adding quiz content?", // Text instructions for quiz with no questions
-	"text-clickAddExistingOrCreateNewToGetStarted": "Click Add Existing or Create New to get started" // Text instructions for quiz with no questions
+	"text-readyToBeginAddingQuizContent": "Yn barod i ychwanegu cynnwys at y cwis?", // Text instructions for quiz with no questions
+	"text-clickAddExistingOrCreateNewToGetStarted": "Cliciwch Ychwanegu’r Presennol neu Creu Newydd i roi cychwyn arni!" // Text instructions for quiz with no questions
 };

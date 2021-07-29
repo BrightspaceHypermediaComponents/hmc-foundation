@@ -26,6 +26,7 @@ export default {
 	noActivitiesNoFutureActivitiesNameless: 'Es gibt keine Aktivitäten mit verfügbarem Fälligkeits- oder Enddatum. Sehen Sie später erneut nach, ob unerledigte Arbeit vorhanden ist.', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to refer to the user in the third person but don't know their name
 	nothingHere: "Hier gibt es nichts...", // Displayed as header line in widget text when there are no activities within the provided time period
 	overdue: 'Überfällig', // Indicates that the below list of activities are overdue (have a due date that is in the past)
+	xActivities: '{count, plural, =1 {1 Aktivität} other {{count} Aktivitäten}}', // Label text for pluralizing activites.
 	quiz: 'Test', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	StartsWithDate: 'Beginnt am {startDate}', // show Start Date on status indicator when an activity starts in the future - formatted like "Starts Aug 15"
 	survey: 'Umfrage', // Meta-data descriptor that informs which type of activity is being displayed on a line item

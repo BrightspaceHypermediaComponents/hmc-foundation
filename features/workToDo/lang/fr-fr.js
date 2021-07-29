@@ -26,6 +26,7 @@ export default {
 	noActivitiesNoFutureActivitiesNameless: 'Il n’y a aucune activité avec des dates d’échéance ou de fin disponibles. Revenez plus tard pour vérifier s’il y a du travail à faire.', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to refer to the user in the third person but don't know their name
 	nothingHere: "Il n’y a rien ici...", // Displayed as header line in widget text when there are no activities within the provided time period
 	overdue: 'En retard', // Indicates that the below list of activities are overdue (have a due date that is in the past)
+	xActivities: '{count, plural, =1 {1 activité} other {{count} activités}}', // Label text for pluralizing activites.
 	quiz: 'Questionnaire', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	StartsWithDate: 'Débute le {startDate}', // show Start Date on status indicator when an activity starts in the future - formatted like "Starts Aug 15"
 	survey: 'Sondage', // Meta-data descriptor that informs which type of activity is being displayed on a line item
