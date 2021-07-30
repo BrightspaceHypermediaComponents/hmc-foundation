@@ -310,7 +310,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 
 		return html`
 			${this._renderSkeleton()}
-			${overdue.length === 0 && categories.length === 0 ? emptyList : lists}
+			${(!this._overdue || this._overdue.length === 0) && (!this._categories || this._categories.length === 0) ? emptyList : lists}
 		`;
 	}
 
