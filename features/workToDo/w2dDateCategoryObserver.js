@@ -68,5 +68,5 @@ function numOfDaysTillDueDate(sirenFacade, relativeTime) {
 	}
 	const entity = entities.pop();
 	const date = new Date(Date.parse(entity.properties.localizedDate));
-	return (Math.floor(date.getTime() / msInADay) - Math.floor(relativeTime.getTime() / msInADay));
+	return Math.floor((date.getTime() - relativeTime.getTime()) / msInADay);
 }
