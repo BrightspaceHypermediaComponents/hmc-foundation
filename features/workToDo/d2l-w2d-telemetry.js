@@ -1,9 +1,9 @@
 import Events from 'd2l-telemetry-browser-client';
-import { Rels } from 'siren-sdk/src/hypermedia-constants';
 
 const base = Object.freeze({
 	appId: 'worktodo',
-	api: 'd2l-work-to-do.api'
+	api: 'd2l-work-to-do.api',
+	activitiesNextpage: 'https://activities.api.brightspace.com/rels/next-page'
 });
 
 const marks = Object.freeze({
@@ -42,7 +42,7 @@ class WorkToDoTelemetry {
 	}
 
 	markAndLogLoadMore() {
-		this._logPerformanceEvent('LoadMore', Rels.Activities.nextPage, 'ActivitiesNextPage',  measures.loadMore);
+		this._logPerformanceEvent('LoadMore', base.activitiesNextpage, 'ActivitiesNextPage',  measures.loadMore);
 	}
 
 	markAndLogWidgetLoaded(fullscreen) {
