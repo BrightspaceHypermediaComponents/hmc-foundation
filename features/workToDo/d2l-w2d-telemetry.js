@@ -1,23 +1,29 @@
 import Events from 'd2l-telemetry-browser-client';
 import { Rels } from 'siren-sdk/src/hypermedia-constants';
 
-const W2D_TELEMETRY_ID = 'worktodo';
-const baseNamespace = 'd2l-work-to-do';
-const apiNamespace = `${baseNamespace}.api`;
+const base = Object.freeze({
+	appId: 'worktodo',
+	api: 'd2l-work-to-do.api'
+});
 
-const overdueMark = `${apiNamespace}.overdue`;
-const W2D_OVERDUE_LOADED_MEASURE = `${overdueMark}.loaded`;
+const marks = Object.freeze({
+	overdue: {
+		loaded: `${base.api}.overdue.loaded`,
+		started: `${base.api}.overdue.started`
+	},
+	upcoming: {
+		loaded: `${base.api}.upcoming.loaded`,
+		started: `${base.api}.upcoming.started`
+	},
+	view: {
+		loaded: `${base.api}.view.loaded`
+	}
+});
 
-const upcomingMark = `${apiNamespace}.upcoming`;
-const W2D_UPCOMING_LOADED_MEASURE = `${upcomingMark}.loaded`;
-
-const viewNamespace = `${baseNamespace}.view`;
-const W2D_VIEW_LOADED_MEASURE = `${viewNamespace}.loaded`;
-
-const W2D_VIEW_LOAD_MEASURES = [W2D_OVERDUE_LOADED_MEASURE, W2D_UPCOMING_LOADED_MEASURE, W2D_VIEW_LOADED_MEASURE];
-const W2D_LOAD_MORE_MEASURES = [W2D_OVERDUE_LOADED_MEASURE, W2D_UPCOMING_LOADED_MEASURE];
-
-const appName = 'd2l-work-to-do';
+const measures = Object.freeze({
+	viewLoad: [marks.overdue.loaded, marks.upcoming.loaded, marks.view.loaded],
+	loadMore: [marks.overdue.loaded, marks.upcoming.loaded]
+});
 
 class WorkToDoTelemetry {
 
@@ -36,20 +42,20 @@ class WorkToDoTelemetry {
 	}
 
 	markAndLogLoadMore() {
-		this._logPerformanceEvent('LoadMore', Rels.Activities.nextPage, 'ActivitiesNextPage',  W2D_LOAD_MORE_MEASURES);
+		this._logPerformanceEvent('LoadMore', Rels.Activities.nextPage, 'ActivitiesNextPage',  measures.loadMore);
 	}
 
 	markAndLogWidgetLoaded(fullscreen) {
-		this._logPerformanceEvent('LoadView', window.location.pathname, fullscreen ? 'Fullscreen' : 'Widget', W2D_VIEW_LOAD_MEASURES);
+		this._logPerformanceEvent('LoadView', window.location.pathname, fullscreen ? 'Fullscreen' : 'Widget', measures.viewLoad);
 	}
 
 	markFetchEnd(name, count = 0) {
 		const data = { [`${name.charAt(0).toUpperCase()}${name.slice(1)}Count`]: count };
-		this._markEventEnd(`${appName}.api.${name}.loaded`, this._marks[name], data);
+		this._markEventEnd(marks[name].loaded, this._marks[name], data);
 	}
 
 	markFetchStart(name) {
-		this._marks[name] = this._markEventStart(`${appName}.api.${name}.start`);
+		this._marks[name] = this._markEventStart(marks[name].start);
 	}
 
 	async _createClient() {
@@ -85,7 +91,7 @@ class WorkToDoTelemetry {
 		const event = new Events.TelemetryEvent()
 			.setType('PerformanceEvent')
 			.setDate(new Date())
-			.setSourceId(W2D_TELEMETRY_ID)
+			.setSourceId(base.appId)
 			.setBody(eventBody);
 
 		return this._sendEvent(event);
@@ -103,7 +109,7 @@ class WorkToDoTelemetry {
 		const event = new Events.TelemetryEvent()
 			.setType('TelemetryEvent')
 			.setDate(new Date())
-			.setSourceId(W2D_TELEMETRY_ID)
+			.setSourceId(base.appId)
 			.setBody(eventBody);
 
 		return this._sendEvent(event);
