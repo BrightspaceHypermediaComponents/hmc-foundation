@@ -36,12 +36,10 @@ class WorkToDoTelemetry {
 	}
 
 	markAndLogLoadMore() {
-		console.log('loaded more');
 		this._logPerformanceEvent('LoadMore', Rels.Activities.nextPage, 'ActivitiesNextPage',  W2D_LOAD_MORE_MEASURES);
 	}
 
 	markAndLogWidgetLoaded(fullscreen) {
-		console.log('loaded');
 		this._logPerformanceEvent('LoadView', window.location.pathname, fullscreen ? 'Fullscreen' : 'Widget', W2D_VIEW_LOAD_MEASURES);
 	}
 
@@ -53,29 +51,6 @@ class WorkToDoTelemetry {
 	markFetchStart(name) {
 		this._marks[name] = this._markEventStart(`${appName}.api.${name}.start`);
 	}
-
-	/*
-	markLoadOverdueEnd(startMark, count = 0) {
-		debugger;
-		console.log('MARKING OVERDUE TELEMETRY END');
-		this._markEventEnd(W2D_OVERDUE_LOADED_MEASURE, startMark, { OverdueCount: count });
-	}
-
-	markLoadOverdueStart() {
-		console.log('MARKING OVERDUE TELEMETRY START');
-		return this._markEventStart(W2D_OVERDUE_LOAD_START_MARK);
-	}
-
-	markLoadUpcomingEnd(startMark, count = 0) {
-		console.log('MARKING UPCOMING TELEMETRY END');
-		this._markEventEnd(W2D_UPCOMING_LOADED_MEASURE, startMark, { UpcomingCount: count });
-	}
-
-	markLoadUpcomingStart() {
-		console.log('MARKING UPCOMING TELEMETRY START');
-		return this._markEventStart(W2D_UPCOMING_LOAD_START_MARK);
-	}
-	*/
 
 	async _createClient() {
 		this._client = await window.D2L.Telemetry.CreateClient();
