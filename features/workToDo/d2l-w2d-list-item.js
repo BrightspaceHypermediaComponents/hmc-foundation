@@ -16,13 +16,24 @@ import { ifDefined } from 'lit-html/directives/if-defined';
 import { ListItemLinkMixin } from '@brightspace-ui/core/components/list/list-item-link-mixin.js';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
 import { nothing } from 'lit-html';
-import { rels } from './d2l-w2d-rels.js';
 import { telemetry } from './d2l-w2d-telemetry';
 
 const dateTypes = Object.freeze({
 	due: 'due-date',
 	end: 'end-date',
 	start: 'start-date'
+});
+
+const rels = Object.freeze({
+	assignment: 'https://api.brightspace.com/rels/assignment',
+	checklist: 'https://checklists.api.brightspace.com/rels/checklist-item',
+	content: 'https://api.brightspace.com/rels/content',
+	date: 'https://api.brightspace.com/rels/date',
+	organization: 'https://api.brightspace.com/rels/organization',
+	organizationHomepage: 'https://api.brightspace.com/rels/organization-homepage',
+	quiz: 'https://api.brightspace.com/rels/quiz',
+	survey: 'https://surveys.api.brightspace.com/rels/survey',
+	topic: 'https://discussions.api.brightspace.com/rels/topic'
 });
 
 class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDynamicMixin(LitElement))) {
