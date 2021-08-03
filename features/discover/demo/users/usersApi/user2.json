@@ -1,0 +1,46 @@
+{
+	"class": [
+		"user"
+	],
+	"entities": [
+		{
+			"class": [
+				"display",
+				"name"
+			],
+			"rel": [
+				"https://api.brightspace.com/rels/display-name"
+			],
+			"properties": {
+				"name": "Brad"
+			}
+		},
+		{
+			"class": [
+				"first",
+				"name"
+			],
+			"rel": [
+				"https://api.brightspace.com/rels/first-name"
+			],
+			"properties": {
+				"name": "Brad"
+			}
+		},
+    {
+			"class": [
+				"last",
+				"name"
+			],
+			"rel": [
+				"https://api.brightspace.com/rels/last-name"
+			],
+			"properties": {
+				"name": "Hamelin"
+			}
+		}
+	],
+	"links": [
+		{ "rel": ["self"], "href": "https://tenant.users.api.proddev.d2l/169" }
+	]
+}

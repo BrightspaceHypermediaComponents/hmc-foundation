@@ -13,6 +13,7 @@ const rels = Object.freeze({
 	organization: 'https://api.brightspace.com/rels/organization',
 	entitlementRules: 'https://discovery.brightspace.com/rels/entitlement-rules',
 });
+const profileCount = 3;
 
 class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStateMixin(LitElement))) {
 	static get properties() {
@@ -203,9 +204,9 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 	}
 
 	async _summonEntitlement() {
-		const sirenReponse = await this._getEntitlement.summon(null, true);
+		const sirenReponse = await this._getEntitlement.summon({profileCount : profileCount});
 		if (sirenReponse) {
-			const newRules = sirenReponse?.entities.filter(e => e.rel.includes(rels.rule));
+			const newRules = sirenReponse.entities.filter(e => e.rel.includes(rels.rule));
 			if (this._rulesHaveChanged(newRules, this._rules)) {
 				this._rules = newRules;
 				this._onRulesChanged();
