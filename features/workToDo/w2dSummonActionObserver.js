@@ -1,5 +1,6 @@
 import { fetch } from '@brightspace-hmc/foundation-engine/state/fetch.js';
 import { SirenSummonAction } from '@brightspace-hmc/foundation-engine/state/observable/SirenSummonAction.js';
+import { telemetry } from './d2l-w2d-telemetry';
 
 export class W2dSummonAction extends SirenSummonAction {
 
@@ -9,6 +10,7 @@ export class W2dSummonAction extends SirenSummonAction {
 
 	async addObserver(observer, property, { method, route, start, page, pageSize, end } = {}) {
 		const queryParams = {};
+		this._telemetryPage = page.replace(/^_page/, '').toLowerCase();
 		start && observer[start] && (queryParams['start'] = observer[start]);
 		end && observer[end] && (queryParams['end'] = observer[end]);
 		pageSize && observer[pageSize] && (queryParams['pageSize'] = observer[pageSize]);
@@ -52,6 +54,40 @@ export class W2dSummonAction extends SirenSummonAction {
 			this._routes.forEach((route, observer) => {
 				this.routedState.addObservables(observer, route);
 			});
+
+			this.routedState.fetchStatus.waitForNextFetch.then(() => {
+				telemetry.markFetchStart(this._telemetryPage);
+				/*
+				let startMark;
+				switch (this._telemetryPage) {
+					case '_pageUpcoming':
+						startMark = telemetry.markLoadUpcomingStart();
+						break;
+					case '_pageOverdue':
+						startMark = telemetry.markLoadOverdueStart();
+						break;
+				}
+				*/
+				console.log('Fetching:', this.routedState._href);
+				const start = performance.now();
+
+				this.routedState._fetchStatus.complete.then(res => {
+					telemetry.markFetchEnd(this._telemetryPage, res.properties.pagingTotalResults);
+					/*
+					switch (this._telemetryPage) {
+						case '_pageUpcoming':
+							telemetry.markLoadUpcomingEnd(startMark, res.properties.pagingTotalResults);
+							break;
+						case '_pageOverdue':
+							telemetry.markLoadOverdueEnd(startMark, res.properties.pagingTotalResults);
+							break;
+					}
+					*/
+
+					const end = performance.now();
+					console.log(`Finished in ${end - start} miliseconds`);
+				});
+			});
 			await fetch(this.routedState);
 		}
 	}
@@ -60,19 +96,19 @@ export class W2dSummonAction extends SirenSummonAction {
 		if (!endDate || this._endDate === endDate) return;
 		this._endDate = endDate;
 		if (!this._startDate) return;
-		await this._fetchRoutedState();
+		return await this._fetchRoutedState();
 	}
 
 	async _setPage(page) {
 		if (!page || this._page === page) return;
 		this._page = page;
-		await this._fetchRoutedState();
+		return await this._fetchRoutedState();
 	}
 
 	async _setStartDate(startDate) {
 		if (!startDate || this._startDate === startDate) return;
 		this._startDate = startDate;
 		if (!this._endDate) return;
-		await this._fetchRoutedState();
+		return await this._fetchRoutedState();
 	}
 }
