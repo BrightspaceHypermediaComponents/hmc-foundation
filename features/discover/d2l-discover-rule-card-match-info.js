@@ -28,14 +28,14 @@ class RuleCardMatchInfo extends MatchCountMixin(LocalizeDynamicMixin(RtlMixin(Li
 				flex-direction: row;
 			}
 			.d2l-rule-card-profile-images-image {
-				width: 1rem;
 				border-radius: 0.3rem;
 				border: 0.1rem solid white;
+				width: 1rem;
 			}
 			.d2l-rule-card-profile-images-more {
-				width: 1rem;
 				line-height: 1.6rem;
 				text-align: center;
+				width: 1rem;
 			}
 			.d2l-rule-card-profile-images-more-background {
 				background-color: var(--d2l-color-sylvite);
