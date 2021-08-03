@@ -206,7 +206,7 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 	async _summonEntitlement() {
 		const sirenReponse = await this._getEntitlement.summon({profileCount : profileCount});
 		if (sirenReponse) {
-			const newRules = sirenReponse?.entities.filter(e => e.rel.includes(rels.rule));
+			const newRules = sirenReponse.entities.filter(e => e.rel.includes(rels.rule));
 			if (this._rulesHaveChanged(newRules, this._rules)) {
 				this._rules = newRules;
 				this._onRulesChanged();
