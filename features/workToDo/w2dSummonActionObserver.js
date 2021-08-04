@@ -55,13 +55,9 @@ export class W2dSummonAction extends SirenSummonAction {
 				this.routedState.addObservables(observer, route);
 			});
 
-			await this.routedState.fetchStatus.waitForNextFetch;
+			const res = fetch(this.routedState);
 			telemetry.markFetchStart(this._telemetryPage);
-
-			const res = await this.routedState.fetchStatus.complete;
-			telemetry.markFetchEnd(this._telemetryPage, res.properties.pagingTotalResults);
-
-			await fetch(this.routedState);
+			telemetry.markFetchEnd(this._telemetryPage, (await res).properties.pagingTotalResults);
 		}
 	}
 
