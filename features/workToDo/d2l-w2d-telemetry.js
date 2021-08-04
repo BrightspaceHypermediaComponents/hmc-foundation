@@ -60,7 +60,9 @@ class WorkToDoTelemetry {
 	}
 
 	async _createClient() {
-		this._client = await window.D2L.Telemetry.CreateClient();
+		if (window.D2L.Telemetry) {
+			this._client = await window.D2L.Telemetry.CreateClient();
+		}
 	}
 
 	_logPerformanceEvent(action, href, type, measures) {
@@ -147,7 +149,7 @@ class WorkToDoTelemetry {
 	}
 
 	_sendEvent(event) {
-		return this._client.logUserEvent(event);
+		return this._client && this._client.logUserEvent(event);
 	}
 
 }
