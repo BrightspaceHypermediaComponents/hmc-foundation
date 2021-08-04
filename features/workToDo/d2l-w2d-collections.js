@@ -385,13 +385,11 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 		this.requestUpdate('_pagingTotalResultsOverdue', oldValue);
 	}
 
-	_handleViewAllClick(e) {
-		// sadness
+	async _handleViewAllClick(e) {
 		const href = e.target.href;
 		e.preventDefault();
-		telemetry.logViewAllClicked(href).then(() => {
-			window.location.href = href;
-		});
+		await telemetry.logViewAllClicked(href).catch(() => {});
+		window.location.href = href;
 	}
 
 	_isOverdueOnLastPage() {
