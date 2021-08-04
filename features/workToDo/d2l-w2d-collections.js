@@ -388,7 +388,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 	async _handleViewAllClick(e) {
 		const href = e.target.href;
 		e.preventDefault();
-		await telemetry.logViewAllClicked(href).catch(() => {});
+		await telemetry.logViewAllClicked(href);
 		window.location.href = href;
 	}
 

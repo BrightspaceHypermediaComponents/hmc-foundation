@@ -33,12 +33,12 @@ class WorkToDoTelemetry {
 		this._createClient();
 	}
 
-	async logActivityNavigatedTo(href, type) {
-		await this._logTelemetryEvent('NavigatedTo', href, type);
+	logActivityNavigatedTo(href, type) {
+		return this._logTelemetryEvent('NavigatedTo', href, type).catch(() => {});
 	}
 
-	async logViewAllClicked(href) {
-		await (await this._logTelemetryEvent('ViewAllClicked', href, 'ViewAll'));
+	logViewAllClicked(href) {
+		return this._logTelemetryEvent('ViewAllClicked', href, 'ViewAll').catch(() => {});
 	}
 
 	markAndLogLoadMore() {
