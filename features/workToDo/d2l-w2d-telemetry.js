@@ -46,6 +46,7 @@ class WorkToDoTelemetry {
 	}
 
 	markAndLogWidgetLoaded(fullscreen) {
+		this._markEventEnd(marks.view.loaded, null);
 		this._logPerformanceEvent('LoadView', window.location.pathname, fullscreen ? 'Fullscreen' : 'Widget', measures.viewLoad);
 	}
 
@@ -55,7 +56,7 @@ class WorkToDoTelemetry {
 	}
 
 	markFetchStart(name) {
-		this._marks[name] = this._markEventStart(marks[name].start);
+		this._marks[name] = this._markEventStart(marks[name].started);
 	}
 
 	async _createClient() {
