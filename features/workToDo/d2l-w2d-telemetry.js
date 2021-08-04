@@ -123,7 +123,7 @@ class WorkToDoTelemetry {
 			return;
 		}
 
-		performance.measure(measure, startMark);
+		performance.measure(measure, startMark || undefined);
 
 		if (custom) {
 			if (!this._custom[measure]) {
