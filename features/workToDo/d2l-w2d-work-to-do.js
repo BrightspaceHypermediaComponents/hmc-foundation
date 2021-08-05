@@ -7,6 +7,7 @@ import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { ifDefined } from 'lit-html/directives/if-defined';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
+import { telemetry } from './d2l-w2d-telemetry';
 
 const rel = Object.freeze({
 	myActivities: 'https://activities.api.brightspace.com/rels/my-activities#empty',
@@ -100,6 +101,9 @@ class w2dWorkToDo extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement))
 	}
 
 	render() {
+
+		if (this._loaded) telemetry.markAndLogWidgetLoaded(!this.collapsed);
+
 		const immersiveNav = this.collapsed
 			? null
 			: html`
