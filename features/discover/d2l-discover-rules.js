@@ -13,6 +13,7 @@ const rels = Object.freeze({
 	organization: 'https://api.brightspace.com/rels/organization',
 	entitlementRules: 'https://discovery.brightspace.com/rels/entitlement-rules',
 });
+const profileCount = 3;
 
 class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStateMixin(LitElement))) {
 	static get properties() {
@@ -120,14 +121,15 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 
 	_onCheckboxChange(e) {
 		const checked = e.detail.checked;
-		if (checked && this._rules.length) {
+		if (checked) {
 			// when the user re-checks the box, re-commit the entitlement
 			this._onRulesChanged();
 		} else {
 			if (!this._hasAction('_createEntitlement')) return;
 			// when the user unchecks the box, delete the entitlement, but don't update the rules
 			this._createEntitlement.commit({
-				rules: []
+				rules: [],
+				canSelfRegister: false
 			});
 		}
 		// create a composed event so that we can catch it in the LMS
@@ -149,12 +151,6 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 
 	_onRuleDeleted(e) {
 		this._rules.splice(e.target.ruleIndex, 1);
-		this._state.updateProperties({
-			_rules: { observable: observableTypes.subEntities, rel: rels.rule, route: [
-				{ observable: observableTypes.link, rel: rels.entitlementRules }
-			], value: this._rules }
-		});
-
 		this.requestUpdate();
 		// call it manually
 		this._onRulesChanged();
@@ -167,14 +163,16 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 
 	_onRulesChanged() {
 		if (!this._hasAction('_createEntitlement')) return;
-
 		const message = this._rules.map(rule => {
 			const ruleObj = {};
 			rule.entities.forEach(condition => ruleObj[condition.properties.type] = condition.properties.values);
 			return ruleObj;
 		});
+
+		// canSelfRegister should only be true when there are no rules and the checkbox is checked.
 		this._createEntitlement.commit({
-			rules: message
+			rules: message,
+			canSelfRegister: this._rules.length === 0
 		});
 	}
 
@@ -203,9 +201,9 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 	}
 
 	async _summonEntitlement() {
-		const sirenReponse = await this._getEntitlement.summon(null, true);
+		const sirenReponse = await this._getEntitlement.summon({profileCount : profileCount});
 		if (sirenReponse) {
-			const newRules = sirenReponse?.entities.filter(e => e.rel.includes(rels.rule));
+			const newRules = sirenReponse.entities.filter(e => e.rel.includes(rels.rule));
 			if (this._rulesHaveChanged(newRules, this._rules)) {
 				this._rules = newRules;
 				this._onRulesChanged();

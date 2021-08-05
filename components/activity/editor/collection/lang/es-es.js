@@ -17,5 +17,5 @@ export default  {
 	"button-deleteConfirmationDialogCancel": "Cancelar", // Copy on the delete question/section/question pool confirmation dialog
 	"text-deleteConfirmationDialog": "¿Desea eliminar el contenido seleccionado del cuestionario?", // Delete question/section/question pool confirmation dialog text
 	"text-readyToBeginAddingQuizContent": "¿Listo para agregar contenido al cuestionario?", // Text instructions for quiz with no questions
-	"text-clickAddExistingOrCreateNewToGetStarted": "Click Add Existing or Create New to get started" // Text instructions for quiz with no questions
+	"text-clickAddExistingOrCreateNewToGetStarted": "Haga clic en Añadir existente o Crear nuevo para comenzar" // Text instructions for quiz with no questions
 };

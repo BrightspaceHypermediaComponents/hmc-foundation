@@ -26,6 +26,7 @@ export default {
 	noActivitiesNoFutureActivitiesNameless: 'No tiene actividades con fecha de vencimiento o final disponibles. Vuelva más tarde para ver si tiene trabajo pendiente.', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to refer to the user in the third person but don't know their name
 	nothingHere: "No hay nada aquí...", // Displayed as header line in widget text when there are no activities within the provided time period
 	overdue: 'Vencidas', // Indicates that the below list of activities are overdue (have a due date that is in the past)
+	xActivities: '{count, plural, =1 {1 actividad} other {{count} actividades}}', // Label text for pluralizing activites.
 	quiz: 'Cuestionario', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	StartsWithDate: 'Se inicia el {startDate}', // show Start Date on status indicator when an activity starts in the future - formatted like "Starts Aug 15"
 	survey: 'Encuesta', // Meta-data descriptor that informs which type of activity is being displayed on a line item

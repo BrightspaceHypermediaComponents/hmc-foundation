@@ -26,6 +26,7 @@ export default {
 	noActivitiesNoFutureActivitiesNameless: 'Teslim veya sona erme tarihi bulunan bir etkinlik yok. Yapılacak iş olup olmadığını görmek için daha sonra tekrar kontrol edin.', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to refer to the user in the third person but don't know their name
 	nothingHere: "Hiçbir şey yok...", // Displayed as header line in widget text when there are no activities within the provided time period
 	overdue: 'Süresi Dolmuş', // Indicates that the below list of activities are overdue (have a due date that is in the past)
+	xActivities: '{count, plural, =1 {1 etkinlik} other {{count} etkinlik}}', // Label text for pluralizing activites.
 	quiz: 'Sınav', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	StartsWithDate: 'Başlama Tarihi: {startDate}', // show Start Date on status indicator when an activity starts in the future - formatted like "Starts Aug 15"
 	survey: 'Anket', // Meta-data descriptor that informs which type of activity is being displayed on a line item

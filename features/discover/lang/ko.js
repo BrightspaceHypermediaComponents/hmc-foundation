@@ -16,7 +16,7 @@ export default {
 	"text-edit-enrollment-rule": "등록 규칙 편집", // Edit an existing rule
 	"text-edit": "편집", // Title for edit menu item
 	"text-remove-condition": "{conditionType} 조건 제거", // Screenreader text when removing a condition from a rule
-	"text-rule-matches": "규칙이 {count}명의 사용자와 일치합니다.", // Information about how many users a rule matches
+	"text-rule-matches": "규칙이 {count}명의 사용자와 일치합니다.", // Information about how many users a rule matches in the rule edit dialog
 	"text-rules-description": "이 강의에 자체 등록하려면 사용자가 이러한 규칙 중 하나 이상과 일치해야 합니다.", // description for enrollment rules
 	"text-rules": "등록 규칙", // title for enrollment rules options
 	"text-select-conditions": "조건 선택", // header text for selecting the set of conditions for a rule

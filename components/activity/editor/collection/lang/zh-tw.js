@@ -17,5 +17,5 @@ export default  {
 	"button-deleteConfirmationDialogCancel": "取消", // Copy on the delete question/section/question pool confirmation dialog
 	"text-deleteConfirmationDialog": "要從測驗中刪除選取的內容？", // Delete question/section/question pool confirmation dialog text
 	"text-readyToBeginAddingQuizContent": "準備好開始新增測驗內容了嗎？", // Text instructions for quiz with no questions
-	"text-clickAddExistingOrCreateNewToGetStarted": "Click Add Existing or Create New to get started" // Text instructions for quiz with no questions
+	"text-clickAddExistingOrCreateNewToGetStarted": "按一下「新增現有的」或「建立新的」以開始使用" // Text instructions for quiz with no questions
 };

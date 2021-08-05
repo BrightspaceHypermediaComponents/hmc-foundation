@@ -76,6 +76,7 @@ describe('d2l-discover-rules', () => {
 		fetchMock.mock(selfHref, JSON.stringify(entity))
 			.mock(orgHref, JSON.stringify(orgEntity))
 			.mock(entitlementHref, JSON.stringify(entitlementEntity))
+			.mock(`${entitlementHref}?profileCount=3`, JSON.stringify(entitlementEntity))
 			.mock(conditionTypesHref, JSON.stringify(conditionTypesEntity));
 	});
 
@@ -118,7 +119,8 @@ describe('d2l-discover-rules', () => {
 			await listener;
 			await el.updateComplete;
 			const expectedCommit = {
-				rules: []
+				rules: [],
+				canSelfRegister: false
 			};
 			expect(commitSpy.calledOnce, 'commit was not called').to.be.true;
 			expect(commitSpy.calledWith(expectedCommit), `commit was not called with: ${expectedCommit}`).to.be.true;
@@ -126,6 +128,7 @@ describe('d2l-discover-rules', () => {
 		});
 
 		it('removes a rule when the delete menu item is clicked', async() => {
+			await waitUntil(() => el._rules?.length > 0, 'rules never initialized');
 			expect(el._rules).to.have.lengthOf(1);
 			const card = el.shadowRoot.querySelector('d2l-discover-rule-card');
 			const deleteItem = card.shadowRoot.querySelector('d2l-menu-item:nth-child(2)');
@@ -135,7 +138,8 @@ describe('d2l-discover-rules', () => {
 			await el.updateComplete;
 			expect(el._rules).to.be.empty;
 			const expectedCommit = {
-				rules: []
+				rules: [],
+				canSelfRegister: true
 			};
 			expect(commitSpy.calledOnce, 'commit was not called').to.be.true;
 			expect(commitSpy.calledWith(expectedCommit), `commit was not called with: ${expectedCommit}`).to.be.true;
@@ -183,7 +187,8 @@ describe('d2l-discover-rules', () => {
 				rules: [
 					{ fruit: ['apple', 'orange'] },
 					{ entree: ['spaghetti'], dessert: ['cake', 'pie'] }
-				]
+				],
+				canSelfRegister: false
 			};
 
 			expect(commitSpy.calledOnce, 'commit was not called').to.be.true;

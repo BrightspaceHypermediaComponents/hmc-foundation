@@ -16,7 +16,7 @@ export default {
 	"text-edit-enrollment-rule": "登録ルールの編集", // Edit an existing rule
 	"text-edit": "編集", // Title for edit menu item
 	"text-remove-condition": "条件 {conditionType} の解除", // Screenreader text when removing a condition from a rule
-	"text-rule-matches": "ルールは {count} 人のユーザーに一致しています", // Information about how many users a rule matches
+	"text-rule-matches": "ルールは {count} 人のユーザーに一致しています", // Information about how many users a rule matches in the rule edit dialog
 	"text-rules-description": "このコースに自己登録するには、ユーザーは、これらのルールのうちの 1 つまたは複数に一致する必要があります。", // description for enrollment rules
 	"text-rules": "登録ルール", // title for enrollment rules options
 	"text-select-conditions": "条件の選択", // header text for selecting the set of conditions for a rule

@@ -16,7 +16,7 @@ export default {
 	"text-edit-enrollment-rule": "Inschrijvingsregel bewerken", // Edit an existing rule
 	"text-edit": "Bewerken", // Title for edit menu item
 	"text-remove-condition": "Voorwaarde {conditionType} verwijderen", // Screenreader text when removing a condition from a rule
-	"text-rule-matches": "Regel komt overeen met {count} gebruikers", // Information about how many users a rule matches
+	"text-rule-matches": "Regel komt overeen met {count} gebruikers", // Information about how many users a rule matches in the rule edit dialog
 	"text-rules-description": "Als u zichzelf wilt inschrijven voor deze cursus, moeten u voldoen aan een of meer van deze regels.", // description for enrollment rules
 	"text-rules": "Inschrijvingsregels", // title for enrollment rules options
 	"text-select-conditions": "Voorwaarden selecteren", // header text for selecting the set of conditions for a rule

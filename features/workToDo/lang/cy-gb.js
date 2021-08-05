@@ -26,6 +26,7 @@ export default {
 	noActivitiesNoFutureActivitiesNameless: 'Nid oes unrhyw weithgareddau gyda dyddiadau dyledus neu ddyddiadau gorffen ar gael. Dewch yn ôl yn nes ymlaen i weld os oes unrhyw waith i\'w wneud.', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to refer to the user in the third person but don't know their name
 	nothingHere: "Does dim byd yma...", // Displayed as header line in widget text when there are no activities within the provided time period
 	overdue: 'Yn hwyr', // Indicates that the below list of activities are overdue (have a due date that is in the past)
+	xActivities: '{count, plural, =1 {1 gweithgaredd} other {{count} o weithgareddau}}', // Label text for pluralizing activites.
 	quiz: 'Cwis', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	StartsWithDate: 'Yn dechrau ar {startDate}', // show Start Date on status indicator when an activity starts in the future - formatted like "Starts Aug 15"
 	survey: 'Arolwg', // Meta-data descriptor that informs which type of activity is being displayed on a line item
