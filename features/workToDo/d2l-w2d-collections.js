@@ -13,6 +13,7 @@ import { formatDate } from '@brightspace-ui/intl/lib/dateTime.js';
 import { ifDefined } from 'lit-html/directives/if-defined';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
 import { skeletonStyles } from '@brightspace-ui/core/components/skeleton/skeleton-mixin.js';
+import { telemetry } from './d2l-w2d-telemetry';
 import { W2dDateCategory } from './w2dDateCategoryObserver.js';
 import { W2dSummonAction } from './w2dSummonActionObserver.js';
 
@@ -290,7 +291,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 				${overdue}
 				${categories && categories.length > 0 ? this._renderHeader2(this.localize('upcoming'), this._pagingTotalResultsUpcoming) : null}
 				${categories}
-				${this.dataFullPagePath && this._loaded && this.collapsed ? html`<d2l-link href="${this.dataFullPagePath}">${this.localize('fullViewLink')}</d2l-link>` : null}
+				${this.dataFullPagePath && this._loaded && this.collapsed ? html`<d2l-link href="${this.dataFullPagePath}"  @click="${this._handleViewAllClick}">${this.localize('fullViewLink')}</d2l-link>` : null}
 				${this._renderPagination()}
 			</div>
 		`;
@@ -308,7 +309,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 
 		return html`
 			${this._renderSkeleton()}
-			${(!this._overdue || this._overdue.length === 0) && (!this._categories || this._categories.length === 0) ? emptyList : lists}
+			${(overdue && overdue.length) || (categories && categories.length) ? lists : emptyList}
 		`;
 	}
 
@@ -329,6 +330,9 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 
 	set _loaded(loaded) {
 		this.skeleton = !loaded;
+		if (loaded && this._paged) {
+			telemetry.markAndLogLoadMore();
+		}
 	}
 
 	get _page() {
@@ -337,6 +341,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 
 	set _page(page) {
 		const oldValue = this._page;
+		this._paged = Boolean(this._page);
 		this.__page = page;
 		this.requestUpdate('_page', oldValue);
 	}
@@ -359,6 +364,13 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 		const oldValue = this.__pagingTotalResultsOverdue;
 		this.__pagingTotalResultsOverdue = totalCount;
 		this.requestUpdate('_pagingTotalResultsOverdue', oldValue);
+	}
+
+	async _handleViewAllClick(e) {
+		const href = e.target.href;
+		e.preventDefault();
+		await telemetry.logViewAllClicked(href);
+		window.location.href = href;
 	}
 
 	_isOverdueOnLastPage() {

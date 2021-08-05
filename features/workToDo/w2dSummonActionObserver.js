@@ -1,5 +1,6 @@
 import { fetch } from '@brightspace-hmc/foundation-engine/state/fetch.js';
 import { SirenSummonAction } from '@brightspace-hmc/foundation-engine/state/observable/SirenSummonAction.js';
+import { telemetry } from './d2l-w2d-telemetry';
 
 export class W2dSummonAction extends SirenSummonAction {
 
@@ -9,6 +10,7 @@ export class W2dSummonAction extends SirenSummonAction {
 
 	async addObserver(observer, property, { method, route, start, page, pageSize, end } = {}) {
 		const queryParams = {};
+		this._telemetryPage = page.replace(/^_page/, '').toLowerCase();
 		start && observer[start] && (queryParams['start'] = observer[start]);
 		end && observer[end] && (queryParams['end'] = observer[end]);
 		pageSize && observer[pageSize] && (queryParams['pageSize'] = observer[pageSize]);
@@ -46,7 +48,10 @@ export class W2dSummonAction extends SirenSummonAction {
 			this._routes.forEach((route, observer) => {
 				this.routedState.addObservables(observer, route);
 			});
-			await fetch(this.routedState);
+
+			const res = fetch(this.routedState);
+			telemetry.markFetchStart(this._telemetryPage);
+			telemetry.markFetchEnd(this._telemetryPage, (await res).properties.pagingTotalResults);
 		}
 	}
 
