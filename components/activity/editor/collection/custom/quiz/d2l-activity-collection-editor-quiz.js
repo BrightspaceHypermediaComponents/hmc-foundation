@@ -104,8 +104,7 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 		this._currentSelection = new Map();
 		this._selectionCount = 0;
 		this.skeleton = true;
-
-		this.addEventListener('d2l-activity-collection-refetch', this._handleRefetch);
+		
 		this.addEventListener('d2l-question-updated', this._handleQuestionUpdate);
 		this.addEventListener('d2l-collection-item-delete-dialog-open', this._handleDeleteDialogOpen);
 		this.addEventListener('d2l-collection-item-delete-dialog-confirm', this._handleDeleteDialogConfirm);
@@ -188,7 +187,7 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 	_handleQuestionUpdate() {
 		fetch(this._state, true);
 	}
-	_handleRefetch() {
+	_handleRefresh() {
 		this._refreshState();
 	}
 	_moveItems(e) {
