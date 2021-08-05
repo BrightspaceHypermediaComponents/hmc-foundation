@@ -16,6 +16,13 @@ import { ifDefined } from 'lit-html/directives/if-defined';
 import { ListItemLinkMixin } from '@brightspace-ui/core/components/list/list-item-link-mixin.js';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
 import { nothing } from 'lit-html';
+import { telemetry } from './d2l-w2d-telemetry';
+
+const dateTypes = Object.freeze({
+	due: 'due-date',
+	end: 'end-date',
+	start: 'start-date'
+});
 
 const rels = Object.freeze({
 	assignment: 'https://api.brightspace.com/rels/assignment',
@@ -27,12 +34,6 @@ const rels = Object.freeze({
 	quiz: 'https://api.brightspace.com/rels/quiz',
 	survey: 'https://surveys.api.brightspace.com/rels/survey',
 	topic: 'https://discussions.api.brightspace.com/rels/topic'
-});
-
-const dateTypes = Object.freeze({
-	due: 'due-date',
-	end: 'end-date',
-	start: 'start-date'
 });
 
 class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDynamicMixin(LitElement))) {
@@ -118,6 +119,7 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 		this._dates = false;
 		this._isCourse = false;
 		this.collapsed = false;
+		this.addEventListener('d2l-list-item-link-click', this._handleItemLinkClick.bind(this));
 	}
 
 	get actionHref() {
@@ -134,6 +136,7 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 
 	render() {
 		if (this.skeleton || !this._dates || (!this.allowUnclickableActivities && !this._actionHref) || !this._parentName) return this._renderSkeleton();
+
 		const iconClasses = {
 			'd2l-hovering': this._hoveringPrimaryAction,
 			'd2l-focusing': this._focusingPrimaryAction,
@@ -163,6 +166,10 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 		return html`
 			${renderListItem}
 		`;
+	}
+
+	_handleItemLinkClick() {
+		telemetry.logActivityNavigatedTo(this.actionHref, this.constructor.activityType);
 	}
 
 	_renderAttributeListCollapsed() {
@@ -204,12 +211,14 @@ class W2DListItemAssignment extends W2DListItemMixin {
 				type: String,
 				observable: observableTypes.link,
 				rel: 'alternate',
-				route: [{observable: observableTypes.link, rel: rels.assignment}],
+				route: [{observable: observableTypes.link, rel: rels[this.activityType]}],
 				reflect: true,
 				attribute: 'action-href'
 			}
 		};
 	}
+
+	static activityType = 'assignment';
 
 	get actionHref() {
 		return super.actionHref;
@@ -229,12 +238,14 @@ class W2DListItemChecklist extends W2DListItemMixin {
 				type: String,
 				observable: observableTypes.link,
 				rel: 'alternate',
-				route: [{observable: observableTypes.link, rel: rels.checklist}],
+				route: [{observable: observableTypes.link, rel: rels[this.activityType]}],
 				reflect: true,
 				attribute: 'action-href'
 			}
 		};
 	}
+
+	static activityType = 'checklist';
 
 	get actionHref() {
 		return super.actionHref;
@@ -254,12 +265,14 @@ class W2DListItemContent extends W2DListItemMixin {
 				type: String,
 				observable: observableTypes.link,
 				rel: 'alternate',
-				route: [{observable: observableTypes.link, rel: rels.content}],
+				route: [{observable: observableTypes.link, rel: rels[this.activityType]}],
 				reflect: true,
 				attribute: 'action-href'
 			}
 		};
 	}
+
+	static activityType = 'content';
 
 	get actionHref() {
 		return super.actionHref;
@@ -279,12 +292,14 @@ class W2DListItemCourseOffering extends W2DListItemMixin {
 				type: String,
 				observable: observableTypes.link,
 				rel: rels.organizationHomepage,
-				route: [{observable: observableTypes.link, rel: rels.organization}],
+				route: [{observable: observableTypes.link, rel: rels[this.activityType]}],
 				reflect: true,
 				attribute: 'action-href'
 			}
 		};
 	}
+
+	static activityType = 'organization';
 
 	constructor() {
 		super();
@@ -309,12 +324,14 @@ class W2DListItemDiscussion extends W2DListItemMixin {
 				type: String,
 				observable: observableTypes.link,
 				rel: 'alternate',
-				route: [{observable: observableTypes.link, rel: rels.topic}],
+				route: [{observable: observableTypes.link, rel: rels[this.activityType]}],
 				reflect: true,
 				attribute: 'action-href'
 			}
 		};
 	}
+
+	static activityType = 'topic';
 
 	get actionHref() {
 		return this._actionHref !== null ? this._actionHref : undefined;
@@ -328,6 +345,7 @@ class W2DListItemDiscussion extends W2DListItemMixin {
 customHypermediaElement('d2l-w2d-list-item-discussion', W2DListItemDiscussion, 'd2l-w2d-list-item', [['user-discussion-activity']]);
 
 class W2DListItemQuiz extends W2DListItemMixin {
+
 	static get properties() {
 		return {
 			...super.properties,
@@ -335,12 +353,13 @@ class W2DListItemQuiz extends W2DListItemMixin {
 				type: String,
 				observable: observableTypes.link,
 				rel: 'alternate',
-				route: [{observable: observableTypes.link, rel: rels.quiz}],
+				route: [{observable: observableTypes.link, rel: rels[this.activityType]}],
 				reflect: true,
 				attribute: 'action-href'
 			}
 		};
 	}
+	static activityType = 'quiz';
 
 	get actionHref() {
 		return super.actionHref;
@@ -360,12 +379,14 @@ class W2DListItemSurvey extends W2DListItemMixin {
 				type: String,
 				observable: observableTypes.link,
 				rel: 'alternate',
-				route: [{observable: observableTypes.link, rel: rels.survey}],
+				route: [{observable: observableTypes.link, rel: rels[this.activityType]}],
 				reflect: true,
 				attribute: 'action-href'
 			}
 		};
 	}
+
+	static activityType = 'survey';
 
 	get actionHref() {
 		return super.actionHref;
