@@ -58,6 +58,14 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(LabelMixin(Hypermed
 			_assignedActivityHref: {
 				type: String,
 				attribute: 'assigned-activity-href'
+			},
+			_ltiLaunchUrl:{
+				type: String,
+				attribute: 'lti-launch-url'
+			},
+			_ltiValidationUrl:{
+				type: String,
+				attribute: 'lti-validation-url'
 			}
 		};
 	}
@@ -65,33 +73,16 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(LabelMixin(Hypermed
 	static get styles() {
 		return [ super.styles, heading4Styles, css`
 			:host {
-				background-color: #ffffff;
-				border: 1px solid var(--d2l-color-gypsum);
-				border-radius: 6px;
-				box-sizing: border-box;
-				display: inline-block;
-				position: relative;
-				transition: transform 300ms ease-out 50ms, box-shadow 0.2s;
-				z-index: 0;
-				padding: 1.5rem 0.8rem 0 0.8rem;
 				width: 100%;
+				height: 100%;
 			}
-			:host(:hover) {
-				box-shadow: 0 2px 14px 1px rgba(0, 0, 0, 0.06);
-			}
-			:host([open-as-external]) {
-				max-width: 596px;
-			}
+
 			@media (prefers-reduced-motion: reduce) {
 				:host {
 					transition: none;
 				}
 			}
 
-			.header {
-				display: flex;
-				margin-bottom: 1rem;
-			}
 			.d2l-heading-4 {
 				flex-grow: 1;
 				margin:0;
@@ -106,9 +97,13 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(LabelMixin(Hypermed
 			}
 			.content-frame {
 				margin: 1rem 0rem 0.6rem 0rem;
+				height: 100%;
 			}
 			.content-frame-default-width {
 				width: 100%;
+			}
+			.no-border{
+				border: none;
 			}
 			.spanning-button {
 				width: 100%;
@@ -137,11 +132,19 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(LabelMixin(Hypermed
 		this._preview = false;
 		this._grading = false;
 		this._assignedActivityHref = null;
-		this.skeleton = true;
+		this.skeleton = false;
+
+		this.iFrameWidth = 800;
+		this.iFrameHeight = 600;
 	}
 
 	connectedCallback() {
 		super.connectedCallback();
+
+		if(window.location.href.includes('cookieLaunch')){
+			window.location.href = this._ltiLaunchUrl;
+		}
+
 		this._handleMessage = this._handleMessage.bind(this);
 		window.addEventListener('message', this._handleMessage);
 	}
@@ -152,110 +155,102 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(LabelMixin(Hypermed
 	}
 
 	render() {
-		const iFrameClasses = { 'content-frame-default-width': !this.iFrameWidth };
-		return html`
-			<div class="header">
-				<div class="d2l-heading-4">${this.localize('external-activity')}</div>
-				<d2l-icon icon="tier2:external"></d2l-icon>
-			</div>
-			${this.skeleton ? html`<div class="d2l-skeletize skeleton-placeholder"></div>` :
+		const iFrameClasses = { 'content-frame-default-width': !this.iFrameWidth, 'no-border':true };
+		return html`<div class="content-frame">
+		<iframe id="lti-iframe-id" class="${classMap(iFrameClasses)}" allow="microphone *; camera *; autoplay *" width="100%" height="${this.iFrameHeight}px" src="${this._ltiLaunchUrl}"></iframe>
+	</div>`
+	};
 
-		html`${this._showOpenInNewWindowButton ?
-			html`<d2l-button class="spanning-button" primary @click="${this._onOpenInNewWindowClick}">${this.localize('open-in-new-window')}</d2l-button>` :
-			html`
-				<div class="content-frame">
-					<iframe class="${classMap(iFrameClasses)}" allow="microphone *; camera *; autoplay *" width="${this.iFrameWidth}px" height="${this.iFrameHeight}px" src="${this._launchUrl}"></iframe>
-				</div>
-				<div class="subtle-button">
-					<d2l-button-subtle text="${this.localize('open-in-new-window')}" icon="tier1:new-window" @click="${this._onOpenInNewWindowClick}"></d2l-button-subtle>
-				</div>`
-
-		}`
-}`;
-	}
-
-	set launchUrl(value) {
-		let newLaunchUrl = value;
-		const oldValue = this.launchUrl;
-		if (this._grading || this._preview || this._assignedActivityHref) {
-			// need to add at least one parameter to the launch url
-			const arr = newLaunchUrl.split('?');
-			const hasQuestionMark = arr.length > 1;
-			if (!hasQuestionMark) {
-				newLaunchUrl += '?';
-			}
-			let hasParams = hasQuestionMark && arr[1] !== '';
-
-			if (this._grading) {
-				if (hasParams) {
-					newLaunchUrl += '&grading=true';
-				} else {
-					newLaunchUrl += 'grading=true';
-					hasParams = true;
-				}
-			}
-			if (this._preview) {
-				if (hasParams) {
-					newLaunchUrl += '&preview=true';
-				} else {
-					newLaunchUrl += 'preview=true';
-					hasParams = true;
-				}
-			}
-			if (this._assignedActivityHref) {
-				if (hasParams) {
-					newLaunchUrl += `&assignedActivityHref=${encodeURIComponent(this._assignedActivityHref)}`;
-				} else {
-					newLaunchUrl += `assignedActivityHref=${encodeURIComponent(this._assignedActivityHref)}`;
-					hasParams = true;
-				}
-			}
-		}
-		this._launchUrl = newLaunchUrl;
-		this.requestUpdate('launchUrl', oldValue);
-	}
-
-	openWindow(url, title, width, height) {
-		const left = (screen.width / 2) - (width / 2);
-		const top = (screen.height / 2) - (height / 2);
-		window.open(url, title, `resizable=yes, width=${ width }, height=${ height  }, top=${ top }, left=${ left}`);
-	}
-
-	get _loaded() {
-		return !this.skeleton;
-	}
-
-	set _loaded(loaded) {
-		this.skeleton = !loaded;
-	}
 
 	_handleMessage(event) {
 		if (!event.data) {
 			return;
 		}
+
+		console.log('window post', event);
+
 		let params;
 		try {
 			params = JSON.parse(event.data);
+
+			if(params.subject === 'lti.frameResize'){
+				const MAX_FRAME_HEIGHT = 10000;
+				if (!params.height || params.height < 1 || params.height > MAX_FRAME_HEIGHT) {
+					console.warn('Invalid height value received, aborting');
+					return;
+				}
+
+				const el = this.shadowRoot.querySelectorAll('iframe');
+				for (let i = 0; i < el.length; i++) {
+					if (el[i].contentWindow === event.source) {
+						this.iFrameHeight = params.height;
+						// eslint-disable-next-line no-console
+						console.info(`Setting iFrame height to ${params.height}`);
+					}
+				}
+			}
+			return;
 		}
 		catch (exception) {
-			return;
+			//don't error. new messages are objects and aren't meant to be parsed
 		}
-		if (!params.subject || params.subject !== 'lti.frameResize') {
-			return;
-		}
-		const MAX_FRAME_HEIGHT = 10000;
-		if (!params.height || params.height < 1 || params.height > MAX_FRAME_HEIGHT) {
-			console.warn('Invalid height value received, aborting');
+
+		if (!event.data.subject || (event.data.subject !== 'org.imsglobal.lti.capabilities' && event.data.subject !== 'org.imsglobal.lti.put_data' && event.data.subject !== 'org.imsglobal.lti.get_data')) {
 			return;
 		}
 
-		const el = this.shadowRoot.querySelectorAll('iframe');
-		for (let i = 0; i < el.length; i++) {
-			if (el[i].contentWindow === event.source) {
-				this.iFrameHeight = params.height;
-				// eslint-disable-next-line no-console
-				console.info(`Setting iFrame height to ${params.height}`);
+		let target_window = event.source;
+		let response={};
+		
+		if(event.data.subject === 'org.imsglobal.lti.capabilities'){
+			response = {
+				message_id: event.data.message_id,
+				subject: 'org.imsglobal.lti.capabilities.response',
+				supported_messages:[
+					{ subject: 'org.imsglobal.lti.capabilities' },
+					{ subject: 'org.imsglobal.lti.put_data' },
+					{ subject: 'org.imsglobal.lti.get_data' }
+				]
 			}
+			target_window.postMessage(response,'*');
+		}
+
+		if (event.data.subject === 'org.imsglobal.lti.put_data') {
+			response = {
+				message_id: event.data.message_id,
+				subject: 'org.imsglobal.lti.put_data.response'
+			}
+
+			window.fetch(this._ltiValidationUrl,{ method: "POST", body: JSON.stringify({origin:event.origin})}).then((r) => {			
+				if(r.ok){
+					window.sessionStorage.setItem(`lti_${event.origin}_${event.data.key}`, event.data.value);
+
+					response.key = event.data.key;
+					response.value = event.data.value;
+				}else{
+					response.error = { code: "bad_request", message: "The origin is invalid" }
+				}
+
+				target_window.postMessage(response,event.origin);
+			});			
+		}
+
+		if (event.data.subject === 'org.imsglobal.lti.get_data') {
+			response = {
+				message_id: event.data.message_id,
+				subject: 'org.imsglobal.lti.get_data.response',
+				key: event.data.key
+			}
+
+			window.fetch(this._ltiValidationUrl,{ method: "POST", body: JSON.stringify({origin:event.origin})}).then((r) => {			
+				if(r.ok){
+					response.value = window.sessionStorage.getItem(`lti_${event.origin}_${event.data.key}`);
+				}else{
+					response.error = { code: "bad_request", message: "The origin is invalid" }
+				}
+
+				target_window.postMessage(response,event.origin);
+			});		
 		}
 	}
 
