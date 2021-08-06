@@ -25,10 +25,13 @@ export default {
 	noActivitiesNoFutureActivitiesNameless: 'There are no activities with due or end dates available. Come back later to see if there is work to do.', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to refer to the user in the third person but don't know their name
 	nothingHere: '没有任何工作...', // Displayed as header line in widget text when there are no activities within the provided time period
 	overdue: '过期', // Indicates that the below list of activities are overdue (have a due date that is in the past)
+	xActivities: '{count, plural, =1 {1 activity} other {{count} activities}}', // Label text for pluralizing activites.
 	quiz: '测验', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	StartsWithDate: '开始日期 {startDate}', // show Start Date on status indicator when an activity starts in the future - formatted like "Starts Aug 15"
 	survey: '调查', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	upcoming: '即将分配的作业', // Indicates that the below list of activites are upcoming (have a due due or end date that is in the future)
 	viewAllWork: '查看所有作业', // Button text displayed in 'Empty View' when user can navigate to full page view to see all work
-	xWeeksClear: '{count, plural, =1 {1 周} other {{count} 周}} 清楚！' // 'Empty state' - Header when widget has no activities to display within the next x weeks
+	xWeeksClear: '{count, plural, =1 {1 周} other {{count} 周}} 清楚！', // 'Empty state' - Header when widget has no activities to display within the next x weeks
+	dueWithDate: 'Due {dueDate}', // show due Date on status indicator when an activity due in the future - formatted like "Due Aug 15"'
+	endWithDate: 'End {endDate}' // show end Date on status indicator when an activity end in the future - formatted like "End Aug 15"
 };
