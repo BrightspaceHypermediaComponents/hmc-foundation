@@ -141,7 +141,7 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(LabelMixin(Hypermed
 	connectedCallback() {
 		super.connectedCallback();
 
-		if(window.location.href.includes('cookieLaunch')){
+		if(window.parent.location.href.includes('cookieLaunch')){
 			window.location.href = this._ltiLaunchUrl;
 		}
 
