@@ -16,7 +16,8 @@ export default {
 	"text-edit-enrollment-rule": "Modifier la règle d'inscription", // Edit an existing rule
 	"text-edit": "Modifier", // Title for edit menu item
 	"text-remove-condition": "Retirer la condition {conditionType}", // Screenreader text when removing a condition from a rule
-	"text-rule-matches": "La règle correspond à {count} utilisateurs", // Information about how many users a rule matches
+	"text-rule-matches": "La règle correspond à {count} utilisateurs", // Information about how many users a rule matches in the rule edit dialog
+	"text-rule-matches-card": "Matches {count} users", // Information about how many users a rule matches on a card
 	"text-rules-description": "Pour s'auto-inscrire à ce cours, l'utilisateur doit respecter une ou plusieurs de ces règles.", // description for enrollment rules
 	"text-rules": "Règles d'inscription", // title for enrollment rules options
 	"text-select-conditions": "Sélectionner des conditions", // header text for selecting the set of conditions for a rule
