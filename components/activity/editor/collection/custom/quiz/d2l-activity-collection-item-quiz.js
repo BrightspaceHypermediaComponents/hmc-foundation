@@ -80,6 +80,8 @@ const componentClass = class extends HypermediaStateMixin(ListItemButtonMixin(Li
 
 		// Save or Cancel button Handler
 		delayedResult.AddListener((activities) => {
+			if (!activities) return; // Cancel
+
 			// Trigger Section child to refresh name
 			++this._refreshCounter;
 			const activityHrefs = activities.map(activity => activity.href);

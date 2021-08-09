@@ -119,7 +119,8 @@ describe('d2l-discover-rules', () => {
 			await listener;
 			await el.updateComplete;
 			const expectedCommit = {
-				rules: []
+				rules: [],
+				canSelfRegister: false
 			};
 			expect(commitSpy.calledOnce, 'commit was not called').to.be.true;
 			expect(commitSpy.calledWith(expectedCommit), `commit was not called with: ${expectedCommit}`).to.be.true;
@@ -137,7 +138,8 @@ describe('d2l-discover-rules', () => {
 			await el.updateComplete;
 			expect(el._rules).to.be.empty;
 			const expectedCommit = {
-				rules: []
+				rules: [],
+				canSelfRegister: true
 			};
 			expect(commitSpy.calledOnce, 'commit was not called').to.be.true;
 			expect(commitSpy.calledWith(expectedCommit), `commit was not called with: ${expectedCommit}`).to.be.true;
@@ -185,7 +187,8 @@ describe('d2l-discover-rules', () => {
 				rules: [
 					{ fruit: ['apple', 'orange'] },
 					{ entree: ['spaghetti'], dessert: ['cake', 'pie'] }
-				]
+				],
+				canSelfRegister: false
 			};
 
 			expect(commitSpy.calledOnce, 'commit was not called').to.be.true;

@@ -189,7 +189,7 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 		this._state.reset();
 	}
 	_handleDeleteDialogConfirm() {
-		this._state.push();
+		this._state.push().then(() => this.dispatchEvent(new CustomEvent('d2l-question-activity-deleted', {bubbles: true, composed: true})));
 	}
 	_handleDeleteDialogOpen() {
 		this.shadowRoot.querySelectorAll('d2l-activity-collection-item-quiz[selected]').forEach(itemElem => itemElem.deleteAction.has && itemElem.deleteAction.commit({}));
