@@ -21,6 +21,7 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 			isSelfEnrollable: { type: Boolean, observable: observableTypes.classes,
 				method: (classes) => classes.includes(rels.selfAssignableClass),
 				route: [{observable: observableTypes.link, rel: rels.organization }] },
+			_resolvedToken: { type: String },
 			_rules: { type: Array },
 			_ruleIndex: { type: Number },
 			_dialogOpened: { type: Boolean },
@@ -72,9 +73,9 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 				<!-- rules cards -->
 				${this._rules.map((rule, index) => html`
 					<d2l-discover-rule-card
-						.token="${this.token}"
 						.rule="${rule}"
 						.ruleIndex="${index}"
+						token="${this._resolvedToken}"
 						@d2l-rule-delete-click="${this._onRuleDeleted}"
 						@d2l-rule-edit-click="${this._onRuleEdit}"></d2l-discover-rule-card>
 				`)}
@@ -103,6 +104,9 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 
 		if (changedProperties.has('_getEntitlement')) {
 			this._summonEntitlement();
+		}
+		if (changedProperties.has('token')) {
+			this._tokenChanged();
 		}
 	}
 
@@ -165,10 +169,9 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 		if (!this._hasAction('_createEntitlement')) return;
 		const message = this._rules.map(rule => {
 			const ruleObj = {};
-			rule.entities.forEach(condition => ruleObj[condition.properties.type] = condition.properties.values);
+			rule.entities.forEach(condition => ruleObj[condition.properties.id] = condition.properties.values);
 			return ruleObj;
 		});
-
 		// canSelfRegister should only be true when there are no rules and the checkbox is checked.
 		this._createEntitlement.commit({
 			rules: message,
@@ -213,5 +216,12 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 		}
 	}
 
+	//Retrieves a token for interacting with the BFF
+	async _tokenChanged() {
+		const resolvedToken = await this.token();
+		if (resolvedToken) {
+			this._resolvedToken = resolvedToken;
+		}
+	}
 }
 customElements.define('d2l-discover-rules', EntitlementRules);

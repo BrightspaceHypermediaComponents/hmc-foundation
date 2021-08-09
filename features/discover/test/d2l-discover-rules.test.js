@@ -44,7 +44,7 @@ const entitlementEntity = {
 	entities: [
 		{
 			entities: [
-				{ properties: { type: 'fruit', values: ['apple', 'orange'] }, rel: [rels.condition] }
+				{ properties: { id: '_fruit', type: 'fruit', values: ['apple', 'orange'] }, rel: [rels.condition] }
 			],
 			rel: [rels.rule]
 		}
@@ -56,8 +56,8 @@ const entitlementEntity = {
 };
 const conditionTypesEntity = {
 	entities: [
-		{ rel: [rels.conditionType], properties: { type: 'fruit' } },
-		{ rel: [rels.conditionType], properties: { type: 'entree' } }
+		{ rel: [rels.conditionType], properties: { id: '_fruit', type: 'fruit' } },
+		{ rel: [rels.conditionType], properties: { id: '_entree', type: 'entree' } }
 	],
 	links: [
 		{ rel: ['self'], href: conditionTypesHref }
@@ -176,8 +176,8 @@ describe('d2l-discover-rules', () => {
 
 			const rulePicker = dialog.shadowRoot.querySelector('d2l-discover-rule-picker');
 			const rule = [
-				{ properties: { type: 'entree', values: ['spaghetti'] } },
-				{ properties: { type: 'dessert', values: ['cake', 'pie'] } }
+				{ properties: { id:'_entree', type: 'entree', values: ['spaghetti'] } },
+				{ properties: { id:'_dessert', type: 'dessert', values: ['cake', 'pie'] } }
 			];
 			rulePicker.conditions = rule;
 			// click done
@@ -185,8 +185,8 @@ describe('d2l-discover-rules', () => {
 			await el.updateComplete;
 			const expectedCommit = {
 				rules: [
-					{ fruit: ['apple', 'orange'] },
-					{ entree: ['spaghetti'], dessert: ['cake', 'pie'] }
+					{ _fruit: ['apple', 'orange'] },
+					{ _entree: ['spaghetti'], _dessert: ['cake', 'pie'] }
 				],
 				canSelfRegister: false
 			};
