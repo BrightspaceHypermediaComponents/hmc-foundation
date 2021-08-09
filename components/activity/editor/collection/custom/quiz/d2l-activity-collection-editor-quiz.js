@@ -35,6 +35,7 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 				route: [route.collection]
 			},
 			newactivityhrefs: { type: Array },
+			importedActivityHrefs: { type: Array },
 			_collectionHref: {
 				type: String, observable: observableTypes.link, rel: rels.collection
 			},
@@ -102,11 +103,11 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 	constructor() {
 		super();
 		this.items = [];
+		this.importedActivityHrefs = [];
 		this._currentSelection = new Map();
 		this._selectionCount = 0;
 		this.skeleton = true;
 
-		this.addEventListener('d2l-activity-collection-refetch', this._handleRefetch);
 		this.addEventListener('d2l-question-updated', this._handleQuestionUpdate);
 		this.addEventListener('d2l-collection-item-delete-dialog-open', this._handleDeleteDialogOpen);
 		this.addEventListener('d2l-collection-item-delete-dialog-confirm', this._handleDeleteDialogConfirm);
@@ -141,6 +142,10 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 
 		if (changedProperties.has('newactivityhrefs')) {
 			this._addToCollection(this.newactivityhrefs);
+		}
+
+		if (changedProperties.has('importedActivityHrefs')) {
+			this._refreshState();
 		}
 	}
 
@@ -196,9 +201,6 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 	}
 	_handleQuestionUpdate() {
 		fetch(this._state, true);
-	}
-	_handleRefetch() {
-		this._refreshState();
 	}
 	_moveItems(e) {
 		e.detail.reorder(this.items, { keyFn: (item) => item.properties.id });
