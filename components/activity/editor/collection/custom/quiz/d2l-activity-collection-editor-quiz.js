@@ -36,7 +36,6 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 			},
 			newactivityhrefs: { type: Array },
 			importedActivityHrefs: { type: Array },
-			refreshCounter: { type: Number },
 			_collectionHref: {
 				type: String, observable: observableTypes.link, rel: rels.collection
 			},
@@ -105,7 +104,6 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 		super();
 		this.items = [];
 		this.importedActivityHrefs = [];
-		this.refreshCounter = 0;
 		this._currentSelection = new Map();
 		this._selectionCount = 0;
 		this.skeleton = true;
@@ -146,7 +144,7 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 			this._addToCollection(this.newactivityhrefs);
 		}
 
-		if (changedProperties.has('refreshCounter') && this.refreshCounter > 0) {
+		if (changedProperties.has('importedActivityHrefs')) {
 			this._refreshState();
 		}
 	}
