@@ -7,9 +7,9 @@ import {classMap} from 'lit-html/directives/class-map.js';
 import { heading4Styles } from '@brightspace-ui/core/components/typography/styles.js';
 import { html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { LabelMixin } from '@brightspace-ui/core/mixins/labelled-mixin.js';
+import { LocalizeLtiActivityMixin } from './mixins/d2l-lti-activity-lang-mixin.js';
 import {RtlMixin} from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton-mixin.js';
-import { LocalizeLtiActivityMixin } from './mixins/d2l-lti-activity-lang-mixin.js';
 
 const rels = Object.freeze({
 	linkPlacement: 'https://lti.api.brightspace.com/rels/link-placement'
