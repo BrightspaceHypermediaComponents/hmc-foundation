@@ -1,6 +1,6 @@
 import '../d2l-w2d-work-to-do.js';
-import { createComponentAndWait, renderShadowRoots } from '../../../test/test-util.js';
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
+import { createComponentAndWait, renderShadowRoots } from '../../../test/test-util.js';
 import {
 	workToDoActivities,
 	workToDoActivity,
