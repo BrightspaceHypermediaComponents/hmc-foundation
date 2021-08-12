@@ -128,7 +128,7 @@ describe('d2l-w2d-work-to-do', () => {
 		});
 	});
 
-	describe.only('The activity type', () => {
+	describe('The activity type', () => {
 		beforeEach(() => {
 			clearStore();
 
@@ -156,20 +156,30 @@ describe('d2l-w2d-work-to-do', () => {
 		it('Shows when in full view', async() => {
 			// Arrange
 			mockLink.mock('path:/w2d-activities/overdue', workToDoOverdue);
-			const el = await _createWorkToDoFullScreen('/w2d');
-			await aTimeout(500);
-			const renderedEl = renderShadowRoots(el);
 			const activityType = 'Assignment';
 
 			// Act
-			console.log('mock calls', mockLink.calls());
-			console.log(el);
+			const el = await _createWorkToDoFullScreen('/w2d');
+			await aTimeout(500);
+			const renderedEl = renderShadowRoots(el);
 
 			// Assert
-			expect(renderedEl).to.have.text(activityType);
+			expect(renderedEl.textContent).to.include(activityType);
 		});
 
-		// it('Shows when collapsed');
+		it('Shows when collapsed', async() => {
+			// Arrange
+			mockLink.mock('path:/w2d-activities/overdue', workToDoOverdue);
+			const activityType = 'Assignment';
+
+			// Act
+			const el = await _createWorkToDo('/w2d');
+			await aTimeout(500);
+			const renderedEl = renderShadowRoots(el);
+
+			// Assert
+			expect(renderedEl.textContent).to.include(activityType);
+		});
 
 	});
 
