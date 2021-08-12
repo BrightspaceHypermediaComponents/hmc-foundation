@@ -7,7 +7,7 @@ import {classMap} from 'lit-html/directives/class-map.js';
 import { heading4Styles } from '@brightspace-ui/core/components/typography/styles.js';
 import { html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { LabelMixin } from '@brightspace-ui/core/mixins/labelled-mixin.js';
-import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
+import { LocalizeLtiActivityMixin } from './mixins/d2l-lti-activity-lang-mixin.js';
 import {RtlMixin} from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton-mixin.js';
 
@@ -15,7 +15,7 @@ const rels = Object.freeze({
 	linkPlacement: 'https://lti.api.brightspace.com/rels/link-placement'
 });
 
-class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(LabelMixin(HypermediaStateMixin(RtlMixin(LitElement))))) {
+class LtiActivity extends SkeletonMixin(LocalizeLtiActivityMixin(LabelMixin(HypermediaStateMixin(RtlMixin(LitElement))))) {
 
 	static get properties() {
 		return {
@@ -123,12 +123,6 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(LabelMixin(Hypermed
 				margin-bottom: 0.8rem;
 			}
 		` ];
-	}
-
-	static get localizeConfig() {
-		return {
-			importFunc: async lang => (await import(`./lang/${lang}.js`)).default
-		};
 	}
 
 	constructor() {
