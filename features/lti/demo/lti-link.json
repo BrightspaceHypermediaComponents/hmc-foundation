@@ -8,7 +8,7 @@
       "name": "What is the capital of Canada?",
       "description": "Multiple Choice",
       "providerName": "H5P",
-      "launchUrl": "http://example.com",
+      "launchUrl": "https://example.com",
       "iFrameWidth": "700",
       "iFrameHeight": "200"
     },

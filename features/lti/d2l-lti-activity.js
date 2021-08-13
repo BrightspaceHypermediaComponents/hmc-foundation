@@ -1,3 +1,4 @@
+import '@brightspace-ui/core/components/alert/alert.js';
 import '@brightspace-ui/core/components/button/button.js';
 import '@brightspace-ui/core/components/button/button-subtle.js';
 import '@brightspace-ui/core/components/icons/icon.js';
@@ -14,9 +15,9 @@ import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton
 const rels = Object.freeze({
 	linkPlacement: 'https://lti.api.brightspace.com/rels/link-placement'
 });
+const NOT_FOUND_ERROR = 404;
 
 class LtiActivity extends SkeletonMixin(LocalizeLtiActivityMixin(LabelMixin(HypermediaStateMixin(RtlMixin(LitElement))))) {
-
 	static get properties() {
 		return {
 			iFrameWidth: {
@@ -58,6 +59,9 @@ class LtiActivity extends SkeletonMixin(LocalizeLtiActivityMixin(LabelMixin(Hype
 			_assignedActivityHref: {
 				type: String,
 				attribute: 'assigned-activity-href'
+			},
+			_errorText: {
+				type: String
 			}
 		};
 	}
@@ -104,6 +108,9 @@ class LtiActivity extends SkeletonMixin(LocalizeLtiActivityMixin(LabelMixin(Hype
 			  margin-left: 0.8rem;
 			  flex-shrink: 0;
 			}
+			d2l-alert {
+				margin-bottom: 1.5rem;
+			}
 			.content-frame {
 				margin: 1rem 0rem 0.6rem 0rem;
 			}
@@ -147,6 +154,17 @@ class LtiActivity extends SkeletonMixin(LocalizeLtiActivityMixin(LabelMixin(Hype
 
 	render() {
 		const iFrameClasses = { 'content-frame-default-width': !this.iFrameWidth };
+		if (this._errorText) {
+			return html`
+				<div class="header">
+					<div class="d2l-heading-4">${this.localize('external-activity')}</div>
+					<d2l-icon icon="tier2:external"></d2l-icon>
+				</div>
+				<d2l-alert type="error">
+					${this._errorText}
+				</d2l-alert>
+			`;
+		}
 		return html`
 			<div class="header">
 				<div class="d2l-heading-4">${this.localize('external-activity')}</div>
@@ -207,6 +225,14 @@ class LtiActivity extends SkeletonMixin(LocalizeLtiActivityMixin(LabelMixin(Hype
 		}
 		this._launchUrl = newLaunchUrl;
 		this.requestUpdate('launchUrl', oldValue);
+	}
+
+	onServerError(error) {
+		if (error.status === NOT_FOUND_ERROR) {
+			this._errorText = this.localize('not-found-error');
+		} else  {
+			this._errorText = this.localize('error-has-occurred');
+		}
 	}
 
 	openWindow(url, title, width, height) {
