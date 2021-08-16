@@ -19,10 +19,13 @@ const orgHref = 'http://org/1';
 const conditionTypesHref = 'http://condition-types/1';
 const entity = {
 	class: ['activity', 'course', 'assigned'],
+	actions: [
+		{ name: 'entitlement-rules', href: entitlementHref, method: 'GET' },
+		{ name: 'create-entitlement-rules', href: entitlementHref, method: 'POST' }
+	],
 	links: [
 		{ rel: ['self'], href: selfHref },
 		{ rel: [ rels.organization ], href: orgHref },
-		{ rel: [ rels.entitlementRules ], href: entitlementHref }
 	]
 };
 const orgEntity = {
@@ -41,7 +44,7 @@ const entitlementEntity = {
 	entities: [
 		{
 			entities: [
-				{ properties: { type: 'fruit', values: ['apple', 'orange'] }, rel: [rels.condition] }
+				{ properties: { id: '_fruit', type: 'fruit', values: ['apple', 'orange'] }, rel: [rels.condition] }
 			],
 			rel: [rels.rule]
 		}
@@ -53,8 +56,8 @@ const entitlementEntity = {
 };
 const conditionTypesEntity = {
 	entities: [
-		{ rel: [rels.conditionType], properties: { type: 'fruit' } },
-		{ rel: [rels.conditionType], properties: { type: 'entree' } }
+		{ rel: [rels.conditionType], properties: { id: '_fruit', type: 'fruit' } },
+		{ rel: [rels.conditionType], properties: { id: '_entree', type: 'entree' } }
 	],
 	links: [
 		{ rel: ['self'], href: conditionTypesHref }
@@ -73,6 +76,7 @@ describe('d2l-discover-rules', () => {
 		fetchMock.mock(selfHref, JSON.stringify(entity))
 			.mock(orgHref, JSON.stringify(orgEntity))
 			.mock(entitlementHref, JSON.stringify(entitlementEntity))
+			.mock(`${entitlementHref}?profileCount=3`, JSON.stringify(entitlementEntity))
 			.mock(conditionTypesHref, JSON.stringify(conditionTypesEntity));
 	});
 
@@ -95,6 +99,7 @@ describe('d2l-discover-rules', () => {
 				<d2l-discover-rules href="${selfHref}" token="cake"></d2l-discover-rules>
 			`);
 			expect(el._hasAction('_createEntitlement'), 'does not have the _createEntitlement action').to.be.true;
+			expect(el._hasAction('_getEntitlement'), 'does not have the _getEntitlement action').to.be.true;
 			commitSpy = sinon.spy(el._createEntitlement, 'commit');
 		});
 		afterEach(() => {
@@ -103,7 +108,27 @@ describe('d2l-discover-rules', () => {
 			el = null;
 		});
 
+		it('throws an event when the checkbox is changed', async() => {
+			const checkboxDrawer = el.shadowRoot.querySelector('d2l-labs-checkbox-drawer');
+			const listener = oneEvent(el, 'd2l-rules-checkbox-change');
+			const event = new CustomEvent('d2l-checkbox-drawer-checked-change', {
+				detail: { checked: false }
+			});
+			checkboxDrawer.dispatchEvent(event);
+			checkboxDrawer.checked = false;
+			await listener;
+			await el.updateComplete;
+			const expectedCommit = {
+				rules: [],
+				canSelfRegister: false
+			};
+			expect(commitSpy.calledOnce, 'commit was not called').to.be.true;
+			expect(commitSpy.calledWith(expectedCommit), `commit was not called with: ${expectedCommit}`).to.be.true;
+			expect(el._rules, 'rules should not be removed').to.have.lengthOf(1);
+		});
+
 		it('removes a rule when the delete menu item is clicked', async() => {
+			await waitUntil(() => el._rules?.length > 0, 'rules never initialized');
 			expect(el._rules).to.have.lengthOf(1);
 			const card = el.shadowRoot.querySelector('d2l-discover-rule-card');
 			const deleteItem = card.shadowRoot.querySelector('d2l-menu-item:nth-child(2)');
@@ -113,7 +138,8 @@ describe('d2l-discover-rules', () => {
 			await el.updateComplete;
 			expect(el._rules).to.be.empty;
 			const expectedCommit = {
-				rules: []
+				rules: [],
+				canSelfRegister: true
 			};
 			expect(commitSpy.calledOnce, 'commit was not called').to.be.true;
 			expect(commitSpy.calledWith(expectedCommit), `commit was not called with: ${expectedCommit}`).to.be.true;
@@ -150,8 +176,8 @@ describe('d2l-discover-rules', () => {
 
 			const rulePicker = dialog.shadowRoot.querySelector('d2l-discover-rule-picker');
 			const rule = [
-				{ properties: { type: 'entree', values: ['spaghetti'] } },
-				{ properties: { type: 'dessert', values: ['cake', 'pie'] } }
+				{ properties: { id:'_entree', type: 'entree', values: ['spaghetti'] } },
+				{ properties: { id:'_dessert', type: 'dessert', values: ['cake', 'pie'] } }
 			];
 			rulePicker.conditions = rule;
 			// click done
@@ -159,9 +185,10 @@ describe('d2l-discover-rules', () => {
 			await el.updateComplete;
 			const expectedCommit = {
 				rules: [
-					{ fruit: ['apple', 'orange'] },
-					{ entree: ['spaghetti'], dessert: ['cake', 'pie'] }
-				]
+					{ _fruit: ['apple', 'orange'] },
+					{ _entree: ['spaghetti'], _dessert: ['cake', 'pie'] }
+				],
+				canSelfRegister: false
 			};
 
 			expect(commitSpy.calledOnce, 'commit was not called').to.be.true;

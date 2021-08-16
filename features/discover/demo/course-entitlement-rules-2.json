@@ -15,17 +15,45 @@
           "properties": {
             "type": "Dessert",
             "id": "_dessert",
+            "values": ["learner", "cake"]
+          }
+        }
+      ],
+      "properties": {
+        "matchCount": 2,
+        "userList": [
+          "http://localhost:8000/features/discover/demo/users/usersApi/user2.json",
+          "http://localhost:8000/features/discover/demo/users/usersApi/user3.json"
+        ]
+      }
+    },
+    {
+      "class": ["rule", "collection"],
+      "rel": ["https://discovery.brightspace.com/rels/rule"],
+      "entities": [
+        {
+          "class": ["condition"],
+          "rel": ["https://discovery.brightspace.com/rels/condition"],
+          "properties": {
+            "type": "Dessert",
+            "id": "_dessert",
             "values": ["pie"]
           }
         }
-      ]
+      ],
+      "properties": {
+        "matchCount": 1,
+        "userList": [
+          "http://localhost:8000/features/discover/demo/users/usersApi/user1.json"
+        ]
+      }
     }
   ],
   "properties": {
     "id": 12345
   },
   "links": [
-    { "rel": ["self"], "href": "../demo/course-entitlement-rules.json" },
+    { "rel": ["self"], "href": "../demo/course-entitlement-rules-2.json" },
     { "rel": [ "https://discovery.brightspace.com/rels/condition-types" ], "href": "../demo/condition-types.json" }
   ]
 }

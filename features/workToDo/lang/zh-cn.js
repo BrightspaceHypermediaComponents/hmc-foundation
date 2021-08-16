@@ -15,14 +15,23 @@ export default {
 	loadMoreDescription: '显示更多已分配的活动', // Additional description text to accompany the load more button for additional clarity for the user
 	workToDo: '待办事项', // Widget title
 	noActivities: '您没有具有到期或结束日期的未完成活动。', // 'Empty state' - When widget has no activities in full page view
+	noActivitiesName: '{firstName} has no activities with due or end dates available.', // 'Empty state' - When widget has no activities in full page view, when we want to show the user's name instead of referring to them as "you"
+	noActivitiesNameless: 'There are no activities with due or end dates available.', // 'Empty state' - When widget has no activities in full page view, when we want to refer to the user in the third person but don't know their name
 	noActivitiesFutureActivities: '您没有到期或即将结束的未完成活动。稍后回来或查看所有工作以查看即将发布的工作。',  // 'Empty View' - When widget has no activities to display within the next few weeks & there are activities in the future
+	noActivitiesFutureActivitiesName: "{firstName} has no activities due or ending soon. Come back later or View All Work to see what's coming next.", // Shown under the same conditions as noActivitiesFutureActivities, when we want to show the user's name instead of referring to them as "you"
+	noActivitiesFutureActivitiesNameless: "There are no activities due or ending soon. Come back later or View All Work to see what's coming next.", // Shown under the same conditions as noActivitiesFutureActivities, when we want to refer to the user in the third person but don't know their name
 	noActivitiesNoFutureActivities: '您没有具有到期或结束日期的未完成活动。稍后回来查看您是否有工作要完成。', // 'Empty View' - When widget has no activities to display within the next few weeks & there are no more activities in the future
+	noActivitiesNoFutureActivitiesName: '{firstName} has no activities with due or end dates available. Come back later to see if {firstname} has work to do.', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to show the user's name instead of referring to them as "you"
+	noActivitiesNoFutureActivitiesNameless: 'There are no activities with due or end dates available. Come back later to see if there is work to do.', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to refer to the user in the third person but don't know their name
 	nothingHere: '没有任何工作...', // Displayed as header line in widget text when there are no activities within the provided time period
 	overdue: '过期', // Indicates that the below list of activities are overdue (have a due date that is in the past)
+	xActivities: '{count, plural, =1 {1 activity} other {{count} activities}}', // Label text for pluralizing activites.
 	quiz: '测验', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	StartsWithDate: '开始日期 {startDate}', // show Start Date on status indicator when an activity starts in the future - formatted like "Starts Aug 15"
 	survey: '调查', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	upcoming: '即将分配的作业', // Indicates that the below list of activites are upcoming (have a due due or end date that is in the future)
 	viewAllWork: '查看所有作业', // Button text displayed in 'Empty View' when user can navigate to full page view to see all work
-	xWeeksClear: '{count, plural, =1 {1 周} other {{count} 周}} 清楚！' // 'Empty state' - Header when widget has no activities to display within the next x weeks
+	xWeeksClear: '{count, plural, =1 {1 周} other {{count} 周}} 清楚！', // 'Empty state' - Header when widget has no activities to display within the next x weeks
+	dueWithDate: 'Due {dueDate}', // show due Date on status indicator when an activity due in the future - formatted like "Due Aug 15"'
+	endWithDate: 'End {endDate}' // show end Date on status indicator when an activity end in the future - formatted like "End Aug 15"
 };

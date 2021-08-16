@@ -16,10 +16,17 @@ export default {
 	loadMoreDescription: 'عرض المزيد من الأنشطة المعيّنة', // Additional description text to accompany the load more button for additional clarity for the user
 	workToDo: 'العمل الذي يجب إنجازه', // Widget title
 	noActivities: 'ليس لديك أي أنشطة تتوفر تواريخ استحقاقها أو انتهائها.', // 'Empty state' - When widget has no activities in full page view
+	noActivitiesName: 'لا تتوفر أي أنشطة لها تواريخ استحقاق أو نهاية لـ {firstName}.', // 'Empty state' - When widget has no activities in full page view, when we want to show the user's name instead of referring to them as "you"
+	noActivitiesNameless: 'لا تتوفر أي أنشطة لها تواريخ استحقاق أو نهاية.', // 'Empty state' - When widget has no activities in full page view, when we want to refer to the user in the third person but don't know their name
 	noActivitiesFutureActivities: "ليس لديك أي أنشطة مستحقة أو تنتهي قريبًا. تحقق من الصفحة في وقت لاحق أو حدد عرض كل العمل للاطّلاع على الأنشطة المقبلة.",  // 'Empty View' - When widget has no activities to display within the next few weeks & there are activities in the future
+	noActivitiesFutureActivitiesName: "لا تتوفر أي أنشطة مستحقة أو تنتهي قريبًا لـ {firstName}. تحقق من الصفحة في وقت لاحق أو حدد عرض كل العمل للاطّلاع على الأنشطة المقبلة.", // Shown under the same conditions as noActivitiesFutureActivities, when we want to show the user's name instead of referring to them as "you"
+	noActivitiesFutureActivitiesNameless: "لا تتوفر أي أنشطة مستحقة أو تنتهي قريبًا. تحقق من الصفحة في وقت لاحق أو حدد عرض كل العمل للاطّلاع على الأنشطة المقبلة.", // Shown under the same conditions as noActivitiesFutureActivities, when we want to refer to the user in the third person but don't know their name
 	noActivitiesNoFutureActivities: 'ليس لديك أي أنشطة تتوفر تواريخ استحقاقها أو انتهائها. تحقق من الصفحة في وقت لاحق لمعرفة ما إذا كان ثمة عمل يجب إنجازه.', // 'Empty View' - When widget has no activities to display within the next few weeks & there are no more activities in the future
+	noActivitiesNoFutureActivitiesName: 'لا تتوفر أي أنشطة لها تواريخ استحقاق أو نهاية لـ {firstName}. تحقق من الصفحة في وقت لاحق لمعرفة ما إذا كان ثمة عمل يجب إنجازه من قبل {firstname}.', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to show the user's name instead of referring to them as "you"
+	noActivitiesNoFutureActivitiesNameless: 'لا تتوفر أي أنشطة لها تواريخ استحقاق أو نهاية. تحقق من الصفحة في وقت لاحق لمعرفة ما إذا كان ثمة عمل يجب إنجازه.', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to refer to the user in the third person but don't know their name
 	nothingHere: "ما من أنشطة هنا...", // Displayed as header line in widget text when there are no activities within the provided time period
 	overdue: 'الأنشطة التي تجاوزت تاريخ الاستحقاق', // Indicates that the below list of activities are overdue (have a due date that is in the past)
+	xActivities: '{count, plural, =1 {نشاط واحد} other {{count} من الأنشطة}}', // Label text for pluralizing activites.
 	quiz: 'الاختبار', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	StartsWithDate: 'تاريخ البدء {startDate}', // show Start Date on status indicator when an activity starts in the future - formatted like "Starts Aug 15"
 	survey: 'الاستطلاع', // Meta-data descriptor that informs which type of activity is being displayed on a line item

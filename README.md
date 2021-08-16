@@ -55,6 +55,8 @@ See [Creating new components](creating-new-components.md).
 
 For details on observable properties, see [observables](https://github.com/BrightspaceHypermediaComponents/foundation-engine/tree/master/state/observable) in the [Foundation Engine](https://github.com/BrightspaceHypermediaComponents/foundation-engine).
 
+For example components using observables, see [examples](https://github.com/BrightspaceHypermediaComponents/foundation-components/tree/master/examples).
+
 ## Developing, Testing and Contributing
 
 After cloning the repo, run `npm install` to install dependencies.
@@ -63,6 +65,8 @@ After cloning the repo, run `npm install` to install dependencies.
 If you have language terms that should be translated, we recommend the following.
 
 1. Use the [LocalizeDynamicMixin](https://github.com/BrightspaceUI/core/blob/master/mixins/localize-dynamic-mixin.js).
+  * To use [OSLO](https://docs.dev.d2l/index.php/Oslo), create a custom localize mixin that extends the LocalizeDynamicMixin and include the osloCollection. Have the component extend the new mixin instead of LocalizeDynamicMixin.
+  * See [example](https://github.com/BrightspaceHypermediaComponents/foundation-components/tree/master/features/lti/mixins/d2l-lti-activity-lang-mixin.js)
 2. If one doesn't exist, create a lang folder in the directory for your component.
 3. Add the component to the [serge](https://github.com/BrightspaceHypermediaComponents/foundation-components/blob/master/foundation-components.serge.json). If you don't do this, your files will not be sent for translation.
 4. Watch for a pull request for translations for your terms. This typically takes about a sprint to occur.

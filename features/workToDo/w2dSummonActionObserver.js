@@ -1,24 +1,28 @@
 import { fetch } from '@brightspace-hmc/foundation-engine/state/fetch.js';
 import { SirenSummonAction } from '@brightspace-hmc/foundation-engine/state/observable/SirenSummonAction.js';
+import { telemetry } from './d2l-w2d-telemetry';
 
 export class W2dSummonAction extends SirenSummonAction {
 
-	static definedProperty({ name: id, token, verbose, startDate, page, pageSize, endDate }) {
-		return { id, token, verbose, startDate, endDate, page, pageSize };
+	static definedProperty({ name: id, token, verbose, start, page, pageSize, end }) {
+		return { id, token, verbose, start, end, page, pageSize };
 	}
 
-	async addObserver(observer, property, { method, route, startDate, page, pageSize, endDate } = {}) {
-		if (startDate && endDate) {
-			this.setQueryParams({
-				start: observer[startDate],
-				end: observer[endDate],
-				embed: false,
-				pageSize: observer[pageSize],
-				page: observer[page]
-			});
+	async addObserver(observer, property, { method, route, start, page, pageSize, end } = {}) {
+		const queryParams = {};
+		this._telemetryPage = page.replace(/^_page/, '').toLowerCase();
+		start && observer[start] && (queryParams['start'] = observer[start]);
+		end && observer[end] && (queryParams['end'] = observer[end]);
+		pageSize && observer[pageSize] && (queryParams['pageSize'] = observer[pageSize]);
+		page && observer[page] && (queryParams['page'] = observer[page]);
+		if (queryParams['start'] || queryParams['end'] || queryParams['pageSize'] || queryParams['page']) {
+			queryParams['embed'] = false;
+			this.setQueryParams(queryParams);
 		}
 		super.addObserver(observer, property, { method, route });
 		this._setPage(observer[page]);
+		this._setStartDate(observer[start]);
+		this._setEndDate(observer[end]);
 	}
 
 	get method() {
@@ -41,24 +45,39 @@ export class W2dSummonAction extends SirenSummonAction {
 		this._href = this._rawSirenAction.href;
 		this._fields = this._decodeFields(this._rawSirenAction);
 		this._method = this._rawSirenAction.method;
-		if (this._routes.size > 0) {
-			this.routedState = await this.createRoutedState(this.href, this._token.rawToken);
-			this._routes.forEach((route, observer) => {
-				this.routedState.addObservables(observer, route);
-			});
-			await fetch(this.routedState);
-		}
+		await this._fetchRoutedState();
 	}
 
-	async _setPage(page) {
-		if (!page || this._page === page) return;
-		this._page = page;
+	async _fetchRoutedState() {
 		if (this._routes.size > 0 && this._href && this._token) {
 			this.routedState = await this.createRoutedState(this.href, this._token.rawToken);
 			this._routes.forEach((route, observer) => {
 				this.routedState.addObservables(observer, route);
 			});
-			await fetch(this.routedState);
+
+			const res = fetch(this.routedState);
+			telemetry.markFetchStart(this._telemetryPage);
+			telemetry.markFetchEnd(this._telemetryPage, (await res).properties.pagingTotalResults);
 		}
+	}
+
+	async _setEndDate(endDate) {
+		if (!endDate || this._endDate === endDate) return;
+		this._endDate = endDate;
+		if (!this._startDate) return;
+		await this._fetchRoutedState();
+	}
+
+	async _setPage(page) {
+		if (!page || this._page === page) return;
+		this._page = page;
+		await this._fetchRoutedState();
+	}
+
+	async _setStartDate(startDate) {
+		if (!startDate || this._startDate === startDate) return;
+		this._startDate = startDate;
+		if (!this._endDate) return;
+		await this._fetchRoutedState();
 	}
 }

@@ -7,13 +7,16 @@ export default {
 	"label-condition-value": "Betingelsesværdi", // label for screen readers for the condition value input
 	"text-add-another-condition": "Tilføj en anden betingelse", // Button test for adding another condition to the rule
 	"text-add-enrollment-rule": "Tilføj tilmeldingsregel", // Button test for adding an enrollment rule to self-enrollable courses
+	"text-addmore-enrollment-rule": "Tilføj en anden regel", // Button text for adding another enrollment rule
 	"text-and": "OG", // word used for combining multiple conditions
 	"text-checkbox-description": "Inaktive kurser medtages ikke under Registrer", // extra info for discover checkbox
 	"text-condition-is": "er", // condition 'is' this and that
 	"text-condition-placeholder": "Angiv en betingelsesværdi", // Placeholder text for condition value input
+	"text-delete": "Slet", // Title for delete menu item
 	"text-edit-enrollment-rule": "Rediger tilmeldingsregel", // Edit an existing rule
+	"text-edit": "Rediger", // Title for edit menu item
 	"text-remove-condition": "Fjern betingelse {conditionType}", // Screenreader text when removing a condition from a rule
-	"text-rule-matches": "Reglen matcher {count} brugere", // Information about how many users a rule matches
+	"text-rule-matches": "Reglen matcher {count} brugere", // Information about how many users a rule matches in the rule edit dialog
 	"text-rules-description": "Hvis brugere selv vil tilmelde sig dette kursus, skal de matche en eller flere af disse regler.", // description for enrollment rules
 	"text-rules": "Tilmeldingsregler", // title for enrollment rules options
 	"text-select-conditions": "Vælg betingelser", // header text for selecting the set of conditions for a rule

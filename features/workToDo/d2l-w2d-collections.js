@@ -13,6 +13,7 @@ import { formatDate } from '@brightspace-ui/intl/lib/dateTime.js';
 import { ifDefined } from 'lit-html/directives/if-defined';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
 import { skeletonStyles } from '@brightspace-ui/core/components/skeleton/skeleton-mixin.js';
+import { telemetry } from './d2l-w2d-telemetry';
 import { W2dDateCategory } from './w2dDateCategoryObserver.js';
 import { W2dSummonAction } from './w2dSummonActionObserver.js';
 
@@ -33,12 +34,16 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 			currentTime: { type: String, attribute: 'current-time' },
 			collapsed: { type: Boolean },
 			groupByDays: { type: Number, attribute: 'group-by-days' },
+			useFirstName: { type: Boolean, attribute: 'use-first-name' },
 			overdueGroupByDays: { type: Number, attribute: 'overdue-group-by-days' },
-			overdueDayLimit: { type: Number, attribute: 'overdue-day-limit' },
 			startDate: { type: String, attribute: 'start-date' },
 			endDate: { type: String, attribute: 'end-date' },
 			dataFullPagePath: { type: String, attribute: 'data-full-page-path' },
+			upcomingWeekLimit: { type: String, attribute: 'upcoming-week-limit' },
 			skeleton: { type: Boolean, reflect: true },
+			userUrl: { type: String, attribute: 'user-url' },
+			allowUnclickableActivities: { type: Boolean, attribute: 'allow-unclickable-activities' },
+			clickableFutureActivities: { type: Boolean, attribute: 'clickable-future-activities' },
 			_categories: {
 				type: Array,
 				observable: observableTypes.custom,
@@ -51,8 +56,8 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 					observable: observableTypes.custom,
 					observableObject: W2dSummonAction,
 					name: 'filter-work-to-do',
-					startDate: 'startDate',
-					endDate: 'endDate',
+					start: 'startDate',
+					end: 'endDate',
 					pageSize: '_pageSize',
 					page: '_pageUpcoming'
 				}]
@@ -63,18 +68,15 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 				observableObject: W2dDateCategory,
 				groupByDays: 'overdueGroupByDays',
 				startDate: 'currentTime',
-				dayLimit: 'overdueDayLimit',
 				rel: rel.userActivity,
 				route: [{
 					observable: observableTypes.custom,
 					observableObject: W2dSummonAction,
 					name: 'filter-overdue-activities',
-					startDate: 'startDate',
-					endDate: 'endDate',
 					pageSize: '_pageSize',
 					page: '_pageOverdue'
 				}],
-				method: (categories) => Object.keys(categories).sort().map(key => categories[key])
+				method: (categories) => Object.keys(categories).sort((a, b) => a - b).map(key => categories[key])
 			},
 			_totalActivities: {
 				type: Number,
@@ -84,8 +86,8 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 					observable: observableTypes.custom,
 					observableObject: W2dSummonAction,
 					name: 'filter-work-to-do',
-					startDate: 'startDate',
-					endDate: 'endDate',
+					start: 'startDate',
+					end: 'endDate',
 					pageSize: '_pageSize',
 					page: '_pageUpcoming'
 				}]
@@ -100,8 +102,8 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 					observable: observableTypes.custom,
 					observableObject: W2dSummonAction,
 					name: 'filter-work-to-do',
-					startDate: 'startDate',
-					endDate: 'endDate',
+					start: 'startDate',
+					end: 'endDate',
 					pageSize: '_pageSize',
 					page: '_pageUpcoming'
 				}]
@@ -114,8 +116,8 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 					observable: observableTypes.custom,
 					observableObject: W2dSummonAction,
 					name: 'filter-work-to-do',
-					startDate: 'startDate',
-					endDate: 'endDate',
+					start: 'startDate',
+					end: 'endDate',
 					pageSize: '_pageSize',
 					page: '_pageUpcoming'
 				}]
@@ -128,8 +130,6 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 					observable: observableTypes.custom,
 					observableObject: W2dSummonAction,
 					name: 'filter-overdue-activities',
-					startDate: 'startDate',
-					endDate: 'endDate',
 					pageSize: '_pageSize',
 					page: '_pageOverdue'
 				}]
@@ -142,8 +142,6 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 					observable: observableTypes.custom,
 					observableObject: W2dSummonAction,
 					name: 'filter-overdue-activities',
-					startDate: 'startDate',
-					endDate: 'endDate',
 					pageSize: '_pageSize',
 					page: '_pageOverdue'
 				}]
@@ -202,7 +200,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 				height: 100%;
 				width: 100%;
 				background: white;
-				z-index: 100000000;
+				z-index: 500;
 			}
 			.d2l-w2d-collection-overflow {
 				overflow: hidden;
@@ -236,7 +234,6 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 		this.requiredPropertyForState('collapsed');
 		this.requiredPropertyForState('_page');
 		this.requiredPropertyForState('_pageSize');
-		this.requiredPropertyForState('overdueDayLimit');
 	}
 
 	get collapsed() {
@@ -253,7 +250,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 	render() {
 		let limit = this._pageSize;
 		let overdue = null;
-		if (this._page <= this._currentPageOverdue) {
+		if (!this._isOverduePastLastPage() || this._isOverdueOnLastPage()) {
 			overdue = this._overdue.map(category => {
 				let header = this.localize('overdue');
 				if (!this.collapsed) {
@@ -262,7 +259,15 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 				if (limit === 0) return;
 				const list = html`
 					${this._renderHeader3(header, this._pagingTotalResultsOverdue)}
-					<d2l-w2d-list href="${category.href}" .token="${this.token}" category="${category.index}" ?collapsed="${this.collapsed}" limit="${ifDefined(limit)}"></d2l-w2d-list>
+					<d2l-w2d-list
+						href="${category.href}"
+						.token="${this.token}"
+						category="${category.index}"
+						?collapsed="${this.collapsed}"
+						limit="${ifDefined(limit)}"
+						?allow-unclickable-activities="${this.allowUnclickableActivities}"
+						?clickable-future-activities="${this.clickableFutureActivities}">
+					</d2l-w2d-list>
 				`;
 				limit = limit === undefined ? limit : Math.max(limit - category.count, 0);
 				return list;
@@ -281,7 +286,15 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 				if (limit === 0) return;
 				const list = html`
 					${this._renderHeader3(header, this._pagingTotalResultsUpcoming)}
-					<d2l-w2d-list href="${category.href}" .token="${this.token}" category="${category.index}" ?collapsed="${this.collapsed}" limit="${ifDefined(limit)}"></d2l-w2d-list>
+					<d2l-w2d-list
+						href="${category.href}"
+						.token="${this.token}"
+						category="${category.index}"
+						?collapsed="${this.collapsed}"
+						limit="${ifDefined(limit)}"
+						?allow-unclickable-activities="${this.allowUnclickableActivities}"
+						?clickable-future-activities="${this.clickableFutureActivities}">
+					</d2l-w2d-list>
 				`;
 				limit = limit === undefined ? limit : Math.max(limit - category.count, 0);
 				return list;
@@ -290,14 +303,13 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 		if (categories) {
 			categories = categories.filter(activity => activity !== undefined);
 		}
-
 		const lists = html`
 			<div class="${classMap({ 'd2l-w2d-collection-overflow': this.skeleton })}">
 				${overdue && overdue.length !== 0 ? this._renderHeader2(this.localize('overdue'), this._pagingTotalResultsOverdue) : null}
 				${overdue}
 				${categories && categories.length > 0 ? this._renderHeader2(this.localize('upcoming'), this._pagingTotalResultsUpcoming) : null}
 				${categories}
-				${this.dataFullPagePath && this._loaded && this.collapsed ? html`<d2l-link href="${this.dataFullPagePath}">${this.localize('fullViewLink')}</d2l-link>` : null}
+				${this.dataFullPagePath && this._loaded && this.collapsed && (this._pagingTotalResultsOverdue + this._pagingTotalResultsUpcoming) > pageSize.collapsed ? html`<d2l-link href="${this.dataFullPagePath}" @click="${this._handleViewAllClick}">${this.localize('fullViewLink')}</d2l-link>` : null}
 				${this._renderPagination()}
 			</div>
 		`;
@@ -307,12 +319,16 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 					?activities="${this._totalActivities !== 0}"
 					?collapsed="${this.collapsed}"
 					?complete="${!this.collapsed}"
-					data-full-page-path=${this.dataFullPagePath}></d2l-w2d-no-activities>
+					?use-first-name="${this.useFirstName}"
+					data-full-page-path="${ifDefined(this.dataFullPagePath)}"
+					upcoming-week-limit="${this.upcomingWeekLimit}"
+					.token="${this.token}"
+					href=${this.userUrl}></d2l-w2d-no-activities>
 			`;
 
 		return html`
 			${this._renderSkeleton()}
-			${this._overdue.length === 0 && this._categories.length === 0 ? emptyList : lists}
+			${(overdue && overdue.length) || (categories && categories.length) ? lists : emptyList}
 		`;
 	}
 
@@ -333,6 +349,9 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 
 	set _loaded(loaded) {
 		this.skeleton = !loaded;
+		if (loaded && this._paged) {
+			telemetry.markAndLogLoadMore();
+		}
 	}
 
 	get _page() {
@@ -341,6 +360,7 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 
 	set _page(page) {
 		const oldValue = this._page;
+		this._paged = Boolean(this._page);
 		this.__page = page;
 		this.requestUpdate('_page', oldValue);
 	}
@@ -365,8 +385,19 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 		this.requestUpdate('_pagingTotalResultsOverdue', oldValue);
 	}
 
+	async _handleViewAllClick(e) {
+		const href = e.target.href;
+		e.preventDefault();
+		await telemetry.logViewAllClicked(href);
+		window.location.href = href;
+	}
+
 	_isOverdueOnLastPage() {
 		return this._pagingTotalResultsOverdue && this._pageSize && this._page && Math.ceil(this._pagingTotalResultsOverdue / this._pageSize) === this._page;
+	}
+
+	_isOverduePastLastPage() {
+		return this._pagingTotalResultsOverdue && this._pageSize && this._page && Math.ceil(this._pagingTotalResultsOverdue / this._pageSize) <= this._page;
 	}
 
 	_lastOverduePageHasMoreThanHalf() {
@@ -385,8 +416,9 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 	}
 
 	get _pageUpcoming() {
+		if (!this._isOverduePastLastPage()) return 1;
 		let page = typeof this.__page === 'number' ? Math.max(1, this.__page - this._pageOverdue) : 1;
-		if (!this.collapsed && !this._lastOverduePageHasMoreThanHalf() && !this._isOverdueOnLastPage() && this.__page !== 1) {
+		if (!this.collapsed && !this._lastOverduePageHasMoreThanHalf() && this.__page !== 1) {
 			page++;
 		}
 		return page;
@@ -411,27 +443,29 @@ class W2dCollections extends LocalizeDynamicMixin(HypermediaStateMixin(LitElemen
 
 	_renderHeader2(heading, count) {
 		if (this.collapsed) return;
+		const screenReaderText = this.localize('xActivities', 'count', count);
 		return html`
 			<div class="d2l-w2d-flex">
 				<h2 class="d2l-heading-2">${heading}</h2>
-				<div class="d2l-w2d-count d2l-w2d-heading-2-count">${count}</div>
+				<div class="d2l-w2d-count d2l-w2d-heading-2-count" aria-label="${screenReaderText}"><span aria-hidden="true">${count}</span></div>
 			</div>
 		`;
 	}
 
 	_renderHeader3(heading, count) {
 		if (!this.collapsed) return html`<div class="d2l-w2d-flex"><h3 class="d2l-w2d-heading-3">${heading}</h3></div>`;
+		const screenReaderText = this.localize('xActivities', 'count', count);
 		return html`
 			<div class="d2l-w2d-flex">
 				<h3 class="d2l-w2d-heading-3 d2l-heading-3">${heading}</h3>
-				<div class="d2l-w2d-count d2l-w2d-heading-3-count">${count}</div>
+				<div class="d2l-w2d-count d2l-w2d-heading-3-count" aria-label="${screenReaderText}"><span aria-hidden="true">${count}</span></div>
 			</div>
 		`;
 	}
 
 	_renderPagination() {
 		let totalPages = Math.ceil(this._pagingTotalResultsUpcoming / this._pageSize) + Math.ceil(this._pagingTotalResultsOverdue / this._pageSize);
-		if (this._pagingTotalResultsOverdue && !this._lastOverduePageHasMoreThanHalf()) {
+		if (this._pagingTotalResultsOverdue && this._pagingTotalResultsUpcoming && !this._lastOverduePageHasMoreThanHalf()) {
 			totalPages -= 1;
 		}
 		if (totalPages < 1) {

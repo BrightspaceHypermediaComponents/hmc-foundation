@@ -5,6 +5,7 @@ import '@brightspace-ui/core/components/dropdown/dropdown-menu.js';
 import '@brightspace-ui/core/components/menu/menu.js';
 import '@brightspace-ui/core/components/menu/menu-item.js';
 import './d2l-discover-rule-picker-dialog.js';
+import './d2l-discover-rule-card-match-info.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
@@ -14,10 +15,8 @@ class RuleCard extends LocalizeDynamicMixin(RtlMixin(LitElement)) {
 	static get properties() {
 		return {
 			rule: { type: Object },
-			ruleIndex: { type: Number },
+			token: { type: String },
 			_title: { type: String },
-			token: { type: Object },
-			href: { type: String }
 		};
 	}
 
@@ -70,8 +69,7 @@ class RuleCard extends LocalizeDynamicMixin(RtlMixin(LitElement)) {
 				<div slot="content">
 					<div>
 						<div class="d2l-rule-card-title">${this._title}</div>
-						<div class="d2l-rule-card-profiles">Fancy Pictures</div>
-						<div class="d2l-rule-card-match-users">Matches X users</div>
+						<d2l-discover-rule-card-match-info token="${this.token}" .rule="${this.rule}"></d2l-discover-rule-card-match-info>
 					</div>
 				</div>
 				<d2l-dropdown-context-menu text="options" slot="actions">

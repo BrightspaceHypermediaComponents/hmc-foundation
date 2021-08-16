@@ -13,6 +13,7 @@ const rels = Object.freeze({
 	organization: 'https://api.brightspace.com/rels/organization',
 	entitlementRules: 'https://discovery.brightspace.com/rels/entitlement-rules',
 });
+const profileCount = 3;
 
 class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStateMixin(LitElement))) {
 	static get properties() {
@@ -20,15 +21,13 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 			isSelfEnrollable: { type: Boolean, observable: observableTypes.classes,
 				method: (classes) => classes.includes(rels.selfAssignableClass),
 				route: [{observable: observableTypes.link, rel: rels.organization }] },
-			_rules: { type: Array, observable: observableTypes.subEntities, rel: rels.rule, route: [
-				{ observable: observableTypes.link, rel: rels.entitlementRules }
-			] },
+			_resolvedToken: { type: String },
+			_rules: { type: Array },
 			_ruleIndex: { type: Number },
 			_dialogOpened: { type: Boolean },
 			_entitlementsHref: { observable: observableTypes.link, rel: rels.entitlementRules },
-			_createEntitlement: { observable: observableTypes.action, name: 'create', route: [
-				{ observable: observableTypes.link, rel: rels.entitlementRules }
-			]}
+			_createEntitlement: { observable: observableTypes.action, name: 'create-entitlement-rules' },
+			_getEntitlement: { observable: observableTypes.summonAction, name: 'entitlement-rules' }
 		};
 	}
 
@@ -74,10 +73,9 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 				<!-- rules cards -->
 				${this._rules.map((rule, index) => html`
 					<d2l-discover-rule-card
-						href="${this._entitlementsHref}"
-						.token="${this.token}"
 						.rule="${rule}"
 						.ruleIndex="${index}"
+						token="${this._resolvedToken}"
 						@d2l-rule-delete-click="${this._onRuleDeleted}"
 						@d2l-rule-edit-click="${this._onRuleEdit}"></d2l-discover-rule-card>
 				`)}
@@ -93,7 +91,9 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 				.token="${this.token}"
 				?opened="${this._dialogOpened}"
 				.ruleIndex="${this._ruleIndex}"
+				.rules="${this._rules}"
 				@d2l-dialog-close="${this._onDialogClose}"
+				@d2l-rules-changed="${this._onRulesChanged}"
 			></d2l-discover-rule-picker-dialog>
 			</d2l-labs-checkbox-drawer>
 		`;
@@ -102,9 +102,11 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 	updated(changedProperties) {
 		super.updated(changedProperties);
 
-		if (this._loaded && changedProperties.has('_rules') && changedProperties.get('_rules') !== undefined
-			&& this._rulesHaveChanged(changedProperties.get('_rules'), this._rules)) {
-			this._onRulesChanged();
+		if (changedProperties.has('_getEntitlement')) {
+			this._summonEntitlement();
+		}
+		if (changedProperties.has('token')) {
+			this._tokenChanged();
 		}
 	}
 
@@ -123,16 +125,27 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 
 	_onCheckboxChange(e) {
 		const checked = e.detail.checked;
-		if (checked && this._rules.length) {
+		if (checked) {
 			// when the user re-checks the box, re-commit the entitlement
 			this._onRulesChanged();
 		} else {
 			if (!this._hasAction('_createEntitlement')) return;
 			// when the user unchecks the box, delete the entitlement, but don't update the rules
 			this._createEntitlement.commit({
-				rules: []
+				rules: [],
+				canSelfRegister: false
 			});
 		}
+		// create a composed event so that we can catch it in the LMS
+		// we use this method until there is a hypermedia action for changing discoverability on a course
+		const event = new CustomEvent('d2l-rules-checkbox-change', {
+			bubbles: true,
+			composed: true,
+			detail: {
+				checked: e.detail.checked
+			}
+		});
+		this.dispatchEvent(event);
 	}
 
 	_onDialogClose() {
@@ -142,11 +155,7 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 
 	_onRuleDeleted(e) {
 		this._rules.splice(e.target.ruleIndex, 1);
-		this._state.updateProperties({
-			_rules: { observable: observableTypes.subEntities, rel: rels.rule, route: [
-				{ observable: observableTypes.link, rel: rels.entitlementRules }
-			], value: this._rules }
-		});
+		this.requestUpdate();
 		// call it manually
 		this._onRulesChanged();
 	}
@@ -158,14 +167,15 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 
 	_onRulesChanged() {
 		if (!this._hasAction('_createEntitlement')) return;
-
 		const message = this._rules.map(rule => {
 			const ruleObj = {};
-			rule.entities.forEach(condition => ruleObj[condition.properties.type] = condition.properties.values);
+			rule.entities.forEach(condition => ruleObj[condition.properties.id] = condition.properties.values);
 			return ruleObj;
 		});
+		// canSelfRegister should only be true when there are no rules and the checkbox is checked.
 		this._createEntitlement.commit({
-			rules: message
+			rules: message,
+			canSelfRegister: this._rules.length === 0
 		});
 	}
 
@@ -193,5 +203,25 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 		return false;
 	}
 
+	async _summonEntitlement() {
+		const sirenReponse = await this._getEntitlement.summon({profileCount : profileCount});
+		if (sirenReponse) {
+			const newRules = sirenReponse.entities.filter(e => e.rel.includes(rels.rule));
+			if (this._rulesHaveChanged(newRules, this._rules)) {
+				this._rules = newRules;
+				this._onRulesChanged();
+			}
+
+			this._entitlementsHref = sirenReponse?.links.find(l => l.rel.includes('self')).href;
+		}
+	}
+
+	//Retrieves a token for interacting with the BFF
+	async _tokenChanged() {
+		const resolvedToken = await this.token();
+		if (resolvedToken) {
+			this._resolvedToken = resolvedToken;
+		}
+	}
 }
 customElements.define('d2l-discover-rules', EntitlementRules);

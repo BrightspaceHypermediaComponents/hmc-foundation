@@ -1,18 +1,34 @@
 import '@brightspace-ui/core/components/link/link.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
+import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { img } from './d2l-w2d-empty-state-image.js';
 import { labelStyles } from '@brightspace-ui/core/components/typography/styles.js';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
 
-const weekCount = 2;
+const rels = Object.freeze({
+	firstName: 'https://api.brightspace.com/rels/first-name'
+});
 
-class w2dNoActivities extends LocalizeDynamicMixin(LitElement) {
+class w2dNoActivities extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement)) {
 	static get properties() {
 		return {
 			activities: { type: Boolean },
 			complete: { type: Boolean },
 			dataFullPagePath: { type: String, attribute: 'data-full-page-path' },
-			collapse: { type: Boolean }
+			collapse: { type: Boolean },
+			useFirstName: { type: Boolean, attribute: 'use-first-name' },
+			_firstName: {
+				type: String,
+				observable: observableTypes.subEntities,
+				rel: rels.firstName,
+				method: (firstName) => {
+					return firstName?.[0]?.properties.name;
+				}
+			},
+			upcomingWeekLimit: {
+				type: Number,
+				attribute: 'upcoming-week-limit',
+			}
 		};
 	}
 
@@ -111,8 +127,35 @@ class w2dNoActivities extends LocalizeDynamicMixin(LitElement) {
 		</div>`;
 	}
 
+	_getEmptyViewText() {
+		if (this.useFirstName && this._firstName) {
+			return this.localize(this._getEmptyViewTextLabel(), 'firstName', this._firstName);
+		} else {
+			return this.localize(this._getEmptyViewTextLabel());
+		}
+	}
+
+	_getEmptyViewTextLabel() {
+		let emptyViewTextLabel = 'noActivitiesNoFutureActivities';
+		if (this.activities && this.collapse) {
+			emptyViewTextLabel = 'noActivitiesFutureActivities';
+		} else if (!this.collapse) {
+			emptyViewTextLabel = 'noActivities';
+		}
+
+		if (this.useFirstName) {
+			if (this._firstName) {
+				emptyViewTextLabel += 'Name';
+			} else {
+				emptyViewTextLabel += 'Nameless';
+			}
+		}
+
+		return emptyViewTextLabel;
+	}
+
 	_renderEmptyViewButton() {
-		if (!this.activities) {
+		if (!this.activities || !this.dataFullPagePath) {
 			return undefined;
 		}
 		return html`
@@ -127,7 +170,7 @@ class w2dNoActivities extends LocalizeDynamicMixin(LitElement) {
 
 	_renderEmptyViewHeader()  {
 		const emptyViewHeader = this.activities ?
-			this.localize('xWeeksClear', 'count', weekCount) :
+			this.localize('xWeeksClear', 'count', this.upcomingWeekLimit) :
 			this.localize('allClear');
 
 		return html`
@@ -136,16 +179,9 @@ class w2dNoActivities extends LocalizeDynamicMixin(LitElement) {
 	}
 
 	_renderEmptyViewText() {
-		let emptyViewTextLabel = 'noActivitiesNoFutureActivities';
-		if (this.activities && !this.collapse) {
-			emptyViewTextLabel = 'noActivitiesFutureActivities';
-		} else if (this.collapse) {
-			emptyViewTextLabel = 'noActivities';
-		}
-
 		return html`
 			<div class="d2l-body-standard d2l-empty-body-text-container">
-				${this.localize(emptyViewTextLabel)}
+				${this._getEmptyViewText()}
 			</div>
 			`;
 	}

@@ -16,10 +16,17 @@ export default {
 	loadMoreDescription: '할당된 활동을 더 많이 표시합니다.', // Additional description text to accompany the load more button for additional clarity for the user
 	workToDo: '할 일', // Widget title
 	noActivities: '기한 또는 종료일이 있는 활동이 없습니다.', // 'Empty state' - When widget has no activities in full page view
+	noActivitiesName: '{firstName} 님은 기한 또는 종료일이 있는 활동이 없습니다.', // 'Empty state' - When widget has no activities in full page view, when we want to show the user's name instead of referring to them as "you"
+	noActivitiesNameless: '기한 또는 종료일이 있는 활동이 없습니다.', // 'Empty state' - When widget has no activities in full page view, when we want to refer to the user in the third person but don't know their name
 	noActivitiesFutureActivities: "기한이 만료되거나 곧 종료되는 활동이 없습니다. 나중에 다시 돌아오거나 모든 작업 보기 를 통해 다음 내용을 확인할 수 있습니다.",  // 'Empty View' - When widget has no activities to display within the next few weeks & there are activities in the future
+	noActivitiesFutureActivitiesName: "{firstName} 님은 기한이 만료되거나 곧 종료되는 활동이 없습니다. 나중에 다시 돌아오거나 모든 작업 보기를 통해 다음 내용을 확인할 수 있습니다.", // Shown under the same conditions as noActivitiesFutureActivities, when we want to show the user's name instead of referring to them as "you"
+	noActivitiesFutureActivitiesNameless: "기한이 만료되거나 곧 종료되는 활동이 없습니다. 나중에 다시 돌아오거나 모든 작업 보기를 통해 다음 내용을 확인할 수 있습니다.", // Shown under the same conditions as noActivitiesFutureActivities, when we want to refer to the user in the third person but don't know their name
 	noActivitiesNoFutureActivities: '기한 또는 종료일이 있는 활동이 없습니다. 나중에 돌아와 해야 할 일이 있는지 확인합니다.', // 'Empty View' - When widget has no activities to display within the next few weeks & there are no more activities in the future
+	noActivitiesNoFutureActivitiesName: '{firstName} 님은 기한 또는 종료일이 있는 활동이 없습니다. {firstName} 님이 나중에 돌아와 해야 할 일이 있는지 확인합니다.', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to show the user's name instead of referring to them as "you"
+	noActivitiesNoFutureActivitiesNameless: '기한 또는 종료일이 있는 활동이 없습니다. 나중에 돌아와 해야 할 일이 있는지 확인합니다.', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to refer to the user in the third person but don't know their name
 	nothingHere: "여기에 아무것도 없습니다...", // Displayed as header line in widget text when there are no activities within the provided time period
 	overdue: '기한 경과', // Indicates that the below list of activities are overdue (have a due date that is in the past)
+	xActivities: '{Count, plural, =1 {1개 활동} other {{count}개 활동}}', // Label text for pluralizing activites.
 	quiz: '퀴즈', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	StartsWithDate: '{startDate}에 시작', // show Start Date on status indicator when an activity starts in the future - formatted like "Starts Aug 15"
 	survey: '설문조사', // Meta-data descriptor that informs which type of activity is being displayed on a line item

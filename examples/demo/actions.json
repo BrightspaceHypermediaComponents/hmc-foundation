@@ -1,0 +1,22 @@
+{
+  "actions": [
+    {
+      "href": "/update/title",
+      "name": "update-title",
+      "method": "PATCH",
+      "fields": [
+        {
+          "class": [
+            "required"
+          ],
+          "type": "text",
+          "name": "title",
+          "value": "default-title"
+        }
+      ]
+    }
+  ],
+  "properties": {
+    "title": "Example"
+  }
+}

@@ -4,8 +4,8 @@ const msInADay = 86400000;
 
 export class W2dDateCategory extends SirenSubEntities {
 
-	static definedProperty({ token, groupByDays, startDate, category, verbose, dayLimit }) {
-		return { token, groupByDays, startDate, category, verbose, dayLimit };
+	static definedProperty({ token, groupByDays, startDate, category, verbose }) {
+		return { token, groupByDays, startDate, category, verbose };
 	}
 
 	/**
@@ -28,7 +28,7 @@ export class W2dDateCategory extends SirenSubEntities {
 		const categoryInfo = {};
 		sirenFacades.forEach(sirenFacade => {
 			const daysTillDueDate = numOfDaysTillDueDate(sirenFacade, this._startDate);
-			if (daysTillDueDate === false || (this._dayLimit && Math.abs(daysTillDueDate) > this._dayLimit)) return;
+			if (daysTillDueDate === false) return;
 			const index = this._groupByDays === 0 ? 0 : Math.floor(daysTillDueDate / this._groupByDays);
 			if (!categoryInfo[index]) {
 				const startDate = new Date(this._startDate.getTime() + index * msInADay * this._groupByDays);
@@ -48,12 +48,11 @@ export class W2dDateCategory extends SirenSubEntities {
 		this._observers.setProperty({categoryInfo, sirenFacadesByCategory});
 	}
 
-	addObserver(observer, property, { method, category, startDate, groupByDays, dayLimit } = {}) {
+	addObserver(observer, property, { method, category, startDate, groupByDays } = {}) {
 		if (!category) {
 			this._startDate = new Date(observer[startDate]);
 			this._groupByDays = observer[groupByDays];
-			this._dayLimit = observer[dayLimit] ? observer[dayLimit] : 0;
-			if (this._sirenFacades) this.entities = this._sirenFacades;
+			this.entities = this._sirenFacades || [];
 		}
 
 		const filterByCategory = categoryMap => (category ? categoryMap.sirenFacadesByCategory[observer[category]] : categoryMap.categoryInfo);
@@ -69,5 +68,5 @@ function numOfDaysTillDueDate(sirenFacade, relativeTime) {
 	}
 	const entity = entities.pop();
 	const date = new Date(Date.parse(entity.properties.localizedDate));
-	return (Math.floor(date.getTime() / msInADay) - Math.floor(relativeTime.getTime() / msInADay));
+	return Math.floor((date.getTime() - relativeTime.getTime()) / msInADay);
 }

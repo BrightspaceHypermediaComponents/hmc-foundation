@@ -13,7 +13,6 @@ import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { selectStyles } from '@brightspace-ui/core/components/inputs/input-select-styles.js';
 
 const rels = Object.freeze({
-	rule: 'https://discovery.brightspace.com/rels/rule',
 	condition: 'https://discovery.brightspace.com/rels/condition',
 	conditionType: 'https://discovery.brightspace.com/rels/condition-type',
 	conditionTypes: 'https://discovery.brightspace.com/rels/condition-types'
@@ -33,7 +32,7 @@ class RulePicker extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMix
 			_conditionTypes: { type: Array, observable: observableTypes.subEntities, rel: rels.conditionType, route: [
 				{ observable: observableTypes.link, rel: rels.conditionTypes }
 			] },
-			_rules: { type: Array, observable: observableTypes.subEntities, rel: rels.rule },
+			rules: { type: Array },
 			_defaultType: { type: String },
 			_matchCount: { type: Number },
 			_getMatchCount: { observable: observableTypes.summonAction, name: 'match-count' }
@@ -54,7 +53,7 @@ class RulePicker extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMix
 					margin-top: 1rem;
 				}
 				.d2l-picker-rule-match-count {
-					height:1rem;
+					height: 1rem;
 				}
 				#add-another-condition-button {
 					margin-top: 6rem;
@@ -97,7 +96,7 @@ class RulePicker extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMix
 
 	constructor() {
 		super();
-		this._rules = [];
+		this.rules = [];
 		this.conditions = [];
 		this._conditionTypesHash = {};
 		this._cleaningAnimState = false;
@@ -299,11 +298,11 @@ class RulePicker extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMix
 	async _setExistingConditions() {
 		if (!this._loaded) await this._state.allFetchesComplete();
 
-		if (this.ruleIndex === undefined || this.ruleIndex + 1 > this._rules.length || this.ruleIndex < 0) {
+		if (this.ruleIndex === undefined || this.ruleIndex + 1 > this.rules.length || this.ruleIndex < 0) {
 			this.conditions = [];
 			return;
 		}
-		const rule = this._rules[this.ruleIndex];
+		const rule = this.rules[this.ruleIndex];
 		this.conditions = rule.entities.map(condition => {
 			return {
 				properties: {
@@ -327,8 +326,9 @@ class RulePicker extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMix
 
 	async _updateMatchCount() {
 		this._matchCount = null;
-		const matchData = await this.getMatchData(this._getMatchCount, this.conditions);
+		const matchData = await this.getMatchData(this._getMatchCount, this.conditions, true, 3);
 		this._matchCount = matchData !== null ? matchData.count : null;
+		this._userList = matchData !== null ? matchData.users : null;
 	}
 }
 

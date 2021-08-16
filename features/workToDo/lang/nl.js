@@ -16,10 +16,17 @@ export default {
 	loadMoreDescription: 'Meer toegewezen activiteiten weergeven', // Additional description text to accompany the load more button for additional clarity for the user
 	workToDo: 'Work To Do', // Widget title
 	noActivities: 'U hebt geen activiteiten met vervaldatums of einddatums beschikbaar.', // 'Empty state' - When widget has no activities in full page view
+	noActivitiesName: '{firstName} heeft geen activiteiten met vervaldatums of einddatums beschikbaar.', // 'Empty state' - When widget has no activities in full page view, when we want to show the user's name instead of referring to them as "you"
+	noActivitiesNameless: 'Er zijn geen activiteiten met vervaldatums of einddatums beschikbaar.', // 'Empty state' - When widget has no activities in full page view, when we want to refer to the user in the third person but don't know their name
 	noActivitiesFutureActivities: "U hebt geen activiteiten die binnenkort vervallen of eindigen. Kom later terug of bekijk Al het werk weergeven om te zien wat er op komst is.",  // 'Empty View' - When widget has no activities to display within the next few weeks & there are activities in the future
+	noActivitiesFutureActivitiesName: "{firstName} heeft geen activiteiten die binnenkort vervallen of eindigen. Kom later terug of bekijk Al het werk weergeven om te zien wat er op komst is.", // Shown under the same conditions as noActivitiesFutureActivities, when we want to show the user's name instead of referring to them as "you"
+	noActivitiesFutureActivitiesNameless: "Er zijn geen activiteiten die binnenkort vervallen of eindigen. Kom later terug of bekijk Al het werk weergeven om te zien wat er op komst is.", // Shown under the same conditions as noActivitiesFutureActivities, when we want to refer to the user in the third person but don't know their name
 	noActivitiesNoFutureActivities: 'U hebt geen activiteiten met vervaldatums of einddatums beschikbaar. Kom later terug om te zien of er werk is.', // 'Empty View' - When widget has no activities to display within the next few weeks & there are no more activities in the future
+	noActivitiesNoFutureActivitiesName: '{firstName} heeft geen activiteiten met vervaldatums of einddatums beschikbaar. Kom later terug om te zien of er werk is voor {firstname}.', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to show the user's name instead of referring to them as "you"
+	noActivitiesNoFutureActivitiesNameless: 'Er zijn geen activiteiten met vervaldatums of einddatums beschikbaar. Kom later terug om te zien of er werk is.', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to refer to the user in the third person but don't know their name
 	nothingHere: "Er is hier niets...", // Displayed as header line in widget text when there are no activities within the provided time period
 	overdue: 'Achterstallig', // Indicates that the below list of activities are overdue (have a due date that is in the past)
+	xActivities: '{count, plural, =1 {1 activity} other {{count} activities}}', // Label text for pluralizing activites.
 	quiz: 'Test', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	StartsWithDate: 'Begint op {startDate}', // show Start Date on status indicator when an activity starts in the future - formatted like "Starts Aug 15"
 	survey: 'Enquête', // Meta-data descriptor that informs which type of activity is being displayed on a line item

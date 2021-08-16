@@ -7,13 +7,16 @@ export default {
 	"label-condition-value": "Valor de condición", // label for screen readers for the condition value input
 	"text-add-another-condition": "Agregar otra condición", // Button test for adding another condition to the rule
 	"text-add-enrollment-rule": "Agregar regla de inscripción", // Button test for adding an enrollment rule to self-enrollable courses
+	"text-addmore-enrollment-rule": "Agregar otra regla", // Button text for adding another enrollment rule
 	"text-and": "Y", // word used for combining multiple conditions
 	"text-checkbox-description": "Los cursos inactivos no se incluirán en Descubrir", // extra info for discover checkbox
 	"text-condition-is": "es", // condition 'is' this and that
 	"text-condition-placeholder": "Ingresar un valor de condición", // Placeholder text for condition value input
+	"text-delete": "Eliminar", // Title for delete menu item
 	"text-edit-enrollment-rule": "Editar regla de inscripción", // Edit an existing rule
+	"text-edit": "Editar", // Title for edit menu item
 	"text-remove-condition": "Eliminar condición {conditionType}", // Screenreader text when removing a condition from a rule
-	"text-rule-matches": "La regla coincide con {count} usuarios", // Information about how many users a rule matches
+	"text-rule-matches": "La regla coincide con {count} usuarios", // Information about how many users a rule matches in the rule edit dialog
 	"text-rules-description": "Para inscribirse automáticamente en este curso, los usuarios deben coincidir con una o más de estas reglas.", // description for enrollment rules
 	"text-rules": "Reglas de inscripción", // title for enrollment rules options
 	"text-select-conditions": "Seleccionar condiciones", // header text for selecting the set of conditions for a rule

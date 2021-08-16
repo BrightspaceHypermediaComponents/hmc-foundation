@@ -16,10 +16,17 @@ export default {
 	loadMoreDescription: 'Exibir mais atividades atribuídas', // Additional description text to accompany the load more button for additional clarity for the user
 	workToDo: 'Trabalho pendente', // Widget title
 	noActivities: 'Você não tem atividades com prazo ou datas finais disponíveis.', // 'Empty state' - When widget has no activities in full page view
+	noActivitiesName: '{firstName} não tem atividades com prazo ou datas finais disponíveis.', // 'Empty state' - When widget has no activities in full page view, when we want to show the user's name instead of referring to them as "you"
+	noActivitiesNameless: 'Não há atividades com prazo ou datas finais disponíveis.', // 'Empty state' - When widget has no activities in full page view, when we want to refer to the user in the third person but don't know their name
 	noActivitiesFutureActivities: "Você não tem atividades com prazo ou data final próxima. Volte mais tarde ou selecione Exibir todos os trabalhos para ver o que está por vir.",  // 'Empty View' - When widget has no activities to display within the next few weeks & there are activities in the future
+	noActivitiesFutureActivitiesName: "{firstName} não tem atividades com prazo ou data final próxima. Volte mais tarde ou clique em Exibir todos os trabalhos para ver o que está por vir.", // Shown under the same conditions as noActivitiesFutureActivities, when we want to show the user's name instead of referring to them as "you"
+	noActivitiesFutureActivitiesNameless: "Não há atividades com prazo ou data final próxima. Volte mais tarde ou clique em Exibir todos os trabalhos para ver o que está por vir.", // Shown under the same conditions as noActivitiesFutureActivities, when we want to refer to the user in the third person but don't know their name
 	noActivitiesNoFutureActivities: 'Você não tem atividades com prazo ou datas finais disponíveis. Volte mais tarde para verificar se você tem trabalho pendente.', // 'Empty View' - When widget has no activities to display within the next few weeks & there are no more activities in the future
+	noActivitiesNoFutureActivitiesName: '{firstName} não tem atividades com prazo ou datas finais disponíveis. Volte mais tarde para verificar se {firstname} tem trabalho pendente.', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to show the user's name instead of referring to them as "you"
+	noActivitiesNoFutureActivitiesNameless: 'Não há atividades com prazo ou datas finais disponíveis. Volte mais tarde para verificar se há trabalho pendente.', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to refer to the user in the third person but don't know their name
 	nothingHere: "Não há nada aqui…", // Displayed as header line in widget text when there are no activities within the provided time period
 	overdue: 'Atraso', // Indicates that the below list of activities are overdue (have a due date that is in the past)
+	xActivities: '{count, plural, =1 {1 atividade} other {{count} atividades}}', // Label text for pluralizing activites.
 	quiz: 'Questionário', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	StartsWithDate: 'Início {startDate}', // show Start Date on status indicator when an activity starts in the future - formatted like "Starts Aug 15"
 	survey: 'Pesquisa', // Meta-data descriptor that informs which type of activity is being displayed on a line item

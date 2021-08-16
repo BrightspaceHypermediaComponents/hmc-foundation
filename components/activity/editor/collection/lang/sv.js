@@ -12,4 +12,10 @@ export default  {
 	"list-noActivitiesFound": "Det gick inte att hitta några aktiviteter med det sökord du angav.", // Displayed when the learning path has no activities while in the screen that allows you to add them.
 	"listitem-alreadyAdded": "Redan tillagd", // When seeing a list of activities that can be added to the learning path, these activities have already in the list.
 	"text-loadMoreError": "Det gick inte att läsa in aktiviteter", // When adding activities to the learning path, this is text will appear when the load more button results in an error.
+	"button-quizEditorDelete": "Ta bort", // Text for quiz editor Delete button
+	"button-deleteConfirmationDialogDelete": "Ta bort", // Copy on the delete question/section/question pool confirmation dialog
+	"button-deleteConfirmationDialogCancel": "Avbryt", // Copy on the delete question/section/question pool confirmation dialog
+	"text-deleteConfirmationDialog": "Vill du ta bort det markerade innehållet från förhöret?", // Delete question/section/question pool confirmation dialog text
+	"text-readyToBeginAddingQuizContent": "Vill du börja lägga till innehåll i förhöret?", // Text instructions for quiz with no questions
+	"text-clickAddExistingOrCreateNewToGetStarted": "Klicka på Lägg till befintlig eller Skapa ny för att komma igång" // Text instructions for quiz with no questions
 };

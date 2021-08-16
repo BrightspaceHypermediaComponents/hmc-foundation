@@ -16,10 +16,17 @@ export default {
 	loadMoreDescription: '顯示更多已指派的活動', // Additional description text to accompany the load more button for additional clarity for the user
 	workToDo: '待做作業', // Widget title
 	noActivities: '您沒有具有截止日期或結束日期的活動。', // 'Empty state' - When widget has no activities in full page view
+	noActivitiesName: '{firstName} 沒有具有截止日期或結束日期的活動。', // 'Empty state' - When widget has no activities in full page view, when we want to show the user's name instead of referring to them as "you"
+	noActivitiesNameless: '沒有具有截止日期或結束日期的活動。', // 'Empty state' - When widget has no activities in full page view, when we want to refer to the user in the third person but don't know their name
 	noActivitiesFutureActivities: "您沒有即將截止或結束的活動。請稍後再回來，或透過「檢視所有工作」來瞭解接下來的活動。",  // 'Empty View' - When widget has no activities to display within the next few weeks & there are activities in the future
+	noActivitiesFutureActivitiesName: "{firstName} 沒有即將截止或結束的活動。請稍後再回來，或透過「檢視所有工作」來瞭解接下來的活動。", // Shown under the same conditions as noActivitiesFutureActivities, when we want to show the user's name instead of referring to them as "you"
+	noActivitiesFutureActivitiesNameless: "沒有即將截止或結束的活動。請稍後再回來，或透過「檢視所有工作」來瞭解接下來的活動。", // Shown under the same conditions as noActivitiesFutureActivities, when we want to refer to the user in the third person but don't know their name
 	noActivitiesNoFutureActivities: '您沒有具有截止日期或結束日期的活動。請稍後再回來看看是否有工作要進行。', // 'Empty View' - When widget has no activities to display within the next few weeks & there are no more activities in the future
+	noActivitiesNoFutureActivitiesName: '{firstName} 沒有具有截止日期或結束日期的活動。請稍後再回來看看 {firstname} 是否有工作要進行。', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to show the user's name instead of referring to them as "you"
+	noActivitiesNoFutureActivitiesNameless: '沒有具有截止日期或結束日期的活動。請稍後再回來看看是否有工作要進行。', // Shown under the same conditions as noActivitiesNoFutureActivities, when we want to refer to the user in the third person but don't know their name
 	nothingHere: "這裡沒有任何內容...", // Displayed as header line in widget text when there are no activities within the provided time period
 	overdue: '逾期', // Indicates that the below list of activities are overdue (have a due date that is in the past)
+	xActivities: '{count, plural, =1 {1 個活動} other {{count} 個活動}}', // Label text for pluralizing activites.
 	quiz: '測驗', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	StartsWithDate: '開始於 {startDate}', // show Start Date on status indicator when an activity starts in the future - formatted like "Starts Aug 15"
 	survey: '問卷調查', // Meta-data descriptor that informs which type of activity is being displayed on a line item

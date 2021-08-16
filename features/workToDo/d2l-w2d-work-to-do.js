@@ -7,6 +7,7 @@ import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { ifDefined } from 'lit-html/directives/if-defined';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
+import { telemetry } from './d2l-w2d-telemetry';
 
 const rel = Object.freeze({
 	myActivities: 'https://activities.api.brightspace.com/rels/my-activities#empty',
@@ -25,9 +26,13 @@ class w2dWorkToDo extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement))
 			collapsed: { type: Boolean },
 			dataFullPagePath: { type: String, attribute: 'data-full-page-path' },
 			groupByDays: { type: Number, attribute: 'group-by-days' },
+			useFirstName: { type: Boolean, attribute: 'use-first-name' },
 			startDate: { type: String, attribute: 'start-date' },
 			endDate: { type: String, attribute: 'end-date' },
 			overdueWeekLimit: { type: Number, attribute: 'data-overdue-week-limit' },
+			upcomingWeekLimit: { type: String, attribute: 'data-upcoming-week-limit' },
+			allowUnclickableActivities: { type: Boolean, attribute: 'allow-unclickable-activities' },
+			clickableFutureActivities: { type: Boolean, attribute: 'clickable-future-activities' },
 			_myActivitiesHref: { type: String, observable: observableTypes.link, rel: rel.myActivities, prime: true },
 			_myOrganizationActivitiesHref: { type: String, observable: observableTypes.link, rel: rel.myOrganizationActivities, prime: true },
 			_organizationHompage: { type: String, observable: observableTypes.link, rel: rel.organizationHomepage },
@@ -96,6 +101,9 @@ class w2dWorkToDo extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement))
 	}
 
 	render() {
+
+		if (this._loaded) telemetry.markAndLogWidgetLoaded(!this.collapsed);
+
 		const immersiveNav = this.collapsed
 			? null
 			: html`
@@ -120,8 +128,14 @@ class w2dWorkToDo extends LocalizeDynamicMixin(HypermediaStateMixin(LitElement))
 				current-time="${this.currentTime}"
 				start-date="${this.startDate}"
 				end-date="${this.endDate}"
-				data-full-page-path="${this.dataFullPagePath}"
-				overdue-day-limit="${this.overdueWeekLimit * 7}"></d2l-w2d-collections>
+				data-full-page-path=${ifDefined(this.dataFullPagePath)}
+				?use-first-name=${this.useFirstName}
+				overdue-day-limit="${this.overdueWeekLimit * 7}"
+				upcoming-week-limit="${this.upcomingWeekLimit}"
+				?skeleton="${!this._loaded}"
+				user-url="${this.href}"
+				?allow-unclickable-activities="${this.allowUnclickableActivities}"
+				?clickable-future-activities="${this.clickableFutureActivities}"></d2l-w2d-collections>
 		`;
 	}
 

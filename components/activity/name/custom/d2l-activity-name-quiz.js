@@ -2,12 +2,13 @@ import '../../../common/d2l-hc-name.js';
 import { html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { customHypermediaElement } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
+import { LabelMixin } from '@brightspace-ui/core/mixins/labelled-mixin.js';
 
 const rels = Object.freeze({
 	quiz: 'https://api.brightspace.com/rels/quiz'
 });
 
-export class ActivityNameQuiz extends HypermediaStateMixin(LitElement) {
+export class ActivityNameQuiz extends LabelMixin(HypermediaStateMixin(LitElement)) {
 	static get properties() {
 		return {
 			_quizHref: { type: String, observable: observableTypes.link, rel: rels.quiz, prime: true }

@@ -16,6 +16,13 @@ import { ifDefined } from 'lit-html/directives/if-defined';
 import { ListItemLinkMixin } from '@brightspace-ui/core/components/list/list-item-link-mixin.js';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
 import { nothing } from 'lit-html';
+import { telemetry } from './d2l-w2d-telemetry';
+
+const dateTypes = Object.freeze({
+	due: 'due-date',
+	end: 'end-date',
+	start: 'start-date'
+});
 
 const rels = Object.freeze({
 	assignment: 'https://api.brightspace.com/rels/assignment',
@@ -29,18 +36,14 @@ const rels = Object.freeze({
 	topic: 'https://discussions.api.brightspace.com/rels/topic'
 });
 
-const dateTypes = Object.freeze({
-	due: 'due-date',
-	end: 'end-date',
-	start: 'start-date'
-});
-
 class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDynamicMixin(LitElement))) {
 
 	static get properties() {
 		return {
 			collapsed: { type: Boolean },
 			skeleton: { type: Boolean },
+			allowUnclickableActivities: { type: Boolean, attribute: 'allow-unclickable-activities' },
+			clickableFutureActivities: { type: Boolean, attribute: 'clickable-future-activities' },
 			_hasStarted: { type: Boolean, observable: observableTypes.classes, method: (classes) => classes.includes('started') },
 			_dates: {
 				type: Object,
@@ -90,11 +93,15 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 				display: inline-block;
 				height:18px;
 				width:18px;
+				vertical-align: top;
+				margin-left: -0.15rem;
 			}
 			.d2l-w2d-list-item-attributes *:first-child::before {
 				content: "";
 				height: 0;
 				width: 0;
+				display: initial;
+				margin-left: 0;
 			}
 		`];
 
@@ -113,10 +120,11 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 		this._dates = false;
 		this._isCourse = false;
 		this.collapsed = false;
+		this.addEventListener('d2l-list-item-link-click', this._handleItemLinkClick.bind(this));
 	}
 
 	get actionHref() {
-		return ((this._dates && !this._dates.start) || this._hasStarted) ? this._actionHref : undefined;
+		return (this.clickableFutureActivities || (this._dates && !this._dates.start) || this._hasStarted) ? this._actionHref : undefined;
 	}
 
 	set actionHref(href) {
@@ -128,7 +136,8 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 	}
 
 	render() {
-		if (this.skeleton || !this._dates || !this._actionHref || !this._parentName) return this._renderSkeleton();
+		if (this.skeleton || !this._dates || (!this.allowUnclickableActivities && !this._actionHref) || !this._parentName) return this._renderSkeleton();
+
 		const iconClasses = {
 			'd2l-hovering': this._hoveringPrimaryAction,
 			'd2l-focusing': this._focusingPrimaryAction,
@@ -146,8 +155,10 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 				<d2l-list-item-content>
 					<d2l-activity-name class="d2l-w2d-list-item-name" href="${this.href}" .token="${this.token}"></d2l-activity-name>
 					<d2l-w2d-attribute-list slot="secondary" class="d2l-w2d-list-item-attributes">
-						${ !this.collapsed ? startDate : null }
-						${this._renderAttributeListCollapsed()}
+						<div>
+							${ !this.collapsed ? startDate : null }
+							${this._renderAttributeListCollapsed()}
+						</div>
 					</d2l-w2d-attribute-list>
 					${ !this.collapsed ? html`<d2l-activity-description slot="supporting-info" href="${this.href}" .token="${this.token}"></d2l-activity-description>` : startDate}
 				</d2l-list-item-content>
@@ -158,13 +169,17 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 		`;
 	}
 
+	_handleItemLinkClick() {
+		telemetry.logActivityNavigatedTo(this.actionHref, this.constructor.activityType);
+	}
+
 	_renderAttributeListCollapsed() {
 		let dueDate;
 		if (this._dates.due || this._dates.end) {
-			dueDate = lithtml`<div>${this._dates.due ? this.localize('dueWithDate', 'dueDate', formatDate(this._dates.due, {format: 'shortMonthDay'})) : this.localize('endWithDate', 'endDate', formatDate(this._dates.end, {format: 'shortMonthDay'}))}</div>`;
+			dueDate = lithtml`<span>${this._dates.due ? this.localize('dueWithDate', 'dueDate', formatDate(this._dates.due, {format: 'shortMonthDay'})) : this.localize('endWithDate', 'endDate', formatDate(this._dates.end, {format: 'shortMonthDay'}))}</span>`;
 		}
 		const type = !this._isCourse ? lithtml`<d2l-activity-type href="${this.href}" .token="${this.token}"></d2l-activity-type>` : null;
-		const courseName = this._isCourse ? lithtml`<div>${this.localize('course')}</div>` : lithtml`<div>${this._parentName}</div>`;
+		const courseName = this._isCourse ? lithtml`<span>${this.localize('course')}</span>` : lithtml`<span>${this._parentName}</span>`;
 		return html`
 			${this.collapsed ? dueDate : type}
 			${courseName}
@@ -197,12 +212,14 @@ class W2DListItemAssignment extends W2DListItemMixin {
 				type: String,
 				observable: observableTypes.link,
 				rel: 'alternate',
-				route: [{observable: observableTypes.link, rel: rels.assignment}],
+				route: [{observable: observableTypes.link, rel: rels[this.activityType]}],
 				reflect: true,
 				attribute: 'action-href'
 			}
 		};
 	}
+
+	static activityType = 'assignment';
 
 	get actionHref() {
 		return super.actionHref;
@@ -222,12 +239,14 @@ class W2DListItemChecklist extends W2DListItemMixin {
 				type: String,
 				observable: observableTypes.link,
 				rel: 'alternate',
-				route: [{observable: observableTypes.link, rel: rels.checklist}],
+				route: [{observable: observableTypes.link, rel: rels[this.activityType]}],
 				reflect: true,
 				attribute: 'action-href'
 			}
 		};
 	}
+
+	static activityType = 'checklist';
 
 	get actionHref() {
 		return super.actionHref;
@@ -247,12 +266,14 @@ class W2DListItemContent extends W2DListItemMixin {
 				type: String,
 				observable: observableTypes.link,
 				rel: 'alternate',
-				route: [{observable: observableTypes.link, rel: rels.content}],
+				route: [{observable: observableTypes.link, rel: rels[this.activityType]}],
 				reflect: true,
 				attribute: 'action-href'
 			}
 		};
 	}
+
+	static activityType = 'content';
 
 	get actionHref() {
 		return super.actionHref;
@@ -272,12 +293,14 @@ class W2DListItemCourseOffering extends W2DListItemMixin {
 				type: String,
 				observable: observableTypes.link,
 				rel: rels.organizationHomepage,
-				route: [{observable: observableTypes.link, rel: rels.organization}],
+				route: [{observable: observableTypes.link, rel: rels[this.activityType]}],
 				reflect: true,
 				attribute: 'action-href'
 			}
 		};
 	}
+
+	static activityType = 'organization';
 
 	constructor() {
 		super();
@@ -302,24 +325,28 @@ class W2DListItemDiscussion extends W2DListItemMixin {
 				type: String,
 				observable: observableTypes.link,
 				rel: 'alternate',
-				route: [{observable: observableTypes.link, rel: rels.topic}],
+				route: [{observable: observableTypes.link, rel: rels[this.activityType]}],
 				reflect: true,
 				attribute: 'action-href'
 			}
 		};
 	}
 
+	static activityType = 'topic';
+
 	get actionHref() {
-		return super.actionHref;
+		return this._actionHref !== null ? this._actionHref : undefined;
 	}
 
 	set actionHref(href) {
+		this.allowUnclickableActivities = true;
 		super.actionHref = href;
 	}
 }
 customHypermediaElement('d2l-w2d-list-item-discussion', W2DListItemDiscussion, 'd2l-w2d-list-item', [['user-discussion-activity']]);
 
 class W2DListItemQuiz extends W2DListItemMixin {
+
 	static get properties() {
 		return {
 			...super.properties,
@@ -327,12 +354,13 @@ class W2DListItemQuiz extends W2DListItemMixin {
 				type: String,
 				observable: observableTypes.link,
 				rel: 'alternate',
-				route: [{observable: observableTypes.link, rel: rels.quiz}],
+				route: [{observable: observableTypes.link, rel: rels[this.activityType]}],
 				reflect: true,
 				attribute: 'action-href'
 			}
 		};
 	}
+	static activityType = 'quiz';
 
 	get actionHref() {
 		return super.actionHref;
@@ -352,12 +380,14 @@ class W2DListItemSurvey extends W2DListItemMixin {
 				type: String,
 				observable: observableTypes.link,
 				rel: 'alternate',
-				route: [{observable: observableTypes.link, rel: rels.survey}],
+				route: [{observable: observableTypes.link, rel: rels[this.activityType]}],
 				reflect: true,
 				attribute: 'action-href'
 			}
 		};
 	}
+
+	static activityType = 'survey';
 
 	get actionHref() {
 		return super.actionHref;
