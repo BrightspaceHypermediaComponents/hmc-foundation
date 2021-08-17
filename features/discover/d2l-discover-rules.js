@@ -18,9 +18,10 @@ const profileCount = 3;
 class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStateMixin(LitElement))) {
 	static get properties() {
 		return {
-			isSelfEnrollable: { type: Boolean, observable: observableTypes.classes,
-				method: (classes) => classes.includes(rels.selfAssignableClass),
-				route: [{observable: observableTypes.link, rel: rels.organization }] },
+			isSelfEnrollable: {
+				type: Boolean, observable: observableTypes.classes,
+				method: (classes) => classes.includes(rels.selfAssignableClass)
+			},
 			_resolvedToken: { type: String },
 			_rules: { type: Array },
 			_ruleIndex: { type: Number },
