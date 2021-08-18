@@ -10,7 +10,6 @@ import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton
 const rels = Object.freeze({
 	selfAssignableClass: 'self-assignable',
 	rule: 'https://discovery.brightspace.com/rels/rule',
-	organization: 'https://api.brightspace.com/rels/organization',
 	entitlementRules: 'https://discovery.brightspace.com/rels/entitlement-rules',
 });
 const profileCount = 3;

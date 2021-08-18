@@ -28,15 +28,6 @@ const entity = {
 		{ rel: [ rels.organization ], href: orgHref },
 	]
 };
-const orgEntity = {
-	class: ['self-assignable'],
-	properties: {
-		name: 'Some Course'
-	},
-	links: [
-		{ rel: [ 'self' ], href: orgHref }
-	]
-};
 const entitlementEntity = {
 	actions: [
 		{ name: 'create', method: 'POST', href: '../demo/entitlement-create.json' }
@@ -74,7 +65,6 @@ describe('d2l-discover-rules', () => {
 
 	before(() => {
 		fetchMock.mock(selfHref, JSON.stringify(entity))
-			.mock(orgHref, JSON.stringify(orgEntity))
 			.mock(entitlementHref, JSON.stringify(entitlementEntity))
 			.mock(`${entitlementHref}?profileCount=3`, JSON.stringify(entitlementEntity))
 			.mock(conditionTypesHref, JSON.stringify(conditionTypesEntity));
