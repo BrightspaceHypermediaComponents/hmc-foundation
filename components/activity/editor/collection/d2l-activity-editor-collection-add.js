@@ -271,8 +271,12 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 	async _onLoadMoreClick() {
 		this._isLoadingMore = true;
 		try {
+			const loadData = {};
+			if (this._searchTerm !== '') {
+				loadData.collectionSearch = this._searchTerm;
+			}
 
-			const summoned = await this._startAddExistingNext.summon({collectionSearch: this._searchTerm}, true);
+			const summoned = await this._startAddExistingNext.summon(loadData, true);
 			const newCandidates = this._addExtrasToCandidates(summoned.entities);
 			this._candidates.push(...newCandidates);
 			this._loadMoreFailed = false;
