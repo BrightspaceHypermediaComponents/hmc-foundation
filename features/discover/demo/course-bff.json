@@ -2,7 +2,8 @@
   "class": [
     "activity",
     "course",
-    "assigned"
+    "assigned",
+    "self-assignable"
   ],
   "actions": [
     {

@@ -18,7 +18,8 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 	static get properties() {
 		return {
 			isSelfEnrollable: {
-				type: Boolean, observable: observableTypes.classes,
+				type: Boolean,
+				observable: observableTypes.classes,
 				method: (classes) => classes.includes(rels.selfAssignableClass)
 			},
 			_resolvedToken: { type: String },
