@@ -18,7 +18,7 @@ const entitlementHref = 'http://entitlement-rules';
 const orgHref = 'http://org/1';
 const conditionTypesHref = 'http://condition-types/1';
 const entity = {
-	class: ['activity', 'course', 'assigned'],
+	class: ['activity', 'course', 'assigned', 'self-assignable'],
 	actions: [
 		{ name: 'entitlement-rules', href: entitlementHref, method: 'GET' },
 		{ name: 'create-entitlement-rules', href: entitlementHref, method: 'POST' }
@@ -26,15 +26,6 @@ const entity = {
 	links: [
 		{ rel: ['self'], href: selfHref },
 		{ rel: [ rels.organization ], href: orgHref },
-	]
-};
-const orgEntity = {
-	class: ['self-assignable'],
-	properties: {
-		name: 'Some Course'
-	},
-	links: [
-		{ rel: [ 'self' ], href: orgHref }
 	]
 };
 const entitlementEntity = {
@@ -74,7 +65,6 @@ describe('d2l-discover-rules', () => {
 
 	before(() => {
 		fetchMock.mock(selfHref, JSON.stringify(entity))
-			.mock(orgHref, JSON.stringify(orgEntity))
 			.mock(entitlementHref, JSON.stringify(entitlementEntity))
 			.mock(`${entitlementHref}?profileCount=3`, JSON.stringify(entitlementEntity))
 			.mock(conditionTypesHref, JSON.stringify(conditionTypesEntity));
@@ -100,6 +90,7 @@ describe('d2l-discover-rules', () => {
 			`);
 			expect(el._hasAction('_createEntitlement'), 'does not have the _createEntitlement action').to.be.true;
 			expect(el._hasAction('_getEntitlement'), 'does not have the _getEntitlement action').to.be.true;
+			await waitUntil(() => el._rules?.length > 0, 'rules never initialized');
 			commitSpy = sinon.spy(el._createEntitlement, 'commit');
 		});
 		afterEach(() => {
@@ -128,7 +119,6 @@ describe('d2l-discover-rules', () => {
 		});
 
 		it('removes a rule when the delete menu item is clicked', async() => {
-			await waitUntil(() => el._rules?.length > 0, 'rules never initialized');
 			expect(el._rules).to.have.lengthOf(1);
 			const card = el.shadowRoot.querySelector('d2l-discover-rule-card');
 			const deleteItem = card.shadowRoot.querySelector('d2l-menu-item:nth-child(2)');
