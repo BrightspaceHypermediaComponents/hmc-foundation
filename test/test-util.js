@@ -26,3 +26,29 @@ export async function fireEventAndWait(element, eventType, component) {
 	// wait for element to be updated from the input event
 	await elementUpdated(element ? element : component);
 }
+
+// Flatten shadow DOMs into the normal DOM tree.
+// Use this for asserting on elements and the document structure.
+// This is a recursive function.
+// Warning: This function mutates its arguments.
+// TODO: Copy node instead.
+export function renderShadowRoots(node) {
+	// Traverse shadow root
+	if (node.shadowRoot && node.shadowRoot.hasChildNodes()) {
+		for (const shadowChild of node.shadowRoot.children) {
+
+			// Add recursively
+			const renderedShadowChild = renderShadowRoots(shadowChild);
+			node.appendChild(renderedShadowChild);
+		}
+	}
+
+	// Traverse children
+	for (const child of node.children) {
+
+		// Recursion
+		renderShadowRoots(child);
+	}
+
+	return node;
+}

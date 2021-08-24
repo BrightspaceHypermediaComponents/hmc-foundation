@@ -77,8 +77,10 @@ class ActivityIcon extends SkeletonMixin(HypermediaStateMixin(LitElement)) {
 				return true;
 			});
 		}
+		// TODO: Replace "sr-only" with the actual class name.
 		return html`
-			<d2l-icon icon="${icon}" class="d2l-skeletize d2l-activity-icon"></d2l-icon>
+			<d2l-activity-type id="test" class="sr-only" href="${this.href}" .token="${this.token}"></d2l-activity-type>
+			<d2l-icon icon="${icon}" aria-labelledby="test" class="d2l-skeletize d2l-activity-icon"></d2l-icon>
 		`;
 	}
 
