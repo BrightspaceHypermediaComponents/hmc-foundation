@@ -17,6 +17,7 @@ export default {
 	"text-edit": "Bearbeiten", // Title for edit menu item
 	"text-remove-condition": "Bedingung entfernen {conditionType}", // Screenreader text when removing a condition from a rule
 	"text-rule-matches": "Regel trifft auf {count} Benutzer zu", // Information about how many users a rule matches in the rule edit dialog
+	"text-rule-matches-card": "Übereinstimmung mit {count} Benutzern", // Information about how many users a rule matches on a card
 	"text-rules-description": "Auf Benutzer, die sich selbst für diesen Kurs anmelden, müssen eine oder mehrere dieser Regeln zutreffen.", // description for enrollment rules
 	"text-rules": "Anmeldungsregeln", // title for enrollment rules options
 	"text-select-conditions": "Bedingungen auswählen", // header text for selecting the set of conditions for a rule
