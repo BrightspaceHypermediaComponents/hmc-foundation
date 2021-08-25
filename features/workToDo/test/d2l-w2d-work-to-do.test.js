@@ -1,5 +1,5 @@
 import '../d2l-w2d-work-to-do.js';
-import { expect, fixture, html } from '@open-wc/testing';
+import { expect, fixture, html, waitUntil } from '@open-wc/testing';
 import {
 	workToDoActivities,
 	workToDoActivity,
@@ -83,12 +83,12 @@ describe('d2l-w2d-work-to-do', () => {
 			const el = await _createWorkToDo('/w2d');
 			const collectionsEl = el.shadowRoot.querySelector(
 				'd2l-w2d-collections'
-			).shadowRoot;
+			);
 
 			// Act
-			const button = collectionsEl.querySelector(
-				`d2l-link[href=${dataFullPagePath}]`
-			);
+			await waitUntil(() => collectionsEl._loaded, 'd2l-w2d-collections never loaded');
+			await collectionsEl.updateComplete;
+			const button = collectionsEl.shadowRoot.querySelector(`d2l-link[href=${dataFullPagePath}]`);
 
 			// Assert
 			expect(button).to.not.exist;
@@ -101,12 +101,12 @@ describe('d2l-w2d-work-to-do', () => {
 			const el = await _createWorkToDo('/w2d');
 			const collectionsEl = el.shadowRoot.querySelector(
 				'd2l-w2d-collections'
-			).shadowRoot;
+			);
 
 			// Act
-			const button = collectionsEl.querySelector(
-				`d2l-link[href=${dataFullPagePath}]`
-			);
+			await waitUntil(() => collectionsEl._loaded, 'd2l-w2d-collections never loaded');
+			await collectionsEl.updateComplete;
+			const button = collectionsEl.shadowRoot.querySelector(`d2l-link[href=${dataFullPagePath}]`);
 
 			// Assert
 			expect(button).to.exist;
