@@ -272,9 +272,7 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 		this._isLoadingMore = true;
 		try {
 			const loadData = {};
-			if (this._searchTerm !== '') {
-				loadData.collectionSearch = this._searchTerm;
-			}
+			loadData.collectionSearch = this._searchTerm;
 
 			const summoned = await this._startAddExistingNext.summon(loadData, true, true);
 			const newCandidates = this._addExtrasToCandidates(summoned.entities);
@@ -294,6 +292,7 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 			collectionSearch: this._searchTerm
 		}, true, true);
 		this._candidates = this._addExtrasToCandidates(summoned.entities);
+
 		this._isLoadingCandidates = false;
 	}
 
