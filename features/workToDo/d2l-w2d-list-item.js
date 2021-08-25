@@ -111,7 +111,8 @@ class W2DListItemMixin extends HypermediaStateMixin(ListItemLinkMixin(LocalizeDy
 
 	static get localizeConfig() {
 		return {
-			importFunc: async lang => (await import(`./lang/${lang}.js`)).default
+			importFunc: async lang => (await import(`./lang/${lang}.js`)).default,
+			osloCollection: '@brightspace-hmc\\foundation-components\\WorkToDo'
 		};
 	}
 
