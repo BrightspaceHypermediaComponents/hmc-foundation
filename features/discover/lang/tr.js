@@ -17,6 +17,7 @@ export default {
 	"text-edit": "Düzenle", // Title for edit menu item
 	"text-remove-condition": "Koşulu kaldır: {conditionType}", // Screenreader text when removing a condition from a rule
 	"text-rule-matches": "Kural, {count} kullanıcıyla eşleşiyor", // Information about how many users a rule matches in the rule edit dialog
+	"text-rule-matches-card": "{count} kullanıcıyla eşleşiyor", // Information about how many users a rule matches on a card
 	"text-rules-description": "Bu derse kendi kendine kaydolmak için kullanıcıların bu kuralların biri veya daha fazlasıyla eşleşmesi gerekir.", // description for enrollment rules
 	"text-rules": "Kayıt Kuralları", // title for enrollment rules options
 	"text-select-conditions": "Koşulları Seç", // header text for selecting the set of conditions for a rule

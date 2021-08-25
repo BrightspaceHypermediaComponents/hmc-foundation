@@ -17,6 +17,7 @@ export default {
 	"text-edit": "编辑", // Title for edit menu item
 	"text-remove-condition": "移除条件 {conditionType}", // Screenreader text when removing a condition from a rule
 	"text-rule-matches": "规则与 {count} 个用户匹配", // Information about how many users a rule matches in the rule edit dialog
+	"text-rule-matches-card": "与 {count} 个用户匹配", // Information about how many users a rule matches on a card
 	"text-rules-description": "要自行注册本课程，用户必须匹配一个或多个这些规则。", // description for enrollment rules
 	"text-rules": "注册规则", // title for enrollment rules options
 	"text-select-conditions": "选择条件", // header text for selecting the set of conditions for a rule

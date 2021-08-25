@@ -17,6 +17,7 @@ export default {
 	"text-edit": "تحرير", // Title for edit menu item
 	"text-remove-condition": "إزالة الشرط {conditionType}", // Screenreader text when removing a condition from a rule
 	"text-rule-matches": "تتطابق القاعدة مع {count} من المستخدمين", // Information about how many users a rule matches in the rule edit dialog
+	"text-rule-matches-card": "تتطابق مع {count} من المستخدمين", // Information about how many users a rule matches on a card
 	"text-rules-description": "يجب أن تنطبق قاعدة واحدة أو أكثر من هذه القواعد على المستخدمين ليتمكنوا من إتمام عملية التسجيل الذاتي في هذا المقرر التعليمي.", // description for enrollment rules
 	"text-rules": "قواعد التسجيل", // title for enrollment rules options
 	"text-select-conditions": "تحديد الشروط", // header text for selecting the set of conditions for a rule

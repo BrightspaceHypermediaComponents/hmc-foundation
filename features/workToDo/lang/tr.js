@@ -11,7 +11,7 @@ export default {
 	dateHeader: '{dayOfWeek}, {dayOfMonth} {month}', // Indicates that the below list of activities are due
 	discussion: 'Tartışma', // Meta-data descriptor that informs which type of activity is being displayed on a line item
 	fullViewLink: 'Tüm İşleri Görüntüle', // Link text displayed in "Activities View", where the user can navigate to the full page view to see all work
-	goToDiscover: 'Keşfet\'e Git', // Button text displayed in 'Empty View' when user can navigate to discover homepage from the widget
+	goToDiscover: 'Keşfet'e Git', // Button text displayed in 'Empty View' when user can navigate to discover homepage from the widget
 	loadMore: 'Daha Fazla Yükle', // Button text displayed in 'Fullscreen View' that allows the user to access the next page of activities which will append to the bottom of the list currently shown
 	loadMoreDescription: 'Daha fazla atanmış etkinlik görüntüle', // Additional description text to accompany the load more button for additional clarity for the user
 	workToDo: 'Yapılacak İşler', // Widget title

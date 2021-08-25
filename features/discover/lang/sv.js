@@ -17,6 +17,7 @@ export default {
 	"text-edit": "Redigera", // Title for edit menu item
 	"text-remove-condition": "Ta bort villkoret {condition}", // Screenreader text when removing a condition from a rule
 	"text-rule-matches": "Regeln matchar {count} användare", // Information about how many users a rule matches in the rule edit dialog
+	"text-rule-matches-card": "Matchar {count} användare", // Information about how many users a rule matches on a card
 	"text-rules-description": "Du måste matcha en eller flera av dessa regler för att kunna registrera dig själv för den här kursen.", // description for enrollment rules
 	"text-rules": "Registreringsregler", // title for enrollment rules options
 	"text-select-conditions": "Välj villkor", // header text for selecting the set of conditions for a rule
