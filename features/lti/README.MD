@@ -68,7 +68,7 @@ npm link
 This creates a module in our local npm store.
 Next we need to set up the BSI repo to pull this module from our local npm store. Go to the BSI directory and run
 ```shell
-npm link @brigthspace-hmc/foundation-components
+npm link @brightspace-hmc/foundation-components
 ```
 
 ### Running the BSI Locally

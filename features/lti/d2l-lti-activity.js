@@ -66,6 +66,9 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(LabelMixin(Hypermed
 			_ltiValidationUrl:{
 				type: String,
 				attribute: 'lti-validation-url'
+			},
+			_ltiStorage:{
+				type:Object
 			}
 		};
 	}
@@ -136,6 +139,7 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(LabelMixin(Hypermed
 
 		this.iFrameWidth = 800;
 		this.iFrameHeight = 600;
+		this._ltiStorage = {};
 	}
 
 	connectedCallback() {
@@ -201,6 +205,8 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(LabelMixin(Hypermed
 
 		let target_window = event.source;
 		let response={};
+
+		console.log('data', JSON.stringify(event.data));
 		
 		if(event.data.subject === 'org.imsglobal.lti.capabilities'){
 			response = {
@@ -218,39 +224,28 @@ class LtiActivity extends SkeletonMixin(LocalizeDynamicMixin(LabelMixin(Hypermed
 		if (event.data.subject === 'org.imsglobal.lti.put_data') {
 			response = {
 				message_id: event.data.message_id,
-				subject: 'org.imsglobal.lti.put_data.response'
+				subject: 'org.imsglobal.lti.put_data.response',
+				key: event.data.key,
+				value: event.data.value
 			}
-
-			window.fetch(this._ltiValidationUrl,{ method: "POST", body: JSON.stringify({origin:event.origin})}).then((r) => {			
-				if(r.ok){
-					window.sessionStorage.setItem(`lti_${event.origin}_${event.data.key}`, event.data.value);
-
-					response.key = event.data.key;
-					response.value = event.data.value;
-				}else{
-					response.error = { code: "bad_request", message: "The origin is invalid" }
-				}
-
-				target_window.postMessage(response,event.origin);
-			});			
+			
+			if(!this._ltiStorage[event.origin]){
+				this._ltiStorage[event.origin] = {};
+			}
+			this._ltiStorage[event.origin][event.data.key] = event.data.value;
+			target_window.postMessage(response,event.origin);
+	
 		}
 
 		if (event.data.subject === 'org.imsglobal.lti.get_data') {
 			response = {
 				message_id: event.data.message_id,
 				subject: 'org.imsglobal.lti.get_data.response',
-				key: event.data.key
+				key: event.data.key,
+				value: this._ltiStorage[event.origin][event.data.key]
 			}
 
-			window.fetch(this._ltiValidationUrl,{ method: "POST", body: JSON.stringify({origin:event.origin})}).then((r) => {			
-				if(r.ok){
-					response.value = window.sessionStorage.getItem(`lti_${event.origin}_${event.data.key}`);
-				}else{
-					response.error = { code: "bad_request", message: "The origin is invalid" }
-				}
-
-				target_window.postMessage(response,event.origin);
-			});		
+			target_window.postMessage(response,event.origin);
 		}
 	}
 
