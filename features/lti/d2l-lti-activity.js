@@ -168,7 +168,7 @@ class LtiActivity extends SkeletonMixin(LocalizeLtiActivityMixin(LabelMixin(Hype
 		return html`
 			<div class="header">
 				<div class="d2l-heading-4">${this.localize('external-activity')}</div>
-				<d2l-icon icon="tier2:external"></d2l-icon>
+				<d2l-icon icon="tier2:external" alt=${this.localize('external-activity')}></d2l-icon>
 			</div>
 			${this.skeleton ? html`<div class="d2l-skeletize skeleton-placeholder"></div>` :
 
