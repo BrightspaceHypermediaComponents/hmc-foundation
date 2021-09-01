@@ -24,6 +24,7 @@ const componentClass = class extends HypermediaStateMixin(ListItemButtonMixin(Li
 			quizActivityUsageHref: {
 				type: String
 			},
+			importedActivityHrefs: { type: Array },
 			_points: {
 				type: String,
 				observable: observableTypes.property,
@@ -57,14 +58,15 @@ const componentClass = class extends HypermediaStateMixin(ListItemButtonMixin(Li
 		this._refreshCounter = 0;
 		this.selectable = true;
 		this.quizActivityUsageHref = '';
+		this.importedActivityHrefs = [];
 	}
 
 	render() {
 		return this._renderListItem({
 			//${guard([this._activityHref, this.token], () => html`<d2l-activity-list-item-content href="${this._activityHref}" .token="${this.token}"></d2l-activity-list-item-content>`)}`
-			content: html`${guard([this._activityHref, this.token, this._points, this._refreshCounter, this.quizActivityUsageHref], () => html`
+			content: html`${guard([this._activityHref, this.token, this._points, this._refreshCounter, this.quizActivityUsageHref, this.importedActivityHrefs], () => html`
 			<d2l-activity-list-item-quiz number="${this.number}" href="${this._activityHref}"
-				.token="${this.token}" points="${this._points}" refresh-counter="${this._refreshCounter}" quizActivityUsageHref="${this.quizActivityUsageHref}">
+				.token="${this.token}" points="${this._points}" refresh-counter="${this._refreshCounter}" quizActivityUsageHref="${this.quizActivityUsageHref}" .importedActivityHrefs="${this.importedActivityHrefs}">
 
 			</d2l-activity-list-item-quiz>`)}`,
 			// actions: html`actions here`

@@ -31,7 +31,7 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 			},
 			quizActivityUsageHref: {
 				type: String
-			},
+			},	
 			questionText: {
 				type: String,
 				observable: observableTypes.property,
@@ -113,8 +113,7 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 		super();
 		this.skeleton = true;
 		this.parentCollections = [];
-		this.parentCollectionsName = [];
-		this.quizActivityUsageHref = '';
+		this.parentCollectionsName = [];			
 	}
 
 	render() {
