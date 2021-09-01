@@ -11,13 +11,12 @@ import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 
-// there is a bug in the engine so this is a dumb component instead of a hypermedia one
+//Simple list for displaying non-interactable rules
 class RuleList extends LocalizeDynamicMixin(RtlMixin(LitElement)) {
 	static get properties() {
 		return {
 			rules: { type: Array },
 			token: { type: String },
-			_titles: { type: Array },
 		};
 	}
 
@@ -31,30 +30,11 @@ class RuleList extends LocalizeDynamicMixin(RtlMixin(LitElement)) {
 				margin: 0.4rem 0 0.4rem 0.8rem;
 			}
 
-			.d2l-rule-card-title {
+			.d2l-rule-list-title {
 				color: var(--d2l-color-ferrite);
 				font-weight: 600;
 				font-size: 0.8rem;
 				margin-bottom: 0.8rem;
-			}
-
-			.d2l-rule-card-profiles {
-				border: 1px solid black;
-				display: inline-block;
-				margin-right: 16px;
-			}
-
-			.d2l-rule-card-match-users {
-				font-size: 0.7rem;
-				font-weight: 300;
-				color: var(--d2l-color-tungsten);
-				display: inline-block;
-			}
-			d2l-dropdown-context-menu {
-				margin: -0.3rem -0.3rem 0 0;
-			}
-			d2l-dropdown-menu {
-				margin-top: -0.3rem;
 			}
 		`;
 	}
@@ -71,31 +51,13 @@ class RuleList extends LocalizeDynamicMixin(RtlMixin(LitElement)) {
 				${this.rules.map((rule) => html`
 					<d2l-list-item class="d2l-rule-list-item">
 						<div class="d2l-rule-list-item-content">
-							<div class="d2l-rule-card-title">${this._getTitle(rule)}</div>
+							<div class="d2l-rule-list-title">${this._getTitle(rule)}</div>
 							<d2l-discover-rule-card-match-info token="${this.token}" .rule="${rule}"></d2l-discover-rule-card-match-info>
 						</div>
 					</d2l-list-item>
 				`)}
 			</d2l-list>
 		`;
-	}
-
-	updated(changedProperties) {
-		super.updated(changedProperties);
-	}
-
-	_onDeleteClick() {
-		const event = new CustomEvent('d2l-rule-delete-click', {
-			bubbles: true
-		});
-		this.dispatchEvent(event);
-	}
-
-	_onEditClick() {
-		const event = new CustomEvent('d2l-rule-edit-click', {
-			bubbles: true
-		});
-		this.dispatchEvent(event);
 	}
 
 	_getTitle(rule) {

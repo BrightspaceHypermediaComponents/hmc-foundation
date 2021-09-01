@@ -75,10 +75,7 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 				<h5 class="d2l-body-small"><strong>${this.localize('text-rules')}</strong></h5>
 				<p>${this.localize('text-rules-description')}</p>
 				<!-- rules cards -->
-				${this.readOnly ?
-					this.renderReadOnlyRules() :
-					this.renderInteractibleRules()
-				}
+				${this.readOnly ? this._renderReadOnlyRules() : this._renderInteractibleRules()}
 			</div>
 			` : null}
 			${!this.readOnly ? html`
@@ -96,30 +93,8 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 					@d2l-dialog-close="${this._onDialogClose}"
 					@d2l-rules-changed="${this._onRulesChanged}"
 				></d2l-discover-rule-picker-dialog>
-				</d2l-labs-checkbox-drawer> ` : null
-			}
-		`;
-	}
-
-	renderReadOnlyRules() {
-		return html`
-			<d2l-discover-rule-list
-				.rules="${this._rules}"
-				token="${this._resolvedToken}">
-			</d2l-discover-rule-list>`;
-	}
-
-	renderInteractibleRules() {
-		return html`
-		${this._rules.map((rule, index) => html`
-			<d2l-discover-rule-card
-				.rule="${rule}"
-				.ruleIndex="${index}"
-				token="${this._resolvedToken}"
-				@d2l-rule-delete-click="${this._onRuleDeleted}"
-				@d2l-rule-edit-click="${this._onRuleEdit}">
-			</d2l-discover-rule-card>
-		`)}`
+				</d2l-labs-checkbox-drawer> ` : null }
+			`;
 	}
 
 	updated(changedProperties) {
@@ -205,6 +180,27 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 			const obj = this.shadowRoot.querySelector('d2l-discover-rule-list');
 			obj?.requestUpdate();
 		}
+	}
+
+	_renderInteractibleRules() {
+		return html`
+		${this._rules.map((rule, index) => html`
+			<d2l-discover-rule-card
+				.rule="${rule}"
+				.ruleIndex="${index}"
+				token="${this._resolvedToken}"
+				@d2l-rule-delete-click="${this._onRuleDeleted}"
+				@d2l-rule-edit-click="${this._onRuleEdit}">
+			</d2l-discover-rule-card>
+		`)}`;
+	}
+
+	_renderReadOnlyRules() {
+		return html`
+			<d2l-discover-rule-list
+				.rules="${this._rules}"
+				token="${this._resolvedToken}">
+			</d2l-discover-rule-list>`;
 	}
 
 	/**
