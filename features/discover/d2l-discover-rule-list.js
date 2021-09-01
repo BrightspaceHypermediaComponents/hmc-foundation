@@ -27,7 +27,7 @@ class RuleList extends LocalizeDynamicMixin(RtlMixin(LitElement)) {
 			}
 
 			.d2l-rule-list-item-content {
-				margin: 0.4rem 0 0.4rem 0.8rem;
+				margin: 0.3rem 0 0.3rem 0.8rem;
 			}
 
 			.d2l-rule-list-title {
