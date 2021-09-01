@@ -1,5 +1,6 @@
 import '@brightspace-ui-labs/checkbox-drawer/checkbox-drawer.js';
 import './d2l-discover-rule-card.js';
+import './d2l-discover-rule-list.js';
 import './d2l-discover-rule-picker-dialog.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
@@ -22,6 +23,7 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 				observable: observableTypes.classes,
 				method: (classes) => classes.includes(rels.selfAssignableClass)
 			},
+			readOnly: {type: Boolean, attribute: 'read-only'},
 			_resolvedToken: { type: String },
 			_rules: { type: Array },
 			_ruleIndex: { type: Number },
@@ -62,42 +64,39 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 	render() {
 		return html`
 			<d2l-labs-checkbox-drawer
+				?read-only="${this.readOnly}"
 				?checked="${this.isSelfEnrollable || (this._rules && this._rules.length)}"
 				label="${this.localize('label-checkbox')}"
 				description="${this.localize('text-checkbox-description')}"
 				class="d2l-skeletize"
 				@d2l-checkbox-drawer-checked-change="${this._onCheckboxChange}">
-			${this._rules && this._rules.length ? html`
-			<div class="d2l-body-small d2l-enrollment-rules">
-				<h5 class="d2l-body-small"><strong>${this.localize('text-rules')}</strong></h5>
-				<p>${this.localize('text-rules-description')}</p>
-				<!-- rules cards -->
-				${this._rules.map((rule, index) => html`
-					<d2l-discover-rule-card
-						.rule="${rule}"
-						.ruleIndex="${index}"
-						token="${this._resolvedToken}"
-						@d2l-rule-delete-click="${this._onRuleDeleted}"
-						@d2l-rule-edit-click="${this._onRuleEdit}"></d2l-discover-rule-card>
-				`)}
-			</div>
-			` : null}
-			<d2l-button-subtle
-				@click=${this._onButtonClick}
-				id="add-enrollment-rule-button"
-				text="${this._rules && this._rules.length ? this.localize('text-addmore-enrollment-rule') : this.localize('text-add-enrollment-rule')}"
-				icon="${this._rules && this._rules.length ? 'tier1:plus-large-thick' : 'tier1:lock-locked'}"></d2l-button-subtle>
-			<d2l-discover-rule-picker-dialog
-				href="${this._entitlementsHref}"
-				.token="${this.token}"
-				?opened="${this._dialogOpened}"
-				.ruleIndex="${this._ruleIndex}"
-				.rules="${this._rules}"
-				@d2l-dialog-close="${this._onDialogClose}"
-				@d2l-rules-changed="${this._onRulesChanged}"
-			></d2l-discover-rule-picker-dialog>
+
+				${this._rules && this._rules.length ? html`
+				<div class="d2l-body-small d2l-enrollment-rules">
+					<h5 class="d2l-body-small"><strong>${this.localize('text-rules')}</strong></h5>
+					<p>${this.localize('text-rules-description')}</p>
+					<!-- rules cards -->
+					${this.readOnly ? this._renderReadOnlyRules() : this._renderInteractibleRules()}
+				</div>
+				` : null}
+				${!this.readOnly ? html`
+					<d2l-button-subtle
+						@click=${this._onButtonClick}
+						id="add-enrollment-rule-button"
+						text="${this._rules && this._rules.length ? this.localize('text-addmore-enrollment-rule') : this.localize('text-add-enrollment-rule')}"
+						icon="${this._rules && this._rules.length ? 'tier1:plus-large-thick' : 'tier1:lock-locked'}"></d2l-button-subtle>
+					<d2l-discover-rule-picker-dialog
+						href="${this._entitlementsHref}"
+						.token="${this.token}"
+						?opened="${this._dialogOpened}"
+						.ruleIndex="${this._ruleIndex}"
+						.rules="${this._rules}"
+						@d2l-dialog-close="${this._onDialogClose}"
+						@d2l-rules-changed="${this._onRulesChanged}"
+					></d2l-discover-rule-picker-dialog>
+				` : null }
 			</d2l-labs-checkbox-drawer>
-		`;
+			`;
 	}
 
 	updated(changedProperties) {
@@ -178,6 +177,32 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 			rules: message,
 			canSelfRegister: this._rules.length === 0
 		});
+
+		if (this.readOnly) {
+			const obj = this.shadowRoot.querySelector('d2l-discover-rule-list');
+			obj?.requestUpdate();
+		}
+	}
+
+	_renderInteractibleRules() {
+		return html`
+		${this._rules.map((rule, index) => html`
+			<d2l-discover-rule-card
+				.rule="${rule}"
+				.ruleIndex="${index}"
+				token="${this._resolvedToken}"
+				@d2l-rule-delete-click="${this._onRuleDeleted}"
+				@d2l-rule-edit-click="${this._onRuleEdit}">
+			</d2l-discover-rule-card>
+		`)}`;
+	}
+
+	_renderReadOnlyRules() {
+		return html`
+			<d2l-discover-rule-list
+				.rules="${this._rules}"
+				token="${this._resolvedToken}">
+			</d2l-discover-rule-list>`;
 	}
 
 	/**
