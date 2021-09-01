@@ -70,30 +70,32 @@ class EntitlementRules extends LocalizeDynamicMixin(SkeletonMixin(HypermediaStat
 				description="${this.localize('text-checkbox-description')}"
 				class="d2l-skeletize"
 				@d2l-checkbox-drawer-checked-change="${this._onCheckboxChange}">
-			${this._rules && this._rules.length ? html`
-			<div class="d2l-body-small d2l-enrollment-rules">
-				<h5 class="d2l-body-small"><strong>${this.localize('text-rules')}</strong></h5>
-				<p>${this.localize('text-rules-description')}</p>
-				<!-- rules cards -->
-				${this.readOnly ? this._renderReadOnlyRules() : this._renderInteractibleRules()}
-			</div>
-			` : null}
-			${!this.readOnly ? html`
-				<d2l-button-subtle
-					@click=${this._onButtonClick}
-					id="add-enrollment-rule-button"
-					text="${this._rules && this._rules.length ? this.localize('text-addmore-enrollment-rule') : this.localize('text-add-enrollment-rule')}"
-					icon="${this._rules && this._rules.length ? 'tier1:plus-large-thick' : 'tier1:lock-locked'}"></d2l-button-subtle>
-				<d2l-discover-rule-picker-dialog
-					href="${this._entitlementsHref}"
-					.token="${this.token}"
-					?opened="${this._dialogOpened}"
-					.ruleIndex="${this._ruleIndex}"
-					.rules="${this._rules}"
-					@d2l-dialog-close="${this._onDialogClose}"
-					@d2l-rules-changed="${this._onRulesChanged}"
-				></d2l-discover-rule-picker-dialog>
-				</d2l-labs-checkbox-drawer> ` : null }
+
+				${this._rules && this._rules.length ? html`
+				<div class="d2l-body-small d2l-enrollment-rules">
+					<h5 class="d2l-body-small"><strong>${this.localize('text-rules')}</strong></h5>
+					<p>${this.localize('text-rules-description')}</p>
+					<!-- rules cards -->
+					${this.readOnly ? this._renderReadOnlyRules() : this._renderInteractibleRules()}
+				</div>
+				` : null}
+				${!this.readOnly ? html`
+					<d2l-button-subtle
+						@click=${this._onButtonClick}
+						id="add-enrollment-rule-button"
+						text="${this._rules && this._rules.length ? this.localize('text-addmore-enrollment-rule') : this.localize('text-add-enrollment-rule')}"
+						icon="${this._rules && this._rules.length ? 'tier1:plus-large-thick' : 'tier1:lock-locked'}"></d2l-button-subtle>
+					<d2l-discover-rule-picker-dialog
+						href="${this._entitlementsHref}"
+						.token="${this.token}"
+						?opened="${this._dialogOpened}"
+						.ruleIndex="${this._ruleIndex}"
+						.rules="${this._rules}"
+						@d2l-dialog-close="${this._onDialogClose}"
+						@d2l-rules-changed="${this._onRulesChanged}"
+					></d2l-discover-rule-picker-dialog>
+				` : null }
+			</d2l-labs-checkbox-drawer>
 			`;
 	}
 
