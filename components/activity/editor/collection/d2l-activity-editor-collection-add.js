@@ -274,7 +274,7 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 			const loadData = {};
 			loadData.collectionSearch = this._searchTerm;
 
-			const summoned = await this._startAddExistingNext.summon(loadData, { bypassCache: true, updateState: true});
+			const summoned = await this._startAddExistingNext.summon(loadData, { bypassCache: true, updateState: true, clearFields: true });
 			const newCandidates = this._addExtrasToCandidates(summoned.entities);
 			this._candidates.push(...newCandidates);
 			this._loadMoreFailed = false;
@@ -290,7 +290,7 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 		this._searchTerm = e.detail.value;
 		const summoned = await this._startAddExistingSearch.summon({
 			collectionSearch: this._searchTerm
-		}, { bypassCache: true, updateState: true});
+		}, { bypassCache: true, updateState: true, clearFields: true});
 		this._candidates = this._addExtrasToCandidates(summoned.entities);
 
 		this._isLoadingCandidates = false;
