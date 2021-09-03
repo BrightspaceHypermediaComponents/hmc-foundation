@@ -119,6 +119,7 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 		this._isLoadingCandidates = true;
 		this._loadMoreFailed = false;
 		this._items = [];
+		this._searchTerm = '';
 	}
 
 	render() {
@@ -270,7 +271,10 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 	async _onLoadMoreClick() {
 		this._isLoadingMore = true;
 		try {
-			const summoned = await this._startAddExistingNext.summon(undefined, true);
+			const loadData = {};
+			loadData.collectionSearch = this._searchTerm;
+
+			const summoned = await this._startAddExistingNext.summon(loadData, { bypassCache: true, updateState: true, clearFields: true });
 			const newCandidates = this._addExtrasToCandidates(summoned.entities);
 			this._candidates.push(...newCandidates);
 			this._loadMoreFailed = false;
@@ -283,10 +287,12 @@ class ActivityEditorCollectionAdd extends HypermediaStateMixin(LocalizeCollectio
 
 	async _onSearch(e) {
 		this._isLoadingCandidates = true;
+		this._searchTerm = e.detail.value;
 		const summoned = await this._startAddExistingSearch.summon({
-			collectionSearch: e.detail.value
-		}, true);
+			collectionSearch: this._searchTerm
+		}, { bypassCache: true, updateState: true, clearFields: true});
 		this._candidates = this._addExtrasToCandidates(summoned.entities);
+
 		this._isLoadingCandidates = false;
 	}
 
