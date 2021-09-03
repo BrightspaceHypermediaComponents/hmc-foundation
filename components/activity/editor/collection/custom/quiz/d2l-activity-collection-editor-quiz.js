@@ -144,7 +144,7 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 			this._addToCollection(this.newactivityhrefs);
 		}
 
-		if (changedProperties.has('importedActivityHrefs')) {			
+		if (changedProperties.has('importedActivityHrefs')) {
 			this._refreshState();
 		}
 	}
