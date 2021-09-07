@@ -53,6 +53,8 @@ class LtiIFrame extends LitElement {
 
 		if (window.parent.location.href.includes('cookieLaunch')) {
 			window.location.href = this._launchUrl;
+		}else{
+			this._addStorageSignal();
 		}
 
 		this._handleMessage = this._handleMessage.bind(this);
@@ -70,6 +72,19 @@ class LtiIFrame extends LitElement {
 	<iframe id="lti-iframe-id" class="${classMap(iFrameClasses)}" allow="microphone *; camera *; autoplay *"
 		width="100%" height="${this.iFrameHeight}px" src="${this._launchUrl}"></iframe>
 </div>`;
+	}
+
+	_addStorageSignal(){
+		let newLaunchUrl = this._launchUrl;
+		const arr = newLaunchUrl.split('?');
+		const hasQuestionMark = arr.length > 1;
+
+		const signal = 'signalStorage=true';
+		if (!hasQuestionMark) {
+			this._launchUrl += `?${signal}`;
+		}else{
+			this._launchUrl += `&${signal}`;
+		}
 	}
 
 	_handleMessage(event) {
