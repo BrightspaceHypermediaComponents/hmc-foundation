@@ -46,6 +46,7 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 				rel: rels.item,
 				route: [route.collection]
 			},
+			importedActivityHrefs: { type: Array },
 			refreshCounter: {
 				type: Number,
 				attribute: 'refresh-counter'
@@ -54,7 +55,12 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 				type: Object,
 				observable: observableTypes.refreshState,
 				route: [route.specialization]
-			}
+			},
+			_refreshStateCollection: {
+				type: Object,
+				observable: observableTypes.refreshState,
+				route: [route.collection]
+			},
 		};
 	}
 
@@ -97,6 +103,7 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 		super();
 		this.skeleton = true;
 		this.items = [];
+		this.importedActivityHrefs = [];
 	}
 	render() {
 		// It is just a temporary solution to add nested list here. Waiting for the decision/discusson on how
@@ -118,6 +125,10 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 	updated(changedProperties) {
 		if (changedProperties.has('refreshCounter') && this.refreshCounter > 0) {
 			this._refreshState();
+		}
+
+		if (changedProperties.has('importedActivityHrefs')) {
+			this._refreshStateCollection();
 		}
 	}
 

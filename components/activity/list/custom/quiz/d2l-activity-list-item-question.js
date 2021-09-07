@@ -114,7 +114,6 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 		this.skeleton = true;
 		this.parentCollections = [];
 		this.parentCollectionsName = [];
-		this.quizActivityUsageHref = '';
 	}
 
 	render() {
