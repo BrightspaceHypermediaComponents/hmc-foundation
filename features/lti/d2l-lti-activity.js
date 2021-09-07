@@ -2,9 +2,9 @@ import '@brightspace-ui/core/components/alert/alert.js';
 import '@brightspace-ui/core/components/button/button.js';
 import '@brightspace-ui/core/components/button/button-subtle.js';
 import '@brightspace-ui/core/components/icons/icon.js';
+import './d2l-lti-iframe.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
-import {classMap} from 'lit-html/directives/class-map.js';
 import { heading4Styles } from '@brightspace-ui/core/components/typography/styles.js';
 import { html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { LabelMixin } from '@brightspace-ui/core/mixins/labelled-mixin.js';
@@ -143,17 +143,13 @@ class LtiActivity extends SkeletonMixin(LocalizeLtiActivityMixin(LabelMixin(Hype
 
 	connectedCallback() {
 		super.connectedCallback();
-		this._handleMessage = this._handleMessage.bind(this);
-		window.addEventListener('message', this._handleMessage);
 	}
 
 	disconnectedCallback() {
-		window.removeEventListener('message', this._handleMessage);
 		super.disconnectedCallback();
 	}
 
 	render() {
-		const iFrameClasses = { 'content-frame-default-width': !this.iFrameWidth };
 		if (this._errorText) {
 			return html`
 				<div class="header">
@@ -176,7 +172,7 @@ class LtiActivity extends SkeletonMixin(LocalizeLtiActivityMixin(LabelMixin(Hype
 			html`<d2l-button class="spanning-button" primary @click="${this._onOpenInNewWindowClick}">${this.localize('open-in-new-window')}</d2l-button>` :
 			html`
 				<div class="content-frame">
-					<iframe class="${classMap(iFrameClasses)}" allow="microphone *; camera *; autoplay *" width="${this.iFrameWidth}px" height="${this.iFrameHeight}px" src="${this._launchUrl}"></iframe>
+					<d2l-lti-iframe width="${this.iFrameWidth}" height="${this.iFrameHeight}" lti-launch-url="${this._launchUrl}"></d2l-lti-iframe>
 				</div>
 				<div class="subtle-button">
 					<d2l-button-subtle text="${this.localize('open-in-new-window')}" icon="tier1:new-window" @click="${this._onOpenInNewWindowClick}"></d2l-button-subtle>
@@ -247,36 +243,6 @@ class LtiActivity extends SkeletonMixin(LocalizeLtiActivityMixin(LabelMixin(Hype
 
 	set _loaded(loaded) {
 		this.skeleton = !loaded;
-	}
-
-	_handleMessage(event) {
-		if (!event.data) {
-			return;
-		}
-		let params;
-		try {
-			params = JSON.parse(event.data);
-		}
-		catch (exception) {
-			return;
-		}
-		if (!params.subject || params.subject !== 'lti.frameResize') {
-			return;
-		}
-		const MAX_FRAME_HEIGHT = 10000;
-		if (!params.height || params.height < 1 || params.height > MAX_FRAME_HEIGHT) {
-			console.warn('Invalid height value received, aborting');
-			return;
-		}
-
-		const el = this.shadowRoot.querySelectorAll('iframe');
-		for (let i = 0; i < el.length; i++) {
-			if (el[i].contentWindow === event.source) {
-				this.iFrameHeight = params.height;
-				// eslint-disable-next-line no-console
-				console.info(`Setting iFrame height to ${params.height}`);
-			}
-		}
 	}
 
 	_onOpenInNewWindowClick() {
