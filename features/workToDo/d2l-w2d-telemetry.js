@@ -65,10 +65,12 @@ class WorkToDoTelemetry {
 		}
 	}
 
-	_logPerformanceEvent(action, href, type, measures) {
-		if (!action || !href || !type || !measures) {
+	_logPerformanceEvent(action, id, type, measures) {
+		if (!action || !id || !type || !measures) {
 			return;
 		}
+
+		const href = id.startsWith('/') ? location.origin + id : id;
 
 		const timings = performance
 			.getEntriesByType('measure')
@@ -105,9 +107,11 @@ class WorkToDoTelemetry {
 			return;
 		}
 
+		const href = id.startsWith('/') ? location.origin + id : id;
+
 		const eventBody = new Events.EventBody()
 			.setAction(action)
-			.setObject(encodeURIComponent(id), type, id);
+			.setObject(encodeURIComponent(href), type, href);
 
 		const event = new Events.TelemetryEvent()
 			.setType('TelemetryEvent')
