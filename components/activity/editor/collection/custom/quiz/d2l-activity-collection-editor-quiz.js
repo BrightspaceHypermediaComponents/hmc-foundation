@@ -163,7 +163,7 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 			return;
 		}
 
-		const summoned = await this._startAddExisting.summon({}, true);
+		const summoned = await this._startAddExisting.summon({}, { bypassCache: true });
 		const candidates = summoned.entities;
 
 		if (!this._hasAction('_startAddExistingExecuteMultiple')) {
