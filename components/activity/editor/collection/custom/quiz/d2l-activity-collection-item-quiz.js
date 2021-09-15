@@ -82,18 +82,22 @@ const componentClass = class extends HypermediaStateMixin(ListItemButtonMixin(Li
 
 		// Save or Cancel button Handler
 		delayedResult.AddListener((activities) => {
-			if (!activities) return; // Cancel
-
 			// Trigger Section child to refresh name
 			++this._refreshCounter;
-			const activityHrefs = activities.map(activity => activity.href);
+
 			fetch(this._state, true).then(() => {
 				// refresh Total Quiz Points
-				this.dispatchEvent(new CustomEvent('d2l-question-updated', {
+				const eventInit = {
 					bubbles: true,
-					composed: true,
-					detail: { activities: activityHrefs }
-				}));
+					composed: true
+				};
+
+				if (activities && activities.length) {
+					const activityHrefs = activities.map(activity => activity.href);
+					eventInit.detail = { activities: activityHrefs };
+				}
+
+				this.dispatchEvent(new CustomEvent('d2l-question-updated', eventInit));
 			});
 		});
 	}

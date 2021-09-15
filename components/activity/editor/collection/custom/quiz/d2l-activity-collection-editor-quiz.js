@@ -20,8 +20,7 @@ const rels = Object.freeze({
 });
 
 const route = {
-	collection: { observable: observableTypes.link, rel: rels.collection },
-	activityUsage: { observable: observableTypes.link, rel: rels.activityUsage }
+	collection: { observable: observableTypes.link, rel: rels.collection }
 };
 
 class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(LocalizeCollectionAdd(LitElement))) {
@@ -34,7 +33,6 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 				rel: rels.item,
 				route: [route.collection]
 			},
-			newactivityhrefs: { type: Array },
 			importedActivityHrefs: { type: Array },
 			_collectionHref: {
 				type: String, observable: observableTypes.link, rel: rels.collection
@@ -44,19 +42,6 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 				type: Object,
 				observable: observableTypes.refreshState,
 				route: [route.collection]
-			},
-			_startAddExisting: {
-				observable: observableTypes.summonAction,
-				name: 'start-add-existing-activity',
-				route: [route.collection]
-			},
-			_startAddExistingExecuteMultiple: {
-				observable: observableTypes.summonAction,
-				name: 'execute-multiple',
-				route: [
-					route.collection,
-					{ observable: observableTypes.summonAction, name: 'start-add-existing-activity' }
-				]
 			},
 			_activityUsageHref: {
 				observable: observableTypes.link,
@@ -129,7 +114,7 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 				<div class="d2l-activity-collection-activities">
 					<d2l-list separators="none" @d2l-list-item-position-change="${this._moveItems}" @d2l-list-selection-change="${this._onSelectionChange}">
 						${repeat(this.items, item => item.href, (item, idx) => html`
-							<d2l-activity-collection-item-quiz number="${idx + 1}" href="${item.href}" .token="${this.token}" key="${item.properties.id}" quizActivityUsageHref="${this._activityUsageHref}" .importedActivityHrefs="${this.importedActivityHrefs}"></d2l-activity-collection-item-quiz>
+							<d2l-activity-collection-item-quiz number="${idx + 1}" href="${item.href}" .token="${this.token}" key="${item.properties.id}" quizActivityUsageHref="${this._activityUsageHref}" .importedActivityHrefs="${this.importedActivityHrefs}" @d2l-question-updated="${this._refreshState}"></d2l-activity-collection-item-quiz>
 						`)}
 					</d2l-list>
 				</div>
@@ -139,10 +124,6 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 
 	updated(changedProperties) {
 		super.updated(changedProperties);
-
-		if (changedProperties.has('newactivityhrefs')) {
-			this._addToCollection(this.newactivityhrefs);
-		}
 
 		if (changedProperties.has('importedActivityHrefs')) {
 			this._refreshState();
@@ -156,38 +137,6 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 	set _loaded(loaded) {
 		// this method is called too early.
 		this.skeleton = !loaded;
-	}
-
-	async _addToCollection(activityHrefs) {
-		if (!activityHrefs || !activityHrefs.length || !this._hasAction('_startAddExisting')) {
-			return;
-		}
-
-		const summoned = await this._startAddExisting.summon({}, { bypassCache: true });
-		const candidates = summoned.entities;
-
-		if (!this._hasAction('_startAddExistingExecuteMultiple')) {
-			return;
-		}
-
-		const actionStates = [];
-		const activityUsageLink = item => item.links.find(link => link.rel.includes(rels.activityUsage)).href;
-		for (const activityHref of activityHrefs) {
-			const candidate = candidates.find(e => activityUsageLink(e) === activityHref);
-			if (candidate && candidate.properties && candidate.properties.actionState) {
-				actionStates.push(candidate.properties.actionState);
-			}
-		}
-
-		if (actionStates.length) {
-			await this._startAddExistingExecuteMultiple.summon({
-				actionStates: actionStates.join()
-			});
-
-			await this._refreshState();
-		}
-
-		this.dispatchEvent(new CustomEvent('d2l-question-activity-add-complete', { bubbles: true, composed: true }));
 	}
 
 	_handleDeleteDialogCancel() {
