@@ -84,6 +84,9 @@ describe('d2l-lti-activity', () => {
 			openInNewWindowButton.click();
 			sinon.assert.calledOnce(spy);
 		});
+		it ('does not include description', async() => {
+			expect(element.shadowRoot.querySelector('d2l-hc-description')).to.be.null;
+		});
 	});
 
 	describe('open as external functionality', () => {
@@ -105,6 +108,9 @@ describe('d2l-lti-activity', () => {
 			const openInNewWindowButton = element.shadowRoot.querySelector('d2l-button[primary]');
 			openInNewWindowButton.click();
 			sinon.assert.calledOnce(spy);
+		});
+		it ('includes description', async() => {
+			expect(element.shadowRoot.querySelector('d2l-hc-description')).to.not.be.null;
 		});
 	});
 });
