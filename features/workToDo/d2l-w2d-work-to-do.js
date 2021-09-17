@@ -10,7 +10,7 @@ import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynam
 import { telemetry } from './d2l-w2d-telemetry';
 
 const rel = Object.freeze({
-	myActivities: 'https://activities.api.brightspace.com/rels/my-activities#empty',
+	myActivities: 'https://activities.api.brightspace.com/rels/my-activities',
 	myOrganizationActivities: 'https://activities.api.brightspace.com/rels/my-organization-activities#empty',
 	organization: 'https://api.brightspace.com/rels/organization',
 	organizationHomepage: 'https://api.brightspace.com/rels/organization-homepage',

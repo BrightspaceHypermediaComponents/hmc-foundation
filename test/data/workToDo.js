@@ -10,7 +10,7 @@ export const workToDoMain = {
 	links: [
 		{
 			rel: [
-				'https://activities.api.brightspace.com/rels/my-activities#empty',
+				'https://activities.api.brightspace.com/rels/my-activities',
 			],
 			href: '/w2d-activities',
 		},
