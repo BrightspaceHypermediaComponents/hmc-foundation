@@ -140,6 +140,12 @@ class RulePicker extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMix
 			this._updateMatchCount();
 			this._sizeChanged();
 		}
+
+		const conditionOrgUnitIDList = this.shadowRoot.querySelectorAll('select');
+		if (conditionOrgUnitIDList.length > 1) {
+			const lastOrgUnitID = conditionOrgUnitIDList[conditionOrgUnitIDList.length - 1];
+			lastOrgUnitID.focus();
+		}
 	}
 
 	reload(newConditions) {
