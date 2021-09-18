@@ -79,27 +79,22 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 					display: flex;
 					flex-wrap: nowrap;
 					width: 100%;
+					justify-content: space-between;
 				}
+				/*
 				.checkbox > * {
 					display: inline;
 					flex-shrink: 0;
-				}
+				}*/
 				.question {
-					flex-grow: 1;
+					flex-grow: 1;										
 				}
 				.question-number {
-					margin-block-start: 0;
-					margin-block-end: 0;
-					margin-inline-start: 0.4rem;
-					margin-inline-end: 0.3rem;
-					flex-basis: 3rem;
-					flex-shrink: 0;
-					word-break: break-all;
+					flex-basis: 4rem;
 				}
 				.points {
-					flex-basis: 4rem;
 					text-align: end;
-					flex-shrink: 0;
+					flex-basis: 5rem;
 				}
 				.question-type {
 					color: var(--d2l-color-tungsten);

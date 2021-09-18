@@ -83,33 +83,39 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 					flex-wrap: nowrap;
 					width: 100%;
 				}
+				/*
 				.checkbox > * {
 					display: inline;
 					flex-shrink: 0;
-				}
+				}*/
 				.questionpool {
 					flex-grow: 1;
 				}
 				.questionpool-number {
-					margin-block-start: 0;
+					/*margin-block-start: 0;
 					margin-block-end: 0;
 					margin-inline-start: 0.4rem;
 					margin-inline-end: 0.3rem;
 					flex-basis: 3rem;
 					flex-shrink: 0;
-					word-break: break-all;
+					word-break: break-all;*/
+					flex-basis: 4rem;
 				}
 				.questionpool-emoji {
+					/*
 					margin-inline-start: 0.4rem;
 					margin-inline-end: 0.3rem;
 					flex-basis: 3rem;
 					flex-shrink: 0;
-					margin: 0.25rem 1.5rem 0 -0.75rem;    				
+					margin: 0.25rem 1.5rem 0 -0.75rem;*/					
+					flex-basis: 4rem;
 				}
 				.points {
-					flex-basis: 4rem;
+					/*flex-basis: 4rem;
 					text-align: end;
-					flex-shrink: 0;
+					flex-shrink: 0;*/
+					text-align: end;
+					flex-basis: 5rem;
 				}
 				.questionpool-type {
 					color: var(--d2l-color-tungsten);

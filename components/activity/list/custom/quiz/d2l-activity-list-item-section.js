@@ -80,10 +80,10 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 					width: 100%;
 					height: 2rem;
 				}
-				.checkbox > * {
+				/*.checkbox > * {
 					display: inline;
 					flex-shrink: 0;
-				}
+				}*/
 				.section {
 					flex-grow: 1;
 					margin-left: 0.3rem;
@@ -115,10 +115,11 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 					<div class="d2l-body-small section-type d2l-skeletize">${this.typeText}</div>
 				</div>
 			</div>
-			<d2l-list separators="none" class="section-nested-items" @d2l-list-item-position-change="${this._moveItems}">
+			<d2l-list slot="nested" separators="none" class="section-nested-items" @d2l-list-item-position-change="${this._moveItems}">
 				${repeat(this.items, item => item.href, (item, idx) => html`
-					<d2l-activity-collection-item-quiz number="${idx + 1}" href="${item.href}" .token="${this.token}" key="${item.properties.id}"></d2l-activity-collection-item-quiz>
-				`)}
+					<d2l-list-item selectable key="${this._activityUsageHref}">
+						<d2l-activity-collection-item-quiz number="${idx + 1}" href="${item.href}" .token="${this.token}" key="${item.properties.id}"></d2l-activity-collection-item-quiz>
+					</d2l-list-item>`)}
 			</d2l-list>
 		`;
 	}
