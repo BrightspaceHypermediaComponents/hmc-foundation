@@ -140,12 +140,6 @@ class RulePicker extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMix
 			this._updateMatchCount();
 			this._sizeChanged();
 		}
-
-		const conditionOrgUnitIDList = this.shadowRoot.querySelectorAll('select');
-		if (conditionOrgUnitIDList.length > 1) {
-			const lastOrgUnitID = conditionOrgUnitIDList[conditionOrgUnitIDList.length - 1];
-			lastOrgUnitID.focus();
-		}
 	}
 
 	reload(newConditions) {
@@ -170,8 +164,15 @@ class RulePicker extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMix
 		this._sizeChanged();
 	}
 
-	_addDefaultCondition() {
+	async _addDefaultCondition() {
 		this._addCondition();
+
+		await this.updateComplete;
+		const conditionOrgUnitIDList = this.shadowRoot.querySelectorAll('select');
+		if (conditionOrgUnitIDList.length > 1) {
+			const lastOrgUnitID = conditionOrgUnitIDList[conditionOrgUnitIDList.length - 1];
+			lastOrgUnitID.focus();
+		}
 	}
 
 	_buildConditionTypeHash() {
