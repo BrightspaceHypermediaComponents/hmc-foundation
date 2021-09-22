@@ -2,10 +2,11 @@ import '@brightspace-ui/core/components/alert/alert.js';
 import '@brightspace-ui/core/components/button/button.js';
 import '@brightspace-ui/core/components/button/button-subtle.js';
 import '@brightspace-ui/core/components/icons/icon.js';
+import './../../components/common/d2l-hc-description.js';
+import { bodyCompactStyles, heading4Styles } from '@brightspace-ui/core/components/typography/styles.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import {classMap} from 'lit-html/directives/class-map.js';
-import { heading4Styles } from '@brightspace-ui/core/components/typography/styles.js';
 import { html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { LabelMixin } from '@brightspace-ui/core/mixins/labelled-mixin.js';
 import { LocalizeLtiActivityMixin } from './mixins/d2l-lti-activity-lang-mixin.js';
@@ -44,6 +45,22 @@ class LtiActivity extends SkeletonMixin(LocalizeLtiActivityMixin(LabelMixin(Hype
 					rel: rels.linkPlacement
 				}]
 			},
+			name: {
+				type: String,
+				observable: observableTypes.property,
+				route: [ {
+					observable: observableTypes.link,
+					rel: rels.linkPlacement
+				}]
+			},
+			description: {
+				type: String,
+				observable: observableTypes.property,
+				route: [ {
+					observable: observableTypes.link,
+					rel: rels.linkPlacement
+				}]
+			},
 			_showOpenInNewWindowButton: {
 				type: Boolean,
 				attribute: 'open-as-external'
@@ -62,12 +79,17 @@ class LtiActivity extends SkeletonMixin(LocalizeLtiActivityMixin(LabelMixin(Hype
 			},
 			_errorText: {
 				type: String
-			}
+			},
+			_ltiLinkHref: {
+				type: String,
+				observable: observableTypes.link,
+				rel: rels.linkPlacement
+			},
 		};
 	}
 
 	static get styles() {
-		return [ super.styles, heading4Styles, css`
+		return [ super.styles, heading4Styles, bodyCompactStyles, css`
 			:host {
 				background-color: #ffffff;
 				border: 1px solid var(--d2l-color-gypsum);
@@ -167,13 +189,14 @@ class LtiActivity extends SkeletonMixin(LocalizeLtiActivityMixin(LabelMixin(Hype
 		}
 		return html`
 			<div class="header">
-				<div class="d2l-heading-4">${this.localize('external-activity')}</div>
+				<div class="d2l-heading-4">${this._showOpenInNewWindowButton && this.name ? this.name : this.localize('external-activity')}</div>
 				<d2l-icon icon="tier2:external" alt=${this.localize('external-activity')}></d2l-icon>
 			</div>
 			${this.skeleton ? html`<div class="d2l-skeletize skeleton-placeholder"></div>` :
 
 		html`${this._showOpenInNewWindowButton ?
-			html`<d2l-button class="spanning-button" primary @click="${this._onOpenInNewWindowClick}">${this.localize('open-in-new-window')}</d2l-button>` :
+			html`<d2l-hc-description class="d2l-body-compact" ?skeleton=${this.skeleton} href="${this._ltiLinkHref}" token="${this.token}"></d2l-hc-description>
+				<d2l-button class="spanning-button" primary @click="${this._onOpenInNewWindowClick}">${this.localize('open-in-new-window')}</d2l-button>` :
 			html`
 				<div class="content-frame">
 					<iframe class="${classMap(iFrameClasses)}" allow="microphone *; camera *; autoplay *" width="${this.iFrameWidth}px" height="${this.iFrameHeight}px" src="${this._launchUrl}"></iframe>
