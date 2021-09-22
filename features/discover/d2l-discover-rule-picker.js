@@ -168,11 +168,10 @@ class RulePicker extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMix
 		this._addCondition();
 
 		await this.updateComplete;
+
 		const conditionOrgUnitIDList = this.shadowRoot.querySelectorAll('select');
-		if (conditionOrgUnitIDList.length > 1) {
-			const lastOrgUnitID = conditionOrgUnitIDList[conditionOrgUnitIDList.length - 1];
-			lastOrgUnitID.focus();
-		}
+		const lastOrgUnitID = conditionOrgUnitIDList[conditionOrgUnitIDList.length - 1];
+		lastOrgUnitID.focus();
 	}
 
 	_buildConditionTypeHash() {
