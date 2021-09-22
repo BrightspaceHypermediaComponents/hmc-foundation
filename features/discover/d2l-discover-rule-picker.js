@@ -164,8 +164,14 @@ class RulePicker extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMix
 		this._sizeChanged();
 	}
 
-	_addDefaultCondition() {
+	async _addDefaultCondition() {
 		this._addCondition();
+
+		await this.updateComplete;
+
+		const conditionOrgUnitIDList = this.shadowRoot.querySelectorAll('select');
+		const lastOrgUnitID = conditionOrgUnitIDList[conditionOrgUnitIDList.length - 1];
+		lastOrgUnitID.focus();
 	}
 
 	_buildConditionTypeHash() {
