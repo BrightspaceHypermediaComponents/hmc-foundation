@@ -274,7 +274,7 @@ class RulePicker extends MatchCountMixin(LocalizeDynamicMixin(HypermediaStateMix
 						value="${condition.properties.type}"
 						@change="${this._onConditionSelectChange}">
 						${this._conditionTypes ? this._conditionTypes.map(conditionType => html`
-							<option value="${conditionType.properties.type}" ?selected="${condition.properties.type === conditionType.properties.type}">${conditionType.properties.type}</option>
+							<option value="${conditionType.properties.type}" .selected="${condition.properties.type === conditionType.properties.type}">${conditionType.properties.type}</option>
 						`) : null}
 					</select>
 					<div class="d2l-picker-rule-separator d2l-body-compact">
