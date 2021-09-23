@@ -10,6 +10,7 @@ import { customHypermediaElement, html } from '@brightspace-hmc/foundation-engin
 import { HypermediaStateMixin, observableTypes } from '@brightspace-hmc/foundation-engine/framework/lit/HypermediaStateMixin.js';
 import { LocalizeQuizEditor } from './lang/localization.js';
 import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton-mixin.js';
+import { ListItemMixin } from '@brightspace-ui/core/components/list/list-item-mixin.js';
 
 const rels = Object.freeze({
 	questionText: 'https://questions.api.brightspace.com/rels/questionText',
@@ -23,7 +24,7 @@ const route = {
 	specialization: { observable: observableTypes.link, rel: rels.specialization },
 	parentCollections: { observable: observableTypes.link, rel: rels.parentCollections }
 };
-const componentClass = class extends SkeletonMixin(HypermediaStateMixin(LocalizeQuizEditor(LitElement))) {
+const componentClass = class extends ListItemMixin(SkeletonMixin(HypermediaStateMixin(LocalizeQuizEditor(LitElement)))) {
 	static get properties() {
 		return {
 			number: {
@@ -112,7 +113,8 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 	}
 
 	render() {
-		return html`
+		return this._renderListItem({ 
+			content: html`
 			<div class="question-item d2l-skeletize">
 				<div class="d2l-body-standard question-number d2l-skeletize">${this.number}</div>
 				<div class="question d2l-skeletize">
@@ -129,7 +131,7 @@ const componentClass = class extends SkeletonMixin(HypermediaStateMixin(Localize
 				</div>
 				<div class="points d2l-body-compact d2l-skeletize">${this.localize('points', { count: this.points })}</div>
 			</div>
-		`;
+		`});
 	}
 
 	updated(changedProperties) {

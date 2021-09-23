@@ -113,10 +113,9 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 				</div>
 				<div class="d2l-activity-collection-activities">
 					<d2l-list separators="none" @d2l-list-item-position-change="${this._moveItems}" @d2l-list-selection-change="${this._onSelectionChange}">
-						${repeat(this.items, item => item.href, (item, idx) => html`
-							<d2l-list-item selectable key="${this._activityUsageHref}">
-								<d2l-activity-collection-item-quiz number="${idx + 1}" href="${item.href}" .token="${this.token}" key="${item.properties.id}" quizActivityUsageHref="${this._activityUsageHref}" .importedActivityHrefs="${this.importedActivityHrefs}" @d2l-question-updated="${this._refreshState}"></d2l-activity-collection-item-quiz>
-							</d2l-list-item>`)}
+						${repeat(this.items, item => item.href, (item, idx) => html`															
+							<d2l-activity-list-item-quiz selectable label="${idx}" number="${this.number}" key="${item.links.find(link => link.rel.includes(rels.activityUsage)).href}" href="${item.links.find(link => link.rel.includes(rels.activityUsage)).href}" .token="${this.token}" points="0" refresh-counter="${this._refreshCounter}" quizActivityUsageHref="${this.quizActivityUsageHref}" .importedActivityHrefs="${this.importedActivityHrefs}"></d2l-activity-list-item-quiz>
+						`)}
 					</d2l-list>
 				</div>
 			</div>
