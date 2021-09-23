@@ -126,9 +126,8 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 	async updated(changedProperties) {
 		super.updated(changedProperties);
 
-		if (changedProperties.has('items')) {
-			await this._getActivityUsageUrls();
-			this.requestUpdate();
+		if (changedProperties.has('items') && changedProperties.get('items') && this.items.length > (changedProperties.get("items")).length) {
+			this._buildList();			
 		}
 
 		if (changedProperties.has('importedActivityHrefs')) {
@@ -145,38 +144,40 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 		this.skeleton = !loaded;
 	}
 
-	async _getActivityUsageUrls() {		
+	async _buildList() {		
 		for ( const item of this.items ) {			
 			const activityUsageHref = item.links.find(link => link.rel.includes(rels.activityUsage)).href;
-			let template = await this._getActivityUsageUrlsHelper( activityUsageHref );
-			this._list.push(template);	
+			let template = await this._buildListHelper( activityUsageHref );
+			this._list.push(template);
+			this.requestUpdate();	
 		}
 	}
 
-	async _getActivityUsageUrlsHelper( activityUsageHref ) {
+	_buildListHelper( activityUsageHref ) {
 		let finalTemplates = [];
 		let nestedTemplates = [];
 
-		await window.D2L.Siren.EntityStore.fetch(activityUsageHref, this.token, false).then(async (activityUsage) => {
+		window.D2L.Siren.EntityStore.fetch(activityUsageHref, this.token, false).then( (activityUsage) => {
 			if (activityUsage) {								
 				const collectionLink = activityUsage.entity.links.find(link => link.rel.includes(rels.collection));
 				if (collectionLink) {
 					const activityCollectionHref = activityUsage.entity.links.find(link => link.rel.includes(rels.collection)).href;
 					if (activityCollectionHref) {
-						await window.D2L.Siren.EntityStore.fetch(activityCollectionHref, this.token, false).then( async (collection) => {
+						window.D2L.Siren.EntityStore.fetch(activityCollectionHref, this.token, false).then( async (collection) => {
 							if (collection) {
 								let templates = [];								
 								for ( const item of collection.entity.entities ) {
 									const activityUsageHref = item.links.find(link => link.rel.includes(rels.activityUsage)).href;
-									let template = await this._getActivityUsageUrlsHelper( activityUsageHref );										
+									let template = await this._buildListHelper( activityUsageHref );										
 									templates.push(template);
+									this.requestUpdate();
 								}
 								
 								nestedTemplates.push( html`
 									<d2l-list separators="none" slot="nested" selectable>
 										${templates}
 									</d2l-list>
-								`);
+								`);								
 							}
 						});
 					}
@@ -190,7 +191,7 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 				${nestedTemplates}
 			</d2l-list-item>
 		`)	;
-
+		
 		return finalTemplates;
 	}
 
