@@ -1,0 +1,19 @@
+{
+  "class": ["organization-award"],
+  "links": [
+    { "rel": ["self"], "href": "./organization-award.json" },
+    { "rel": ["https://api.brightspace.com/rels/award"], "href": "./award.json" },
+    { "rel": ["https://api.brightspace.com/rels/organization"], "href": "/demo/data/base/courses/organization-1.json" }
+  ],
+  "entities":[
+    {
+      "class": ["achievement-collection"],
+      "links": [{ "rel": ["self"], "href": "./achievement-collection"}],
+      "rel": ["https://api.brightspace.com/rels/achievement-requirements"]
+    }
+  ],
+  "properties": {
+    "credits": "10",
+    "hiddenBeforeEarned": false
+  }
+}

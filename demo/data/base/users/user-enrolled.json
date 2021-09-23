@@ -1,0 +1,145 @@
+{
+  "class": [
+    "user",
+    "enrolled"
+  ],
+  "entities": [
+    {
+      "class": [
+        "email"
+      ],
+      "rel": [
+        "https://api.brightspace.com/rels/email"
+      ],
+      "properties": {
+        "path": "#fake-email-path"
+      }
+    },
+    {
+      "class": [
+        "pager",
+        "relative-uri"
+      ],
+      "rel": [
+        "https://api.brightspace.com/rels/pager"
+      ],
+      "properties": {
+        "path": "#fake-pager-path"
+      }
+    },
+    {
+      "class": [
+        "profile"
+      ],
+      "rel": [
+        "https://api.brightspace.com/rels/user-profile"
+      ],
+      "properties": {
+        "path": "#fake-profile-path",
+        "isOnline": true
+      },
+      "entities": [
+        {
+          "class": [
+            "file",
+            "image",
+            "default-image"
+          ],
+          "rel": [
+            "https://api.brightspace.com/rels/profile-image"
+          ],
+          "properties": {},
+          "links": [
+            {
+              "rel": [
+                "alternate"
+              ],
+							"href": "./img/maya.jpg"
+						},
+            {
+              "rel": [
+                "preview",
+                "https://api.brightspace.com/rels/thumbnail#small"
+              ],
+              "href": "https://corpdev.devlms.brightspace.com/d2l/img/0/Framework.UserProfileBadge.actProfileDaylight22.png?v=20.21.8.31375"
+            },
+            {
+              "rel": [
+                "preview",
+                "https://api.brightspace.com/rels/thumbnail#regular"
+              ],
+              "href": "https://corpdev.devlms.brightspace.com/d2l/img/0/Framework.UserProfileBadge.actProfileDaylight50.png?v=20.21.8.31375"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "class": [
+        "display",
+        "name"
+      ],
+      "rel": [
+        "https://api.brightspace.com/rels/display-name"
+      ],
+      "properties": {
+        "name": "Maya Jones"
+      }
+    },
+    {
+      "class": [
+        "first",
+        "name"
+      ],
+      "rel": [
+        "https://api.brightspace.com/rels/first-name"
+      ],
+      "properties": {
+        "name": "Maya"
+      }
+    },
+    {
+      "class": [
+        "last",
+        "name"
+      ],
+      "rel": [
+        "https://api.brightspace.com/rels/last-name"
+      ],
+      "properties": {
+        "name": "Jones"
+      }
+    },
+    {
+      "class": [
+        "orgDefinedId"
+      ],
+      "rel": [
+        "https://api.brightspace.com/rels/org-defined-id"
+      ],
+      "properties": {
+        "orgDefinedId": "MJones"
+      }
+    }
+  ],
+  "links": [
+    {
+      "rel": [
+        "https://api.brightspace.com/rels/user-enrollment"
+      ],
+      "href": "https://fake.enrollments.api.dev.brightspace.com/enrolled-user/izYIE472AdiVQIiWZeWVD5DqX7njxEq_d85Y9NuOSxA/enrollment"
+    },
+    {
+      "rel": [
+        "self"
+      ],
+      "href": "/demo/data/base/users/user-enrolled.json"
+    },
+    {
+      "rel": [
+        "https://users.api.brightspace.com/rels/canonical-user"
+      ],
+      "href": "/demo/data/base/users/user-1.json"
+    }
+  ]
+}

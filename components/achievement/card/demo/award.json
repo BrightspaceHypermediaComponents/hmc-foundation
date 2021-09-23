@@ -1,0 +1,45 @@
+{
+  "class": ["award", "badge", "achievement"],
+  "entities": [
+    {
+      "class": ["icon"],
+      "links": [
+        { "rel": ["image"], "href": "https://placekitten.com/100/100" }
+      ],
+      "properties": {
+        "fileName": "Kitten.png"
+      },
+      "rel": ["icon"]
+    },
+    {
+      "class": ["award-issuer"],
+      "properties": {
+        "name": "Brightspace",
+        "url": "http://www.brightspace.com/",
+        "contact": "zina.ramirez@d2l.com"
+      },
+      "rel": ["issuer"]
+    },
+    {
+      "class": ["award-expiry", "fixed"],
+      "entities": [
+        {
+          "class": ["notification", "notification-before"],
+          "properties": {
+            "days": "6"
+          },
+          "rel": ["expiry"]
+        }
+      ],
+      "properties": {
+        "date": "09/30/2021"
+      },
+      "rel": ["expiry"]
+    }
+  ],
+  "properties": {
+    "name": "Kitty Award",
+    "description": "For being a cool friggin cat"
+  },
+  "links": [{ "rel": ["self"], "href": "./award.json" }]
+}

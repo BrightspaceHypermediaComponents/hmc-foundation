@@ -1,0 +1,163 @@
+{
+  "class": [
+      "user"
+  ],
+  "entities": [
+      {
+          "class": [
+              "display",
+              "name"
+          ],
+          "rel": [
+              "https://api.brightspace.com/rels/display-name"
+          ],
+          "properties": {
+              "name": "Eddie Albert"
+          }
+      },
+      {
+          "class": [
+              "first",
+              "name"
+          ],
+          "rel": [
+              "https://api.brightspace.com/rels/first-name"
+          ],
+          "properties": {
+              "name": "Eddie"
+          }
+      },
+      {
+          "class": [
+              "last",
+              "name"
+          ],
+          "rel": [
+              "https://api.brightspace.com/rels/last-name"
+          ],
+          "properties": {
+              "name": "Albert"
+          }
+      },
+      {
+          "class": [
+              "orgDefinedId"
+          ],
+          "rel": [
+              "https://api.brightspace.com/rels/org-defined-id"
+          ],
+          "properties": {
+              "orgDefinedId": "EAlbert"
+          }
+      },
+      {
+          "class": [
+              "profile"
+          ],
+          "rel": [
+              "https://api.brightspace.com/rels/user-profile"
+          ],
+          "properties": {
+              "path": "/d2l/lp/profile/profile_view.d2l?ou=6606&pid=2cLyZLuOJb",
+              "isOnline": false
+          },
+          "entities": [
+              {
+                  "class": [
+                      "file",
+                      "image",
+                      "default-image"
+                  ],
+                  "rel": [
+                      "https://api.brightspace.com/rels/profile-image"
+                  ],
+                  "properties": {},
+                  "links": [
+                      {
+                          "rel": [
+                              "alternate"
+                          ],
+                          "href": "https://corpdev.devlms.brightspace.com/d2l/img/0/Framework.UserProfileBadge.actProfileDaylight200.png?v=20.21.8.31375"
+                      },
+                      {
+                          "rel": [
+                              "preview",
+                              "https://api.brightspace.com/rels/thumbnail#small"
+                          ],
+                          "href": "https://corpdev.devlms.brightspace.com/d2l/img/0/Framework.UserProfileBadge.actProfileDaylight22.png?v=20.21.8.31375"
+                      },
+                      {
+                          "rel": [
+                              "preview",
+                              "https://api.brightspace.com/rels/thumbnail#regular"
+                          ],
+                          "href": "https://corpdev.devlms.brightspace.com/d2l/img/0/Framework.UserProfileBadge.actProfileDaylight50.png?v=20.21.8.31375"
+                      }
+                  ]
+              }
+          ]
+      }
+  ],
+  "links": [
+      {
+          "rel": [
+              "https://api.brightspace.com/rels/my-organization-awards"
+          ],
+          "href": "https://9ae77247-1335-4f42-93b3-8be8586eb2ee.awards.api.dev.brightspace.com/organizations/6606/users/10183?allOrgUnits=1"
+      },
+      {
+          "rel": [
+              "https://activities.api.brightspace.com/rels/my-activities"
+          ],
+          "href": "https://9ae77247-1335-4f42-93b3-8be8586eb2ee.activities.api.dev.brightspace.com/users/10183?start=2021-07-12T20%3a13%3a49.041Z&end=2021-07-19T20%3a13%3a49.041Z"
+      },
+      {
+          "rel": [
+              "https://activities.api.brightspace.com/rels/my-activities#empty"
+          ],
+          "href": "https://9ae77247-1335-4f42-93b3-8be8586eb2ee.activities.api.dev.brightspace.com/users/10183"
+      },
+      {
+          "rel": [
+              "https://activities.api.brightspace.com/rels/my-unassessed-activities"
+          ],
+          "href": "https://9ae77247-1335-4f42-93b3-8be8586eb2ee.activities.api.dev.brightspace.com/my-unassessed-activities"
+      },
+      {
+          "rel": [
+              "https://activities.api.brightspace.com/rels/my-unassessed-activity-collections"
+          ],
+          "href": "https://9ae77247-1335-4f42-93b3-8be8586eb2ee.activities.api.dev.brightspace.com/my-unassessed-activities/collections"
+      },
+      {
+          "rel": [
+              "https://discussions.api.brightspace.com/rels/my-subscriptions"
+          ],
+          "href": "https://9ae77247-1335-4f42-93b3-8be8586eb2ee.discussions.api.dev.brightspace.com/subscriptions/threads/users/10183"
+      },
+      {
+          "rel": [
+              "self"
+          ],
+          "href": "/demo/data/base/users/user-1.json"
+      },
+      {
+          "rel": [
+              "https://api.brightspace.com/rels/root"
+          ],
+          "href": "https://corpdev.devlms.brightspace.com/d2l/api/hm"
+      },
+      {
+          "rel": [
+              "https://api.brightspace.com/rels/my-enrollments"
+          ],
+          "href": "https://9ae77247-1335-4f42-93b3-8be8586eb2ee.enrollments.api.dev.brightspace.com/users/10183"
+      },
+      {
+          "rel": [
+              "https://notifications.api.brightspace.com/rels/my-notifications"
+          ],
+          "href": "https://9ae77247-1335-4f42-93b3-8be8586eb2ee.notifications.api.dev.brightspace.com/"
+      }
+  ]
+}

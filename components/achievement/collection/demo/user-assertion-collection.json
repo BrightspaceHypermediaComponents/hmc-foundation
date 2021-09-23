@@ -1,0 +1,22 @@
+{
+  "class": ["achievement-collection", "earned"],
+  "entities": [
+    {
+      "class": ["user-assertion", "achievement", "earned"],
+      "links": [
+        { "rel": ["self"], "href": "./user-assertion-1.json" }
+      ],
+      "rel": ["award"]
+    },
+    {
+      "class": ["user-assertion", "achievement", "earned"],
+      "links": [
+        { "rel": ["self"], "href": "./user-assertion-2.json" }
+      ],
+      "rel": ["award"]
+    }
+  ],
+  "links": [
+    { "rel": ["self"], "href": "./user-assertion-collection.json" }
+  ]
+}

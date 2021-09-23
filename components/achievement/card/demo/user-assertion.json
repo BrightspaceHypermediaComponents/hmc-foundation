@@ -1,0 +1,17 @@
+{
+  "class": ["user-assertion", "achievement", "earned"],
+  "actions": [
+    { "name": "share-to-portfolio", "method": "POST", "href": "notreal" },
+    { "name": "share-to-eportfolio", "method": "POST", "href": "notreal" },
+    { "name": "share-to-badgr", "method": "POST", "href": "notreal" }
+  ],
+  "links": [
+    { "rel": ["self"], "href": "./user-assertion.json" },
+    { "rel": ["https://api.brightspace.com/rels/award"], "href": "./award.json" },
+    { "rel": ["https://api.brightspace.com/rels/organization"], "href": "/demo/data/base/courses/organization-1.json" }
+  ],
+  "properties": {
+    "date": "09/01/2021",
+    "evidence": "Some evidence the instructor types and stuff"
+  }
+}
