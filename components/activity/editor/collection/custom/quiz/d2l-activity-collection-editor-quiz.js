@@ -46,6 +46,9 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 			_activityUsageHref: {
 				observable: observableTypes.link,
 				rel: rels.activityUsage
+			},
+			_list: {
+				type: Array
 			}
 		};
 	}
@@ -91,7 +94,8 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 		this.importedActivityHrefs = [];
 		this._currentSelection = new Map();
 		this._selectionCount = 0;
-		this.skeleton = true;
+		this.skeleton = true;		
+		this._list = [];
 
 		this.addEventListener('d2l-question-updated', this._handleQuestionUpdate);
 		this.addEventListener('d2l-collection-item-delete-dialog-open', this._handleDeleteDialogOpen);
@@ -100,8 +104,7 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 	}
 
 	render() {
-		const canRemoveItems = this.items && this.items[0] && this.items[0].actions.includes('remove-activity');
-
+		const canRemoveItems = this.items && this.items[0] && this.items[0].actions.includes('remove-activity');		
 		return html`
 			<div class="d2l-activity-collection-body">
 				<div class="d2l-activity-collection-body-content">
@@ -113,18 +116,20 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 				</div>
 				<div class="d2l-activity-collection-activities">
 					<d2l-list separators="none" @d2l-list-item-position-change="${this._moveItems}" @d2l-list-selection-change="${this._onSelectionChange}">
-						${repeat(this.items, item => item.href, (item, idx) => html`
-							<d2l-list-item selectable key="${this._activityUsageHref}">
-								<d2l-activity-collection-item-quiz number="${idx + 1}" href="${item.href}" .token="${this.token}" key="${item.properties.id}" quizActivityUsageHref="${this._activityUsageHref}" .importedActivityHrefs="${this.importedActivityHrefs}" @d2l-question-updated="${this._refreshState}"></d2l-activity-collection-item-quiz>
-							</d2l-list-item>`)}
+						${this._list}
 					</d2l-list>
 				</div>
 			</div>
 		`;
 	}
 
-	updated(changedProperties) {
+	async updated(changedProperties) {
 		super.updated(changedProperties);
+
+		if (changedProperties.has('items')) {
+			await this._getActivityUsageUrls();
+			this.requestUpdate();
+		}
 
 		if (changedProperties.has('importedActivityHrefs')) {
 			this._refreshState();
@@ -138,6 +143,55 @@ class ActivityCollectionEditorQuiz extends SkeletonMixin(HypermediaStateMixin(Lo
 	set _loaded(loaded) {
 		// this method is called too early.
 		this.skeleton = !loaded;
+	}
+
+	async _getActivityUsageUrls() {		
+		for ( const item of this.items ) {			
+			const activityUsageHref = item.links.find(link => link.rel.includes(rels.activityUsage)).href;
+			let template = await this._getActivityUsageUrlsHelper( activityUsageHref );
+			this._list.push(template);	
+		}
+	}
+
+	async _getActivityUsageUrlsHelper( activityUsageHref ) {
+		let finalTemplates = [];
+		let nestedTemplates = [];
+
+		await window.D2L.Siren.EntityStore.fetch(activityUsageHref, this.token, false).then(async (activityUsage) => {
+			if (activityUsage) {								
+				const collectionLink = activityUsage.entity.links.find(link => link.rel.includes(rels.collection));
+				if (collectionLink) {
+					const activityCollectionHref = activityUsage.entity.links.find(link => link.rel.includes(rels.collection)).href;
+					if (activityCollectionHref) {
+						await window.D2L.Siren.EntityStore.fetch(activityCollectionHref, this.token, false).then( async (collection) => {
+							if (collection) {
+								let templates = [];								
+								for ( const item of collection.entity.entities ) {
+									const activityUsageHref = item.links.find(link => link.rel.includes(rels.activityUsage)).href;
+									let template = await this._getActivityUsageUrlsHelper( activityUsageHref );										
+									templates.push(template);
+								}
+								
+								nestedTemplates.push( html`
+									<d2l-list separators="none" slot="nested" selectable>
+										${templates}
+									</d2l-list>
+								`);
+							}
+						});
+					}
+				} 				
+			}
+		});
+
+		finalTemplates.push(html`
+			<d2l-list-item selectable>			
+				<d2l-activity-collection-item-quiz  number="${1 + 1}" href="${activityUsageHref}" .token="${this.token}" key="${activityUsageHref}" quizActivityUsageHref="${this._activityUsageHref}" .importedActivityHrefs="${this.importedActivityHrefs}" @d2l-question-updated="${this._refreshState}"></d2l-activity-collection-item-quiz>								
+				${nestedTemplates}
+			</d2l-list-item>
+		`)	;
+
+		return finalTemplates;
 	}
 
 	_handleDeleteDialogCancel() {

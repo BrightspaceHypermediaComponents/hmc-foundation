@@ -8,6 +8,7 @@ import { fetch } from '@brightspace-hmc/foundation-engine/state/fetch.js';
 import { guard } from 'lit-html/directives/guard';
 import { html } from '@brightspace-hmc/foundation-engine/framework/lit/hypermedia-components.js';
 import { ListItemButtonMixin } from '@brightspace-ui/core/components/list/list-item-button-mixin.js';
+import { ListItemMixin } from '@brightspace-ui/core/components/list/list-item-mixin.js';
 
 const rels = Object.freeze({
 	activityUsage: 'https://activities.api.brightspace.com/rels/activity-usage',
@@ -78,7 +79,7 @@ const componentClass = class extends HypermediaStateMixin(ListItemButtonMixin(Li
 			content: html`${guard([this._activityHref, this.token, this._points, this._refreshCounter, this.quizActivityUsageHref, this.importedActivityHrefs], () => html`			
 				<d2l-activity-list-item-quiz number="${this.number}" href="${this._activityHref}"
 					.token="${this.token}" points="${this._points}" refresh-counter="${this._refreshCounter}" quizActivityUsageHref="${this.quizActivityUsageHref}" .importedActivityHrefs="${this.importedActivityHrefs}">
-				</d2l-activity-list-item-quiz>`)}`,			
+				</d2l-activity-list-item-quiz>`)}`
 			// actions: html`actions here`
 		});
 	}
