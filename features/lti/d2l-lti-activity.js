@@ -142,6 +142,7 @@ class LtiActivity extends SkeletonMixin(LocalizeLtiActivityMixin(LabelMixin(Hype
 			.spanning-button {
 				width: 100%;
 				margin: 1rem 0rem 1.2rem 0rem;
+				display: block;
 			}
 			.subtle-button {
 				margin: 0.6rem 0rem;
