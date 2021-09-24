@@ -71,6 +71,7 @@ class AttributePicker extends LocalizeDynamicMixin(HypermediaStateMixin(RtlMixin
 
 	_onAttributesChanged(e) {
 		this.attributeList = e.detail.attributeList;
+
 		this.dispatchEvent(new CustomEvent('d2l-attributes-changed', {
 			bubbles: true,
 			composed: true,
